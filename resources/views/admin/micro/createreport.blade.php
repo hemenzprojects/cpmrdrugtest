@@ -351,6 +351,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <p></p>
                         </div> 
                         <div class="col-sm-12 2 box" style="display: none">
                             <div class="card">
