@@ -1,7 +1,7 @@
 <script src="{{asset('admin/assets/dist/js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/popper.js/dist/umd/popper.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('admin/assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js')}}"></script>
+<script src="{{asset('admin/assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js')}}"></script>zz
 <script src="{{asset('admin/assets/plugins/datedropper/datedropper.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/moment/moment.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js')}}"></script>
@@ -25,10 +25,11 @@
 <script src="{{asset('admin/assets/plugins/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/datatables.js')}}"></script>
-{{-- <script src="{{asset('admin/assets/src/js/vendor/jquery-3.3.1.min.js')}}"></script> --}}
+<script src="{{asset('admin/assets/src/js/vendor/jquery-3.3.1.min.js')}}"></script> 
 
 <script src="{{asset('admin/assets/js/form-advanced.js')}}"></script>
 <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+@yield('bottom-scripts')
 
 
 
@@ -50,12 +51,39 @@ $("#microproduct_id").change(function() {
 <!-- show form when checked -->
  <script type="text/javascript">
   $(document).ready(function() {
+    var inputValue = $('input[id="inlineCheckbox1"]').attr("value");
+
+    if($('input[id="inlineCheckbox1"]').prop('checked')){
+      $("." + inputValue).toggle();
+          $('.date-inputmask').inputmask("9.9 X 99^9");
+    }
+
       $('input[id="inlineCheckbox1"]').click(function() {
-          var inputValue = $(this).attr("value");
           $("." + inputValue).toggle();
+        if($(this).prop('checked')){
+          $('.date-inputmask').inputmask("9.9 X 99^9");
+        }
+      });
+  });
+
+  $(document).ready(function() {
+    var inputValue = $('input[id="inlineCheckbox2"]').attr("value");
+
+    if($('input[id="inlineCheckbox2"]').prop('checked')){
+      $("." + inputValue).toggle();
+          $('.date-inputmask').inputmask("9.9 X 99^9");
+    }
+
+      $('input[id="inlineCheckbox2"]').click(function() {
+          $("." + inputValue).toggle();
+        if($(this).prop('checked')){
+          $('.date-inputmask').inputmask("9.9 X 99^9");
+        }
       });
   });
 </script>
+
+
 
 
 <!-- model -->
@@ -335,5 +363,5 @@ $('#acceptpharmproductform').submit(function(e){
     
       // Continue the form submit
   // e.currentTarget.submit();
-  })
+
   </script>

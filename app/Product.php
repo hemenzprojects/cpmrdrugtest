@@ -24,19 +24,24 @@ class Product extends Model
     {
         return $this->hasMany("App\ProductDept","product_id");
     }
-    public function microbialReports()
+
+    public function microbialloadReports()
     {
-        return $this->hasMany("App\MicrobialReport", "product_id");
+        return $this->hasMany("App\MicrobialLoadReport", "product_id");
+    }
+    public function microbialefficacyReports()
+    {
+        return $this->hasMany("App\MicrobialEfficacyReport", "product_id");
     }
     
     public function loadAnalyses()
     {
-        return $this->belongsToMany('App\MicrobialLoadAnalyses', "microbial_reports", 'product_id', 'load_analyses_id')
+        return $this->belongsToMany('App\MicrobialLoadAnalyses', "microbial_load_reports", 'product_id', 'load_analyses_id')
         ->withPivot(['test_conducted','result','rs_total','acceptance_criterion','ac_total','created_at','added_by_id','updated_at']);
     }
     public function efficacyAnalyses()
     {
-        return $this->belongsToMany('App\MicrobialEfficacyAnalyses', "microbial_reports", 'product_id', 'efficacy_analyses_id')
+        return $this->belongsToMany('App\MicrobialEfficacyAnalyses', "microbial_efficacy_reports", 'product_id', 'efficacy_analyses_id')
         ->withPivot(['efficacy_analyses_id','pathogen','pi_zone','ci_zone','fi_zone']);
     }
 

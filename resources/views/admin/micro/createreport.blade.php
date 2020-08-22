@@ -69,78 +69,78 @@
                                            <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""><i class="ik ik-eye"></i></a>   
                                     </div>                                                           
                                     <div class="modal fade" id="demoModal{{$microproduct->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        </div>
-                                                        <div class="card-body"> 
-                                                    
-                                                            <h6> Product Name </h6>
-                                                            <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
-                                                            <h6>Product Type </h6>
-                                                            <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
-                                                            <h6>Quantity</h6>
-                                                            @foreach ($microproduct->departments as $product)
-                                                            <small class="text-muted ">{{$product->pivot->quantity}}</small>
-                                                            @endforeach
-                                                            <small class="text-muted "></small>
-                                                            <h6>Indication</h6>
-                                                            <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
-        
-                                                            <hr><h5>Distribution Details</h5>
-                                                            <h6>Received By </h6>
-                                                            @foreach ($microproduct->departments as $product)
-                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                                                            @endforeach
-                                                            <h6>Distributed By </h6>
-                                                            @foreach ($microproduct->departments as $product)
-                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                                                            @endforeach
-                                                            <h6>Delivered By </h6>
-                                                            @foreach ($microproduct->departments as $product)
-                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                                            @endforeach
-                                                            
-
-        
-                                                            <hr><h5>Customer Details</h5>
-                                                            
-                                                            <h6>Name</h6>
-                                                            <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
-                                                            <h6>Tell</h6>
-                                                            <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
-                                                            
-                                                            <hr><h5>Distribution Periods</h5>
-                                                            <div  style="margin-bottom: 5px">
-                                                            <h6 >product distribution period</h6>
-                                                             <small class="text-muted">
-                                                                @foreach ($microproduct->departments as $product)
-                                                                Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
-                                                                Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
-                                                                @endforeach
-                                                            </small>
-                                                            </div>
-                                                            <h6> product delivery period</h6>
-                                                            <small class="text-muted ">
-                                                                @foreach ($microproduct->departments as $product)
-                                                                Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                                                                Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
-                                                                @endforeach
-                                                          
-                                                            </small>
-                                                        </div> 
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary"></button>
-                                                        </div>
-                                                    </div>
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 </div>
+                                                {{-- <div class="card-body"> 
+                                            
+                                                    <h6> Product Name </h6>
+                                                    <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
+                                                    <h6>Product Type </h6>
+                                                    <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
+                                                    <h6>Quantity</h6>
+                                                    @foreach ($microproduct->departments as $product)
+                                                    <small class="text-muted ">{{$product->pivot->quantity}}</small>
+                                                    @endforeach
+                                                    <small class="text-muted "></small>
+                                                    <h6>Indication</h6>
+                                                    <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
+
+                                                    <hr><h5>Distribution Details</h5>
+                                                    <h6>Received By </h6>
+                                                    @foreach ($microproduct->departments as $product)
+                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
+                                                    @endforeach
+                                                    <h6>Distributed By </h6>
+                                                    @foreach ($microproduct->departments as $product)
+                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
+                                                    @endforeach
+                                                    <h6>Delivered By </h6>
+                                                    @foreach ($microproduct->departments as $product)
+                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
+                                                    @endforeach
+                                                    
+
+
+                                                    <hr><h5>Customer Details</h5>
+                                                    
+                                                    <h6>Name</h6>
+                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
+                                                    <h6>Tell</h6>
+                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
+                                                    
+                                                    <hr><h5>Distribution Periods</h5>
+                                                    <div  style="margin-bottom: 5px">
+                                                    <h6 >product distribution period</h6>
+                                                        <small class="text-muted">
+                                                        @foreach ($microproduct->departments as $product)
+                                                        Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
+                                                        Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
+                                                        @endforeach
+                                                    </small>
+                                                    </div>
+                                                    <h6> product delivery period</h6>
+                                                    <small class="text-muted ">
+                                                        @foreach ($microproduct->departments as $product)
+                                                        Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
+                                                        Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
+                                                        @endforeach
+                                                    
+                                                    </small>
+                                                </div>  --}}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary"></button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>  
                                  
-                                </div>
+                            </div>
                             </li>
                             @endforeach
                         </ul>
@@ -195,7 +195,7 @@
                                               {{-- <small class="float-right text-muted">{{$microproduct_withtest->microbialReports[0]->micro_indication}}</small> --}}
 
                                             </h4>
-                                             @foreach($microproduct_withtest->microbialReports->groupBy('id')->first() as $report)
+                                             @foreach($microproduct_withtest->microbialloadReports->groupBy('id')->first() as $report)
                                            <span>
                                             <small class="float-right font">Assigned {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</small>
 
@@ -325,27 +325,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($MicrobialLoadAnalysis as $mltest)
+                                                {{-- @foreach($MicrobialLoadAnalysis as $mltest) --}}
+                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
                                                 <tr>
                                                     <td class="font">
                                                         <label class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="mltest_id[]" value="{{$mltest->id}}" class="custom-control-input" checked="">
+                                                            <input type="checkbox" name="mltest_id[]" value="{{$MicrobialLoadAnalysis[$i]->id}}" class="custom-control-input" checked="">
                             
                                                             <span class="custom-control-label">&nbsp;</span>
                                                         </label> 
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="test_conducted[]" id="exampleInputName1" placeholder="Result" value="{{$mltest->test_conducted}}">
+                                                        <input type="text" class="form-control" name="test_conducted[]" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                       
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="result[]" id="exampleInputName1" placeholder="Result" value="{{$mltest->result}}">
+                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" name="result[]" value="{{$MicrobialLoadAnalysis[$i]->result}}">
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="acceptance_criterion[]" id="expresult-{{$mltest->id}}" placeholder="Result" value="{{$mltest->acceptance_criterion}}">
+                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" name="acceptance_criterion[]" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
                                                 </tr>
-                                                @endforeach
+                                                @endfor
+                                                {{-- @endforeach --}}
                                             </tbody>
                                         </table>
                                     </div>
@@ -386,7 +388,7 @@
                                                     <input type="hidden" class="form-control" name="pathogen[]" value="{{$metest->pathogen}}">
 
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="pi_zone[]" id="exampleInputName1" placeholder="PI Zone" value="{{$metest->pi_zone}}">
+                                                        <input type="text" class="form-control" name="pi_zone[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
                                                     </td>
                                                     <td class="font">{{$metest->ci_zone}}</td>
                                                     <input type="hidden" class="form-control" name="ci_zone[]" value="{{$metest->ci_zone}}">
@@ -409,7 +411,7 @@
                             <h3 class="card-title">Select and assign product to various tests</h3>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="exampleInputName1"></label>
+                                    <label ></label>
                                     <select name="micro_product_id"  id="microproduct_id" style="" class="form-control select2">
                                         
                                         @foreach($microproducts as $microproduct)
@@ -438,7 +440,7 @@
                         </div>
                         <div class="col-sm-3">
                             <label class="custom-control custom-checkbox" >
-                                <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox1" value="2">
+                                <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox2" value="2">
                                 <span class="custom-control-label">&nbsp;Microbial Efficacy Analysis</span>
                             </label>
                         </div>
@@ -453,4 +455,9 @@
     </div>
 </div>
 {{-- {{$micro_report}} --}}
+@endsection
+
+@section('bottom-scripts')
+<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
+    
 @endsection
