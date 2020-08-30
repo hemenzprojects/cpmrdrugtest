@@ -105,7 +105,7 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="card-body"> 
+                                                {{-- <div class="card-body"> 
                                                     
                                                     <h6> Product Name </h6>
                                                     <small class="text-muted ">{{$microproduct->productType->Code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
@@ -146,7 +146,7 @@
                                                     Date: {{$microproduct->pivot->updated_at->format('Y-m-d')}}
                                                     Time: {{$microproduct->pivot->updated_at->format('H:i:s')}}
                                                     </small>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

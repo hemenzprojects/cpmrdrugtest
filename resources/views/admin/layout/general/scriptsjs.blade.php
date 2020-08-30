@@ -25,19 +25,71 @@
 <script src="{{asset('admin/assets/plugins/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/datatables.js')}}"></script>
-<script src="{{asset('admin/assets/src/js/vendor/jquery-3.3.1.min.js')}}"></script> 
+{{-- <script src="{{asset('admin/assets/src/js/vendor/jquery-3.3.1.min.js')}}"></script>  --}}
 
 <script src="{{asset('admin/assets/js/form-advanced.js')}}"></script>
 <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+
+
+
 @yield('bottom-scripts')
+<script>
+//this is on the showpage if checked ...
+$(document).ready(function() {
+ 
+  var efficacy_value = $('input[id="check_efficacy2"]').attr("value");
+  $('input[id="check_efficacy2"]').click(function() {
+          $("." + efficacy_value).toggle();
+      });
+  });
+</script>
+<script>
+$(document).ready(function(){
+ $("#printreport").click(function () {
+    //Hide all other elements other than printarea.
+    $("#printarea").show();
+    window.print();
+});
+});
+</script>
 
+<!-- show table head when page loads showmicroreportpage-->
+<script type="text/javascript">
+  $(document).ready(function(){
+  var input_value = $('input[id="pi_zone"]').attr("value");
+  $('.date-inputmask').inputmask("9.9 X 99^9");
+  console.log(input_value)
+  if (input_value === '768992334039322') {
+    $("." + input_value).toggle();
+    $(".checkefficacy1").hide();
+  }
 
+  var product_showtypestate = $('input[id="product_typestate"]').attr("value");
+  console.log(product_showtypestate)
+  if (product_showtypestate === '77772') {
+      $("." + product_showtypestate).toggle();
+    }else {
+      $("." + '77771').toggle();
+    }
+
+  })
+</script>
 
 <script>
+  $(document).ready(function(){
+    var loadinput_value = $('input[id="load_analyses_id"]').attr("value");
+    console.log(loadinput_value)
+  if (loadinput_value === '8119200123') {
+    $("." + loadinput_value).toggle();
+  }
+  })
+</script>
+<!-- show table head when page selcet product showmicroreportpage-->
+<script>
 $("#microproduct_id").change(function() {
-  var producttype = $('option:selected', this).attr('datatype');
-  console.log(producttype);
-  if (producttype === '9') {
+  var product_typeform = $('option:selected', this).attr('product_typeform');
+  console.log(product_typeform);
+  if (product_typeform === '88882') {
     $('#expresult-1').val('5.0 x 10^7')
     $('#expresult-2').val('5.0 x 10^5')
 
@@ -45,9 +97,25 @@ $("#microproduct_id").change(function() {
     $('#expresult-1').val('5.0 x 10^4')
     $('#expresult-2').val('5.0 x 10^2')
   }
-   
+ 
 })
 </script>
+
+<script>
+    $(document).ready(function(){
+      $('#stateresult').html('Result (CFU/g)'); 
+    })
+    $("#microproduct_id").change(function(){
+      var product_typestate = $('option:selected', this).attr('product_typestate');
+     console.log(product_typestate);
+    if (product_typestate === '77772') {
+      $('#stateresult').html('Result (CFU/ml)'); 
+    } else
+    $('#stateresult').html('Result (CFU/g)'); 
+    })
+  
+</script>
+
 <!-- show form when checked -->
  <script type="text/javascript">
   $(document).ready(function() {
@@ -56,13 +124,16 @@ $("#microproduct_id").change(function() {
     if($('input[id="inlineCheckbox1"]').prop('checked')){
       $("." + inputValue).toggle();
           $('.date-inputmask').inputmask("9.9 X 99^9");
-    }
-
+      }
       $('input[id="inlineCheckbox1"]').click(function() {
           $("." + inputValue).toggle();
+          $('#fadeout2').fadeOut('slow');  
         if($(this).prop('checked')){
           $('.date-inputmask').inputmask("9.9 X 99^9");
         }
+        if($('#inlineCheckbox1').not(':checked')){
+         $('#fadeout2').show();  
+        } 
       });
   });
 
@@ -81,10 +152,28 @@ $("#microproduct_id").change(function() {
         }
       });
   });
+
+  $(document).ready(function() {
+    var mcvalue = $('input[id="microbial_count"]').attr("value");
+    if($('input[id="microbial_count"]').prop('checked')){
+      $("." + mcvalue).toggle();
+    }
+    $('input[id="microbial_count"]').click(function() { 
+          $("." + mcvalue).toggle();
+          console.log(mcvalue);
+          $('#inlineCheckbox1').removeAttr('required');
+          $('#fadeout').fadeOut('slow');
+         
+        if($(this).prop('checked')){
+          $('input[id="mresult"]').val('3^TMMC');
+        }
+        if($('#microbial_count').not(':checked')){
+         $('#fadeout').show();  
+        } 
+      });
+  });
+
 </script>
-
-
-
 
 <!-- model -->
 <!-- Auto complete search -->
@@ -353,15 +442,17 @@ $('#acceptpharmproductform').submit(function(e){
   })
   </script>
 
+
+
 <script>
-  $('#checkusertoacceptproduct').submit(function(e){
+$('#checkusertoacceptproduct').submit(function(e){
     
       e.preventDefault();
       console.log('attempted to submit form')
      
-    })
+})
     
-      // Continue the form submit
+  // Continue the form submit
   // e.currentTarget.submit();
 
   </script>

@@ -46,8 +46,8 @@
                                     <a href="#"><i class="ik ik-layout"></i><span>Microbiology</span></a>
                                     <div class="submenu-content">
                                         <a href="{{route('admin.micro.receiveproduct')}}" class="menu-item">Receieve Product</a>
-                                        <a href="{{route('admin.micro.report.create')}}" class="menu-item">Create Reports</a>
-                                        <a href="pages/ui/buttons.html" class="menu-item">Rejected Products</a>
+                                        <a href="{{route('admin.micro.report.create')}}" class="menu-item">Reports Taskboard </a>
+                                        <a href="{{route('admin.micro.hod_office.approval')}}" class="menu-item">HoD Office</a>
                                         <a href="pages/ui/navigation.html" class="menu-item">Report</a>
                                     </div>
                                 </div>

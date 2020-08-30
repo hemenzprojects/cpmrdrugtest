@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminAuth\Microbiology;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AcceptMircoProductRequest;
+use App\Http\Requests\MicroTestCreateRequest;
 use App\Http\Controllers\Controller;
 use App\Department;
 use App\ProductDept;
@@ -38,6 +39,7 @@ class MicroController extends Controller
 
     public function acceptproduct(AcceptMircoProductRequest $request)
       {    
+     
               $adminId = Auth::guard('admin')->id();
               $deptproduct_id = $request->deptproduct_id;
               $status = $request->status;
@@ -70,7 +72,7 @@ class MicroController extends Controller
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
             ];
-      
+           
             ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 1)->update($data);
             
             Session::flash('message_title', 'success');
@@ -116,80 +118,276 @@ class MicroController extends Controller
                 })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
 
                 $data['microproduct_withtests'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1);
+                  return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
     
+                $data['microproduct_completedtests'] = Product::with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", 4);
+                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
                 return View('admin.micro.createreport', $data); 
               }
 
-              public function test_create(Request $r){
-                // return $r->all();
+
+
+              public function test_create(MicroTestCreateRequest $r){
+                $input = $r->all();
+                // dd($input);
+                $mp_id = $input['micro_product_id'];
+
+                $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
+                if(count($productdepts->get()) < 1){
+                    
+                    return redirect()->back();
+                }
+    
+                $productdept = $productdepts->first();
+                $productdept->status = 3;
+                $productdept->update();
+              
                 if($r->loadanalyses){
-                  for ($i=0; $i < count($r->result); $i++) { 
+                    for ($i=0; $i < count($r->result); $i++) { 
                     if ($i<2) {
                       $results= explode(' ',$r->result[$i]);
-                      $part1 =$results[0];
-                      $part2 = explode('^',$results[2]);
-                      $total = $part1 * pow($part2[0],$part2[1]);
+                      $rs_part1 =$results[0];
+                      $rs_part2 = explode('^',$results[2]);
+                      $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
 
                       $criterial= explode(' ',$r->acceptance_criterion[$i]);
-                      $res =$criterial[0];
-                      $res2 = explode('^',$criterial[2]);
-                      $cri_total = $res * pow($res2[0],$res2[1]);
+                      $ac_part1 =$criterial[0];
+                      $ac_part2 = explode('^',$criterial[2]);
+                     $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
 
-                      \App\MicrobialLoadReport::create(['test_conducted'=>$r->test_conducted[$i],'product_id'=>$r->micro_product_id,'rs_total'=>$total,'result'=>$r->result[$i],'acceptance_criterion'=>$r->acceptance_criterion[$i],'ac_total'=>$cri_total,
-                      'added_by_id' => Auth::guard('admin')->id(),'load_analyses_id'=>$r->loadanalyses]);
+                     
+                         MicrobialLoadReport::create([
+                          'test_conducted'=>$r->test_conducted[$i],
+                          'product_id'=>$r->micro_product_id,
+                          'rs_total'=>$rs_total,
+                          'result'=>$r->result[$i],
+                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                          'ac_total'=>$ac_total,
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'load_analyses_id'=>$r->loadanalyses,
+                          'created_at' => \Carbon\Carbon::now(),
+                          'updated_at' => \Carbon\Carbon::now(),
+                      ]);
+             
                     }else{
-                      \App\MicrobialLoadReport::create(['test_conducted'=>$r->test_conducted[$i],'product_id'=>$r->micro_product_id,'result'=>$r->result[$i],'acceptance_criterion'=>$r->acceptance_criterion[$i],
-                      'added_by_id' => Auth::guard('admin')->id(),'load_analyses_id'=>$r->loadanalyses]);
-
-                    }
-                  }
-                }
-
-                if($r->efficacyanalyses){
+                        MicrobialLoadReport::create([
+                          'test_conducted'=>$r->test_conducted[$i],
+                          'product_id'=>$r->micro_product_id,
+                          'result'=>$r->result[$i],
+                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                          'ac_total'=>$ac_total,
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'load_analyses_id'=>$r->loadanalyses,
+                          'created_at' => \Carbon\Carbon::now(),
+                          'updated_at' => \Carbon\Carbon::now(),
+                          ]);
+                        }
+                     }
+                   }
+                  
+                  if($r->efficacyanalyses){
                   for ($j=0; $j < count($r->pi_zone); $j++) { 
-                    \App\MicrobialEfficacyReport::create(['efficacy_analyses_id'=>$r->efficacyanalyses,
-                    'product_id'=>$r->micro_product_id,'pathogen '=>$r->pathogen[$j],'pi_zone'=>$r->pi_zone[$j],
-                    'ci_zone'=>$r->ci_zone[$j],'fi_zone'=>$r->fi_zone[$j],'added_by_id' => Auth::guard('admin')->id()]);
-                  }
-                }
-                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
+                          MicrobialEfficacyReport::create([
+                          'efficacy_analyses_id'=>$r->efficacyanalyses,
+                          'product_id'=>$r->micro_product_id,
+                          'pathogen'=>$r->pathogen[$j],
+                          'pi_zone'=>$r->pi_zone[$j],
+                          'ci_zone'=>$r->ci_zone[$j], 
+                          'fi_zone'=>$r->fi_zone[$j],
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'created_at' => \Carbon\Carbon::now(),
+                          'updated_at' => \Carbon\Carbon::now(),
+                          ]);
+                         
+                       }
+                   }
+                  
+                    if ($r->microbialcount){
+                    for ($k=0; $k < count($r->mlmcresult); $k++){
+                      MicrobialLoadReport::create([
+                      'test_conducted'=>$r->mlmctest_conducted[$k],
+                      'product_id'=>$r->micro_product_id,
+                      'result'=>$r->mlmcresult[$k],
+                      'acceptance_criterion'=>$r->mlmcacceptance_criterion[$k],
+                      'added_by_id' => Auth::guard('admin')->id(),
+                      'load_analyses_id'=>$r->microbialcount,
+                      'created_at' => \Carbon\Carbon::now(),
+                      'updated_at' => \Carbon\Carbon::now(),
+                        ]);
+                      }
+                   }
+                
+                  Session::flash("message", "Report Successfully Stored, Proceed to complete.");
                   Session::flash("message_title", "success");
                   return redirect()->route('admin.micro.report.create');
-                // die();
+            }
+
+              public function report_show(MicrobialLoadReport $microbialReport, $id)
+              {       
+                $data['report_id'] = $id;              
+                $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::all();
+               $data['show_productdept'] = productDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
           
-                //   $data = []
-                //   for ($i=0; $i <count($input['mltest_id']); $i++) { 
-                //       $data[] = [
-                //       'test_conducted' => $input['test_conducted'][$i],
-                //       'result' => $input['result'][$i],
-                //       'acceptance_criterion' => $input['acceptance_criterion'][$i],
-                //       'added_by_id' => Auth::guard('admin')->id(),
-                //       'load_analyses_id' => $input['loadanalyses'],
-                //       'product_id' => $input['micro_product_id'],
-                //        'created_at' => \Carbon\Carbon::now(),
-                //        'updated_at' => \Carbon\Carbon::now(),
-                //       ];
-                //   }
-                //   $inserted = DB::table('microbial_load_reports')->insert($data);
-                //   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
-                //   Session::flash("message_title", "success");
-                //   return redirect()->route('admin.micro.report.create');
-            
+                $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
+                $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
+
+                // $data['show_microbial_reportcreator'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+
+                 return view('admin.micro.showreport', $data);
+          
               }
 
-              public function report_show(MicrobialEfficacyReport $microbialReport)
-              {   
-                   return 'jjrjdjwnjfk';
-                //  $id = $microbialReport->id;
-                  
-                //  $data['microproduct_withtests'] = Product::where('id',$id)->with("dept")->whereHas("dept", function($q){
-                //   return $q->where("dept_id", 1)->where("status_id", 3);
-                //  })->with("testConducteds")->whereHas("testConducteds")->get();
-          
-                //  return view('admin.microbiology.showreport', $data);
-          
+              public function report_update(request $r, $id)
+              {
+               $input = $r->all();
+              //  dd($input);
+               $ml_testconducteds = $r->test_conducted;
+               $mlr_ids =  $r->mltest_id;
+               $mer_ids =  $r->metest_id;
+               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
+                if(count($productdepts->get()) < 1){     
+                    return redirect()->back();
+                }
+                $productdept = $productdepts->first();
+                $productdept->status = 3;
+                $productdept->update();
+              
+                 if($r->loadanalyses){
+                    for ($i=0; $i < count($r->result); $i++) { 
+                    if ($i<2) {
+                      $results= explode(' ',$r->result[$i]);
+                      $rs_part1 =$results[0];
+                      $rs_part2 = explode('^',$results[2]);
+                      $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
+
+                      $criterial= explode(' ',$r->acceptance_criterion[$i]);
+                      $ac_part1 =$criterial[0];
+                      $ac_part2 = explode('^',$criterial[2]);
+                      $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
+
+                      $data=[];
+                      for ($j=0; $j <count( $input['mltest_id']); $j++){
+                        if ($j<2) {  
+
+                            $data[] = [
+                          'mlr_ids' =>  $mlr_ids[$j],
+                          'test_conducted'=>$ml_testconducteds[$j],
+                          'result'=>$r->result[$j],
+                          'rs_total'=>$rs_total,
+                          'acceptance_criterion'=>$r->acceptance_criterion[$j],
+                          'ac_total'=>$ac_total,
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'updated_at' => \Carbon\Carbon::now(),
+                           ];
+                          }
+                         }
+                        $j = 0;
+                          $count1 = count($input['mltest_id']);
+                          while($j < $count1){
+                              DB::table('microbial_load_reports')->where('id', $mlr_ids[$j])
+                              ->update([
+                                'test_conducted'=>$ml_testconducteds[$j],
+                                'result'=>$r->result[$j],
+                                'rs_total'=>$rs_total,
+                                'acceptance_criterion'=>$r->acceptance_criterion[$j],
+                                'ac_total'=>$ac_total,
+                                'added_by_id' => Auth::guard('admin')->id(),
+                                'updated_at' => \Carbon\Carbon::now(),
+                              ]  
+                              );
+                              $j++;
+                            }
+                      }
+                      else{
+                        DB::table('microbial_load_reports')->where('id', $mlr_ids[$i])
+                        ->update([
+                          'test_conducted'=>$ml_testconducteds[$i],
+                          'result'=>$r->result[$i],
+                          'rs_total'=>$rs_total,
+                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                          'ac_total'=>$ac_total,
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'updated_at' => \Carbon\Carbon::now(),
+                        ]  
+                        );
+                        $i++; 
+                         }
+                      } 
+                   }
+                 
+                     if($r->efficacyanalyses_form){
+                         for ($k=0; $k < count($r->metestform_id); $k++) { 
+                         $data1 = ([
+                          'efficacy_analyses_id'=>2,
+                          'product_id'=>$r->micro_product_id,
+                          'pathogen'=>$r->pathogen_form[$k],
+                          'pi_zone'=>$r->pi_zoneform[$k],
+                          'ci_zone'=>$r->ci_zoneform[$k], 
+                          'fi_zone'=>$r->fi_zoneform[$k],
+                          'added_by_id' => Auth::guard('admin')->id(),
+                          'created_at' => \Carbon\Carbon::now(),
+                            ]);
+                          DB::table('microbial_efficacy_reports')->insert($data1);
+                       }
+                   }
+                 
+                    if($r->efficacyanalyses_update){
+                          $l = 0;
+                          $count1 = count($input['metest_id']);
+                          while($l < $count1){
+                            DB::table('microbial_efficacy_reports')->where('id', $mer_ids[$l])
+                                  ->update([
+                                    'efficacy_analyses_id'=>2,
+                                    'product_id'=>$r->micro_product_id,
+                                    'pi_zone'=>$r->pi_zone_update[$l],
+                                    'added_by_id' => Auth::guard('admin')->id(),
+                                    'updated_at' => \Carbon\Carbon::now(),
+                                  ]  
+                                  );
+                              $l++;
+                            }
+                   }
+
+                  $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", 3);
+                  })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses');
+                    if(count($products->get()) < 1){     
+                      return redirect()->back();
+                    }
+                  $product = $products->first();
+                  $product->micro_comment = $r->micro_comment;
+                  $product->micro_conclution = $r->micro_conclution;
+                  $product->update();
+                 
+                  Session::flash("message", "Report Successfully completed and updated.");
+                  Session::flash("message_title", "success");
+                
+                  return redirect()->back();
+
               }
+
+              public function completedreport_show($id){
+              $data['report_id'] = $id;              
+              $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
+                return $q->where("dept_id", 1)->where("status", 4);
+               })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
+        
+              $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
+              $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
+             
+             return view('admin.micro.completedreport',$data);
+
+            }
+
+            public function hodoffice_evaluation(){
+
+               $data['evaluations'] = Product::with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 1)->where("status", 3);
+              })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
+
+              return view('admin.micro.hodoffice.evaluation',$data);
+            }
 
 }

@@ -23,6 +23,12 @@ class ProductTableSeeder extends Seeder
             'exp_date' => '2020-06-07',
             'company' => 'Lucas Herbal',
             'indication' => 'antibacteria',
+            'micro_comment' => 'somecomment text',
+            'micro_conclution' => 'some conclution text',
+            'micro_dateanalysed' => 'some dateanalysed text',
+            'micro_overall_status' => 'passed',
+            'micro_hod_evaluation' => 1,
+
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
 
@@ -39,6 +45,12 @@ class ProductTableSeeder extends Seeder
             'exp_date' => '2020-06-07',
             'company' => 'Madingo Limited',
             'indication' => 'antibacteria',
+            'micro_comment' => 'somecomment text',
+            'micro_conclution' => 'some conclution text',
+            'micro_dateanalysed' => 'some dateanalysed text',
+            'micro_overall_status' => 'failed',
+            'micro_hod_evaluation' => 2,
+
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
 
@@ -55,6 +67,12 @@ class ProductTableSeeder extends Seeder
             'exp_date' => '2020-06-07',
             'company' => 'Monarch Pharma',
             'indication' => 'antibacteria',
+            'micro_comment' => 'somecomment text',
+            'micro_conclution' => 'some conclution text',
+            'micro_dateanalysed' => 'some dateanalysed text',
+            'micro_overall_status' => 'passed',
+            'micro_hod_evaluation' => 1,
+
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
 
@@ -71,6 +89,12 @@ class ProductTableSeeder extends Seeder
             'exp_date' => '2020-06-07',
             'company' => 'Damacare Centre',
             'indication' => 'antibacteria',
+            'micro_comment' => 'somecomment text',
+            'micro_conclution' => 'some conclution text',
+            'micro_dateanalysed' => 'some dateanalysed text',
+            'micro_overall_status' => 'failed',
+            'micro_hod_evaluation' => 2,
+
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
 

@@ -24,7 +24,12 @@ class CreateProductsTable extends Migration
             $table->date('exp_date');
             $table->string('company');
             $table->string('indication');
-            $table->string('overall_status')->nullable();
+            $table->string('micro_comment')->nullable();
+            $table->string('micro_conclution')->nullable();
+            $table->string('micro_dateanalysed')->nullable();
+            $table->string('micro_overall_status')->nullable();
+            $table->double('micro_hod_evaluation')->nullable();
+
             $table->integer('added_by_id')->nullable();
 
             $table->foreign('product_type_id')

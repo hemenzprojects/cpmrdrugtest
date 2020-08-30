@@ -59,7 +59,9 @@ class Product extends Model
         }elseif ($this->pivot->status === 2) {
             return '<td><label class="badge badge-info">Received</label></td>';
         }elseif ($this->pivot->status === 3) {
-            return '<td><label class="badge badge-warning">In Progress</label></td>';
+            return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
+        }elseif ($this->pivot->status === 4) {
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
         }
     }
  

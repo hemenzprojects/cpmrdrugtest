@@ -55,12 +55,18 @@ Route::get('/', function () {
    Route::post('sid/distribute_product','AdminAuth\SID\SIDController@distribute_onedept_store');
    
   
-  //Microbiology Route 
+    //Microbiology Route 
 
-    //*********************** Microbial Report routes */admin/micro/create-test'
+    //*************** Microbial Report routes */admin/micro/create-test' **/
     Route::get('micro/report/create','AdminAuth\Microbiology\MicroController@report_create')->name('admin.micro.report.create');
     Route::post('/microbiology/report/create_test', 'AdminAuth\Microbiology\MicroController@test_create')->name('admin.micro.report.create_test');
-    Route::get('micro/report/show','AdminAuth\Microbiology\MicroController@report_show')->name('admin.microbial_report.show');
+    Route::get('micro/report/show/{id}','AdminAuth\Microbiology\MicroController@report_show')->name('admin.microbial_report.show');
+    Route::post('micro/report/update/{id}','AdminAuth\Microbiology\MicroController@report_update');
+    Route::get('micro/completedreport/show/{id}','AdminAuth\Microbiology\MicroController@completedreport_show')->name('admin.micro.completedreport.show');
+   
+    
+   //********* Microbiology HOD Office */
+   Route::get('micro/hod_office/approval','AdminAuth\Microbiology\MicroController@hodoffice_evaluation')->name('admin.micro.hod_office.approval');
 
 
    //********* Microbiology receive product */
