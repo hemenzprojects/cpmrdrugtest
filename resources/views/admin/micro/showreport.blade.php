@@ -12,7 +12,7 @@
                </div>
                 <form action=""> 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap dataTable">
+                        <table class="table table-striped table-bordered nowrap dataTable" >
                             <thead>
                                 <tr  class="table-warning">
                                     <th>Product Code</th>
@@ -28,26 +28,27 @@
                                       <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
                                       <td class="font"> {{($showproduct->updated_at->format('d/m/Y'))}}</td>
                                       <td class="font">
-                                        <input class="form-control" type="date" placeholder="Date" name="date_analysed" value="">
+                                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
                                        </td>
                                        <input type="hidden" name="micro_product_id" value="{{\App\Product::find($showproduct->product_id)->id}}">
                                        <input type="hidden" id="product_typestate" value="7777{{\App\Product::find($showproduct->product_id)->productType->state}}">
-                                       <input class="form-control" type="hidden" id="load_analyses_id" value="811920012{{$showproduct->status}}">
+                                       <input class="form-control" type="hidden" id="product_status" value="811920012{{$showproduct->status}}">
 
                                   </tr>
                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                   
-                    
-                        <div class="card-header"><h3>Microbial Load Analysis</h3></div>
-                   
-                    <div class="table-responsive">
+                
+                    <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
+
+                    <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
+                        {{-- this table is for too manny microbial count --}}
+                    <div class="table-responsive ">
                         <table class="table table-striped table-bordered nowrap dataTable">
                             <thead>
-                                <tr  class="table-warning">
-                                    {{-- <th>#</th> --}}
+                                <tr  class="table-info">
+                                    
                                     <th>Test Conducted</th>
                                     <th class="77772" style="display: none">Result (CFU/ml)</th>
                                     <th class="77771" style="display: none">Result (CFU/g)</th>
@@ -55,36 +56,63 @@
                                   
                                 </tr>
                             </thead>
-                        <tbody class="8119200123" style="display: none">
+                           <tbody class="3" style="display: none">
                            
                             @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-                         <tr>
+                              <tr>
+                                <input type="hidden" name="mlmc_ids[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
+                                <td class="font">
+                                    {{$show_microbial_loadanalyses[$i]->test_conducted}}
+                                    <input type="hidden" class="form-control" name="mc_test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">
+                                </td>
+                                <td class="font">
+                                    <input type="text" required class="form-control" name="mc_result[]"  placeholder="{{$i>1?'Manny count Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+                                </td>
+                                <td class="font">
                                
-                                  <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
+                                    <input type="text" required class="form-control" name="mc_acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
+                                </td>
+                                
+                            <input type="hidden" required class="custom-control-input" id="mannycount_loadanalyses{{$i}}" name="mannycount_loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
+                                
+                            </tr>
+                            @endfor
+                            </tbody>
+
+                            {{-- Load analyses table without many count --}}
+                            <tbody class="1">
+                           
+                              @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+
+                              <tr>
+                                <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
                         
                                 <td class="font">
                                     {{$show_microbial_loadanalyses[$i]->test_conducted}}
                                     <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">
                                 </td>
                                 <td class="font">
-                                    <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" required name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+                                <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+                                <input type="hidden" class="form-control" id="rs_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
+
                                 </td>
                                 <td class="font">
-                                    <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$show_microbial_loadanalyses[$i]->id}}" value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
+                                <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="criterion_disabled{{$i}}" name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}"  value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
+                                <input type="hidden" class="form-control" id="ac_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
                                 </td>
                                 
-                                <input type="hidden" required class="custom-control-input" name="loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
+                                <input type="hidden"  class="form-control" id="load_analyses{{$i}}" name="loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
                                 
-                            </tr>
+                             </tr>
                             @endfor
                         </tbody>
                        </table>  
                     </div>
-                    
+                
                     <div class="checkefficacy1 col-sm-3">
                         <label class="custom-control custom-checkbox" >
                             <input type="checkbox" class=" custom-control-input" name="efficacyanalyses_form" id="check_efficacy2" value="243123">
-                            <span class="custom-control-label">&nbsp;Microbial Efficacy Analysis</span>
+                            <span class="custom-control-label">&nbsp;Microbial Efficacy Analysis Form</span>
                         </label>
                     </div>
 
@@ -120,13 +148,14 @@
                                                 <input type="hidden" class="form-control" name="pathogen_form[]" value="{{$metest->pathogen}}">
 
                                                 <td class="font">
-                                                    <input type="text" class="form-control" required name="pi_zoneform[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
+                                                    <input type="number" class="form-control" required name="pi_zoneform[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
                                                 </td>
-                                                <td class="font" class="form-control">{{$metest->ci_zone}}</td>
-                                                <input type="hidden"  name="ci_zoneform[]" value="{{$metest->ci_zone}}">
-
-                                                <td class="font">{{$metest->fi_zone}}</td>
-                                                <input type="hidden" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
+                                                <td class="font" class="form-control">                                                    
+                                                    <input type="number" class="form-control" name="ci_zoneform[]"  value="{{$metest->ci_zone}}">
+                                                </td>
+                                                <td class="font">
+                                                    <input type="number" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
+                                                </td>
 
                                             </tr>
                                             @endforeach
@@ -139,7 +168,7 @@
                   
                        <div class="table-responsive">
                         
-                          <div class="card-header"><h3>Microbial Efficacy Analysis</h3></div>
+                        <div class="card-header 768992334039322" style="display: none"><h3>Microbial<strong> Efficacy </strong>Analysis</h3></div>
                        
                              <table class="table table-striped table-bordered nowrap dataTable">
                                 <thead class="meatablehead 768992334039322" style="display: none">
@@ -163,26 +192,32 @@
                                                 <input type="hidden" class="form-control" id="pi_zone" name="efficacyanalyses_update" value="{{$efficacyanalyses->efficacy_analyses_id}}">
 
                                             </td>
-                                            <td class="font">{{$efficacyanalyses->ci_zone}}</td>
-                                            <td class="font">{{$efficacyanalyses->fi_zone}}</td>
+                                            <td class="font">
+                                            <input type="text" class="form-control" required name="ci_zone_update[]"  value="{{$efficacyanalyses->ci_zone}}">
+                                            </td>
+                                            <td class="font">
+                                                <input type="text" class="form-control" required name="fi_zone_update[]" value="{{$efficacyanalyses->fi_zone}}">
+                                            </td>
                                         </tr>
                                     
                                     
                                     @endforeach
                                </tbody>
-                            </table>  
-                      </div>
-              
+                            </table> 
+                       </div>
+
+                      @foreach ($show_productdept as $showproduct)
+ 
                     <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
                         <strong><span>General Comment</span></strong><br><br>
-                        <textarea required="" type="text" class="form-control" id="exampleTextarea1" name="micro_comment" placeholder="General Comment" value="" rows="4">
-                        </textarea>
-                    
+                       
+                    <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($showproduct->product_id)->micro_comment}} </textarea>
                         <strong><span>Conclution</span></strong><br><br>
                         <div class="input-group">
-                        <input type="text" required class="form-control" placeholder="Concution" name="micro_conclution" value="">
+                        <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($showproduct->product_id)->micro_conclution}}">
                         </div> 
                    </div>
+                  @endforeach
                     <div class="row invoice-info" style="margin: 15px">
 
                         <div class="col-sm-4 invoice-col">
@@ -204,9 +239,28 @@
                     </div>
     
                </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit for Approval</button>
-                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-view"></i> View Report</button>
+
+            <div class="row">
+                <div class="col-9">
+                    <button type="submit" class="btn btn-success pull-right" id="submit_report" >
+                     <i class="fa fa-credit-card"></i> 
+                     Submit for Approval
+                    </button>
+
+                  
+                    <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
+                    <i class="fa fa-view"></i> Complete Report</button>
+            
+                    <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $report_id])}}">
+                  
+                </div>
+                <div class="col-3">
+                    @foreach ($show_productdept as $showproduct)
+                    {!! \App\Product::find($showproduct->product_id)->evaluation !!}
+                    <input type="hidden" id="evaluation" value="{{\App\Product::find($showproduct->product_id)->micro_hod_evaluation}}">
+
+                    @endforeach
+                </div>
             </div>
         </form>
         </div>
@@ -214,6 +268,20 @@
 @endsection
 
 @section('bottom-scripts')
-<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
-    
+<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   
+<script src="{{asset('js/microbialcomments.js')}}"></script>
+
+<script>
+function myFunction() {
+  var url = $('input[id="report_url"]').attr("value");
+  var r = confirm("Be aware of the following before you complete report : 1.Completed Reports can not be edited after submision, system require you to see HoD for unavoidable complains or changes.  Thank you");
+  if (r == true) {
+  var  myWindow = window.open(url, "_blank", "width=500, height=500");
+  } else {
+   
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
+</script>
+
 @endsection

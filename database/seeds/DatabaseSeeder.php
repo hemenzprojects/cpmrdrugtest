@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductDeptSeeder::class);
         $this->call(MicrobialLoadSeeder::class);
         $this->call(MicrobialEfficacySeeder::class);
+        $this->call(PharmTestConductedSeeder::class);
+        $this->call(PharmToxicitySeeder::class);
+
+
 
 
 

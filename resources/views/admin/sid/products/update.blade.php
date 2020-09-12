@@ -267,8 +267,9 @@
                                                 <div class="table-actions">
                                                     
                                                         {!! $product->show_tag !!}
-
+                                                        @if ($product->overall_status ==1)
                                                         {!! $product->edit_tag !!}
+                                                        @endif
                                                     
                                                     <a href="#"><i class="ik ik-trash-2"></i></a>
                                                 </div>

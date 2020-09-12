@@ -49,7 +49,7 @@
                 </div>
                   <span class="" style="padding:5px">
                     <input class="form-control" id="listSearch1" type="text" placeholder="Type something to search list items">
-                    </span>
+                  </span>
                     
                 <div class="card-body todo-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                     <div class="dd" data-plugin="nestable" >
@@ -58,90 +58,90 @@
                             <li class="list-group-item dd-item" style="padding: 1px;border:1px" data-id="1">
                             <div class="dd-handle">
                                 <div class="row align-items-center">
-                                    <div class="col-lg-9 col-md-12">
+                                    <div class="col-lg-10 col-md-12">
                                         <p><span href="" class="badge badge-danger pull-right">
                                         {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
                                         </span>
-                                          <span> {{ucfirst($microproduct->name)}}</span>
+                                          <span>{{ucfirst($microproduct->name)}}</span>
                                         </p>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-2 col-md-12">
                                            <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""><i class="ik ik-eye"></i></a>   
                                     </div>                                                           
-                                    <div class="modal fade" id="demoModal{{$microproduct->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                </div>
-                                                {{-- <div class="card-body"> 
-                                            
-                                                    <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
-                                                    <h6>Product Type </h6>
-                                                    <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
-                                                    <h6>Quantity</h6>
-                                                    @foreach ($microproduct->departments as $product)
-                                                    <small class="text-muted ">{{$product->pivot->quantity}}</small>
-                                                    @endforeach
-                                                    <small class="text-muted "></small>
-                                                    <h6>Indication</h6>
-                                                    <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
-
-                                                    <hr><h5>Distribution Details</h5>
-                                                    <h6>Received By </h6>
-                                                    @foreach ($microproduct->departments as $product)
-                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                                                    @endforeach
-                                                    <h6>Distributed By </h6>
-                                                    @foreach ($microproduct->departments as $product)
-                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                                                    @endforeach
-                                                    <h6>Delivered By </h6>
-                                                    @foreach ($microproduct->departments as $product)
-                                                    <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                                    @endforeach
-                                                    
-
-
-                                                    <hr><h5>Customer Details</h5>
-                                                    
-                                                    <h6>Name</h6>
-                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
-                                                    <h6>Tell</h6>
-                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
-                                                    
-                                                    <hr><h5>Distribution Periods</h5>
-                                                    <div  style="margin-bottom: 5px">
-                                                    <h6 >product distribution period</h6>
-                                                        <small class="text-muted">
-                                                        @foreach ($microproduct->departments as $product)
-                                                        Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
-                                                        Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
-                                                        @endforeach
-                                                    </small>
-                                                    </div>
-                                                    <h6> product delivery period</h6>
-                                                    <small class="text-muted ">
-                                                        @foreach ($microproduct->departments as $product)
-                                                        Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                                                        Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
-                                                        @endforeach
-                                                    
-                                                    </small>
-                                                </div>  --}}
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary"></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>  
                                  
                             </div>
                             </li>
+                            <div class="modal fade" id="demoModal{{$microproduct->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="card-body"> 
+                                    
+                                            <h6> Product Name </h6>
+                                            <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
+                                            <h6>Product Type </h6>
+                                            <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
+                                            <h6>Quantity</h6>
+                                            @foreach ($microproduct->departments->where('id',1) as $product)
+                                            <small class="text-muted ">{{$product->pivot->quantity}}</small>
+                                            @endforeach
+                                            <small class="text-muted "></small>
+                                            <h6>Indication</h6>
+                                            <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
+
+                                            <hr><h5>Distribution Details</h5>
+                                            <h6>Received By </h6>
+                                            @foreach ($microproduct->departments->where('id',1) as $product)
+                                            <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
+                                            @endforeach
+                                            <h6>Distributed By </h6>
+                                            @foreach ($microproduct->departments->where('id',1) as $product)
+                                            <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
+                                            @endforeach
+                                            <h6>Delivered By </h6>
+                                            @foreach ($microproduct->departments->where('id',1) as $product)
+                                            <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
+                                            @endforeach
+                                         
+
+                                            <hr><h5>Customer Details</h5>
+                                            
+                                            <h6>Name</h6>
+                                            <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
+                                            <h6>Tell</h6>
+                                            <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
+                                            
+                                            <hr><h5>Distribution Periods</h5>
+                                            <div  style="margin-bottom: 5px">
+                                            <h6 >product distribution period</h6>
+                                                <small class="text-muted">
+                                                @foreach ($microproduct->departments as $product)
+                                                Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
+                                                Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
+                                                @endforeach
+                                            </small>
+                                            </div>
+                                            <h6> product delivery period</h6>
+                                            <small class="text-muted ">
+                                                @foreach ($microproduct->departments as $product)
+                                                Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
+                                                Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
+                                                @endforeach
+                                            
+                                            </small>
+                                        </div> 
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
                         </ul>
                     </div>
@@ -184,25 +184,36 @@
                                         <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
                                         <div class="feeds-body">
                                             <h4 class="">
-                                                <span href="" class="badge badge-warning pull-right">
-                                                {{$microproduct_withtest->productType->code}}|{{$microproduct_withtest->id}}|{{$microproduct_withtest->created_at->format('y')}}
-                                              </span>                
-                                              <small class="float-right text-muted">{{count($microproduct_withtest->loadAnalyses)}} MLA Tests</small><br>
-                                              @if (count($microproduct_withtest->efficacyAnalyses)>0)
-                                              <small class="float-right text-muted">{{count($microproduct_withtest->efficacyAnalyses)}} MEA Tests</small><br>
-                                              @endif
-
-                                              {{-- <small class="float-right text-muted">{{$microproduct_withtest->microbialReports[0]->micro_indication}}</small> --}}
-
+                                                  <span href="" class="badge badge-warning pull-right">
+                                                    {{$microproduct_withtest->productType->code}}|{{$microproduct_withtest->id}}|{{$microproduct_withtest->created_at->format('y')}}
+                                                  </span>
+                                                  <span href="" class="badge pull-right">
+                                                  <p style="font-size: 10px;margin: 2px">{{$microproduct_withtest->name}}</p>
+                                                  </span><br>
+                                              
+                                                   <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_withtest->loadAnalyses)}}mla
+                                                    @foreach ($microproduct_withtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                    @endforeach
+                                                    @if ($loadnalyses->pivot->load_analyses_id ===3)
+                                                             /tm count
+                                                    @endif
+                                                    @if (count($microproduct_withtest->efficacyAnalyses)>0)
+                                                    & {{count($microproduct_withtest->efficacyAnalyses)}}ea
+                                                    @endif
+                                                    
+                                                  </small>
+                                                 </span><br>   
+               
                                             </h4>
                                              @foreach($microproduct_withtest->microbialloadReports->groupBy('id')->first() as $report)
-                                           <span>
-                                            <small class="float-right font">Assigned: {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</small>
-                                            <small class="float-right font">Approved </small>
-
+                                            <span>
+                                               
+                                            <small class="float-right font"><strong>Assigned: </strong>{{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</small><br>
                                             </span>
                                               @endforeach 
-
+                                              <span>
+                                              <small class="float-right font"> <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
+                                             <span>
 
                                         </div>
                                     </a>
@@ -212,9 +223,9 @@
                             </div>
                               
                           </li>
+
                           @endforeach
                         </ul>
-                      
                   </div>
             </div>
         </div>   
@@ -249,7 +260,7 @@
                                       
                                   <div class="card-body feeds-widget">
                                   <div class="feed-item">
-                                      <a href="{{ route('admin.micro.completedreport.show',['id' => $microproduct_completedtest->id]) }}">
+                                      <a href="{{ route('admin.micro.printreport',['id' => $microproduct_completedtest->id]) }}">
                                           <div class="feeds-left"><i class="ik ik-square text-warning"></i></div>
                                           <div class="feeds-body">
                                               <h4 class="">
@@ -332,7 +343,7 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Test Conducted</th>
-                                                    <th id="stateresult" class="77772">Result (CFU/ml)</th>
+                                                    <th id="stateresult" class="77772">Result (CFU/g)</th>
                                                     <th>Acceptance Criterion</th>
                                                 </tr>
                                             </thead>
@@ -354,6 +365,7 @@
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
                                                     </td>
                                                     <td class="font">
+                                                        
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
                                                 </tr>
@@ -377,7 +389,7 @@
                                                 <tr class="table-info">
                                                     <th>#</th>
                                                     <th>Test Conducted</th>
-                                                    <th id="stateresult" >Result (CFU/ml)</th>
+                                                    <th id="manycount_stateresult"> Result (CFU/g)</th>
                                                     <th>Acceptance Criterion</th>
                                                 </tr>
                                             </thead>
@@ -396,10 +408,10 @@
                                                         <input type="hidden" class="form-control" name="mlmctest_conducted[]" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                     </td>
                                                     <td class="font">
-                                                    <input type="text" class="form-control" required name="mlmcresult[]" id="{{$i<2?'mresult':''}} {{$i}}" placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
+                                                    <input type="text" class="form-control" required name="mlmcresult[]" id="{{$i<2?'mresult':''}}{{$i}}" placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control" required name="mlmcacceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="mla-ac{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
+                                                        <input type="text" class="form-control" required name="mlmcacceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="mla-mannycount{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
                                                 </tr>
                                                 @endfor
@@ -464,7 +476,7 @@
                         <div id="visitfromworld" style="width:100%;">
                         </div>
               
-                    <div class="card-body"> 
+                     <div class="card-body"> 
                         <div class="card-header"><h3>Check to indicate test type</h3></div>
                         <div class="row" style="margin-top: 10px">
                         <div class="col-sm-3" id="fadeout" >
@@ -475,6 +487,12 @@
                             @error('loadanalyses')
                             <small style="margin:15px" class="form-text text-danger" role="alert">
                                 <strong>{{$message}}</strong>
+                            </small>
+                            @enderror
+                            {{-- <input type="hidden" name="doublecheck"> --}}
+                            @error('doublecheck')
+                            <small style="margin:15px;" class="form-text text-danger" role="alert">
+                                <strong style="color:#000">{{$message}}</strong>
                             </small>
                             @enderror
                         </div>
@@ -501,6 +519,7 @@
                             </small>
                             @enderror
                         </div>
+                       
                         <div class="col-sm-3">
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
                         </div>

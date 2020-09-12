@@ -26,7 +26,7 @@ class ProductTableSeeder extends Seeder
             'micro_comment' => 'somecomment text',
             'micro_conclution' => 'some conclution text',
             'micro_dateanalysed' => 'some dateanalysed text',
-            'micro_overall_status' => 'passed',
+            'micro_overall_status' => 1,
             'micro_hod_evaluation' => 1,
 
             'created_at' => date("Y-m-d H:i:s"),
@@ -48,8 +48,8 @@ class ProductTableSeeder extends Seeder
             'micro_comment' => 'somecomment text',
             'micro_conclution' => 'some conclution text',
             'micro_dateanalysed' => 'some dateanalysed text',
-            'micro_overall_status' => 'failed',
-            'micro_hod_evaluation' => 2,
+            'micro_overall_status' => 1,
+            'micro_hod_evaluation' => 1,
 
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
@@ -70,7 +70,7 @@ class ProductTableSeeder extends Seeder
             'micro_comment' => 'somecomment text',
             'micro_conclution' => 'some conclution text',
             'micro_dateanalysed' => 'some dateanalysed text',
-            'micro_overall_status' => 'passed',
+            'micro_overall_status' => 1,
             'micro_hod_evaluation' => 1,
 
             'created_at' => date("Y-m-d H:i:s"),
@@ -79,9 +79,9 @@ class ProductTableSeeder extends Seeder
         ]);
 
         DB::table('products')->insert([
-            'name'   =>  'Alomo',
+            'name'   =>  'Mercy Cream',
             'customer_id'   =>  1,
-            'product_type_id' => 4,
+            'product_type_id' => 7,
             'added_by_id' => 1,
             'price' => 460,
             'quantity' => 10,
@@ -92,8 +92,8 @@ class ProductTableSeeder extends Seeder
             'micro_comment' => 'somecomment text',
             'micro_conclution' => 'some conclution text',
             'micro_dateanalysed' => 'some dateanalysed text',
-            'micro_overall_status' => 'failed',
-            'micro_hod_evaluation' => 2,
+            'micro_overall_status' => 1,
+            'micro_hod_evaluation' => 1,
 
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),

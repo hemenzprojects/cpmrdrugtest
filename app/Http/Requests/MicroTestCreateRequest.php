@@ -36,12 +36,15 @@ class MicroTestCreateRequest extends FormRequest
             'loadanalyses' =>['required','numeric',new MicroTestCreateLoadRule],
             'microbialcount' => ['numeric',new MicroTestCreateCountRule],
             'efficacyanalyses' => ['numeric',new MicroTestCreateEfficacyRule], 
-            
+           
         ];
          
         if ($this->get('microbialcount') == 3) {
             unset($rule['loadanalyses']);
         }
+        // if (($this->get('microbialcount') == 3) && ($this->get('loadanalyses') == 1)) {
+        //     $rule['doublecheck'];
+        // }
       
         return $rule;
     }

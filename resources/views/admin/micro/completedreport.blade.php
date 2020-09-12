@@ -1,9 +1,8 @@
 @include('admin.layout.general.head')
 
 <div class="row">
-    <div class="col-md-2 offprint1" > </div>
-    <div class="col-md-8"  style="width: 100%;">
-        <div class="container-fluid">
+
+        <div class="container">
             <div class="card" style="padding: 15px">
             <form action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
                     {{ csrf_field() }} 
@@ -73,9 +72,7 @@
                                 </td>
                                 <td class="font">
                                     {{$microbial_loadanalyses[$i]->acceptance_criterion}}
-                                </td>
-                                
-                                
+                                </td>                                                          
                             </tr>
                             @endfor
                         </tbody>
@@ -138,11 +135,10 @@
             </div>
         </form>
         </div>
-    </div>
-    <div class="col-md-2 offprint1"> </div>
 
                
 
 </div>
 
 @include('admin.layout.general.scriptsjs')
+

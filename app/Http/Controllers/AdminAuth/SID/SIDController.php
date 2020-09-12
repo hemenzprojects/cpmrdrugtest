@@ -26,6 +26,7 @@ class SIDController extends Controller
 
     public function customer_index()
     {
+    //   return  $data = \App\Admin::all();
         $data['customers'] = Customer::orderBy('id','DESC')->get();
         return View('admin.sid.customers.create', $data); 
     }
@@ -125,7 +126,7 @@ class SIDController extends Controller
     //**************************************** */ PRODUCT SECTION ******************************************
     public function product_index()
     {
-        $data['products'] = Product::orderBy('id','DESC')->get();
+        $data['products'] = Product::orderBy('id','DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
          $data['customers'] = Customer::orderBy('id','DESC')->get();
          
@@ -206,12 +207,11 @@ class SIDController extends Controller
 
             $data['productdepts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept')->get();
             
-              $data['pharmproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
-                $q->where('dept_id',3);})->get();
+            //   $data['pharmproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
+            //     $q->where('dept_id',3);})->get();
 
-            $data['phytoproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
-                $q->where('dept_id',3);})->get();
-
+            // $data['phytoproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
+            //     $q->where('dept_id',3);})->get();
 
              return View('admin.sid.distribution.create', $data); 
          }
@@ -284,9 +284,16 @@ class SIDController extends Controller
                 ];
                 array_push($arrayToInsert, $temp);
             }
-
-    
             $inserted = DB::table('product_depts')->insert($arrayToInsert);
+            
+            $products = Product::where('id',$product_id)->where("micro_overall_status", 1);
+            if(count($products->get()) < 1){
+                return redirect()->back();
+            }
+            $product = $products->first();
+            $product->overall_status = 2;
+            $product->update();
+
             Session::flash("message", "Product Successfully Distrituted.");
             Session::flash("message_title", "success");
     
@@ -308,6 +315,15 @@ class SIDController extends Controller
             ]);
 
             ProductDept::create($data);
+
+            $products = Product::where('id',$request->product_id)->where("micro_overall_status", 1);
+            if(count($products->get()) < 1){
+                return redirect()->back();
+            }
+            $product = $products->first();
+            $product->micro_overall_status = 2;
+            $product->update();
+
             Session::flash("message", "Product Successfully Distributed.");
             Session::flash("message_title", "success");
             return redirect()->route('admin.sid.distribution.create')
@@ -322,11 +338,20 @@ class SIDController extends Controller
 
         public  function deleteProduct($id, $dept_id)
         {   
-         
+            
+           
+            $products = Product::where('id',$id)->where("micro_overall_status", '>', 1);
+            if(count($products->get()) < 1){
+                return redirect()->back();
+            }
+            $product = $products->first();
+            $product->micro_overall_status = 1;
+            $product->update();
+
            $product_dept= ProductDept::where('product_id',$id)->where('dept_id',$dept_id)->first();
            if($product_dept->status == 1){
             $product_dept->delete(); 
-            
+
             Session::flash("message", "Successfully Deleted.");
             Session::flash("message_title", "success");
             return redirect()->route('admin.sid.distribution.create');

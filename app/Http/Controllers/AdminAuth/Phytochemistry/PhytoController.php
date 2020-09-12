@@ -48,7 +48,7 @@ class PhytoController extends Controller
               return redirect()->back();
           }  
 
-            $productdeptstatus = ProductDept::whereIn('id', $deptproduct_id)->where("dept_id", 3)->where("status",  3)->first();
+            $productdeptstatus = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '>',2)->first();
             if ($status < (!empty($productdeptstatus->status) ? $productdeptstatus->status: '')) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Sorry Product(s) is/are now in a work process mode..');
@@ -64,7 +64,7 @@ class PhytoController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
             ];
       
-            ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->update($data);
+            ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '<',3)->update($data);
             
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');

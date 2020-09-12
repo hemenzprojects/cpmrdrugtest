@@ -32,7 +32,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form  id="acceptphamrproductform" sign-user-url="{{route('admin.pharm.checkuser')}}" action="{{route('admin.pharm.acceptproduct')}}" class="" method="POST">
+        <form  id="acceptpharmproductform" sign-user-url="{{route('admin.pharm.checkuser')}}" action="{{route('admin.pharm.acceptproduct')}}" class="" method="POST">
             {{ csrf_field() }}
             <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
           <div class="card">
@@ -62,7 +62,7 @@
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
-                            <th>Distributed by</th>
+                            <th>Delivered by</th>
                             <th>Received by</th>
                             <th>Actions</th>                        
                        </tr>
@@ -78,17 +78,17 @@
                                         </label>
                                     </div>
                                 </td> 
-                                <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}</td>
-                                <td class="font">{{ucfirst($pharmproduct->name)}}</td>
+                                <td class="font">B{{$pharmproduct->pivot->updated_at->format('dym')}}</td>
+                                <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}<br> {{ucfirst($pharmproduct->name)}}</td>
                                 <td class="font">{{ucfirst($pharmproduct->productType->name)}}</td>
                                 <td class="font">{{$pharmproduct->pivot->quantity}}</td>
                                 {!! $pharmproduct->product_status !!}
-                                @foreach ($pharmproduct->productDept->groupBy('id')->first() as $distribution)
-                                <td class="font">{{$distribution->distributed_by_admin}}</td>
-                                <td class="font">{{$distribution->received_by_admin}}</td>
-                                                                        
-                                @endforeach
-                                    
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($pharmproduct->pivot->delivered_by)? \App\Admin::find($pharmproduct->pivot->delivered_by)->full_name:'null')}}
+                                </td>
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($pharmproduct->pivot->received_by)? \App\Admin::find($pharmproduct->pivot->received_by)->full_name:'null')}}
+                                </td>
                                 <td>
                                 <div class="table-actions">
                                                                         
@@ -101,7 +101,7 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                                <h5 class="modal-title" id="demoModalLabel"> Parmmacology Product Details </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
@@ -119,8 +119,8 @@
                                                     <hr><h5>Distribution Details</h5>
                                                     @foreach ($pharmproduct->productDept->groupBy('id')->first() as $distribution)
                                                     <h6>Received By </h6>
-                                                    <small class="text-muted ">{{ucfirst($distribution->received_by_admin)}}</small>
-                                                    <h6>Distributed By </h6>
+                                                    {{-- {{-- <small class="text-muted ">{{ucfirst($distribution->received_by_admin)}}</small>
+                                                    <h6>Distributed By </h6> --}}
                                                     <small class="text-muted">{{ucfirst($distribution->distributed_by_admin)}}</small>
                                                     <h6>Delivered By </h6>
                                                     <small class="text-muted"> {{ucfirst($distribution->delivered_by_admin)}}</small>
@@ -158,9 +158,12 @@
                                 </div>
                             </td>
                         </tr>
+
+
                         @endforeach
                     </tbody>
                 </table>
+                {{-- {{$pharmproduct}} --}}
                 <div class="row" style="margin-top:5px">
                     <div class="col-md-4">
                         <div class="col-md-6">
@@ -184,7 +187,7 @@
                     </div>
                     <div class="col-md-4">
                       <div id="error-div" style="margin: 5px; color:red;"></div>
-                        <input name="adminid" id="adminid"  type="hidden" >
+                        <input name="adminid" id="adminid"  type="hidden" value="">
 
                         <div class="input-group input-group-default">
                             @error('email')

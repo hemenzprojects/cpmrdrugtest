@@ -19,9 +19,9 @@ class CreateProductDeptsTable extends Migration
             $table->integer('dept_id');
             $table->integer('status')->default(1)->comment('1 - pending 2 - received 3 - inprogress 4-completed');
             $table->double('quantity');
-            $table->string('distributed_by')->nullable();
-            $table->string('received_by')->nullable();
-            $table->string('delivered_by')->nullable();
+            $table->integer('distributed_by')->nullable();
+            $table->integer('received_by')->nullable();
+            $table->integer('delivered_by')->nullable();
 
             $table->foreign('dept_id')
                 ->references('id')->on('depts')

@@ -19,6 +19,7 @@ class CreateProductTypesTable extends Migration
             $table->string('name', 32);
             $table->integer('form')->comment('cold or Hot Method');
             $table->integer('state')->comment('Solid or Liquid');
+            $table->integer('method_applied')->comment('Skin or aural');
             $table->text('description')->nullable();
             $table->integer('added_by_id')->nullable();
             $table->timestamps();

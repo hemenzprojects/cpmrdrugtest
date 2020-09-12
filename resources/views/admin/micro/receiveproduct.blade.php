@@ -57,8 +57,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Code</th>
-                            <th>Product Name</th>
+                            <th>Batch No</th>
+                            <th>Product</th>
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
@@ -78,17 +78,19 @@
                                         </label>
                                     </div>
                                 </td> 
-                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</td>
-                                <td class="font">{{ucfirst($microproduct->name)}}</td>
+                                <td class="font">B{{$microproduct->pivot->updated_at->format('dym')}}</td>
+                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} <br>{{ucfirst($microproduct->name)}}</td>
                                 <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                 <td class="font">{{$microproduct->pivot->quantity}}</td>
                                 {!! $microproduct->product_status !!}
-                                @foreach ($microproduct->productDept->groupBy('id')->first() as $distribution)
-                                <td class="font">{{$distribution->delivered_by_admin}}</td>
-                                <td class="font">{{$distribution->received_by_admin}}</td>
-                                                                        
-                                @endforeach
-                                    
+                                
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
+                                </td>
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($microproduct->pivot->received_by)? \App\Admin::find($microproduct->pivot->received_by)->full_name:'null')}}
+                                </td>
+                                                                                                            
                                 <td>
                                 <div class="table-actions">
                                                                         
@@ -105,10 +107,10 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                {{-- <div class="card-body"> 
+                                                <div class="card-body"> 
                                                     
                                                     <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$microproduct->productType->Code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
+                                                    <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
                                                     <h6>Product Type </h6>
                                                     <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
                                                     <h6>Quantity</h6>
@@ -117,15 +119,17 @@
                                                     <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
 
                                                     <hr><h5>Distribution Details</h5>
-                                                    @foreach ($microproduct->productDept->groupBy('id')->first() as $distribution)
                                                     <h6>Received By </h6>
-                                                    <small class="text-muted ">{{ucfirst($distribution->received_by_admin)}}</small>
+                                                    <small class="text-muted ">
+                                                        {{ucfirst(\App\Admin::find($microproduct->pivot->distributed_by)? \App\Admin::find($microproduct->pivot->distributed_by)->full_name:'null')}}
+                                                    </small>
  
                                                     <h6>Delivered By </h6>
-                                                    <small class="text-muted"> {{ucfirst($distribution->delivered_by_admin)}}</small>
-                                                    
-                                                    @endforeach
+                                                    <small class="text-muted">
+                                                        {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
 
+                                                    </small>
+                                                                                                      
                                                     <hr><h5>Customer Details</h5>
                                                     
                                                     <h6>Name</h6>
@@ -146,7 +150,7 @@
                                                     Date: {{$microproduct->pivot->updated_at->format('Y-m-d')}}
                                                     Time: {{$microproduct->pivot->updated_at->format('H:i:s')}}
                                                     </small>
-                                                </div> --}}
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

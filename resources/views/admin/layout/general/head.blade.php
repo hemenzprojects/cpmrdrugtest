@@ -34,9 +34,13 @@
    .font{font-size: 13px}
    .badge-warning {
     background-color: #171819;
-}
+    }
    .dd-handle{
        padding: 12px;
    }
+   .wrapper .page-wrap .app-sidebar.colored .sidebar-content {
+    background-color: #0c2702;
+    }
+
    </style>
 </head>

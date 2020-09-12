@@ -48,7 +48,7 @@
                                 <select name="product_id" style="" class="form-control select2">
                                     @foreach($products as $product)
                                                 
-                                    <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}>{{ucfirst($product->name)}}</option>
+                                    <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}> {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} - {{ucfirst($product->name)}}</option>
                     
                                     @endforeach
                                 </select>

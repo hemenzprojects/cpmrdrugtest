@@ -1,3 +1,5 @@
+@include('admin.layout.general.head')
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -65,7 +67,7 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            {{-- @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
@@ -77,21 +79,105 @@
                         @endif
                     @endauth
                 </div>
-            @endif
+            @endif --}}
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+            <div class="container">
+                <div class="text-center"> 
+                    <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
+                    <div class="title m-b-md" style="margin-top:30px" >
+                        <p style="font-size: 50px;font-family: system-ui;margin-top: -5px; margin-bottom: -5px;"> <strong>DRUG</strong> </p>
 
+                        <p style="font-size: 50px; margin-bottom: 70px;">ANALYSIS SYSTEM </p>
+                        <p style="font-size: 15px; ">Please click your department tab to login </p>
+                    </div>
+                   </div>
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="widget bg-teal">
+                                <div class="widget-header">
+                                    <h3 class="widget-title">Registration</h3>
+                                    <div class="widget-tools pull-right">
+                                        <button type="button" class="btn btn-widget-tool remove-widget "></button>
+                                    </div>
+                                    <div class="progress mt-3 mb-1" style="height: 6px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="http://localhost/drugProject/public/admin/login">
+                                <div class="widget-body">
+                                    Login  <i class="ik ik-log-in"></i>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 ">
+                            <div class="widget bg-teal">
+                                <div class="widget-header">
+                                    <h3 class="widget-title">Pharmacology</h3>
+                                    <div class="widget-tools pull-right">
+                                        <button type="button" class="btn btn-widget-tool remove-widget "></button>
+                                    </div>
+                                    <div class="progress mt-3 mb-1" style="height: 6px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 30%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="http://localhost/drugProject/public/admin/login">
+                                <div class="widget-body">
+                                    Login  <i class="ik ik-log-in"></i>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="widget bg-teal">
+                                <div class="widget-header">
+                                    <h3 class="widget-title">Microbiology</h3>
+                                    <div class="widget-tools pull-right">
+                                        <button type="button" class="btn btn-widget-tool remove-widget "></button>
+                                    </div>
+                                    <div class="progress mt-3 mb-1" style="height: 6px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 30%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="http://localhost/drugProject/public/admin/login">
+                                <div class="widget-body">
+                                    Login  <i class="ik ik-log-in"></i>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="widget bg-teal">
+                                <div class="widget-header">
+                                    <h3 class="widget-title">Phytochemistry</h3>
+                                    <div class="widget-tools pull-right">
+                                        <button type="button" class="btn btn-widget-tool remove-widget "></button>
+                                    </div>
+                                    <div class="progress mt-3 mb-1" style="height: 6px;">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 30%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="http://localhost/drugProject/public/admin/login">
+                                <div class="widget-body">
+                                    Login  <i class="ik ik-log-in"></i>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                  
+                    {{-- <a href="http://localhost/drugProject/public/admin/login">Pharmacology</a>
+                    <a href="http://localhost/drugProject/public/admin/login">Microbiology</a>
+                    <a href="http://localhost/drugProject/public/admin/login">Phytochemistry</a>
+                    <a href="http://localhost/drugProject/public/admin/login">Administration</a>
+                    <a href="http://localhost/drugProject/public/admin/login">System Administrators</a> --}}
+                
                 </div>
             </div>
         </div>

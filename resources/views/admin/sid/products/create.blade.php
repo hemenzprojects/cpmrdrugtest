@@ -86,7 +86,7 @@
                                                     </div>
                                                 
                                             </div>
-                                            <div class="col-sm-3">
+                                             <div class="col-sm-3">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Select Client/Customer</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
@@ -263,12 +263,11 @@
                                             <td class="font">{{$product->created_at}}</td>
                                             <td>
                                                 <div class="table-actions">
-                                                    
-                                                        {!! $product->show_tag !!}
-
-                                                        {!! $product->edit_tag !!}
-                                                    
-                                                    <a href="#"><i class="ik ik-trash-2"></i></a>
+                                                {!! $product->show_tag !!}
+                                                @if ($product->overall_status ==1)
+                                                {!! $product->edit_tag !!}
+                                                @endif
+                                                <a href="#"><i class="ik ik-trash-2"></i></a>
                                                 </div>
                                             </td>
 
@@ -285,4 +284,8 @@
             
             </div>
              </div>
+          
+            
+
+
 @endsection

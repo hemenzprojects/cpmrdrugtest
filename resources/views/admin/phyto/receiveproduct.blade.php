@@ -57,8 +57,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Code</th>
-                            <th>Product Name</th>
+                            <th>Batch No</th>
+                            <th>Product</th>
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
@@ -77,9 +77,9 @@
                                             <span class="custom-control-label">&nbsp; </span>
                                         </label>
                                     </div>
-                                </td> 
-                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}}</td>
-                                <td class="font">{{ucfirst($Phytochemistry->name)}}</td>
+                                </td>
+                                <td class="font">B{{$Phytochemistry->pivot->updated_at->format('dym')}}</td>
+                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} <br> {{$Phytochemistry->name}}</td>
                                 <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
                                 <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
                                 {!! $Phytochemistry->product_status !!}

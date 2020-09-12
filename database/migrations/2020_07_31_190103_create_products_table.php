@@ -24,11 +24,23 @@ class CreateProductsTable extends Migration
             $table->date('exp_date');
             $table->string('company');
             $table->string('indication');
-            $table->string('micro_comment')->nullable();
-            $table->string('micro_conclution')->nullable();
+
+            $table->integer('overall_status')->default(1)->nullable();
+
+            $table->text('micro_comment')->nullable();
+            $table->text('micro_conclution')->nullable();
             $table->string('micro_dateanalysed')->nullable();
-            $table->string('micro_overall_status')->nullable();
-            $table->double('micro_hod_evaluation')->nullable();
+            $table->integer('micro_overall_status')->default(1)->nullable();
+            $table->integer('micro_hod_evaluation')->default(1)->comment('1 - Approval pending 2 - Report Approved');
+            
+            $table->integer('pharm_testconducted')->nullable()->comment('1 - Determal Toxicity Test 2 - Acute Toxicity Test');
+            $table->integer('pharm_overall_status')->default(1)->nullable();
+            $table->integer('pharm_process_status')->default(1)->nullable()->comment('begins from (3-animal experiment)');
+            $table->integer('pharm_hod_evaluation')->default(1)->comment('1 - Approval pending 2 - Report Approved');
+            $table->text('pharm_comment')->nullable();
+            $table->date('pharm_dateanalysed')->nullable();
+            $table->date('pharm_datecompleted')->nullable();
+
 
             $table->integer('added_by_id')->nullable();
 

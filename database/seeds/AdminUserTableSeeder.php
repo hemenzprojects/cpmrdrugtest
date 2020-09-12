@@ -34,7 +34,7 @@ class AdminUserTableSeeder extends Seeder
             'tell'=>'0303933828',
             'user_type_id' => 1,
             'dept_id' => 1,
-            'email'   =>  'paakwasi@gmail.com',
+            'email'   =>  'cpmruser1@gmail.com',
             'password' => Hash::make('123456'),
             'img_url' => 'assets/img/users/1.jpg',
             'created_at' => date("Y-m-d H:i:s"),
@@ -44,12 +44,40 @@ class AdminUserTableSeeder extends Seeder
         
         DB::table('admins')->insert([
             'title'   =>  'Mr',
+            'first_name'   =>  'Stephen',
+            'last_name'   =>  'Akoto',
+            'tell'=>'0245893929',
+            'user_type_id' => 2,
+            'dept_id' => 2,
+            'email'   =>  'cpmruser2@gmail.com',
+            'password' => Hash::make('123456'),
+            'img_url' => 'assets/img/users/1.jpg',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
+
+        DB::table('admins')->insert([
+            'title'   =>  'Mr',
+            'first_name'   =>  'Henry',
+            'last_name'   =>  'Mensah',
+            'tell'=>'0245002838',
+            'user_type_id' => 2,
+            'dept_id' => 3,
+            'email'   =>  'cpmruser3@gmail.com',
+            'password' => Hash::make('123456'),
+            'img_url' => 'assets/img/users/1.jpg',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
+
+        DB::table('admins')->insert([
+            'title'   =>  'Mr',
             'first_name'   =>  'Guard',
             'last_name'   =>  'Dusor',
-            'tell'=>'0245839220',
+            'tell'=>'0245728290',
             'user_type_id' => 2,
             'dept_id' => 4,
-            'email'   =>  'guard@gmail.com',
+            'email'   =>  'cpmruser4@gmail.com',
             'password' => Hash::make('123456'),
             'img_url' => 'assets/img/users/1.jpg',
             'created_at' => date("Y-m-d H:i:s"),

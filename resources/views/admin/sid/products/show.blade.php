@@ -16,9 +16,11 @@
             </div>
             <div class="col-lg-4">
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    @if ($product->overall_status ==1)
                     <a class="btn btn-outline-info" href="{{route('admin.sid.product.edit', ['id' => $product->id])}}">
                         <i class="ik ik-list"></i> Edit Product
                     </a>
+                    @endif
                     <a class="btn btn-outline-danger" href="{{ old('redirect_to', URL::previous())}}">
                         <i class="ik ik-arrow-left"></i> Previous
                     </a>

@@ -1,7 +1,7 @@
 <script src="{{asset('admin/assets/dist/js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/popper.js/dist/umd/popper.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('admin/assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js')}}"></script>zz
+<script src="{{asset('admin/assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/datedropper/datedropper.min.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/moment/moment.js')}}"></script>
 <script src="{{asset('admin/assets/plugins/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js')}}"></script>
@@ -31,8 +31,31 @@
 <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 
 
-
 @yield('bottom-scripts')
+
+
+<script>
+
+
+</script>
+
+
+<script>
+  $(document).ready(function() {
+    var evaluation = $('input[id="evaluation"]').attr("value");
+    if (evaluation === '1') {
+      $('#complete_report').prop("disabled", true);
+    }else{
+      $('#complete_report').prop("disabled", false);
+    }
+  
+    if (evaluation === '2') {
+      $('#submit_report').prop("disabled", true);
+    }
+    console.log(evaluation)
+  });
+  
+  </script>
 <script>
 //this is on the showpage if checked ...
 $(document).ready(function() {
@@ -64,6 +87,31 @@ $(document).ready(function(){
     $(".checkefficacy1").hide();
   }
 
+  var mannycount_la = $('input[id="load_analyses_id"]').attr("value");
+  if (mannycount_la === '3') {
+    $("." + mannycount_la).toggle();
+    $('input[id="result_disabled0"]').val('5.0 x 10^4');
+    $('input[id="result_disabled1"]').val('5.0 x 10^4');
+
+    $('input[id="criterion_disabled0"]').val('5.0 x 10^4');
+    $('input[id="criterion_disabled1"]').val('5.0 x 10^4');
+
+    $(".1").hide();
+
+    $('input[id="load_analyses0"]').prop("disabled", true);
+    $('input[id="load_analyses1"]').prop("disabled", true);
+    $('input[id="load_analyses2"]').prop("disabled", true);
+    $('input[id="load_analyses3"]').prop("disabled", true);
+    $('input[id="load_analyses4"]').prop("disabled", true);
+
+  }if ((mannycount_la === '1')) {
+    $('input[id="mannycount_loadanalyses0"]').prop("disabled", true);
+    $('input[id="mannycount_loadanalyses1"]').prop("disabled", true);
+    $('input[id="mannycount_loadanalyses2"]').prop("disabled", true);
+    $('input[id="mannycount_loadanalyses3"]').prop("disabled", true);
+    $('input[id="mannycount_loadanalyses4"]').prop("disabled", true);
+
+  }
   var product_showtypestate = $('input[id="product_typestate"]').attr("value");
   console.log(product_showtypestate)
   if (product_showtypestate === '77772') {
@@ -77,13 +125,19 @@ $(document).ready(function(){
 
 <script>
   $(document).ready(function(){
-    var loadinput_value = $('input[id="load_analyses_id"]').attr("value");
-    console.log(loadinput_value)
-  if (loadinput_value === '8119200123') {
-    $("." + loadinput_value).toggle();
+    var productstatus_value = $('input[id="product_status"]').attr("value");
+    console.log(productstatus_value)
+  if (productstatus_value === '8119200123') {
+    $("." + productstatus_value).toggle();
+  }
+  var loadanalyses_value = $('input[id="load_analyses"]').attr("value");
+  console.log(loadanalyses_value)
+  if (loadanalyses_value === '02348403') {
+    $("." + loadanalyses_value).toggle();
   }
   })
 </script>
+
 <!-- show table head when page selcet product showmicroreportpage-->
 <script>
 $("#microproduct_id").change(function() {
@@ -91,27 +145,36 @@ $("#microproduct_id").change(function() {
   console.log(product_typeform);
   if (product_typeform === '88882') {
     $('#expresult-1').val('5.0 x 10^7')
+    $('#mla-mannycount1').val('5.0 x 10^7')
+
     $('#expresult-2').val('5.0 x 10^5')
+    $('#mla-mannycount2').val('5.0 x 10^5')
 
   }else{
     $('#expresult-1').val('5.0 x 10^4')
+    $('#mla-mannycount1').val('5.0 x 10^4')
+
     $('#expresult-2').val('5.0 x 10^2')
+    $('#mla-mannycount2').val('5.0 x 10^2')
   }
- 
 })
 </script>
 
 <script>
     $(document).ready(function(){
       $('#stateresult').html('Result (CFU/g)'); 
+      $('#manycount_stateresult').html('Result (CFU/g)'); 
     })
     $("#microproduct_id").change(function(){
       var product_typestate = $('option:selected', this).attr('product_typestate');
      console.log(product_typestate);
     if (product_typestate === '77772') {
       $('#stateresult').html('Result (CFU/ml)'); 
+      $('#manycount_stateresult').html('Result (CFU/ml)'); 
+
     } else
     $('#stateresult').html('Result (CFU/g)'); 
+    $('#manycount_stateresult').html('Result (CFU/g)'); 
     })
   
 </script>
@@ -165,7 +228,8 @@ $("#microproduct_id").change(function() {
           $('#fadeout').fadeOut('slow');
          
         if($(this).prop('checked')){
-          $('input[id="mresult"]').val('3^TMMC');
+          $('input[id="mresult0"]').val('3^TMMC');
+          $('input[id="mresult1"]').val('3^TMMC');
         }
         if($('#microbial_count').not(':checked')){
          $('#fadeout').show();  
@@ -205,6 +269,15 @@ $(document).ready(function(){
   $("#listSearch2").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myList2 li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#listSearch3").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myList3 li").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
@@ -351,7 +424,6 @@ $('#acceptpharmproductform').submit(function(e){
   if (result.status === true)
   {
     $('#adminid').val(result.admin);
-    
     e.currentTarget.submit();
   }
 
@@ -450,9 +522,272 @@ $('#checkusertoacceptproduct').submit(function(e){
       e.preventDefault();
       console.log('attempted to submit form')
      
-})
-    
+})    
   // Continue the form submit
   // e.currentTarget.submit();
+</script>
+  
 
+
+{{-- pharmacology scripts --}}
+<!-- Animal Experimentation maketest -->
+
+<script>
+  var toxic = [];
+  $(document).ready(function(){
+      var i=1;
+    $('#add').click(function(){
+      i++; 
+      $('#dynamic_field').append('<tr id="row'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>   <td class="font"><select class="form-control select2 toxicity1" name="toxicity[]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"> <select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>    <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="1">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+
+      getToxicity(toxic,function(r){
+        console.log(i,r)
+        $(`select[tag=${i}]`).html('')
+        r.forEach(function(item){
+          $(`select[tag=${i}]`).append(`<option class='toxicity${item.id}' value='${item.id}'>${item.name}</option>`)
+        })
+      })
+         $(`select[tag=${i}]`).select2();
+
+      });
+      
+
+      function getToxicity(data,callback){
+        if(data.length>0)
+        {
+          callback(data)
+        }else{
+          $.get("{{url('admin/pharm/animalexperimentation/fetchtoxicity')}}",function(resp){
+            if(resp){
+              toxic = resp.data
+              callback(resp.data)
+            }else{
+              callback(null)
+            }
+          }).fail(function(){
+            callback(null)
+          })
+        }
+      }
+
+    $(document).on('click', '.btn_remove', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row'+button_id+'').remove();
+	});
+  
+  
+  });
+</script>
+
+<script>
+   var toxic1 = [];
+  $(document).ready(function(){
+      var i=1;
+    $('#add_2').click(function(){
+      i++;
+      $('#dynamic_field_2').append('<tr id="row1'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>  <td class="font"><select class="form-control select2 toxicity2" name="toxicity[]" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex2" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"><select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>  <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="2">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_2">X</button></td></tr>');
+
+      getToxicity(toxic1,function(r){
+        console.log(i,r)
+        $(`select[tag=${i}]`).html('')
+        r.forEach(function(item){
+          $(`select[tag=${i}]`).append(`<option value='${item.id}'>${item.name}</option>`)
+        })
+      })
+         $(`select[tag=${i}]`).select2();
+
+    });
+
+
+      function getToxicity(data,callback){
+        if(data.length>0)
+        {
+          callback(data)
+        }else{
+          $.get("{{url('admin/pharm/animalexperimentation/fetchtoxicity')}}",function(resp){
+            if(resp){
+              toxic1 = resp.data
+              callback(resp.data)
+            }else{
+              callback(null)
+            }
+          }).fail(function(){
+            callback(null)
+          })
+        }
+      }
+
+    $(document).on('click', '.btn_remove_2', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row1'+button_id+'').remove();
+	});
+  
+  
+  });
+</script>
+
+<script>
+     var toxic2 = [];
+  $(document).ready(function(){
+      var i=1;
+    $('#add_3').click(function(){
+      i++;
+      $('#dynamic_field_3').append('<tr id="row2'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>  <td class="font"><select class="form-control select2 toxicity3" name="toxicity[]" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex3" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"><select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>  <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="3">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_3">X</button></td></tr>');
+
+      getToxicity(toxic2,function(r){
+        console.log(i,r)
+        $(`select[tag=${i}]`).html('')
+        r.forEach(function(item){
+          $(`select[tag=${i}]`).append(`<option value='${item.id}'>${item.name}</option>`)
+        })
+      })
+         $(`select[tag=${i}]`).select2();
+    });
+
+    function getToxicity(data,callback){
+        if(data.length>0)
+        {
+          callback(data)
+        }else{
+          $.get("{{url('admin/pharm/animalexperimentation/fetchtoxicity')}}",function(resp){
+            if(resp){
+              toxic1 = resp.data
+              callback(resp.data)
+            }else{
+              callback(null)
+            }
+          }).fail(function(){
+            callback(null)
+          })
+        }
+      }
+
+    $(document).on('click', '.btn_remove_3', function(){
+		var button_id = $(this).attr("id"); 
+		$('#row2'+button_id+'').remove();
+	});
+  
+  
+  });
+</script>
+
+<script>
+  $("#pharmproduct_id").change(function() {
+    var product_ma = $('option:selected', this).attr('product_ma');
+   
+    console.log(product_ma);
+    if (product_ma == 2) {
+      $('#pharmtest').find('option[value="2"]').attr("selected",true);
+      $("." + 'methodapp').toggle();  
+    }
+    else{
+      $('#pharmtest').find('option[value="2"]').attr("selected",false);
+      $("." + 'methodapp').hide();
+    }
+  })
+</script>
+
+<script>
+  $("#pharmproduct_id").change(function() {
+var spvolume = $('option:selected', this).attr('spvolume');
+console.log(spvolume);
+ $("." + 'spvolume').val(spvolume);
+   
+  });
+</script>
+
+<script>
+  var male_sex = $('input[id="male_sex"]').attr("value");
+  var female_sex = $('input[id="female_sex"]').attr("value");
+
+  console.log(male_sex)
+ $('input[id="male_sex"]').click(function() {
+    $("." + 'allsex').val(male_sex);
+ });
+ $('input[id="female_sex"]').click(function() {
+    $("." + 'allsex').val(female_sex);
+ });
+</script>
+<script>
+  var male_sex2 = $('input[id="male_sex2"]').attr("value");
+  var female_sex2 = $('input[id="female_sex2"]').attr("value");
+ $('input[id="male_sex2"]').click(function() {
+    $("." + 'allsex2').val(male_sex2);
+ });
+ $('input[id="female_sex2"]').click(function() {
+    $("." + 'allsex2').val(female_sex2);
+ });
+</script>
+
+<script>
+$('#toxicity1').change(function(){
+  if($(this).is(':checked')){
+    console.log('cc')
+    $('select[tag]').val('15').trigger('change') 
+
+  }else{
+    $('select[tag]').val('1').trigger('change')
+    console.log('mm')
+  }
+})
+</script>
+
+<script>
+  var toxicity = $('input[id="toxicity2"]').attr("value");
+
+ $('input[id="toxicity2"]').click(function() {
+    $("." + 'toxicity2').val(2);
+ });
+ 
+</script>
+
+<script>
+  var toxicity = $('input[id="toxicity3"]').attr("value");
+
+ $('input[id="toxicity3"]').click(function() {
+    $("." + 'toxicity3').val(2);
+ });
+ 
+</script>
+
+<script>
+  $("#animal_model").change(function() {
+var animalmodel = $('option:selected', this).val();
+console.log(animalmodel);
+ $("." + 'animalmodel').val(animalmodel);
+   
+  });
+
+</script>
+
+{{-- Hod Evaluation --}}
+
+<script>
+  $(document).ready(function() {
+    var pharm_hod_evaluation = $('input[id="pharm_hod_evaluation"]').attr("value");
+    if (pharm_hod_evaluation === '1') {
+      $('#pharm_complete_report').prop("disabled", true);
+    }else{
+      $('#pharm_complete_report').prop("disabled", false);
+    }
+  
+    if (pharm_hod_evaluation === '2') {
+      $('#pharm_submit_report').prop("disabled", true);
+    }
+    });
+  
+  </script>
+
+  {{-- pharm report display div base on test conducted --}}
+  <script>
+    $(document).ready(function() {    
+  var test_conducted = $('input[id="pharm_test_conducted"]').attr("value");
+  console.log(test_conducted);
+  if (test_conducted == 1) {
+    $(".test" + test_conducted).toggle();
+  }
+  else if (test_conducted == 2) {
+    $(".test" + test_conducted).toggle();
+  }
+    });
   </script>
