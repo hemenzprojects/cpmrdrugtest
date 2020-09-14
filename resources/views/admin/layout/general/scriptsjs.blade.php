@@ -36,7 +36,11 @@
 
 <script>
 
-
+$(document).on("click", "a.deleteText", function() {
+    if (confirm('Are you sure you want to delete?')) {
+        $(this).prev('span.text').remove();
+    }
+});
 </script>
 
 

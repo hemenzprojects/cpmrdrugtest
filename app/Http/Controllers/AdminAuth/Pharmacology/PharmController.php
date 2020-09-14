@@ -334,9 +334,9 @@ class PharmController extends Controller
 
              }
 
-             public function edit_animaltest($id){
+             public function delete_animaltest($id){
 
-              return $id;
+              // return $id;
               $product = Product::where('id',$id)->where("pharm_process_status", 4)->first();
                 if ( $product->pharm_hod_evaluation >1) {
                   Session::flash('message_title', 'error');
@@ -356,6 +356,40 @@ class PharmController extends Controller
               $deleteData->delete(); 
 
               Session::flash("message", "Animal Experiment deleted Successfully");
+              Session::flash("message_title", "success");
+              return redirect()->back();
+             }
+
+             public function update_animaltest(Request $r, $id){
+              // dd($r->all(),$id);
+              $deleteData=PharmAnimalExperiment::where('product_id',$id); 
+              $deleteData->delete(); 
+
+              if ($r->pharm_animal_model) {
+                for ($i=0; $i <  count($r->pharm_animal_model); $i++) { 
+                  PharmAnimalExperiment::create([
+                    'product_id'=>$id,
+                    'pharm_testconducted_id'=>$r->pharm_testconducted,
+                    'animal_model'=>$r->pharm_animal_model[$i],
+                    'weight'=>$r->weight[$i],
+                    'volume'=>$r->volume[$i],
+                    'death'=>$r->death[$i], 
+                    'toxicity'=>$r->toxicity[$i],
+                    'sex'=>$r->sex[$i],
+                    'method'=>$r->method[$i],
+                    'group'=>$r->group[$i],
+                    'period'=>$r->period[$i],
+                    'total_days'=>$r->total_days,
+                    'dosage'=>$r->dosage[$i],
+                    'added_by_id'=> Auth::guard('admin')->id(),
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+              
+                }            
+              }
+               
+              Session::flash("message", "Animal Experiment updated Successfully");
               Session::flash("message_title", "success");
               return redirect()->back();
              }

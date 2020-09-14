@@ -102,6 +102,7 @@ Route::get('/', function () {
    Route::get('pharm/animalexperimentation/maketest','AdminAuth\Pharmacology\PharmController@maketest')->name('admin.pharm.animalexperimentation.maketest');
    Route::post('pharm/animalexperiment/store','AdminAuth\Pharmacology\PharmController@animalexperiment_store')->name('admin.pharm.animalexperiment.store');
    Route::get('pharm/animalexperiment/delete/{id}','AdminAuth\Pharmacology\PharmController@delete_animaltest')->name('admin.pharm.animalexperimentation.delete');
+   Route::post('pharm/animalexperiment/update/{id}','AdminAuth\Pharmacology\PharmController@update_animaltest')->name('admin.pharm.animalexperimentation.update');
    Route::get('pharm/animalexperimentation/recordbook','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook')->name('admin.pharm.animalexperimentation.recordbook');
    Route::get('pharm/animalexperimentation/fetchtoxicity','AdminAuth\Pharmacology\PharmController@animalexperimentation_fetchtoxicity');
 

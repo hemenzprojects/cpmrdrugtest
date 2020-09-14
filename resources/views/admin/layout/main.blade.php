@@ -8,6 +8,7 @@
         <div class="wrapper">
             <header class="header-top" header-theme="light">
                 <div class="container-fluid">
+                    
                     <div class="d-flex justify-content-between">
                         <div class="top-menu d-flex align-items-center">
                             <button type="button" class="btn-icon mobile-nav-toggle d-lg-none"><span></span></button>
@@ -20,6 +21,18 @@
                             </div>
                             <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
                         </div>
+                        @if (Auth::guard('admin')->user()->dept_id ==1)
+                        <h4>MICROBIOLOGY</h4>
+                        @endif
+                        @if (Auth::guard('admin')->user()->dept_id ==2)
+                        <h4>PHARMACOLOGY</h4>
+                        @endif
+                        @if (Auth::guard('admin')->user()->dept_id ==3)
+                        <h4>PHYTOCHEMISTRY</h4>
+                        @endif
+                        @if (Auth::guard('admin')->user()->dept_id ==4)
+                        <h4>ADMNISTRATION</h4>
+                        @endif
                         <div class="top-menu d-flex align-items-center">
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="notiDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-bell"></i><span class="badge bg-danger">3</span></a>
@@ -95,7 +108,7 @@
                 </div>
             </header>
             <div class="page-wrap">
-             @include('admin.layout.sidebar')
+              @include('admin.layout.sidebar')
 
 
                 <div class="main-content">
