@@ -41,6 +41,7 @@ $(document).on("click", "a.deleteText", function() {
         $(this).prev('span.text').remove();
     }
 });
+ 
 </script>
 
 

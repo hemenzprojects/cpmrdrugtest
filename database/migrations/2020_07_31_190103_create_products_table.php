@@ -41,7 +41,11 @@ class CreateProductsTable extends Migration
             $table->date('pharm_dateanalysed')->nullable();
             $table->date('pharm_datecompleted')->nullable();
 
-
+            $table->text('phyto_comment')->nullable();
+            $table->date('phyto_dateanalysed')->nullable();
+            $table->integer('phyto_overall_status')->default(1)->nullable();
+            $table->integer('phyto_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            
             $table->integer('added_by_id')->nullable();
 
             $table->foreign('product_type_id')

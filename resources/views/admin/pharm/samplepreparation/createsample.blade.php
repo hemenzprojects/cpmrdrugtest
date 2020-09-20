@@ -821,7 +821,7 @@
                      
                         </div>
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <button onclick="return confirm('Please click Ok to confirm submission of sample preparation')"  type="submit" class="btn btn-primary mr-2">Submit</button>
                         </div>
                      </div>
                    

@@ -237,7 +237,7 @@
                                 <div class="col-md-12">
                                   
 
-									 <table id="scr-vtr-dynamic" class="table table-striped table-bordered nowrap dataTable">
+									 <table id="order-table2" class="table table-striped table-bordered nowrap dataTable">
 									    <thead>
 									        <tr>
 									            <th>Code</th>
@@ -254,7 +254,11 @@
 									    <tbody>                                                
                                             @foreach($products as $product)
                                             <tr>
-                                            <td class="font">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</td>
+                                            <td class="font">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
+                                                    {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                </span>
+                                                </td>
                                             <td class="font">{{ucfirst($product->name)}}</td>
                                             <td class="font">{{$product->productType->name}}</td>
                                             <td class="font">{{$product->customer_name}}</td>

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div class="card" style="padding: 15px">
+     <div class="card" style="padding: 15px">
           <div class="text-center"> 
             <img src="{{asset('admin/img/logo.jpg')}}" class="" width="9%">
             <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
@@ -173,8 +173,14 @@
        <div class="card" style="padding: 2%">
          
             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-            <textarea class="form-control" rows="4" name="pharm_remmarks">The LD/50 is estimated to be greater than 5000 mg/kg which is greater or equalto the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus,{{$pharmreports->productType->code}} {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}}  may not be toxic and is within the accepted margin of safety (Hodge and Stermer Scale) at the recomended dose.
+            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==1)
+            <textarea class="form-control" rows="4" name="pharm_remmarks" >{{$pharmreports->pharm_comment}}
             </textarea> 
+            @endif
+            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
+            <textarea class="form-control" rows="4" name="pharm_remmarks" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equalto the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus,{{$pharmreports->productType->code}} {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}}  may not be toxic and is within the accepted margin of safety (Hodge and Stermer Scale) at the recomended dose.
+            </textarea> 
+            @endif
               
        </div>
 
@@ -200,25 +206,30 @@
 
         <div class="row">
             <div class="col-9">
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <2)
                 <button type="submit" class="btn btn-success pull-right" id="pharm_submit_report" >
                 <i class="fa fa-credit-card"></i> 
                 Submit for Approval
                 </button>
-
-            
+                @endif
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
                 <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
                 <i class="fa fa-view"></i> Complete Report</button>
-        
+                @endif
                 <input type="hidden" id="report_url" value="{{url('admin/pharm/completedreport/show',['id' => $pharmreports->id])}}">
             
         </div>
-         <div class="col-3">
-            
-            {!! \App\Product::find($pharmreports->id)->pharm_evaluation !!}
-            <input type="hidden" id="pharm_hod_evaluation" value="{{\App\Product::find($pharmreports->id)->pharm_hod_evaluation}}">
+            <div class="col-3">
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==1)
+                <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
+                @endif
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
+               @endif
+                {{-- <input type="hidden" id="pharm_hod_evaluation" value="{{\App\Product::find($pharmreports->id)->pharm_hod_evaluation}}"> --}}
 
-         </div>
-  </form>
+            </div>
+      </form>
     </div>
     </div>
 </div>

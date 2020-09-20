@@ -53,7 +53,7 @@
                         </a>
                     </div>
                 </div>
-                <table id="order-table" class="table table-striped table-bordered nowrap dataTable">
+                <table id="order-table3" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
                         <tr>
                             <th>#</th>

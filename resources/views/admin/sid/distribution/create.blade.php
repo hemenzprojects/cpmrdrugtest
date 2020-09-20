@@ -219,7 +219,7 @@
                                  {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$j}}" data-whatever="@mdo">Open modal for @mdo</button> --}}
                                     </div>  
                                  
-                                    <table id="order-table" class="table table-striped table-bordered nowrap dataTable">
+                                  <table id="order-table" class="table table-striped table-bordered nowrap dataTable">
                                         <thead>
                                             <tr>
                                                 <th>Code</th>
@@ -233,7 +233,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>                                            
-                                            @foreach($dept[$j]->products()->get() as $product)
+                                            @foreach($dept[$j]->products()->with('departments')->orderBy('status')->get() as $product)
                                             <tr>
                                                     <td class="font">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</td>
                                                     <td class="font">{{ucfirst($product->name)}}</td>

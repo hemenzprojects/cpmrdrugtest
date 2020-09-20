@@ -39,8 +39,9 @@
                             </tbody>
                         </table>
                     </div>
-                
-                    <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
+                @foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
+                <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
+                @endforeach
 
                     <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
                         {{-- this table is for too manny microbial count --}}
@@ -242,24 +243,29 @@
 
             <div class="row">
                 <div class="col-9">
+                    @if (\App\Product::find($report_id)->micro_hod_evaluation <2)
                     <button type="submit" class="btn btn-success pull-right" id="submit_report" >
                      <i class="fa fa-credit-card"></i> 
                      Submit for Approval
                     </button>
+                    @endif
 
-                  
+                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
                     <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
                     <i class="fa fa-view"></i> Complete Report</button>
-            
+                    @endif
                     <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $report_id])}}">
-                  
+                    
                 </div>
+                
                 <div class="col-3">
-                    @foreach ($show_productdept as $showproduct)
-                    {!! \App\Product::find($showproduct->product_id)->evaluation !!}
-                    <input type="hidden" id="evaluation" value="{{\App\Product::find($showproduct->product_id)->micro_hod_evaluation}}">
-
-                    @endforeach
+                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==1)
+                    <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
+                    @endif
+                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
+                    <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
+                   @endif
+    
                 </div>
             </div>
         </form>

@@ -183,7 +183,7 @@
                     </div>
                     
                     <div class="col-md-4">   
-                        <button type="submit" class="btn btn-primary mb-2">Submit Selected Product</button>
+                        <button onclick="return confirm('Please click Ok to confirm received product/(s)')" type="submit" class="btn btn-primary mb-2">Submit Selected Product</button>
                     </div>
                     <div class="col-md-4">
                       <div id="error-div" style="margin: 5px; color:red;"></div>

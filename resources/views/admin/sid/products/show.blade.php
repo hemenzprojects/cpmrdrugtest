@@ -65,7 +65,7 @@
                         <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Product details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Product Status</a>
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Product Report Status</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Setting</a>
@@ -131,19 +131,84 @@
                         <div class="card-body">
                            
                             <hr>
-                          
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">80%</span></h6>
+                            
+                           
+                            @foreach ($product->productDept->where('dept_id',1) as $item)
+                            @if($item->status ==1)
+                            <h6 class="mt-30">Microbiology <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
+                            </div>
+                            @endif
+                            @if($item->status ==2)
+                            <h6 class="mt-30">Microbiology <span class="pull-right">40%</span></h6><span>Product about to begin report process </span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
+                            </div>
+                            @endif
+                            @if($item->status ==3)
+                            <h6 class="mt-30">Microbiology <span class="pull-right">70%</span></h6><span>Report preparation in progress</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
+                            </div>
+                            @endif @if($item->status ==4)
+                            <h6 class="mt-30">Microbiology <span class="pull-right">100%</span></h6><span>Report completed</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">0% Complete</span> </div>
+                            </div>
+                            @endif
+                            @endforeach
+         
+                            @foreach ($product->productDept->where('dept_id',2) as $item)
+                            @if($item->status ==1)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">10%</span></h6></h6><span>Product is yet to be distibuted to department </span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%;"> <span class="sr-only">50% Complete</span> </div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
                             </div>
-                            <h6 class="mt-30">Microbiology <span class="pull-right">90%</span></h6>
+                            @endif
+                            @if($item->status ==2)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">40%</span></h6><span>Product about to begin report process </span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
+                            </div>
+                            @endif
+                            @if($item->status ==7)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">70%</span></h6><span>Product under Experimentation</span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
+                            </div>
+                            @endif
+                            @endforeach
+
+                            @foreach ($product->productDept->where('dept_id',3) as $item)
+                           
+                            @if($item->status ==1)
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:90%;"> <span class="sr-only">50% Complete</span> </div>
-                            </div>
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">50%</span></h6>
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">70% Complete</span> </div>
+                            </div>   
+                            @endif
+                            @if($item->status ==2)
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">40%</span></h6><span> Product about to begin report process</span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%;"> <span class="sr-only">50% Complete</span> </div>
-                            </div>
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
+                            </div>   
+                            @endif
+                            @if($item->status ==3)
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">70%</span></h6> <span>Report preparation in progress</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">70% Complete</span> </div>
+                            </div>   
+                            @endif
+                            @if($item->status ==4)
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Report Completed</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">0% Complete</span> </div>
+                            </div>   
+                            @endif
+                            @endforeach
+                            
+                          
                             
                         </div>
                     </div>

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','company','micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_process_status','added_by_id'];
+    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','company','micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','added_by_id'];
    
     public function productType()
     {
@@ -189,4 +190,40 @@ class Product extends Model
     }
 
     }
+
+
+      //*******************************Phytochemistry*********************** */
+
+      public function organolipticReport()
+      {
+          return $this->hasMany("App\PhytoOrganolepticsReport","product_id");
+      }
+       
+      public function phytOrganoliptic()
+      {
+          return $this->belongsToMany('App\PhytoTestConducted', "phyto_organoleptics_reports", 'product_id', 'phyto_testconducted_id')
+          ->withPivot([ 'product_id','phyto_organoleptics_id','id','name','feature']);
+      }
+
+      public function pchemData()
+      {
+          return $this->hasMany("App\PhytoPhysicochemData","product_id");
+      }
+       
+      public function pchemdataReport()
+      {
+          return $this->belongsToMany('App\PhytoTestConducted', "phyto_physicochem_data_reports", 'product_id', 'phyto_testconducted_id')
+          ->withPivot([ 'product_id','phyto_physicochemdata_id','id','name','result']);
+      }
+
+      public function pchemConstituent()
+      {
+          return $this->hasMany("App\PhytoPhysicochemData","product_id");
+      }
+       
+      public function pchemconstReport()
+      {
+          return $this->belongsToMany('App\PhytoTestConducted', "phyto_chemical_constituents_reports", 'product_id', 'phyto_testconducted_id')
+          ->withPivot([ 'product_id','name']);
+      }
 }  

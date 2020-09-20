@@ -212,8 +212,8 @@
                                             <span class="badge  pull-right"
                                             ><strong>Evaluation:</strong> 
                                                 {!! $inprogress->pharm_report_evaluation !!}
-                                            </span>
-                                            @if ($inprogress->pharm_hod_evaluation ==1)
+                                            </span><br>
+                                            @if ($inprogress->pharm_hod_evaluation ==null)
                                             <div class="float-right">
                                                 <a onclick="return confirm('Are you sure of deleting record?')" href="{{url('admin/pharm/animalexperiment/delete',['id' =>$inprogress->id ])}}">
                                                   
@@ -1158,7 +1158,7 @@
             </div>
         </div>
         <div class="col-md-3">   
-            <button type="submit" onclick="return confirm('Great work done. Please ensure that all input field are correct as compare to the experiment made. Thank you')" class="btn btn-primary mb-2"> Complete Experiment</button>
+            <button type="submit" onclick="return confirm('Great work done. Please ensure that all input fields are correct as compare to the experiment made. If set click Ok else cancel to continue report process. Thank you')" class="btn btn-primary mb-2"> Complete Experiment</button>
         </div>
     </div>
     </div>

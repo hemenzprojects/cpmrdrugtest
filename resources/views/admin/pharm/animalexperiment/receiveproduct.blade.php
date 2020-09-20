@@ -159,7 +159,7 @@
             </div>
             
             <div class="col-md-4">   
-                <button type="submit" class="btn btn-primary mb-2">Receive Selected Product</button>
+                <button onclick="return confirm('Please click Ok to confirm received product/(s)')" type="submit" class="btn btn-primary mb-2">Receive Selected Product</button>
             </div>
             <div class="col-md-4">   
                 <select required name="officer" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">

@@ -118,7 +118,7 @@
                                          <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
                                          <div class="submenu-content">
                                              <a href="{{route('admin.phyto.receiveproduct')}}" class="menu-item">Receieve Product</a>
-                                             <a href="#" class="menu-item">Report Preparation</a>
+                                             <a href="{{route('admin.phyto.makereport.index')}}" class="menu-item">Report Preparation</a>
                                              <a href="" class="menu-item"></a>
                                             
                                          </div>

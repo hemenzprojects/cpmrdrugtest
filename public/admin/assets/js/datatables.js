@@ -525,9 +525,21 @@ $(document).ready(function() {
 
     $('#order-table').DataTable({
         "order": [
-            [3, "desc"]
+            [1, "desc"]
         ]
     });
+    $('#order-table2').DataTable({
+        "order": [
+            [6, "desc"]
+        ]
+    });
+    $('#order-table3').DataTable({
+        "order": [
+            [6, "desc"]
+        ]
+    });
+
+
 
     $('#multi-colum-dt').DataTable({
         columnDefs: [{

@@ -79,7 +79,7 @@ Route::get('/', function () {
 
 
 
-   //***************************************Pharmacology Route 
+   //****************************************************Pharmacology Route 
     
    //********* Pharmacology receive product */
    Route::get('pharm/receiveproduct','AdminAuth\Pharmacology\PharmController@receiveproduct_index')->name('admin.pharm.receiveproduct');
@@ -114,12 +114,23 @@ Route::get('/', function () {
     //************************************************Phytochemistry Route 
     
    //********* Phytochemistry receive product */
+
    Route::get('phyto/receiveproduct','AdminAuth\Phytochemistry\PhytoController@receiveproduct_index')->name('admin.phyto.receiveproduct');
    Route::post('/phytochemistry/checkuser','AdminAuth\Phytochemistry\PhytoController@checkuser')->name('admin.phyto.checkuser');
    Route::post('/phytochemistry/accept/product','AdminAuth\Phytochemistry\PhytoController@acceptproduct')->name('admin.phyto.acceptproduct');
-  
-});
 
+   Route::get('phyto/makereport/index','AdminAuth\Phytochemistry\PhytoController@makereport_index')->name('admin.phyto.makereport.index');
+   Route::get('phyto/makereport/show/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_show')->name('admin.phyto.makereport.show');
+   Route::post('phyto/makereport/create/','AdminAuth\Phytochemistry\PhytoController@makereport_create')->name('admin.phyto.makereport.create');
+   Route::post('phyto/makereport/update/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_update')->name('admin.phyto.makereport.update');
+  
+   Route::get('phyto/makereport/organoleptics/delete/{id}','AdminAuth\Phytochemistry\PhytoController@organoleptics_delete')->name('admin.phyto.makereport.organoleptics.delete');
+   Route::post('phyto/makereport/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@organoleptics_update')->name('admin.phyto.makereport.organoleptics.update');
+
+   Route::get('phyto/makereport/physicochemdata/delete/{id}','AdminAuth\Phytochemistry\PhytoController@physicochemdata_delete')->name('admin.phyto.makereport.physicochemdata.delete');
+   Route::post('phyto/makereport/physicochemdata/update','AdminAuth\Phytochemistry\PhytoController@physicochemdata_update')->name('admin.phyto.makereport.physicochemdata.update');
+
+});
 
 Route::group(['prefix' => 'customer'], function () {
   Route::get('/login', 'CustomerAuth\LoginController@showLoginForm')->name('login');

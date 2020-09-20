@@ -23,6 +23,15 @@ class DatabaseSeeder extends Seeder
         $this->call(MicrobialEfficacySeeder::class);
         $this->call(PharmTestConductedSeeder::class);
         $this->call(PharmToxicitySeeder::class);
+        $this->call(PhytoTestConductedSeeder::class);
+        $this->call(PhytochemicalConstituentSeeder::class);
+        $this->call(PhytoOrganolepticsSeeder::class);
+        $this->call(PhytoPhytochemicalSeeder::class);
+       
+
+
+
+
 
 
 

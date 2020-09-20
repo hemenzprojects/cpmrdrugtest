@@ -30,7 +30,7 @@ class PharmController extends Controller
 
     public function receiveproduct_index(){
           
-          $data['dept2'] = Department::find(2)->products()->get();
+          $data['dept2'] = Department::find(2)->products()->with('departments')->orderBy('status')->get();
         
           return View('admin.pharm.receiveproduct', $data); 
 
@@ -338,7 +338,7 @@ class PharmController extends Controller
 
               // return $id;
               $product = Product::where('id',$id)->where("pharm_process_status", 4)->first();
-                if ( $product->pharm_hod_evaluation >1) {
+                if ( $product->pharm_hod_evaluation >0) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Sorry Experiment cant be deleted. In report process mode');
                   return redirect()->back();
@@ -423,6 +423,7 @@ class PharmController extends Controller
 
                public function pharmreport_create(Request $r, $id){
                
+                // dd($r->all());
                  if ($r->date_analysed > \Carbon\Carbon::now()) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Please check date field. Date must not exceed todays date');
@@ -431,7 +432,9 @@ class PharmController extends Controller
       
                 $data1 = [ 
                 'pharm_comment' => $r->pharm_remmarks,
+                'pharm_hod_evaluation' => 1,
                 'pharm_dateanalysed' => $r->date_analysed,
+
                 ];
                 Product::where('id',$id)->where("pharm_process_status", 4)->update($data1);
              
@@ -446,7 +449,7 @@ class PharmController extends Controller
               //     return $q->whereIN("dept_id", [1,2,3])->where("status", 1);
               //   })->get();;
               
-              $data['evaluations'] = Product::with('departments')->whereHas("departments", function($q){
+              $data['evaluations'] = Product::where('pharm_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 

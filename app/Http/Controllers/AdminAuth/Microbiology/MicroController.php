@@ -31,7 +31,7 @@ class MicroController extends Controller
 
     public function receiveproduct_index(){
           
-          $data['dept1'] = Department::find(1)->products()->get();
+          $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
 
           return View('admin.micro.receiveproduct', $data); 
 
@@ -230,7 +230,7 @@ class MicroController extends Controller
                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
                   Session::flash("message_title", "success");
                   return redirect()->route('admin.micro.report.create');
-            }
+             }
 
               public function report_show(MicrobialLoadReport $microbialReport, $id)
               { 
@@ -244,12 +244,8 @@ class MicroController extends Controller
                 $data['show_productdept'] = productDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
           
                 $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-                $data['load_analyses_state'] = MicrobialLoadReport::where('product_id',$id)->first();
-
-
+               
                 $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
-
-                // $data['show_microbial_reportcreator'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
 
                  return view('admin.micro.showreport', $data);
           

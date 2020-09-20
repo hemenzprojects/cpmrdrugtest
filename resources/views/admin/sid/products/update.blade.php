@@ -239,7 +239,7 @@
                                 <div class="col-md-12">
                                   
 
-									 <table id="scr-vtr-dynamic" class="table table-striped table-bordered nowrap dataTable">
+									 <table id="" class="table table-striped table-bordered nowrap dataTable">
 									    <thead>
 									        <tr>
 									            <th>Code</th>
