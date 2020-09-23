@@ -30,7 +30,11 @@ Route::get('/', function () {
   Route::get('/password/reset', 'AdminAuth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
   Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
 
+
   Route::get('/','AdminAuth\AdminController@index');
+
+  Route::get('/profile/create', 'AdminAuth\AdminController@profile_create')->name('admin.profile.create');
+  Route::post('/profile/uploadfile', 'AdminAuth\AdminController@update_admin');
 
   //customers Route
   Route::get('sid/customer/create','AdminAuth\SID\SIDController@customer_index')->name('admin.sid.customer.create');
@@ -75,6 +79,9 @@ Route::get('/', function () {
    Route::post('micro/hod_office/evaluate', 'AdminAuth\Microbiology\MicroController@evaluate')->name('admin.micro.hod_office.evaluate');
    Route::get('micro/hod_office/evaluate_one/{id}/{evaluate}', 'AdminAuth\Microbiology\MicroController@evaluate_one')->name('admin.micro.hod_office.evaluate_one');
 
+   //* General Report Section */
+   Route::get('micro/general_report/index','AdminAuth\Microbiology\MicroController@generalreport_index')->name('admin.micro.general_report.index');
+   Route::get('micro/completed_reports/index/{id}','AdminAuth\Microbiology\MicroController@completedreports_index')->name('admin.micro.completed_reports.index');
 
 
 

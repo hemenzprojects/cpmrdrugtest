@@ -20,6 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('img_url')->default('assets/img/users/user.png');
+            $table->string('sign_url')->nullable();
             $table->string('dept_id');
             $table->string('tell')->nullable();
             $table->string('street_address')->nullable();

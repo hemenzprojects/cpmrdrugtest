@@ -341,7 +341,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th style="display: none">#</th>
                                                     <th>Test Conducted</th>
                                                     <th id="stateresult" class="77772">Result (CFU/g)</th>
                                                     <th>Acceptance Criterion</th>
@@ -350,7 +350,7 @@
                                             <tbody>
                                                 @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
                                                 <tr>
-                                                    <td class="font">
+                                                    <td class="font" style="display: none">
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" name="mltest_id[]" value="{{$MicrobialLoadAnalysis[$i]->id}}" class="custom-control-input" checked="">
                             
@@ -387,7 +387,7 @@
                                         <table class="table table-hover">
                                             <thead >
                                                 <tr class="table-info">
-                                                    <th>#</th>
+                                                    <th style="display: none">#</th>
                                                     <th>Test Conducted</th>
                                                     <th id="manycount_stateresult"> Result (CFU/g)</th>
                                                     <th>Acceptance Criterion</th>
@@ -396,7 +396,7 @@
                                             <tbody>
                                                 @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
                                                 <tr>
-                                                    <td class="font">
+                                                    <td class="font" style="display: none">
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" name="mlmctest_id[]" value="{{$MicrobialLoadAnalysis[$i]->id}}" class="custom-control-input" checked="">
                             
@@ -433,7 +433,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th style="display: none">#</th>
                                                     <th>Pathogen</th>
                                                     <th>Product Inhibition Zone</th>
                                                     <th>Ciprofloxacin Inhibition Zone</th>
@@ -443,7 +443,7 @@
                                             <tbody>
                                                 @foreach($MicrobialEfficacyAnalysis as $metest)
                                                 <tr>
-                                                    <td class="font">      
+                                                    <td class="font" style="display: none">      
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" name="metest_id[]" value="{{$metest->id}}" class="custom-control-input" checked="true">
                             

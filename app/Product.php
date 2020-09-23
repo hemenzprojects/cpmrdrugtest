@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','company','micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation',
-    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','added_by_id'];
+    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','company',
+    'micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
+    'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','added_by_id'];
    
     public function productType()
     {
@@ -153,9 +155,9 @@ class Product extends Model
     public function getReportEvaluationAttribute()
     {
        if($this->micro_hod_evaluation === 1){
-        return '<label class="badge badge-danger"> Withheld</label>';
+        return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
       }elseif ($this->micro_hod_evaluation === 2) {
-        return '<label class="badge badge-success"> Approved</label>';
+        return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
      }
 
     }

@@ -168,9 +168,15 @@
                     </div> 
                   
                        <div class="table-responsive">
-                        
-                        <div class="card-header 768992334039322" style="display: none"><h3>Microbial<strong> Efficacy </strong>Analysis</h3></div>
-                       
+                         @if (is_array($show_microbial_efficacyanalyses)) 
+                            @foreach($show_microbial_efficacyanalyses->groupBy('id')->first() as $efficacyanalyses)
+                            @if ($efficacyanalyses->efficacy_analyses_id ==2)
+                            <div class="card-heade" style="margin: 2%">
+                            <h6>Microbial Efficacy Analysis</h6>
+                            </div>
+                            @endif
+                            @endforeach
+                          @endif
                              <table class="table table-striped table-bordered nowrap dataTable">
                                 <thead class="meatablehead 768992334039322" style="display: none">
                                     <tr class="table-info">
@@ -190,7 +196,7 @@
                                             <td class="font">
                                                 <input type="text" required class="form-control" required name="pi_zone_update[]" placeholder="PI Zone" value="{{$efficacyanalyses->pi_zone}}">
                                                 <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}">
-                                                <input type="hidden" class="form-control" id="pi_zone" name="efficacyanalyses_update" value="{{$efficacyanalyses->efficacy_analyses_id}}">
+                                                <input type="hidden" class="form-control" name="efficacyanalyses_update" value="{{$efficacyanalyses->efficacy_analyses_id}}">
 
                                             </td>
                                             <td class="font">
@@ -212,29 +218,48 @@
                     <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
                         <strong><span>General Comment</span></strong><br><br>
                        
-                    <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($showproduct->product_id)->micro_comment}} </textarea>
+                    <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}} </textarea>
                         <strong><span>Conclution</span></strong><br><br>
                         <div class="input-group">
-                        <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($showproduct->product_id)->micro_conclution}}">
+                        <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($report_id)->micro_conclution}}">
                         </div> 
                    </div>
                   @endforeach
                     <div class="row invoice-info" style="margin: 15px">
-
+                        <?php
+                        $micro_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_analysed_by:'');
+                        $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
+                      ?>
                         <div class="col-sm-4 invoice-col">
                             <p>Analyzed By</p><br>
-
+                            @if (\App\Product::find($report_id)->micro_hod_evaluation >1)
+                            <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                            @endif
                             -----------------------------<br>
-                            {{-- <p>{{ucfirst(\App\Admin::find($show_microbial_reportcreator->added_by_id)? \App\Admin::find($show_microbial_reportcreator->added_by_id)->full_name:'null')}}</p> --}}
+                          
+                            <span>{{ucfirst(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->full_name:'')}}</span>
+                            <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+
                         </div> 
                         <div class="col-sm-4 invoice-col">
                              
                         </div>
                         <div class="col-sm-4 invoice-col">
+                            <?php
+                            $micro_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_appoved_by:'');
+                            $hod_user_type = (\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->user_type_id:'');
+
+                            ?>
                             <p>Supervisor</p><br>
+                            @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
+                            <img src="{{asset(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                            @endif
 
                             ------------------------------<br> 
-                        <p></p>                     
+                         
+                          <span>{{ucfirst(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->full_name:'')}}</span>
+                          <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
+             
                         </div>
 
                     </div>

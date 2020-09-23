@@ -58,6 +58,16 @@
                                          </div>
                                      </div>
                                      <div class="nav-item has-sub">
+                                        <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                        <div class="submenu-content">
+                                        <a href="{{route('admin.micro.general_report.index')}}" class="menu-item">Completed Products</a>
+                                            <a href="" class="menu-item">Pending Products</a>
+                                            <a href="" class="menu-item"></a>
+                                            
+                                   
+                                        </div>
+                                    </div>
+                                     <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
                                          <div class="submenu-content">
                                           <a href="#" class="menu-item">Assign Duty</a>

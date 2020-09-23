@@ -136,7 +136,7 @@ $(document).ready(function(){
     $("." + productstatus_value).toggle();
   }
   var loadanalyses_value = $('input[id="load_analyses"]').attr("value");
-  console.log(loadanalyses_value)
+  console.log( loadanalyses_value)
   if (loadanalyses_value === '02348403') {
     $("." + loadanalyses_value).toggle();
   }
