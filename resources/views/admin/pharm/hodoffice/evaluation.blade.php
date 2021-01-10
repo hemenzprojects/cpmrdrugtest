@@ -115,6 +115,7 @@
                                 <th>Evaluation</th>
                                 <th>Date Analysed</th>  
                                 <th>Date Submited</th> 
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -130,9 +131,10 @@
                                 </td>
                                 <td class="font">
                                     <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$evaluation->id}}" title="View Experiment" href=""></i>  
-                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
-                                    {{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}} |   {{ucfirst($evaluation->name)}}
-                                    </span>
+                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
+                                    {{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}}
+                                    </span><br>
+
                                     </a>
                                 </td>
                                 <td class="font">
@@ -154,7 +156,11 @@
                                 <td class="font">{!! $evaluation->hod_pharm_evaluation !!}</td>
                                 <td class="font">{{$evaluation->pharm_dateanalysed}}</td>
                                 <td class="font">{{$evaluation->updated_at->format('d/m/Y')}}</td>
+                                <td class="font">
+                                    <a href="{{url('admin/pharm/hod_office/evaluate_one',['id' => $evaluation->id])}}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
 
+                                    </td>
+                                  {{-- 
                                 <div class="modal fade" id="exampleModalLong{{$evaluation->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog" style="margin-right: 40%;" role="document">
                                         <div class="modal-content" style="width: 170%; margin-right:20%">
@@ -169,7 +175,6 @@
                                                     <div class="col-md-3 col-6"> <strong>Product</strong>
                                                         <br>
                                                         <p class="text-muted">{{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}} <br>{{$evaluation->name}}</p>
-                                                         {{-- <input type="hidden" name="oneproduct_evaluation" value="{{$product_evaluation->id}}"> --}}
                                                     </div>
                                                     <div class="col-md-3 col-6"> <strong>Product Form</strong>
                                                         <br>
@@ -192,7 +197,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 </tr>
                                  @endforeach
                         </tbody>
@@ -204,9 +209,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select  name="evaluation" class="form-control" id="exampleSelectGender">
-                                        <option value="">Evaluate Report</option>                                        
-                                        <option  value="1" >Withhold</option>
-                                        <option  value="2" >Approve</option>
+                                        <option value="1">Complete Report(s)</option>                                        
+                                        
                                         </select>
                                     </div>
                                 </div>
@@ -217,7 +221,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-7">   
-                                <button type="submit" class="btn btn-primary mb-2">Evaluate Selected Report</button>
+                                <button type="submit" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-primary mb-2">Complete Selected Report(s)</button>
                             </div>
                         </div>
                         </form>

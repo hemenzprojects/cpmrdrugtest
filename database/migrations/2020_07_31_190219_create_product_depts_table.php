@@ -22,7 +22,8 @@ class CreateProductDeptsTable extends Migration
             $table->integer('distributed_by')->nullable();
             $table->integer('received_by')->nullable();
             $table->integer('delivered_by')->nullable();
-
+            $table->date('received_at')->nullable();
+            
             $table->foreign('dept_id')
                 ->references('id')->on('depts')
                 ->onDelete('cascade')

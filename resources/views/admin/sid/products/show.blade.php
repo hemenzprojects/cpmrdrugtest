@@ -16,7 +16,7 @@
             </div>
             <div class="col-lg-4">
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
-                    @if ($product->overall_status ==1)
+                    @if ($product->overall_status <1)
                     <a class="btn btn-outline-info" href="{{route('admin.sid.product.edit', ['id' => $product->id])}}">
                         <i class="ik ik-list"></i> Edit Product
                     </a>
@@ -35,24 +35,34 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-center"> 
-                        <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="150">
-                        <h4 class="card-title mt-10">{{$product->customer->name}}</h4>
+                        <h5>Customer Details</h5>
+                        <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="120">
+                        <h4 class="card-title mt-10"></h4>
                         <p class="card-subtitle"> </p>
                       
                     </div>
                 </div>
                 <hr class="mb-0"> 
                 <div class="card-body"> 
-                    <small class="text-muted d-block">Email address </small>
-                    <h6>{{$product->customer->email}}</h6> 
-                    <small class="text-muted d-block pt-10">Phone</small>
-                    <h6>{{$product->customer->tell}}</h6>
-                    <small class="text-muted d-block pt-10">Alt Phone</small>
-                    <h6>{{$product->customer->tell_alt}}</h6> 
-                    <small class="text-muted d-block pt-10">Street Address</small>
-                    <h6>{{$product->customer->street_address}}</h6>
-                    <small class="text-muted d-block pt-10">House Number</small>
-                    <h6>{{$product->customer->house_number}}</h6>
+                    <div class="card-body"> 
+                        <h6>Name</h6> 
+                        <small class="text-muted d-block">{{$product->customer->name}}</small>
+                        <h6>Email Address</h6> 
+                        <small class="text-muted d-block">{{$product->customer->email}}</small>
+                        <h6>Contact</h6>
+                        <small class="text-muted d-block">{{$product->customer->tell}}</small>
+                        <h6>Company Name</h6>
+                        <small class="text-muted d-block">{{$product->customer->company_name}}</small>
+                        <h6>Company Address</h6>
+                        <small class="text-muted d-block">{{$product->customer->company_address}}</small>
+                        <h6>Company Location</h6>
+                        <small class="text-muted d-block">{{$product->customer->company_location}}</small>
+                        <h6>Company Phone</h6>
+                        <small class="text-muted d-block">{{$product->customer->company_phone}}</small>
+                       
+                        <br>
+                       
+                    </div>
                     <br>
                    
                 </div>
@@ -119,10 +129,17 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="col-md-12 col-12"> <strong>Indication</strong>
+                          <div class="row">
+                            <div class="col-md-6 col-6"> <strong>Dosage</strong>
+                                <br>
+                                <p class="text-muted">{{ucfirst($product->dosage)}}</p>
+                            </div>
+                            <div class="col-md-6 col-6"> <strong>Indication</strong>
                                 <br>
                                 <p class="text-muted">{{ucfirst($product->indication)}}</p>
                             </div>
+                          </div>
+                            
                           
                             
                         </div>
@@ -152,12 +169,14 @@
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
                             </div>
                             @endif @if($item->status ==4)
-                            <h6 class="mt-30">Microbiology <span class="pull-right">100%</span></h6><span>Report completed</span>
+                            <h6 class="mt-30">Microbiology <span class="pull-right">100%</span></h6><span>Product report completed</span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">0% Complete</span> </div>
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
                             @endif
                             @endforeach
+
+
          
                             @foreach ($product->productDept->where('dept_id',2) as $item)
                             @if($item->status ==1)
@@ -172,13 +191,29 @@
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
                             </div>
                             @endif
+                            @if($item->status ==3)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">40%</span></h6><span>Product Test in progress</span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:60%;"> <span class="sr-only">40% Complete</span> </div>
+                            </div>
+                            @endif
+
                             @if($item->status ==7)
                             <h6 class="mt-30">Pharmachology <span class="pull-right">70%</span></h6><span>Product under Experimentation</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
+                            </div>
+                            @endif
+
+                            @if($item->status ==8)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed</span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
                             @endif
                             @endforeach
+
+                            
 
                             @foreach ($product->productDept->where('dept_id',3) as $item)
                            
@@ -201,9 +236,9 @@
                             </div>   
                             @endif
                             @if($item->status ==4)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Report Completed</span>
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed</span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">0% Complete</span> </div>
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>   
                             @endif
                             @endforeach

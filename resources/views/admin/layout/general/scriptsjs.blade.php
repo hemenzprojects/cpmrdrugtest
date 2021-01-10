@@ -243,6 +243,30 @@ $("#microproduct_id").change(function() {
   });
 
 </script>
+<script>
+
+$(document).ready(function() {
+  var rstotal1 = $('input[id="rstotal0"]').attr("value");
+ if (rstotal1 == 0) {
+  $('#manycount0').text('0');
+  }
+  if (rstotal1 == 9900000000) {
+    $('#manycount0').text('3 TNTC');
+  }
+
+  var rstotal2 = $('input[id="rstotal1"]').attr("value");
+  if (rstotal2 == 0) {
+  $('#manycount1').text('0');
+  }
+  if (rstotal2 == 9900000000) {
+    $('#manycount1').text('3 TNTC');
+  }
+  });
+  
+</script>
+
+
+
 
 <!-- model -->
 <!-- Auto complete search -->
@@ -796,3 +820,122 @@ console.log(animalmodel);
   }
     });
   </script>
+
+  {{-- Micro hop signin --}}
+ 
+  <script>
+    $('#hodapproveform').submit(function(e){
+      
+        e.preventDefault();
+        console.log('attempted to submit form')
+        
+        var _token = $('#_token').val()
+        var useremail = $('#useremail').val()
+        var userpassword = $('#userpassword').val()
+    
+      var data = {
+      'email' : useremail,
+      'password' : userpassword,
+      '_token': _token
+      }
+      
+      var form = $(this);
+      var url = form.attr('sign-user-url');
+      var url2 = form.attr('action')
+      $.post(url, data, function(result){
+      console.log(result)
+    
+      if (result.status === true)
+      {
+        $('#adminid').val(result.admin);
+        
+        e.currentTarget.submit();
+      }
+    
+        // display the error message some where on the page with result.message
+      $('#error-div').html(result.message)
+      })
+      
+        // Continue the form submit
+    // e.currentTarget.submit();
+    })
+    </script>
+
+    {{-- Pharm hop signin --}}
+ 
+  <script>
+    $('#pharmhodapproveform').submit(function(e){
+      
+        e.preventDefault();
+        console.log('attempted to submit form')
+        
+        var _token = $('#_token').val()
+        var useremail = $('#useremail').val()
+        var userpassword = $('#userpassword').val()
+    
+      var data = {
+      'email' : useremail,
+      'password' : userpassword,
+      '_token': _token
+      }
+      
+      var form = $(this);
+      var url = form.attr('sign-user-url');
+      var url2 = form.attr('action')
+      $.post(url, data, function(result){
+      console.log(result)
+    
+      if (result.status === true)
+      {
+        $('#adminid').val(result.admin);
+        
+        e.currentTarget.submit();
+      }
+    
+        // display the error message some where on the page with result.message
+      $('#error-div').html(result.message)
+      })
+      
+        // Continue the form submit
+    // e.currentTarget.submit();
+    })
+    </script>
+        {{-- phyto hop signin --}}
+ 
+  <script>
+    $('#phytohodapproveform').submit(function(e){
+      
+        e.preventDefault();
+        console.log('attempted to submit form')
+        
+        var _token = $('#_token').val()
+        var useremail = $('#useremail').val()
+        var userpassword = $('#userpassword').val()
+    
+      var data = {
+      'email' : useremail,
+      'password' : userpassword,
+      '_token': _token
+      }
+      
+      var form = $(this);
+      var url = form.attr('sign-user-url');
+      var url2 = form.attr('action')
+      $.post(url, data, function(result){
+      console.log(result)
+    
+      if (result.status === true)
+      {
+        $('#adminid').val(result.admin);
+        
+        e.currentTarget.submit();
+      }
+    
+        // display the error message some where on the page with result.message
+      $('#error-div').html(result.message)
+      })
+      
+        // Continue the form submit
+    // e.currentTarget.submit();
+    })
+    </script>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','company',
+    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
     'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','added_by_id'];
@@ -23,13 +23,51 @@ class Product extends Model
         return $this->belongsTo('App\Customer', 'customer_id');
     }
 
+    public function account()
+    {
+        return $this->hasMany("App\Account","product_id");
+    }
+
     public function productDept()
     {
         return $this->hasMany("App\ProductDept","product_id");
     }
     public function departments(){
         return $this->belongsToMany('App\Department','product_depts','product_id','dept_id')
-        ->withpivot('quantity','dept_id','status','distributed_by','received_by','delivered_by','created_at','updated_at');
+        ->withpivot('quantity','dept_id','status','distributed_by','received_by','delivered_by','received_at','created_at','updated_at');
+    }
+
+
+    public function getProductStatusAttribute()
+    {
+        if ($this->pivot->status === 1) {
+           return '<td><label class="badge badge-danger">Pending</label></td>';
+        }elseif ($this->pivot->status === 2) {
+            return '<td><label class="badge badge-success">Received</label></td>';
+        }
+        elseif ($this->pivot->status === 3) {
+            return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
+        }
+        elseif ($this->pivot->status === 4) {
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
+        }
+
+        
+
+        elseif (($this->pharm_hod_evaluation < 1) && ($this->pivot->status ===7)) {
+            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>Under Experiment</button></td>';
+        }
+        elseif (($this->pharm_hod_evaluation === 1) && ($this->pivot->status ===7)) {
+            return '<td><button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button></td>';
+        }
+        elseif (($this->pharm_hod_evaluation > 1) && ($this->pivot->status ===7)) {
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>Approved</button></td>';
+        }
+        elseif ($this->pivot->status === 8) {
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
+        }
+
+      
     }
 
     //*******************************Microbiology*********************** */
@@ -54,26 +92,7 @@ class Product extends Model
         ->withPivot(['efficacy_analyses_id','pathogen','pi_zone','ci_zone','fi_zone']);
     }
 
-    public function getProductStatusAttribute()
-    {
-        if ($this->pivot->status === 1) {
-           return '<td><label class="badge badge-danger">Pending</label></td>';
-        }elseif ($this->pivot->status === 2) {
-            return '<td><label class="badge badge-success">Received</label></td>';
-        }elseif ($this->pivot->status === 3) {
-            return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
-        }elseif ($this->pivot->status === 4) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
-        }
 
-        
-        elseif ($this->pivot->status === 7) {
-            return '<td><button type="button" class="btn btn-outline-info btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>Under Experiment</button></td>';
-        }
-        elseif ($this->pivot->status === 8) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
-        }
-    }
 
     //*******************************Pharmacology*********************** */
    
@@ -189,7 +208,7 @@ class Product extends Model
         return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
       }elseif ($this->pharm_hod_evaluation === 2) {
         return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
-    }
+      }
 
     }
 
@@ -207,11 +226,16 @@ class Product extends Model
           ->withPivot([ 'product_id','phyto_organoleptics_id','id','name','feature']);
       }
 
+
       public function pchemData()
       {
           return $this->hasMany("App\PhytoPhysicochemData","product_id");
       }
        
+      public function phytochemdataReport(){
+        return $this->hasMany("App\PhytoPhysicochemDataReport","product_id");
+      }
+
       public function pchemdataReport()
       {
           return $this->belongsToMany('App\PhytoTestConducted', "phyto_physicochem_data_reports", 'product_id', 'phyto_testconducted_id')
@@ -223,9 +247,35 @@ class Product extends Model
           return $this->hasMany("App\PhytoPhysicochemData","product_id");
       }
        
+      public function phytochemconstReport(){
+        return $this->hasMany("App\PhytoChemicalConstituentsReport","product_id");
+      }
+
       public function pchemconstReport()
       {
           return $this->belongsToMany('App\PhytoTestConducted', "phyto_chemical_constituents_reports", 'product_id', 'phyto_testconducted_id')
           ->withPivot([ 'product_id','name']);
       }
+
+
+      public function getPhyHodEvaluationAttribute()
+      {
+         if($this->phyto_hod_evaluation === 1){
+          return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld</button>';
+        }elseif ($this->phyto_hod_evaluation === 2) {
+          return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
+       }
+  
+      }
+
+      public function getPhytoReportEvaluationAttribute()
+      {
+         if($this->phyto_hod_evaluation === 1){
+          return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
+        }elseif ($this->phyto_hod_evaluation === 2) {
+          return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
+        }
+  
+      }
+  
 }  

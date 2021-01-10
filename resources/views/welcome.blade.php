@@ -87,8 +87,8 @@
                     <div class="title m-b-md" style="margin-top:30px" >
                         <p style="font-size: 50px;font-family: system-ui;margin-top: -5px; margin-bottom: -5px;"> <strong>DRUG</strong> </p>
 
-                        <p style="font-size: 50px; margin-bottom: 70px;">ANALYSIS SYSTEM </p>
-                        <p style="font-size: 15px; ">Please click your department tab to login </p>
+                        <p style="font-size: 50px; margin-bottom: 40px;">ANALYSIS MANAGEMENT SYSTEM </p>
+                        <p style="font-size: 20px; ">Please click your department tab to login </p>
                     </div>
                    </div>
                 <div class="links">
@@ -96,7 +96,7 @@
                         <div class="col-lg-3">
                             <div class="widget bg-teal">
                                 <div class="widget-header">
-                                    <h3 class="widget-title">Registration</h3>
+                                    <h3 class="widget-title">SID</h3>
                                     <div class="widget-tools pull-right">
                                         <button type="button" class="btn btn-widget-tool remove-widget "></button>
                                     </div>

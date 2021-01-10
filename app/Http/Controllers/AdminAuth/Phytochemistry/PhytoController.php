@@ -73,6 +73,7 @@ class PhytoController extends Controller
             ];
       
             ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '<',3)->update($data);
+
             
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
@@ -114,6 +115,11 @@ class PhytoController extends Controller
               
              $data['phytoreports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 3);
+             })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+             ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+             $data['phytocompleted_reports'] = Product::with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 3)->where("status", 4);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
              ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
 
@@ -249,7 +255,9 @@ class PhytoController extends Controller
 
             public function makereport_show ($id){
 
-               $data['phytoshowreport'] = Product::with('departments')->whereHas("departments", function($q){
+              $data['report_id'] = $id; 
+
+              $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 3);
                })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
                ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
@@ -265,19 +273,32 @@ class PhytoController extends Controller
 
          
 
-            public function organoleptics_delete($id){
+            public function organoleptics_delete($p_id,$organo_id){
 
-                $deleteData=PhytoOrganolepticsReport::where('phyto_organoleptics_id',$id); 
+              $po_report = PhytoOrganolepticsReport::where('product_id',$p_id);
+              if(count($po_report->get()) < 2){ 
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! This row cant be deleted, Organoleptics cant be empty '); 
+                return redirect()->back();
+              }
+                $deleteData=PhytoOrganolepticsReport::where('phyto_organoleptics_id',$organo_id); 
                 $deleteData->delete(); 
-
+                
                 Session::flash("message", "Organoleptics row deleted");
                 Session::flash("message_title", "success");
                 return redirect()->back();
             }
 
-            public function physicochemdata_delete($id){
+            public function physicochemdata_delete($p_id,$physico_id){
 
-              $deleteData=PhytoPhysicochemDataReport::where('phyto_physicochemdata_id',$id); 
+              $phy_report = PhytoPhysicochemDataReport::where('product_id',$p_id);
+              if(count($phy_report->get()) < 2){ 
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! This row cant be deleted, Physicochemical Data cant be empty '); 
+                return redirect()->back();
+              }
+
+              $deleteData=PhytoPhysicochemDataReport::where('phyto_physicochemdata_id',$physico_id); 
               $deleteData->delete(); 
 
               Session::flash("message", "Organoleptics row deleted");
@@ -334,7 +355,7 @@ class PhytoController extends Controller
             }
             
             public function physicochemdata_update(Request $r){
-             
+            
               $physicochem_name = [];
               $physicochem_result = [];
 
@@ -383,7 +404,10 @@ class PhytoController extends Controller
             }
 
             public function makereport_update(Request $r, $id){
-            //  dd($r->all());
+          
+              $data = $r->validate([
+              'chemicalconst' => 'required', 
+               ]);
               $deleteData=PhytoChemicalConstituentsReport::where('product_id',$id); 
               $deleteData->delete(); 
 
@@ -410,11 +434,163 @@ class PhytoController extends Controller
                 $product->phyto_comment = $r->comment;
                 $product->phyto_hod_evaluation = 1;
                 $product->phyto_dateanalysed = $r->date_analysed;
+                $product->phyto_analysed_by = Auth::guard('admin')->id();
+
                 $product->update();
 
                 Session::flash("message", "Report successfully updated.");
                 Session::flash("message_title", "success");
                 return redirect()->back();
             }
+
+               //***********************HoD Office */
+  
+
+               public function hodoffice_evaluation(){
+              
+                 $data['evaluations'] = Product::where('phyto_hod_evaluation','>',0)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 3)->where("status", 3);
+                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+  
+                 $data['withhelds'] = Product::where('phyto_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 3)->where("status", 3);
+                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+                 $data['approvals'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 3)->where("status", 3);
+                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+                 $data['completeds'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 3)->where("status", 4);
+                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+    
+                  return view('admin.phyto.hodoffice.evaluation',$data);
+    
+                }
+
+                  public function evaluate_one_index($id){
+             
+                  $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 3)->where("status",3);
+                   if(count($productdepts->get()) < 1){     
+                     return redirect()->route('admin.phyto.hod_office.approval');
+                   }  
+
+                   $data['report_id'] = $id; 
+
+                   $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+                    return $q->where("dept_id", 3)->where("status",3);
+                  })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                  ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
+                  
+                   return view('admin.phyto.hodoffice.showreport',$data);
+                 }
+
+                 public function evaluate(Request $r){
+
+                    // dd($r->all());
+                  if ($r->evaluation == null) {
+                    Session::flash('message_title', 'error');
+                      Session::flash('message', 'Please select options to evaluate report');
+                    return redirect()->back();
+                  }
+                  if ($r->evaluated_product == null) {
+                    Session::flash('message_title', 'error');
+                      Session::flash('message', 'Please select required reports for evaluation');
+                    return redirect()->back();
+                  }
+
+                  $products = Product::whereIn('id',$r->evaluated_product)->where("phyto_hod_evaluation", 2)->with('departments')->whereHas("departments", function($q){
+                    return $q->where("dept_id", 3)->where("status", 3);
+                  });
+                  if(count($products->get()) < 1){     
+                       Session::flash('message_title', 'error');
+                       Session::flash('message', 'Selected product needs to be approved before completion.');
+                       return redirect()->back();
+                   }  
+                  else{
+    
+                  $p_ids =  $products->pluck('id')->toArray();
+                  $productdepts = ProductDept::whereIn('product_id',$p_ids)->where("dept_id", 3)->where("status",3);
+                  if(count($productdepts->get()) < 1){     
+                      return redirect()->back();
+                  }
+                  $productdepts->update(['status' => 4]);
+                  }
+    
+                  Session::flash("message", "Report Evaluation completed.");
+                  Session::flash("message_title", "success");
+                
+                  return redirect()->back();
+                 }
+                  
+                 public function checkhodsign(Request $request){
+             
+                  $userEmail = $request->get('email');
+                  $adminPassword = $request->get('password');
+      
+                  $checkallmail = Admin::where('email', '=', $userEmail)->first();
+                  $checkmailonly = Admin::where('dept_id',3)->where('email', '=', $userEmail)->first();
+                  $admin = Admin::where('dept_id',3)->where('user_type_id',1)->where('email', '=', $userEmail)->first();
+      
+                  if (!$checkallmail) {
+                    return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
+                  }
+                  if (!$checkmailonly) {
+                    return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);
+                  }
+                  if(!$admin){
+                    return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
+                  }
+                  if(!Hash::check($adminPassword, $admin->password)){
+                    return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+                  }
+                  
+                  return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+                  
+                }
+
+                public function evaluate_one_edit(Request $r, $id){
+
+                  if ($r->evaluate <1) {
+                    Session::flash('message_title', 'error');
+                    Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+                    return redirect()->back();
+                  }
+                  if ($r->evaluate >2) {
+                    Session::flash('message_title', 'error');
+                    Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+                    return redirect()->back();
+                  }
+                   Product::where('id',$id)->update([
+                    'phyto_hod_evaluation'=> $r->evaluate,
+                    'phyto_appoved_by'=>$r->adminid,
+                  ]); 
+      
+                 Session::flash("message", "Report Evaluation completed.");
+                 Session::flash("message_title", "success");  
+                 return redirect()->back();
+                 }
+
+            //*************************************************** General Report Section ************************** */\
+             
+             public function completedreport_show($id){
+              
+          
+             $data['report_id'] = $id; 
+
+              $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+               return $q->where("dept_id", 3)->where("status",3);
+             })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+             ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
+
+             return view('admin.phyto.completedreport',$data);
+             
+          }
+
 }
 

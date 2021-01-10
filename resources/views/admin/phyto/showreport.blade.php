@@ -113,7 +113,7 @@
                                 <td class="font"><input class="form-control" type="text" name="organolepticsfeature_ {{$organo_item->pivot->id}} " value="{{$organo_item->pivot->feature}}"></td>
                                 @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
                                     <td > 
-                                    <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/organoleptics/delete',['id' => $organo_item->pivot->phyto_organoleptics_id])}}">
+                                    <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/organoleptics/delete',['p_id' => $phytoshowreport->id, 'organo_id' => $organo_item->pivot->phyto_organoleptics_id ])}}">
                                     <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>
                                     </a> 
                                     </td>
@@ -173,16 +173,16 @@
                             </div>
                         </div>
                         <table class="table table-inverse">                      
-                            <tbody>
+                        <tbody>
                                 @foreach ($phytoshowreport->pchemdataReport as $physicochem_item)
                                 <tr>
                                     @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
-                                {{-- <th>
+                                  {{-- <th>
                                     <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$physicochem_item->pivot->id}}" checked>
                                     <span class="custom-control-label">&nbsp;</span>
                                     </label>
-                                </th> --}}
+                                  </th> --}}
                                 @endif
                                 <td class="font" style="width: 300px"><strong>{{$physicochem_item->pivot->name}} :</strong></td>
                                 <input type="hidden" name="physicochemname_{{$physicochem_item->pivot->id}}" value="{{$physicochem_item->name}}">
@@ -192,7 +192,7 @@
                                 
                                 </a> 
                                 <td >
-                                    <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/physicochemdata/delete',['id' => $physicochem_item->pivot->phyto_physicochemdata_id])}}">
+                                    <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/physicochemdata/delete',['p_id' => $phytoshowreport->id, 'physico_id' => $physicochem_item->pivot->phyto_physicochemdata_id])}}">
                                     <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>
                                 </td>
                                 @endif
@@ -215,7 +215,11 @@
                  <input type="hidden" name="phyto_testconducted_3" value="{{\App\PhytoTestConducted::find(3)->id}}">
                  <div class="form-group">
                      <p> 
-                     
+                        @error('chemicalconst')
+                        <small style="margin:15px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
                      </p>
                      <select class="form-control select2" name="chemicalconst[]" multiple="multiple">
                          @foreach ($phytoshowreport->pchemconstReport as $pchemconst_item)
@@ -229,13 +233,56 @@
                          @endforeach
                      
                      </select>
+
                  </div>
                           
                  <h6 style="margin-top: 2%">REMARKS</h6>
-            <textarea class="form-control" name="comment" id="" cols="30" rows="3"> {{$phytoshowreport->phyto_comment}}</textarea>
+                  <textarea class="form-control" name="comment" id="" cols="30" rows="3"> {{$phytoshowreport->phyto_comment}}</textarea>
                
-                 <h6 style="margin-top: 2%">DATE ANALYSED</h6>
+                  <h6 style="margin-top: 2%">DATE ANALYSED</h6>
                  <input class="form-control" required type="date" name="date_analysed" value="{{$phytoshowreport->phyto_dateanalysed}}" style="width:250px">
+
+                 <div class="row invoice-info" style="margin: 15px">
+                    <?php
+                    $phyto_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_analysed_by:'');
+                    $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
+                    ?>
+                    <div class="col-sm-4 invoice-col">
+                        <p>Analyzed By</p><br>
+                        @if (\App\Product::find($report_id)->phyto_hod_evaluation >null)
+                        <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                        @endif
+                        -----------------------------<br>
+                      
+                        <span>{{ucfirst(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->full_name:'')}}</span>
+                        <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+
+                    </div> 
+                    <div class="col-sm-4 invoice-col">
+                         
+                    </div>
+                    <div class="col-sm-4 invoice-col">
+                        <?php
+                        $phyto_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_appoved_by:'');
+                        $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
+
+                        ?>
+                        <p>Supervisor</p><br>
+
+                        @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
+
+                        <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                        @endif
+
+                        ------------------------------<br> 
+    
+                      <span>{{ucfirst(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->full_name:'')}}</span>
+                      <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
+         
+                    </div>
+
+                </div>
+
                  <div class="row" style="margin-top: 5%">
                      <div class="col-9">
                          @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)

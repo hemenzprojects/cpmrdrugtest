@@ -45,11 +45,11 @@
                                     <div class="card-body">
                                         <div class="form-group row">
                             
-                                            <div class="col-sm-3">
-                                                <label class="sr-only" for="inlineFormInputGroupUsername2">name</label>
+                                            <div class="col-sm-4">
+                                                <label class="sr-only" for="inlineFormInputGroupUsername2"></label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Name</div>
                                                     </div>
                                                 <input type="text" required class="form-control" id="inlineFormInputGroupUsername2" name="name" placeholder="Product Name" value="{{old('name')? old('name'): ''}}">
                                                 
@@ -62,11 +62,11 @@
                                                 @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Select Product Type</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Product Type</div>
                                                     </div>
                                                     <select required name="product_type_id" style="" class="form-control select2">
                                                         <option value="">Select Product Type</option>
@@ -86,17 +86,17 @@
                                                     </div>
                                                 
                                             </div>
-                                             <div class="col-sm-3">
+                                             <div class="col-sm-4">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Select Client/Customer</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Client</div>
                                                     </div>
                                                     <select required name="customer_id" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                         <option value="">Select Client/Customer</option>
                                                         @foreach($customers as $customer)
                                                                         
-                                                        <option  value="{{$customer->id}}" {{$customer->id == old('customer_id')? "selected":""}}>{{$customer->name}}</option>
+                                                        <option  value="{{$customer->id}}" {{$customer->id == old('customer_id')? "selected":""}}>{{$customer->name}} | {{$customer->company_name}}</option>
                     
                                                         @endforeach
                                                     </select>
@@ -109,28 +109,27 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="sr-only" for="inlineFormInputGroupUsername2">name</label>
+                                            <div class="col-sm-4">
+                                                <label class="sr-only" for="inlineFormInputGroupUsername2"></label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Dosage</div>
                                                     </div>
-                                                <input required type="text" class="form-control" id="inlineFormInputGroupUsername2" name="company" placeholder="Company" value="{{old('company')? old('company'): ''}}">
-                                                
+                                                <input required type="text" class="form-control" id="inlineFormInputGroupUsername2" name="dosage" placeholder="Dosage" value="{{old('dosage')? old('dosage'):'' }}">
                                                 </div>
                                                 <div>
-                                                    @error('company')
+                                                 @error('dosage')
                                                 <small style="margin:15px" class="form-text text-danger" role="alert">
                                                     <strong>{{$message}}</strong>
                                                 </small>
                                                 @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">quantity</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Qty</div>
                                                     </div>
                                                     <input required type="string" class="form-control" id="inlineFormInputGroupUsername2" name="quantity" placeholder="Quantity" value="{{old('quantity')? old('quantity'): ''}}">
                                                 </div>
@@ -149,7 +148,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Mfg</div>
                                                     </div>
-                                                  <input required class="form-control" type="date" placeholder="Date Manufactured" name="mfg_date" value="{{old('mfg_date')? old('mfg_date'): ''}}">
+                                                  <input  class="form-control" type="date" placeholder="Date Manufactured" name="mfg_date" value="{{old('mfg_date')? old('mfg_date'): ''}}">
                                                 </div>  
                                                 <div>
                                                   @error('mfg_date')
@@ -165,7 +164,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Exp</div>
                                                     </div>
-                                                     <input required class="form-control" type="date" placeholder="Date Expired"  name="exp_date" value="{{old('exp_date')? old('exp_date'): ''}}">
+                                                     <input class="form-control" type="date" placeholder="Date Expired"  name="exp_date" value="{{old('exp_date')? old('exp_date'): ''}}">
                                                 </div>
                                                 <div>
                                                      @error('exp_date')
@@ -193,9 +192,9 @@
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Amount Paid</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Amt</div>
                                                     </div>
-                                                    <input required type="text" class="form-control" id="inlineFormInputGroupUsername2" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
+                                                    <input required type="text" class="form-control" id="" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
                                                 </div>
                                                 <div>
                                                     @error('price')
@@ -268,14 +267,33 @@
                                             <td>
                                                 <div class="table-actions">
                                                 {!! $product->show_tag !!}
-                                                @if ($product->overall_status ==1)
+
+                                                @if ($product->overall_status <1)
                                                 {!! $product->edit_tag !!}
                                                 @endif
-                                                <a href="#"><i class="ik ik-trash-2"></i></a>
+
+                                                <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
+                                                <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
+                                                </a>
                                                 </div>
                                             </td>
 
                                             </tr>
+                                            <div class="modal fade" id="exampleModalCenter{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterLabel">Transactional Details</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                        </div>
+                                                       
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @endforeach
 									    </tbody>
 									</table>

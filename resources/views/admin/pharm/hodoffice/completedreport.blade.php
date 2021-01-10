@@ -81,7 +81,7 @@
                                     <a href="{{url('admin/pharm/completedreport/show',['id' => $report->id])}}">
                                      
                                     <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
-                                    {{$report->productType->code}}|{{$report->id}}|{{$report->created_at->format('y')}} |   {{ucfirst($report->name)}}
+                                    {{$report->productType->code}}|{{$report->id}}|{{$report->created_at->format('y')}}
                                     </span>
                                     </a>
                             </td>

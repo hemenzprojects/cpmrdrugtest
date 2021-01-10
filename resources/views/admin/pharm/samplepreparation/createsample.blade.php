@@ -69,7 +69,7 @@
                                         <span href="" class="badge  pull-right" style="background-color:red; color:#fff">
                                         {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
                                         </span>
-                                          <span>{{ucfirst($sample_prep->name)}}</span>
+                                          {{-- <span>{{ucfirst($sample_prep->name)}}</span> --}}
                                         </p>
                                         <span href="" class="badge pull-right">
                                             <p style="font-size: 11.5px;margin: 2px"><strong>Animal Exp:</strong> {!! $sample_prep->pharm_product_status !!}</p> 
@@ -99,7 +99,7 @@
                                               <div class="col-sm-6">
                                                   
                                             <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}} |   {{ucfirst($sample_prep->name)}}</small>
+                                            <small class="text-muted ">{{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}</small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($sample_prep->productType->name)}}</small>
                                             <h6>Quantity</h6>                                         
@@ -109,7 +109,9 @@
                                             <small class="text-muted "></small>
                                             <h6>Indication</h6>
                                             <p class="text-muted"> {{ ucfirst($sample_prep->indication)}}<br></p>
-                                              </div>
+                                            <h6>Dosage</h6>
+                                            <p class="text-muted"> {{ ucfirst($sample_prep->dosage)}}<br></p>
+                                             </div>
 
                                              <div class="col-sm-6">
                                                 <h5>Test Conducted</h5>
@@ -223,7 +225,7 @@
                                         {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
                                         </span>
                                         </a> 
-                                         <span>{{ucfirst($inprogress->name)}}</span>
+                                         <span></span>
                                         </p>
                                           <span> <strong>Test :</strong> 
                                           {{\App\PharmTestConducted::find($inprogress->pharm_testconducted)->name}}

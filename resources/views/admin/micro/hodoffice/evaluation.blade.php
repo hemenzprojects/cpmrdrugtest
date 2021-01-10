@@ -145,7 +145,8 @@
                                             {{ csrf_field() }}
                                         <table id="order-table" class="table table-striped table-bordered table dataTable" style="overflow-x:scroll">
                                             <thead>
-                                                <tr><th>#</th>
+                                                <tr>
+                                                    <th>#</th>
                                                     <th>Product</th>
                                                     <th>Test conducted</th>
                                                     <th>Assigned To</th>
@@ -188,125 +189,10 @@
                                                 {{$product_evaluation->micro_dateanalysed}}
                                                 </td>
                                                 <td class="font">
-                                                <a href="#!"><i class="ik ik-eye f-16 mr-15 text-green" data-toggle="modal" data-target="#exampleModalLong{{$product_evaluation->id}}"></i></a>
+                                                <a href="{{url('admin/micro/hod_office/evaluate_one',['id' => $product_evaluation->id])}}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
+
                                                 </td>
                                                 </tr>
-
-                                                <div class="modal fade" id="exampleModalLong{{$product_evaluation->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" style="display: none;" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content"  style="width: 160%">
-                                                                                                                    
-                                                                <div class="text-center" style="margin-top: 10px"> 
-                                                                    <img src="{{asset('admin/img/logo.jpg')}}" class="" width="9%">
-                                                                    <h5 class="font" style="font-size:16px"> Microbiology Department Centre for Plant Medicine Research </h5>
-                                                                    <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
-                                                                </div>
-                                                        
-                                                        <div class="modal-body">
-                                               
-                                                                <div class="row" style="margin:5px; padding:15px; background:#f7f4f4">
-                                                                
-                                                                    <div class="col-md-3 col-6"> <strong>Product</strong>
-                                                                        <br>
-                                                                        <p class="text-muted">{{$product_evaluation->productType->code}}|{{$product_evaluation->id}}|{{$product_evaluation->created_at->format('y')}} <br>{{$product_evaluation->name}}</p>
-                                                                         <input type="hidden" name="oneproduct_evaluation" value="{{$product_evaluation->id}}">
-                                                                    </div>
-                                                                    <div class="col-md-3 col-6"> <strong>Product Form</strong>
-                                                                        <br>
-                                                                        <p class="text-muted">{{$product_evaluation->productType->name}}</p>
-                                                                    </div>
-                                                                    <div class="col-md-3 col-6"> <strong>Date Received</strong>
-                                                                        <br>
-                                                                        @foreach (\App\productDept::where('product_id',$product_evaluation->id)->where('status',3)->where('dept_id',1)->get(); as $report)
-                                                                        <p class="text-muted"> {{$report->updated_at->format('d/m/Y')}} </p>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <div class="col-md-3 col-6"> <strong>Date Analysed</strong>
-                                                                        <br>
-                                                                        <p class="text-muted">{{$product_evaluation->micro_dateanalysed}} </p>
-                                                                    </div>
-                                                                </div>
-
-                                                                {{-- loadAnalyses view --}}
-
-                                                                <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
-
-                                                                <div class="row" style="margin: 10px; padding:15px; background:#f7f4f4">
-                                                                
-                                                                    <div class="col-md-4 col-6"> <strong>Test Conducted</strong><br>
-                                                                        <br>
-                                                                        @foreach (\App\MicrobialLoadReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mlreport)
-                                                                            {{$mlreport->test_conducted}}<hr>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <div class="col-md-4 col-6"> <strong>Result (CFU/ml)</strong><br>
-                                                                        <br>
-                                                                        @foreach (\App\MicrobialLoadReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mlreport)
-                                                                        {{$mlreport->result}}<hr>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <div class="col-md-4 col-6"> <strong>Accepted Criterion (BP, 2016)</strong><br>
-                                                                        <br>
-                                                                        @foreach (\App\MicrobialLoadReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mlreport)
-                                                                        {{$mlreport->acceptance_criterion}}<hr>
-                                                                        @endforeach
-                                                                    </div>   
-                                                            </div>
-
-                                                                    {{-- efficacyAnalyses table --}}
-
-                                                            <div class="card-header"><h3>Microbial<strong> Efficacy </strong>Analysis</h3></div>
-                                                            <div class="row" style="margin: 10px; padding:15px; background:#f7f4f4">
-                                                                
-                                                                <div class="col-md-4 col-6"> <strong>Pathogens</strong><br><br>
-                                                                    <br>
-                                                                    @foreach (\App\MicrobialEfficacyReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mereport)
-                                                                        {{$mereport->pathogen}}<hr>
-                                                                    @endforeach
-                                                                </div>
-                                                                <div class="col-md-3 col-6"> <strong>Product <br>Inhibition Zone</strong><br>
-                                                                    <br>
-                                                                    @foreach (\App\MicrobialEfficacyReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mereport)
-                                                                        {{$mereport->pi_zone}}<hr>
-                                                                    @endforeach
-                                                                </div>
-                                                                <div class="col-md-3 col-6"> <strong>Ciprofloxacin Inhibition Zone</strong><br>
-                                                                    <br>
-                                                                    @foreach (\App\MicrobialEfficacyReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mereport)
-                                                                        {{$mereport->ci_zone}}<hr>
-                                                                    @endforeach
-                                                                </div>
-                                                                <div class="col-md-2 col-6"> <strong>Flouconazole Inhibition Zone</strong><br>
-                                                                    <br>
-                                                                    @foreach (\App\MicrobialEfficacyReport::where('product_id',$product_evaluation->id)->orderBy('id','ASC')->get(); as $mereport)
-                                                                        {{$mereport->fi_zone}}<hr>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-
-                                                            {{-- comment and conclution --}}
-                                                            
-    
-                                                            <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                                                                <strong><span>General Comment</span></strong><br><br>
-                                                                    <P>{{$product_evaluation->micro_comment}}</P>
-                                                                <strong><span>Conclution</span></strong><br><br>
-                                                                <div class="input-group">
-                                                                <P>{{$product_evaluation->micro_conclution}}</P>
-                                                                </div> 
-                                                            </div>
-                                                             <input type="hidden" value="2" name="approve">
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                            <a href="{{url('admin/micro/hod_office/evaluate_one',['id' => $product_evaluation->id, 'evaluate' => 1])}}"><button type="button" class="btn btn-secondary">Withheld</button></a>
-
-                                                            <a href="{{url('admin/micro/hod_office/evaluate_one',['id' => $product_evaluation->id, 'evaluate' => 2])}}"><button type="button" class="btn btn-primary">Approve</button></a>
-                                                            </div>
-                                                      
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             @endforeach 
                                             </tbody>
                                         </table>
@@ -314,10 +200,9 @@
                                             <div class="col-md-5">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <select  name="evaluation" class="form-control" id="exampleSelectGender">
-                                                        <option value="">Evaluate Report</option>                                        
-                                                        <option  value="1" >Withhold</option>
-                                                        <option  value="2" >Approve</option>
+                                                        <select  name="evaluation" class="form-control" id="exampleSelectGender">                                      
+                                                        <option  value="1" >Complete Report</option>
+                                                        {{-- <option  value="2" >Approve</option> --}}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -328,7 +213,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-7">   
-                                                <button type="submit" class="btn btn-primary mb-2">Evaluate Selected Report</button>
+                                                <button  type="submit" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-primary mb-2">Complete Selected Report(s)</button>
                                             </div>
                                         </div>
                                         </form>

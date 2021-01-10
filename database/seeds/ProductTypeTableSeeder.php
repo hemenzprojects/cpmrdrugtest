@@ -20,6 +20,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>1,
+          'pharm_standard_id'=>null,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -31,6 +32,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 2,
           'method_applied'=>1,
+          'pharm_standard_id'=>null,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -44,6 +46,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 2,
           'method_applied'=>1,
+          'pharm_standard_id'=>null,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
       ]);
@@ -54,7 +57,8 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'added_by_id'   =>  1,
-          'method_applied'=>2,
+          'method_applied'=>1,
+          'pharm_standard_id'=>null,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
       ]);
@@ -65,6 +69,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>2,
+          'pharm_standard_id'=>null,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -72,10 +77,11 @@ class ProductTypeTableSeeder extends Seeder
          DB::table('product_types')->insert([
           'code'   =>  'OT',
           'name'   =>  'Ointment',
-          'description'   =>  'This is Ointment',
+          'description'   => 'This is Ointment',
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>2,
+          'pharm_standard_id'=>3,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -87,6 +93,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>2,
+          'pharm_standard_id'=>1,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -98,6 +105,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>2,
+          'pharm_standard_id'=>2,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -109,6 +117,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 2,
           'state'=> 1,
           'method_applied'=>1,
+          'pharm_standard_id'=>null,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -121,6 +130,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 2,
           'method_applied'=>2,
+          'pharm_standard_id'=>4,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
@@ -130,6 +140,7 @@ class ProductTypeTableSeeder extends Seeder
           'code'   =>  'SPS',
           'name'   =>  'Soap (Solid)',
           'method_applied'=>2,
+          'pharm_standard_id'=>5,
           'description' =>  'This is solid soap',
           'form'=> 1,
           'state'=> 1,

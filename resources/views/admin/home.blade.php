@@ -48,14 +48,14 @@
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="state">
-                                                <h6>Events</h6>
+                                                <h6>Failed Products</h6>
                                                 <h2>410</h2>
                                             </div>
                                             <div class="icon">
                                                 <i class="ik ik-calendar"></i>
                                             </div>
                                         </div>
-                                        <small class="text-small mt-10 d-block">Total Events</small>
+                                        <small class="text-small mt-10 d-block">Total number of failed products</small>
                                     </div>
                                     <div class="progress progress-sm">
                                         <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
@@ -67,7 +67,7 @@
                                     <div class="widget-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="state">
-                                                <h6>Comments</h6>
+                                                <h6>Products Analysed</h6>
                                                 <h2>41,410</h2>
                                             </div>
                                             <div class="icon">

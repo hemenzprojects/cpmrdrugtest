@@ -49,7 +49,7 @@
                          <span href="" class="badge badge-danger pull-right">
                                 {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
                         </span>
-                        </a> - {{ucfirst($sample_prep->name)}}
+                        </a> 
                         </td>
                         <td class="font">
                             {{$product->measurement}}
@@ -82,8 +82,8 @@
                                 </div>
                                 <div class="card-body"> 
                             
-                                    <h6> Product Name </h6>
-                                    <small class="text-muted ">{{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}} |   {{ucfirst($sample_prep->name)}}</small>
+                                    <h6> Product</h6>
+                                    <small class="text-muted ">{{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}} </small>
                                     <h6>Product Type </h6>
                                     <small class="text-muted ">{{ucfirst($sample_prep->productType->name)}}</small>
                                     <h6>Quantity</h6>                                         
@@ -119,7 +119,6 @@
                                                 @endforeach
                                             </p>
                                             </div>
-                                        
 
                                             <hr><h5>Preparation Details</h5>
                                             
@@ -163,7 +162,7 @@
             </div>
             <div class="col-md-4">   
                 <select required name="officer" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    <option value="">Select Client/Customer</option>
+                    <option value="">Select Staff</option>
                     @foreach(\App\Admin::where('dept_id',2)->get() as $officer)
                                     
                     <option  value="{{$officer->id}}" {{$officer->id == old('admin')? "selected":""}}>{{$officer->full_name}}</option>

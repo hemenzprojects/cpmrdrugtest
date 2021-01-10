@@ -20,8 +20,10 @@ class CreateCustomersTable extends Migration
             $table->string('img_url')->default('assets/img/users/user.png');
             $table->string('email')->nullable()->unique();
             $table->string('tell')->nullable();
-            $table->string('street_address')->nullable();
-            $table->string('house_number')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('company_address')->nullable();
+            $table->string('company_phone')->nullable();
+            $table->string('company_location')->nullable();
             $table->integer('added_by_id')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

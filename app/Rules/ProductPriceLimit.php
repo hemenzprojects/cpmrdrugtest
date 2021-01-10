@@ -25,7 +25,7 @@ class ProductPriceLimit implements Rule
      */
     public function passes($attribute, $value)
     {
-        $data = $value <=450;
+        $data = $value <=460;
         $data = $value >=250;
         
          return $data;

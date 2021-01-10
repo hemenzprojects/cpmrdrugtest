@@ -56,7 +56,7 @@
                                     <div class="card-body"> 
                                 
                                         <h6> Product Name </h6>
-                                        <small class="text-muted ">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}} |   {{ucfirst($phytoproduct->name)}}</small>
+                                        <small class="text-muted ">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}} </small>
                                         <h6>Product Type </h6>
                                         <small class="text-muted ">{{ucfirst($phytoproduct->productType->name)}}</small>
                                         <h6>Quantity</h6>
@@ -82,13 +82,13 @@
                                         @endforeach
                                      
 
-                                        <hr><h5>Customer Details</h5>
+                                        {{-- <hr><h5>Customer Details</h5>
                                         
                                         <h6>Name</h6>
                                         <small class="text-muted ">{{ucfirst($phytoproduct->customer->name)}}</small>
                                         <h6>Tell</h6>
                                         <small class="text-muted ">{{ucfirst($phytoproduct->customer->tell)}}</small>
-                                        
+                                         --}}
                                         <hr><h5>Distribution Periods</h5>
                                         <div  style="margin-bottom: 5px">
                                         <h6 >product distribution period</h6>
@@ -142,7 +142,7 @@
             </div>
             <span class="" style="padding:5px">
                 <input class="form-control" id="listSearch2" type="text" placeholder="Type something to search list items">
-              </span>
+            </span>
             <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
@@ -151,11 +151,21 @@
                             <div class="dd-handle">
                                 <div class="row align-items-center">
                                     <div class="col-lg-10 col-md-12">
-                                        <p><span href="" class="badge badge-warning pull-right">
-                                        {{$phytoreport->productType->code}}|{{$phytoreport->id}}|{{$phytoreport->created_at->format('y')}}
-                                        </span>
-                                          <span>{{ucfirst($phytoreport->name)}}</span>
-                                        </p>
+                                            <p><span href="" class="badge badge-warning pull-right">
+                                            {{$phytoreport->productType->code}}|{{$phytoreport->id}}|{{$phytoreport->created_at->format('y')}}
+                                            </span>
+                                            <span></span>
+                                            </p>
+
+                                            <span>
+                                            <small class=" font">
+                                                <strong>Assigned: </strong>{{\App\Admin::find($phytoreport->phyto_analysed_by)? \App\Admin::find($phytoreport->phyto_analysed_by)->full_name:'null'}}</small><br>
+                                             </span>
+
+                                          <span><strong>Evaluation:</strong> 
+                                           {!! $phytoreport->phyto_report_evaluation !!}
+                                          </span>
+
                                     </div> 
                                     <div class="col-lg-2 col-md-12">
                                     <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a>   
@@ -184,17 +194,42 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-body completed-task">
+            <span class="" style="padding:5px">
+                <input class="form-control" id="listSearch3" type="text" placeholder="Type something to search list items">
+            </span>
+            <div class="card-body completed-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                 <div class="dd" data-plugin="nestable">
-                    <ol class="dd-list">                                   
-                        <li class="dd-item" data-id="1">
-                            <div class="dd-handle">                                        
-                                <h6>Job title</h6>
-                                <p> you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                            </div>
-                        </li>
-                     
-                    </ol>
+                    <ul class="dd-list" id="myList3">                                   
+                        @foreach($phytocompleted_reports as $phytocompeleted_report)
+                            <li class="dd-item" data-id="1">
+                                <div class="dd-handle">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-10 col-md-12">
+                                                <p><span href="" class="badge badge-warning pull-right">
+                                                {{$phytocompeleted_report->productType->code}}|{{$phytocompeleted_report->id}}|{{$phytocompeleted_report->created_at->format('y')}}
+                                                </span>
+                                                <span></span>
+                                                </p>
+
+                                                <span>
+                                                <small class=" font">
+                                                    <strong>Assigned:</strong>{{\App\Admin::find($phytocompeleted_report->phyto_analysed_by)? \App\Admin::find($phytocompeleted_report->phyto_analysed_by)->full_name:'null'}}</small><br>
+                                                </span>
+
+                                            <span><strong>Evaluation:</strong> 
+                                            {!! $phytocompeleted_report->phyto_report_evaluation !!}
+                                            </span>
+
+                                        </div> 
+                                        <div class="col-lg-2 col-md-12">
+                                        <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a>   
+                                        </div>                                                           
+                                        
+                                    </div>  
+                                </div>
+                            </li>
+                       @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

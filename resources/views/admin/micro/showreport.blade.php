@@ -26,14 +26,19 @@
                                   <tr>
                                       <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->code}}|{{\App\Product::find($showproduct->product_id)->id}}|{{\App\Product::find($showproduct->product_id)->created_at->format('y')}}</td>
                                       <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
-                                      <td class="font"> {{($showproduct->updated_at->format('d/m/Y'))}}</td>
+                                      <td class="font">
+                                      
+                                        @foreach (\App\ProductDept::where('product_id',$report_id)->where('dept_id',1)->get() as $item)
+                                        {{$item->updated_at->format('d/m/Y')}}
+                                        @endforeach
+                                        
+                                      </td>
                                       <td class="font">
                                         <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
                                        </td>
                                        <input type="hidden" name="micro_product_id" value="{{\App\Product::find($showproduct->product_id)->id}}">
                                        <input type="hidden" id="product_typestate" value="7777{{\App\Product::find($showproduct->product_id)->productType->state}}">
                                        <input class="form-control" type="hidden" id="product_status" value="811920012{{$showproduct->status}}">
-
                                   </tr>
                                @endforeach
                             </tbody>
@@ -91,13 +96,47 @@
                                 <td class="font">
                                     {{$show_microbial_loadanalyses[$i]->test_conducted}}
                                     <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">
-                                </td>
+
+               
+                                     
+                                </td> 
                                 <td class="font">
-                                <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+                                    @if ($i<2)
+                                    <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 12px">
+                                        <?php 
+                                        if ($i<2) {
+                                          $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
+                                          $rs_part1 =$results[0];
+                                          $rs_part2 = explode('^',$results[2]);
+                                     
+                                          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+                                           
+                                        }
+                                      ?>
+                                    <p>
+                                    <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
+                                    @endif
+                                 <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+                              
                                 <input type="hidden" class="form-control" id="rs_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
 
                                 </td>
                                 <td class="font">
+                                    @if ($i<2)
+                                    <p class="" style="font-size: 12px"> 
+                                        <?php 
+                                        if ($i<2) {
+                                          $acceptance_criterion= explode(' ',$show_microbial_loadanalyses[$i]->acceptance_criterion);
+                                          $rs_part1 =$acceptance_criterion[0];
+                                          $rs_part2 = explode('^',$acceptance_criterion[2]);
+                                     
+                                          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+                                           
+                                        }
+                                       ?>
+                                    </p>
+                                <input type="hidden" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
+                                @endif
                                 <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="criterion_disabled{{$i}}" name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}"  value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
                                 <input type="hidden" class="form-control" id="ac_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
                                 </td>
@@ -166,17 +205,12 @@
                             </div>
                         </div>
                     </div> 
-                  
-                       <div class="table-responsive">
-                         @if (is_array($show_microbial_efficacyanalyses)) 
-                            @foreach($show_microbial_efficacyanalyses->groupBy('id')->first() as $efficacyanalyses)
-                            @if ($efficacyanalyses->efficacy_analyses_id ==2)
+                    @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0) 
+                       <div class="table-responsive">  
                             <div class="card-heade" style="margin: 2%">
                             <h6>Microbial Efficacy Analysis</h6>
                             </div>
-                            @endif
-                            @endforeach
-                          @endif
+                            
                              <table class="table table-striped table-bordered nowrap dataTable">
                                 <thead class="meatablehead 768992334039322" style="display: none">
                                     <tr class="table-info">
@@ -212,6 +246,7 @@
                                </tbody>
                             </table> 
                        </div>
+                       @endif
 
                       @foreach ($show_productdept as $showproduct)
  
@@ -219,7 +254,7 @@
                         <strong><span>General Comment</span></strong><br><br>
                        
                     <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}} </textarea>
-                        <strong><span>Conclution</span></strong><br><br>
+                        <strong><span>Conclusion</span></strong><br><br>
                         <div class="input-group">
                         <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($report_id)->micro_conclution}}">
                         </div> 
@@ -232,7 +267,7 @@
                       ?>
                         <div class="col-sm-4 invoice-col">
                             <p>Analyzed By</p><br>
-                            @if (\App\Product::find($report_id)->micro_hod_evaluation >1)
+                            @if (\App\Product::find($report_id)->micro_hod_evaluation >null)
                             <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
                             -----------------------------<br>
@@ -277,9 +312,9 @@
 
                     @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
                     <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
-                    <i class="fa fa-view"></i> Complete Report</button>
+                    <i class="fa fa-view"></i>Print report</button>
                     @endif
-                    <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $report_id])}}">
+                    {{-- <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $report_id])}}"> --}}
                     
                 </div>
                 
@@ -302,7 +337,7 @@
 <script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   
 <script src="{{asset('js/microbialcomments.js')}}"></script>
 
-<script>
+{{-- <script>
 function myFunction() {
   var url = $('input[id="report_url"]').attr("value");
   var r = confirm("Be aware of the following before you complete report : 1.Completed Reports can not be edited after submision, system require you to see HoD for unavoidable complains or changes.  Thank you");
@@ -313,6 +348,6 @@ function myFunction() {
   }
   document.getElementById("demo").innerHTML = txt;
 }
-</script>
+</script> --}}
 
 @endsection

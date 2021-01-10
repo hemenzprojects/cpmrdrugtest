@@ -53,7 +53,7 @@
                         </a>
                     </div>
                 </div>
-                <table id="order-table" class="table table-striped table-bordered nowrap dataTable">
+                <table id="order-table3" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -79,7 +79,7 @@
                                     </div>
                                 </td> 
                                 <td class="font">B{{$pharmproduct->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}<br> {{ucfirst($pharmproduct->name)}}</td>
+                                <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}<br> </td>
                                 <td class="font">{{ucfirst($pharmproduct->productType->name)}}</td>
                                 <td class="font">{{$pharmproduct->pivot->quantity}}</td>
                                 {!! $pharmproduct->product_status !!}
@@ -107,8 +107,8 @@
                                             <div class="modal-body">
                                                 <div class="card-body"> 
                                                     
-                                                    <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$pharmproduct->productType->Code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}} |   {{ucfirst($pharmproduct->name)}}</small>
+                                                    <h6> Product </h6>
+                                                    <small class="text-muted ">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}</small>
                                                     <h6>Product Type </h6>
                                                     <small class="text-muted ">{{ucfirst($pharmproduct->productType->name)}}</small>
                                                     <h6>Quantity</h6>
@@ -127,12 +127,12 @@
                                                     
                                                     @endforeach
 
-                                                    <hr><h5>Customer Details</h5>
+                                                    {{-- <hr><h5>Customer Details</h5>
                                                     
                                                     <h6>Name</h6>
                                                     <small class="text-muted ">{{ucfirst($pharmproduct->customer->name)}}</small>
                                                     <h6>Tell</h6>
-                                                    <small class="text-muted ">{{ucfirst($pharmproduct->customer->tell)}}</small>
+                                                    <small class="text-muted ">{{ucfirst($pharmproduct->customer->tell)}}</small> --}}
                                                     
                                                     <hr><h5>Distribution Periods</h5>
                                                     <div  style="margin-bottom: 5px">

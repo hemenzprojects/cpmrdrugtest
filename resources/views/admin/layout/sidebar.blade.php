@@ -1,4 +1,4 @@
-  <div class="app-sidebar colored">
+           <div class="app-sidebar colored">
                     <div class="sidebar-header" style="background-color: #071701">
                         <a class="header-brand" href="index.html">
                             <div class="logo-img">
@@ -28,18 +28,19 @@
                                     <a href="#"><i class="ik ik-menu"></i><span>Products</span> 
                                         <div class="submenu-content">
                                        <a href="{{url('admin/sid/product/create')}}" class="menu-item">New Product</a>
+                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">Product Categories</a>
                                        <a href="{{url('admin/sid/distribution/create')}}" class="menu-item">Product Distribution</a>
 
           
                                     </div>
                                 </div>
                                 <div class="nav-item has-sub">
-                                    <a href="#"><i class="ik ik-folder-minus"></i><span>Reports</span> 
+                                    <a href="#"><i class="ik ik-folder-minus"></i><span>Report Section</span> 
                                       <div class="submenu-content">
   
-                                        <a href="pages/ui/alerts.html" class="menu-item">Daily Report</a>
-                                        <a href="pages/ui/badges.html" class="menu-item">Montly Report</a>
-                                        <a href="pages/ui/buttons.html" class="menu-item">Yearly Products</a>
+                                      <a href="{{url('admin/sid/report/index')}}" class="menu-item">General Report</a>
+                                        {{-- <a href="pages/ui/badges.html" class="menu-item">Montly Report</a>
+                                        <a href="pages/ui/buttons.html" class="menu-item">Yearly Products</a> --}}
                                     </div>
                                 </div>
                                 @endif                         
@@ -57,29 +58,33 @@
                                     
                                          </div>
                                      </div>
+                                        @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                        <div class="nav-item has-sub">
+                                            <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                            <div class="submenu-content">
+                                            <a href="#" class="menu-item">Assign Duty</a>
+                                            <a href="{{route('admin.micro.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
+                                            <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
+                                            
+                                            </div>
+                                        </div> 
+                                     @endif
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
                                         <div class="submenu-content">
-                                        <a href="{{route('admin.micro.general_report.index')}}" class="menu-item">Completed Products</a>
+                                        <a href="{{route('admin.micro.general_report.index')}}" class="menu-item">Report Statistics</a>
                                             <a href="" class="menu-item">Pending Products</a>
                                             <a href="" class="menu-item"></a>
                                             
-                                   
                                         </div>
-                                    </div>
-                                     <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
-                                         <div class="submenu-content">
-                                          <a href="#" class="menu-item">Assign Duty</a>
-                                         <a href="{{route('admin.micro.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
-                                         <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
-                                          
-                                         </div>
-                                     </div> 
+                                     </div>
+                              
                                      @endif
             
                               
                                      @if (Auth::guard('admin')->user()->dept_id ==2)
+
+                                     @if (Auth::guard('admin')->user()->user_type_id == 2 || Auth::guard('admin')->user()->user_type_id == 1)
                                      <div class="nav-lavel">Pharmacology</div>
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
@@ -87,8 +92,9 @@
                                              <a href="{{route('admin.pharm.receiveproduct')}}" class="menu-item">Receieve Product</a>
                                              <a href="#" class="menu-item">Reports Taskboard </a> 
                                          </div>
-                                         
                                      </div>
+
+                                   
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-filter"></i><span>Sample Preparation</span></a>
                                          <div class="submenu-content" style="">
@@ -96,17 +102,38 @@
                                              <a href="pages/ui/badges.html" class="menu-item">Prepared Samples</a>
                                          </div>
                                      </div>
+                                     @endif
+
+                                     @if (Auth::guard('admin')->user()->user_type_id == 3 ||Auth::guard('admin')->user()->user_type_id == 1)
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-file-plus"></i><span>Animal Experimentation</span></a>
                                          <div class="submenu-content" style="">
                                              <a href="{{route('admin.pharm.animalexperimentation.create')}}" class="menu-item">Receieve Product</a>
                                              <a href="{{route('admin.pharm.animalexperimentation.maketest')}}" class="menu-item">Make Experiment</a>
-                                             <a href="{{route('admin.pharm.animalexperimentation.recordbook')}}" class="menu-item">Record Book</a>
-     
+                                             
      
                                          </div>
                                      </div>
-                                     @if (Auth::guard('admin')->user()->user_type_id ==2)
+                                     <div class="nav-item has-sub">
+                                        <a href="#"><i class="ik ik-file-text"></i><span>Record Book</span></a>
+                                        <div class="submenu-content">
+                                        <a href="{{route('admin.pharm.animalexperimentation.recordbook')}}" class="menu-item">Received Product</a>
+                                            <a href="" class="menu-item"></a>
+
+                                        </div>
+                                     </div>
+                                     @endif
+                                     @if (Auth::guard('admin')->user()->user_type_id == 2 ||Auth::guard('admin')->user()->user_type_id == 1)
+                                     <div class="nav-item has-sub">
+                                        <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                        <div class="submenu-content">
+                                            <a href="{{route('admin.pharm.general_report.index')}}" class="menu-item">Completed Products</a>
+                                            <a href="" class="menu-item">Pending Products</a>
+                                            <a href="" class="menu-item"></a>
+                                        </div>
+                                     </div>
+                                     @endif
+                                     @if (Auth::guard('admin')->user()->user_type_id ==1)
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
                                          <div class="submenu-content">
@@ -133,16 +160,18 @@
                                             
                                          </div>
                                      </div>
+                                     @if (Auth::guard('admin')->user()->user_type_id ==1)
+
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
                                          <div class="submenu-content">
                                           <a href="#" class="menu-item">Assign Duty</a>
-                                         <a href="#" class="menu-item">Report Evaluation</a>
+                                         <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
                                          <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
                                           
                                          </div>
                                      </div>
-                                    
+                                     @endif
                                       @endif
                                    
                               

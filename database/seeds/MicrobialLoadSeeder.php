@@ -14,7 +14,7 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->truncate();
         DB::table('microbial_load_analyses')->insert([
             
-            'test_conducted'   =>  'TAMC/37^0C/24hrs/PCA',
+            'test_conducted'   =>  '1 TAMC/ 37 0 C /24hrs/PCA',
             'result'   =>  '8.9 x 10^3',
             'rs_total'   =>  8900,
             'acceptance_criterion'=>  '5.0 X 10^4',
@@ -26,7 +26,7 @@ class MicrobialLoadSeeder extends Seeder
  
         DB::table('microbial_load_analyses')->insert([
                     
-            'test_conducted'   =>  'TYMC/25^0C/5Days/MEA',
+            'test_conducted'   =>  '2 TYMC/ 25 0 C /5Days/MEA',
             'result'   =>  '3.5 x 10^3',
             'rs_total'   =>  3500,
             'acceptance_criterion'=>  '5.0 X 10^2',

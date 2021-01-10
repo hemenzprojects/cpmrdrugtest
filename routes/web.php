@@ -32,7 +32,6 @@ Route::get('/', function () {
 
 
   Route::get('/','AdminAuth\AdminController@index');
-
   Route::get('/profile/create', 'AdminAuth\AdminController@profile_create')->name('admin.profile.create');
   Route::post('/profile/uploadfile', 'AdminAuth\AdminController@update_admin');
 
@@ -49,16 +48,29 @@ Route::get('/', function () {
    Route::get('sid/product/{id}/show','AdminAuth\SID\SIDController@product_show')->name('admin.sid.product.show');
    Route::post('sid/create_product','AdminAuth\SID\SIDController@product_store');
    Route::post('sid/product/update/{id}','AdminAuth\SID\SIDController@product_update');
+   //Product Account
+   Route::get('sid/product/account/{id}/{price}','AdminAuth\SID\SIDController@account_index')->name('admin.sid.product.account.index');
+   Route::post('sid/product/account/store/{id}','AdminAuth\SID\SIDController@account_store')->name('admin.sid.product.account.store');
+   Route::get('sid/product/account/delete/{p_id}/{act_id}/{price}','AdminAuth\SID\SIDController@account_delete')->name('admin.sid.product.account.delete');
+
+
 
    //products distribution Route
    Route::get('sid/distribution/create','AdminAuth\SID\SIDController@distribution_index')->name('admin.sid.distribution.create');
    Route::post('sid/distribute_depts_product','AdminAuth\SID\SIDController@distribute_depts_store');
   
-   Route::get('sid/deleteProduct/{id}/{dept_id}','AdminAuth\SID\SIDController@deleteProduct')->name('admin.sid.distributed_product.delete');
+   Route::get('sid/deleteProduct/{id}/{dept_id}/{activetab?}','AdminAuth\SID\SIDController@deleteProduct')->name('admin.sid.distributed_product.delete');
    Route::post('sid/distribute_product','AdminAuth\SID\SIDController@distribute_onedept_store');
-   
-  
-    //***********************************Microbiology Route 
+
+   // Report Secrion
+   Route::get('sid/report/index','AdminAuth\SID\SIDController@report_index')->name('admin.sid.general_report.index');
+   Route::post('sid/general_report/yearly','AdminAuth\SID\SIDController@generalyearly_report')->name('sid.generalyearlyreport');
+   Route::post('sid/general_report/between_month','AdminAuth\SID\SIDController@between_months')->name('admin.sid.general_report.between_months');
+   Route::get('sid/final_reports/index/{id}','AdminAuth\SID\SIDController@finalreports_index')->name('admin.sid.final_reports.index');
+   Route::get('sid/final_reports/show/{id}','AdminAuth\SID\SIDController@finalreports_show')->name('admin.sid.final_reports.show');
+
+
+    //*************************************************************Microbiology Route 
 
     //**Microbial Report routes */admin/micro/create-test' **/
     Route::get('micro/report/create','AdminAuth\Microbiology\MicroController@report_create')->name('admin.micro.report.create');
@@ -77,16 +89,27 @@ Route::get('/', function () {
    //**Microbiology HOD Office */
    Route::get('micro/hod_office/approval','AdminAuth\Microbiology\MicroController@hodoffice_evaluation')->name('admin.micro.hod_office.approval');
    Route::post('micro/hod_office/evaluate', 'AdminAuth\Microbiology\MicroController@evaluate')->name('admin.micro.hod_office.evaluate');
-   Route::get('micro/hod_office/evaluate_one/{id}/{evaluate}', 'AdminAuth\Microbiology\MicroController@evaluate_one')->name('admin.micro.hod_office.evaluate_one');
+   Route::get('micro/hod_office/evaluate_one/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_index');
+   // Route::get('micro/hod_office/evaluate_one/{id}/{evaluate}', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit');
+   
+   //Microbiology Hod Sign to Approve */
+   Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign');
+   Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport');
+
 
    //* General Report Section */
    Route::get('micro/general_report/index','AdminAuth\Microbiology\MicroController@generalreport_index')->name('admin.micro.general_report.index');
+   Route::post('micro/general_report/yearly','AdminAuth\Microbiology\MicroController@generalyearly_report')->name('generalyearlyreport');
    Route::get('micro/completed_reports/index/{id}','AdminAuth\Microbiology\MicroController@completedreports_index')->name('admin.micro.completed_reports.index');
+   
+   Route::post('micro/general_report/between_month','AdminAuth\Microbiology\MicroController@between_months')->name('admin.micro.general_report.between_months');
+   Route::post('micro/yearly','AdminAuth\Microbiology\MicroController@yearly_report')->name('yearly');
+   Route::post('micro/montlly','AdminAuth\Microbiology\MicroController@monthly_report')->name('monthly');
+   Route::post('micro/daily','AdminAuth\Microbiology\MicroController@daily_report')->name('daily');
+  
 
 
-
-
-   //****************************************************Pharmacology Route 
+   //****************************************************************Pharmacology Route 
     
    //********* Pharmacology receive product */
    Route::get('pharm/receiveproduct','AdminAuth\Pharmacology\PharmController@receiveproduct_index')->name('admin.pharm.receiveproduct');
@@ -113,30 +136,61 @@ Route::get('/', function () {
    Route::get('pharm/animalexperimentation/recordbook','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook')->name('admin.pharm.animalexperimentation.recordbook');
    Route::get('pharm/animalexperimentation/fetchtoxicity','AdminAuth\Pharmacology\PharmController@animalexperimentation_fetchtoxicity');
 
-    //**Pharmacology HOD Office */
-    Route::get('pharm/hod_office/approval','AdminAuth\Pharmacology\PharmController@hodoffice_evaluation')->name('admin.pharm.hod_office.approval');
-    Route::post('pharm/hod_office/evaluate', 'AdminAuth\Pharmacology\PharmController@evaluate')->name('admin.pharm.hod_office.evaluate');
-    Route::get('pharm/hod_office/completedreports','AdminAuth\Pharmacology\PharmController@hodoffice_completedreports')->name('admin.pharm.hod_office.completedreports');
+    //* General Report Section */
+   Route::get('pharm/general_report/index','AdminAuth\Pharmacology\PharmController@generalreport_index')->name('admin.pharm.general_report.index');
+   Route::get('pharm/completed_reports/index/{id}','AdminAuth\Pharmacology\PharmController@completedreports_index')->name('admin.pharm.completed_reports.index');
+   Route::post('pharm/general_report/yearly','AdminAuth\Pharmacology\PharmController@generalyearly_report')->name('admin.pharm.generalyearlyreport');
 
-    //************************************************Phytochemistry Route 
+   Route::post('pharm/general_report/between_month','AdminAuth\Pharmacology\PharmController@between_months')->name('pharm.general_report.between_months');
+   Route::post('pharm/yearly','AdminAuth\Pharmacology\PharmController@yearly_report')->name('yearly');
+   Route::post('pharm/montlly','AdminAuth\Pharmacology\PharmController@monthly_report')->name('monthly');
+   Route::post('pharm/daily','AdminAuth\Pharmacology\PharmController@daily_report')->name('daily');
+
+
+   //**Pharmacology HOD Office */
+   Route::get('pharm/hod_office/approval','AdminAuth\Pharmacology\PharmController@hodoffice_evaluation')->name('admin.pharm.hod_office.approval');
+   Route::post('pharm/hod_office/evaluate', 'AdminAuth\Pharmacology\PharmController@evaluate')->name('admin.pharm.hod_office.evaluate');
+   Route::get('pharm/hod_office/completedreports','AdminAuth\Pharmacology\PharmController@hodoffice_completedreports')->name('admin.pharm.hod_office.completedreports');
+   Route::get('pharm/hod_office/evaluate_one/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_index');
+
+   Route::get('pharm/report/hod_office/complete_report/{id}','AdminAuth\Pharmacology\PharmController@hod_complete_report')->name('admin.pharm.hod_office.complete_report');
+
+     //Pharmacology Hod Sign to Approve */
+     Route::post('/pharm/hod_office/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodsign')->name('admin.pharm.hod_office.checkhodsign');
+     Route::post('/pharm/hod_office/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_edit')->name('admin.pharm.hod_office.evaluatereport');
+  
+
+   //*********************************************************Phytochemistry Route 
     
    //********* Phytochemistry receive product */
 
    Route::get('phyto/receiveproduct','AdminAuth\Phytochemistry\PhytoController@receiveproduct_index')->name('admin.phyto.receiveproduct');
    Route::post('/phytochemistry/checkuser','AdminAuth\Phytochemistry\PhytoController@checkuser')->name('admin.phyto.checkuser');
    Route::post('/phytochemistry/accept/product','AdminAuth\Phytochemistry\PhytoController@acceptproduct')->name('admin.phyto.acceptproduct');
+   Route::get('phyto/completedreport/show/{id}','AdminAuth\Phytochemistry\PhytoController@completedreport_show')->name('admin.pharm.completedreport.show');
 
    Route::get('phyto/makereport/index','AdminAuth\Phytochemistry\PhytoController@makereport_index')->name('admin.phyto.makereport.index');
    Route::get('phyto/makereport/show/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_show')->name('admin.phyto.makereport.show');
    Route::post('phyto/makereport/create/','AdminAuth\Phytochemistry\PhytoController@makereport_create')->name('admin.phyto.makereport.create');
    Route::post('phyto/makereport/update/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_update')->name('admin.phyto.makereport.update');
   
-   Route::get('phyto/makereport/organoleptics/delete/{id}','AdminAuth\Phytochemistry\PhytoController@organoleptics_delete')->name('admin.phyto.makereport.organoleptics.delete');
+   Route::get('phyto/makereport/organoleptics/delete/{p_id}/{organo_id}','AdminAuth\Phytochemistry\PhytoController@organoleptics_delete')->name('admin.phyto.makereport.organoleptics.delete');
    Route::post('phyto/makereport/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@organoleptics_update')->name('admin.phyto.makereport.organoleptics.update');
 
-   Route::get('phyto/makereport/physicochemdata/delete/{id}','AdminAuth\Phytochemistry\PhytoController@physicochemdata_delete')->name('admin.phyto.makereport.physicochemdata.delete');
+   Route::get('phyto/makereport/physicochemdata/delete/{p_id}/{physico_id}','AdminAuth\Phytochemistry\PhytoController@physicochemdata_delete')->name('admin.phyto.makereport.physicochemdata.delete');
    Route::post('phyto/makereport/physicochemdata/update','AdminAuth\Phytochemistry\PhytoController@physicochemdata_update')->name('admin.phyto.makereport.physicochemdata.update');
 
+    //********* PhytochemistryHod HOD Office */
+  
+    Route::get('phyto/hod_office/approval','AdminAuth\Phytochemistry\PhytoController@hodoffice_evaluation')->name('admin.phyto.hod_office.approval');
+    Route::get('phyto/hod_office/evaluate_one/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_index');
+    Route::post('phyto/hod_office/evaluate', 'AdminAuth\Phytochemistry\PhytoController@evaluate')->name('admin.phyto.hod_office.evaluate');
+
+    
+     //Phytochemistry Hod Sign to Approve */
+     Route::post('/phyto/hod_office/checkhodsign', 'AdminAuth\Phytochemistry\PhytoController@checkhodsign')->name('admin.phyto.hod_office.checkhodsign');
+     Route::post('/phyto/hod_office/evaluatereport/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_edit')->name('admin.phyto.hod_office.evaluatereport');
+  
 });
 
 Route::group(['prefix' => 'customer'], function () {

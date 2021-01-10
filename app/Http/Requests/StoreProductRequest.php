@@ -35,10 +35,9 @@ class StoreProductRequest extends FormRequest
             'product_type_id' => 'required',
             'price' => ['required','numeric',new ProductPriceLimit],
             'quantity' =>  'required|numeric', 
-            'indication' => 'required',
-            'company' => 'required',
-            'mfg_date' => 'required',
-            'exp_date' => 'required',
+            'dosage' => 'required|min:3',
+            // 'mfg_date' => 'required',e
+            // 'exp_date' => 'required',
             'indication' => 'required|min:3',
    
             ];

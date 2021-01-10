@@ -7,10 +7,13 @@ use App\Http\Requests\UpdatecustomerRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
+use App\MicrobialLoadReport;
+use App\MicrobialEfficacyReport;
 use App\Customer;
 use App\Department;
 use App\ProductType;
 use App\Product;
+use App\Account;
 use App\ProductDept;
 use \Auth;
 use \DB;
@@ -26,6 +29,7 @@ class SIDController extends Controller
 
     public function customer_index()
     {
+        
     //   return  $data = \App\Admin::all();
         $data['customers'] = Customer::orderBy('id','DESC')->get();
         return View('admin.sid.customers.create', $data); 
@@ -39,23 +43,27 @@ class SIDController extends Controller
     public function customer_store(Request $request)
     {
         $data = $request->validate([
+            'title' => 'required', 
             'first_name' => 'required|min:3|Alpha', 
             'last_name' => 'required|min:3|Alpha', 
-            'street_address' => 'required', 
-            'house_number' => 'required', 
             'email' => 'required|email|max:128|unique:customers', 
             'tell' => 'required|numeric', 
+            'company_name' => 'required', 
+            'company_address' => 'required', 
+            'company_phone' => 'required|numeric', 
+            'company_location' => 'required', 
         ]);
        
         $data = ([
             'title'=>$request->title,
             'first_name'=>$request->first_name,
             'last_name'=>$request->last_name,
-            'company'=>$request->company,
-            'house_number'=>$request->house_number,
-            'street_address'=>$request->street_address,
             'email'=>$request->email,
             'tell'=>$request->tell,
+            'company_name'=>$request->company_name,
+            'company_address'=>$request->company_address,
+            'company_phone'=>$request->company_phone,
+            'company_location'=>$request->company_location,
             'added_by_id'=>Auth::guard('admin')->id(),
         ]);
         Customer::create($data);
@@ -80,26 +88,32 @@ class SIDController extends Controller
      * @param  \App\User  $customer
      * @return \Illuminate\Http\Response
      */
-    public function customer_update(UpdateCustomerRequest $request, $id)
+    public function customer_update(UpdatecustomerRequest $request, $id)
     {
         $data = $request->validate([
+            'title' => 'required', 
             'first_name' => 'required|min:3|Alpha', 
             'last_name' => 'required|min:3|Alpha', 
-            'street_address' => 'required', 
-            'house_number' => 'required', 
             'tell' => 'required|numeric', 
+            'company_name' => 'required', 
+            'company_address' => 'required', 
+            'company_phone' => 'required|numeric', 
+            'company_location' => 'required', 
         ]);
+       
        
         $data = ([
             'title'=>$request->title,
             'first_name'=>$request->first_name,
             'last_name'=>$request->last_name,
-            'house_number'=>$request->house_number,
-            'street_address'=>$request->street_address,
             'email'=>$request->email,
             'tell'=>$request->tell,
+            'company_name'=>$request->company_name,
+            'company_address'=>$request->company_address,
+            'company_phone'=>$request->company_phone,
+            'company_location'=>$request->company_location,
             'added_by_id'=>Auth::guard('admin')->id(),
-            ]);
+        ]);
         
         Customer::where('id', $id)->update($data);
         Session::flash('message_title', 'success');
@@ -120,22 +134,31 @@ class SIDController extends Controller
      */
     public function custpmer_destroy(Customer $customer)
     {
-        //
+        //         
+           
+
     }
 
     //**************************************** */ PRODUCT SECTION ******************************************
-    public function product_index()
-    {
+    public function product_index() 
+    {   
+        $product_id = Product::orderBy('id', 'DESC')->doesnthave('departments')->pluck('id')->toArray();
+
+        $p_data = ([
+              'overall_status' => 0,
+         ]);
+        Product::whereIn('id',$product_id)->update($p_data);
+
         $data['products'] = Product::orderBy('id','DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
-         $data['customers'] = Customer::orderBy('id','DESC')->get();
-         
+        $data['customers'] = Customer::orderBy('id','DESC')->get();
+
         return View('admin.sid.products.create', $data); 
     }
 
       public function product_store(StoreProductRequest $request)
     {
-        
+        // dd($request);
         $data = ([
             'name'=>$request->name,
             'product_type_id'=>$request->product_type_id,
@@ -144,12 +167,13 @@ class SIDController extends Controller
             'price'=>$request->price,
             'mfg_date'=>$request->mfg_date,
             'exp_date'=>$request->exp_date,
-            'company'=>$request->company,
+            'dosage'=>$request->dosage,
             'indication'=>$request->indication,
             'added_by_id'=>Auth::guard('admin')->id(),
         ]);
 
         Product::create($data);
+        
         Session::flash("message", "Product Successfully Created.");
         Session::flash("message_title", "success");
         return redirect()->route('admin.sid.product.create')
@@ -158,11 +182,13 @@ class SIDController extends Controller
 
      public function product_edit(Product $id)
      {
+
         $data['products'] = Product::orderBy('id','DESC')->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id','DESC')->get();
         $data['p'] = $id;
   
+
          return View('admin.sid.products.update', $data);
      } 
 
@@ -184,7 +210,7 @@ class SIDController extends Controller
             'price'=>$request->price,
             'mfg_date'=>$request->mfg_date,
             'exp_date'=>$request->exp_date,
-            'company'=>$request->company,
+            'dosage'=>$request->dosage,
             'indication'=>$request->indication,
             'added_by_id'=>Auth::guard('admin')->id(),
         ]);
@@ -194,6 +220,103 @@ class SIDController extends Controller
          Session::flash('message', 'Customer successsfully updated.');
           return redirect()->route('admin.sid.product.create');
      }
+
+         //********************************************** Account Section ****************************************************** */
+          public function account_index($id, $price){
+
+             $product=  product::find($id);
+             if (!$product) {
+                return redirect()->back();
+             }
+            
+            $data['product'] = Product::where('id',$id)->with("departments")->first();
+
+            return View('admin.sid.accounts.index',$data); 
+          }
+
+          public function account_store(Request $r, $id){
+            //   dd($r->all(), $id);
+            $data = $r->validate([
+                'amt_paid' => 'required',
+                'customer' => 'required'
+            ]);
+             if ($r->amt_paid >460) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Amount should not be more than 460');
+                return redirect()->back();
+             }
+            $product=  product::find($id);
+            if (!$product) {
+            return redirect()->back();
+            }
+           $product1 = Product::where('id',$id)->where('price','=',$r->initial_amt);
+            if(count($product1->get()) < 1){
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+            return redirect()->back();
+            }
+
+               $actualamt = $r->amt_paid + $r->initial_amt;
+               if ($actualamt > 460) {      
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Ammount Exceeds actual fee. NB: Product fee is GH 460');
+                return redirect()->back();
+                }
+
+              if ($product->initial_amt == 1) {
+                $data = ([
+                    'product_id'=>$id,
+                    'customer'=>$r->customer,
+                    'price'=>$r->initial_amt,
+                 ]);
+                 Account::create($data);
+              }
+
+                $data = ([
+                    'product_id'=>$id,
+                    'customer'=>$r->customer,
+                    'price'=>$r->amt_paid,
+                ]);
+               Account::create($data);
+               
+              
+               
+               $data = ([
+                'initial_amt'=>2,
+                'price' => $actualamt
+               ]);
+               Product::where('id',$id)->where('price','=',$r->initial_amt)->update($data);
+           
+               return redirect()->route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price]);
+           }
+
+           public function account_delete($p_id,$act_id,$price){
+           
+                  $account = Account::where('id',$act_id)->where('product_id',$p_id)->first();
+                    if ($account == null) {
+                        Session::flash('message_title', 'error');
+                        Session::flash('message', 'Sorry there is no product to delete.');
+                        return redirect()->back();
+                    }
+                
+                      Account::where('id',$act_id)->where('product_id',$p_id)->delete();
+                    $product = Product::where('id',$p_id)->first();
+                    if ($product->price != $price) {
+                    Session::flash('message_title', 'error');
+                    Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+                    return redirect()->back();
+                    }
+
+                    $new_price =  $product->price - $account->price;
+                    $data =([
+                    'price' => $new_price
+                    ]); 
+                    Product::where('id',$p_id)->where('price',$price)->update($data);
+
+                     return redirect()->back();
+           
+           }
+
 
          //**************************************** */ PRODUCT DISTRIBUTION SECTION ******************************************
          public function distribution_index()
@@ -206,12 +329,8 @@ class SIDController extends Controller
             $data['products'] = Product::orderBy('id', 'DESC')->doesnthave('departments')->get();
 
             $data['productdepts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept')->get();
-            
-            //   $data['pharmproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
-            //     $q->where('dept_id',3);})->get();
-
-            // $data['phytoproducts']=Product::orderBy('id', 'DESC')->whereDoesntHave('productDept',function($q){
-            //     $q->where('dept_id',3);})->get();
+         
+          
 
              return View('admin.sid.distribution.create', $data); 
          }
@@ -284,16 +403,13 @@ class SIDController extends Controller
                 ];
                 array_push($arrayToInsert, $temp);
             }
-            $inserted = DB::table('product_depts')->insert($arrayToInsert);
-            
-            $products = Product::where('id',$product_id)->where("micro_overall_status", 1);
-            if(count($products->get()) < 1){
-                return redirect()->back();
-            }
-            $product = $products->first();
-            $product->overall_status = 2;
-            $product->update();
 
+            $inserted = DB::table('product_depts')->insert($arrayToInsert);
+
+             if (Product::where('overall_status',0)) {
+              Product::where('id', $product_id)->update(['overall_status' => 1]);
+             }
+             
             Session::flash("message", "Product Successfully Distrituted.");
             Session::flash("message_title", "success");
     
@@ -304,7 +420,13 @@ class SIDController extends Controller
         //******************************  Product distribution to single department ***************************** */
 
         public function distribute_onedept_store(Request $request){
-           
+
+            if ($request->product_id == null) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Product field is required. ');
+                return redirect()->back();
+            }
+            Session::flash('activetab',!blank($request->activetab)?$request->activetab:0 );
             $admin_id = Auth::guard('admin')->id();
 
             $data = ([
@@ -312,17 +434,12 @@ class SIDController extends Controller
                 'dept_id'=>$request->dept_id,
                 'quantity'=>$request->microquantity,
                 'distributed_by'=>$admin_id,
+                'created_at' => now(),
+                'updated_at' => now()
+                
             ]);
 
             ProductDept::create($data);
-
-            $products = Product::where('id',$request->product_id)->where("micro_overall_status", 1);
-            if(count($products->get()) < 1){
-                return redirect()->back();
-            }
-            $product = $products->first();
-            $product->micro_overall_status = 2;
-            $product->update();
 
             Session::flash("message", "Product Successfully Distributed.");
             Session::flash("message_title", "success");
@@ -336,17 +453,10 @@ class SIDController extends Controller
 
         //**************************************Product Distribution Delete section for all departments  **************************** */
 
-        public  function deleteProduct($id, $dept_id)
-        {   
-            
-           
-            $products = Product::where('id',$id)->where("micro_overall_status", '>', 1);
-            if(count($products->get()) < 1){
-                return redirect()->back();
-            }
-            $product = $products->first();
-            $product->micro_overall_status = 1;
-            $product->update();
+        public  function deleteProduct($id, $dept_id,$activetab=null)
+        { 
+
+           Session::flash('activetab',!blank($activetab)?$activetab:0 );
 
            $product_dept= ProductDept::where('product_id',$id)->where('dept_id',$dept_id)->first();
            if($product_dept->status == 1){
@@ -360,12 +470,121 @@ class SIDController extends Controller
             Session::flash('message', 'Sorry! this cant be deleted! Please contact system admin. ');
             return redirect()->back();
            }
-             
+           
+           
         }
+
+        //********************************************************* General Report Section ******************* */
+            public function report_index(){
+            $data = ([
+                'overall_status'=>2,
+            ]);   
+            $products = Product::where('micro_hod_evaluation',2)->where("pharm_hod_evaluation",2)->where('phyto_hod_evaluation', 2)->update($data);
+           
+            $data['from_date'] = "2020-01-01";
+            $data['to_date'] = now();
+
+            $data['product_types'] = \App\ProductType::all();
+            $data['completed_reports'] = Product::where('overall_status',2)->whereHas('productDept')->get();
+            $data['pending_reports']=Product::where('overall_status', '<', 2)->whereHas('productDept')->get();
+
+            return View('admin.sid.generalreport.index', $data); 
+
+            }
+
+            
+           public function generalyearly_report(Request $r){
+          
+            $data = $r->all();
+             $data['product_types'] = \App\ProductType::all();
+  
+            //  $data['from_date'] =$r->from_date;
+            //  $data['to_date'] =$r->from_date;
+
+             $data['pending_reports']=Product::where('overall_status',1)->whereHas("departments", function($q)use($data){
+                return $q->whereRaw('YEAR(received_at)= ? ',array($data['year']));
+              })->get();
+
+              $data['completed_reports'] = Product::where('overall_status',2)
+              ->whereHas("departments", function($q)use($data){
+                return $q->whereRaw('YEAR(received_at)= ? ',array($data['year']));
+              })->get();
+         
+              return view('admin.sid.generalreport.index',$data);
+             }
+
+             public function between_months(Request $r){
+                // dd($r->all());
+               $data = $r->all();
+                if ($r->from_date == null) {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Please select required date to begin begin');
+                  return redirect()->route('admin.sid.general_report.index');
+                 }
+          
+                if ($r->to_date == null) {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Please select required date to end report');
+                  return redirect()->route('admin.sid.general_report.index');
+                 }
+                //  $data['from_date'] =$r->from_date;
+                //  $data['to_date'] =$r->from_date;
+
+                 $data = $r->all();
+                 $data['product_types'] = \App\ProductType::all();
     
 
+                 $data['pending_reports']=Product::where('overall_status',1)->whereHas("departments", function($q)use($r){
+                    return $q->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
+                  })->get();
+    
+                  $data['completed_reports'] = Product::where('overall_status',2)
+                  ->whereHas("departments", function($q)use($r){
+                    return $q->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
+                 })->get();
+
+    
+                return view('admin.sid.generalreport.index',$data);
+               }
 
 
+
+
+               public function finalreports_index($id){
+
+                $data['ptype_id'] = $id;
+                $data['final_reports'] = Product::where('product_type_id',$id)->where('overall_status',2)->wherehas('departments')->get();
+
+                return view('admin.sid.generalreport.finalreports',$data);
+               }
+
+               public function finalreports_show($id){
+
+                 $data['report_id'] = $id; 
+          
+                $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", '>',2);
+                 })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
+          
+                $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
+                $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+
+                $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
+
+                
+                 $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", '>',6);
+                })->with('animalExperiment')->whereHas("animalExperiment")->first();
+ 
+
+                $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+                    return $q->where("dept_id", 3)->where("status", '>',2);
+                  })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                  ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
+
+                return view('admin.sid.generalreport.showfinalreport',$data);
+
+               }
 }
 
 

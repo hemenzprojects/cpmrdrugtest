@@ -59,10 +59,13 @@
                             <div class="dd-handle">
                                 <div class="row align-items-center">
                                     <div class="col-lg-10 col-md-12">
-                                        <p><span href="" class="badge badge-danger pull-right">
-                                        {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
-                                        </span>
-                                          <span>{{ucfirst($microproduct->name)}}</span>
+                                        <p>
+                                            <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""> 
+                                            <span href="" class="badge badge-danger pull-right">
+                                             {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
+                                           </span>
+                                            </a>  
+                                          <span></span>
                                         </p>
                                     </div> 
                                     <div class="col-lg-2 col-md-12">
@@ -82,8 +85,9 @@
                                         </div>
                                         <div class="card-body"> 
                                     
-                                            <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
+                                            <h6> Product</h6>
+
+                                            <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
                                             <h6>Quantity</h6>
@@ -93,8 +97,11 @@
                                             <small class="text-muted "></small>
                                             <h6>Indication</h6>
                                             <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
+                                            <h6>Dosage</h6>
+                                            <p class="text-muted"> {{ ucfirst($microproduct->dosage)}}<br></p>
 
                                             <hr><h5>Distribution Details</h5>
+
                                             <h6>Received By </h6>
                                             @foreach ($microproduct->departments->where('id',1) as $product)
                                             <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
@@ -104,19 +111,19 @@
                                             <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
                                             @endforeach
                                             <h6>Delivered By </h6>
+       
                                             @foreach ($microproduct->departments->where('id',1) as $product)
                                             <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
                                             @endforeach
                                          
-
+                                            {{-- 
                                             <hr><h5>Customer Details</h5>
-                                            
                                             <h6>Name</h6>
                                             <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
                                             <h6>Tell</h6>
                                             <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
-                                            
                                             <hr><h5>Distribution Periods</h5>
+                                            
                                             <div  style="margin-bottom: 5px">
                                             <h6 >product distribution period</h6>
                                                 <small class="text-muted">
@@ -125,15 +132,18 @@
                                                 Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
                                                 @endforeach
                                             </small>
-                                            </div>
+                                            </div> --}}
+
                                             <h6> product delivery period</h6>
+
                                             <small class="text-muted ">
                                                 @foreach ($microproduct->departments as $product)
-                                                Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                                                Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
+                                                {{-- Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small><br>
+                                                Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small> 
+                                                --}}
                                                 @endforeach
-                                            
                                             </small>
+
                                         </div> 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -188,7 +198,7 @@
                                                     {{$microproduct_withtest->productType->code}}|{{$microproduct_withtest->id}}|{{$microproduct_withtest->created_at->format('y')}}
                                                   </span>
                                                   <span href="" class="badge pull-right">
-                                                  <p style="font-size: 10px;margin: 2px">{{$microproduct_withtest->name}}</p>
+                                                  <p style="font-size: 10px;margin: 2px"></p>
                                                   </span><br>
                                               
                                                    <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_withtest->loadAnalyses)}}mla
@@ -214,7 +224,7 @@
                                               <span>
                                               <small class="float-right font"> <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
                                              <span>
-
+                                                 {{-- {{$report}} --}}
                                         </div>
                                     </a>
                                 </div>
@@ -260,7 +270,7 @@
                                       
                                   <div class="card-body feeds-widget">
                                   <div class="feed-item">
-                                      <a href="{{ route('admin.micro.printreport',['id' => $microproduct_completedtest->id]) }}">
+                                      <a target="_blank" href="{{ route('admin.micro.printreport',['id' => $microproduct_completedtest->id]) }}">
                                           <div class="feeds-left"><i class="ik ik-square text-warning"></i></div>
                                           <div class="feeds-body">
                                               <h4 class="">
@@ -270,7 +280,7 @@
                                                 <small class="float-right text-muted">{{count($microproduct_completedtest->loadAnalyses)}} MLA Tests</small><br>
                                                 @if (count($microproduct_completedtest->efficacyAnalyses)>0)
                                                 <small class="float-right text-muted">{{count($microproduct_completedtest->efficacyAnalyses)}} MEA Tests</small><br>
-                                                @endif
+                                            @endif
   
                                               </h4>
                                                @foreach($microproduct_completedtest->microbialloadReports->groupBy('id')->first() as $completedreport)
@@ -496,7 +506,7 @@
                             </small>
                             @enderror
                         </div>
-                      
+                        {{--                       
                         <div class="col-sm-3"  id="fadeout2"  >
                             <label class="custom-control custom-checkbox" >
                                 <input type="checkbox"  class="custom-control-input microcount" name="microbialcount" id="microbial_count" value="3">
@@ -507,7 +517,7 @@
                                 <strong>{{$message}}</strong>
                             </small>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="col-sm-3" style="background:#d49f0a;">
                             <label class="custom-control custom-checkbox" style="margin-top:5px">
                                 <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox2" value="2">

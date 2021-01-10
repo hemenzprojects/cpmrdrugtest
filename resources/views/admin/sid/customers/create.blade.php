@@ -29,14 +29,15 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-body">
-                <div class="dt-responsive ">
-                    <table id="complex-dt" class="table table-striped table-bordered nowrap">
+            <div class="card-body" style="overflow-x: scroll;">
+                <div class="dt-responsive " >
+                    <table id="complex-dt" class="table table-striped table-bordered nowrap" >
                         <thead>
                             <tr>
                             <th>Name</th>
                             <th>Street Address</th>
                             <th>Tell.</th>
+                            <th>Company Name</th>
                             <th>Added By</th>
                             <th>Action</th>
         
@@ -46,9 +47,11 @@
                             @foreach($customers as $customer)
                         <tr>
                             <td class="font">{{$customer->name}}</td>
-                             <td class="font">{{$customer->street_address}}</td>
-                            <td class="font">{{$customer->tell}}</td>
                             <td class="font">{{$customer->email}}</td>
+                            <td class="font">{{$customer->tell}}</td>
+                            <td class="font">{{$customer->company_name}}</td>
+                            <td class="font">{{\App\Admin::find($customer->added_by_id)->full_name}}</td>
+
                             <td class="font">
                             <div class="table-actions">
                                 {!! $customer->show_tag !!}
@@ -79,7 +82,8 @@
                     <div id="error-div" style="margin: 5px; color:red;"></div>
                   
                         <div class="form-group">
-                            <label for="exampleSelectGender">Title</label>
+                            <label for="exampleSelectGender">Title</label>   <span style="color:red">*</span>
+
                             <select name="title" class="form-control" id="exampleSelectGender" value="{{old('title')? old('title'): ''}}">
                                 <option>Mr</option>
                                 <option>Mrs</option>
@@ -89,7 +93,7 @@
                         </div>
                                       
                     <div class="form-group">
-                        <label for="exampleInputUsername1">Firstname</label>
+                        <label for="exampleInputUsername1">Firstname</label><span style="color:red">*</span>
                         <input type="text" required class="form-control" id="exampleInputUsername1" name="first_name" placeholder="Firstname" value="{{old('first_name')? old('first_name'): ''}}">
 
                         @error('first_name')
@@ -100,7 +104,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="exampleInputUsername1">Lastname</label>
+                        <label for="exampleInputUsername1">Lastname</label><span style="color:red">*</span>
                         <input type="text" required class="form-control" id="exampleInputUsername1" placeholder="Lastname" name="last_name" value="{{old('last_name')? old('last_name'): ''}}">
                         @error('last_name')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
@@ -109,8 +113,8 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" required class="form-control" id="exampleInputEmail1" placeholder="Email" name="email" value="{{old('email')? old('email'): ''}}">
+                        <label for="exampleInputEmail1">Email address</label><span style="color:red">*</span>
+                        <input type="email" required class="form-control" placeholder="Email" name="email" value="{{old('email')? old('email'): ''}}">
                         @error('email')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
@@ -118,27 +122,48 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Street Address</label>
-                        <input type="text" required class="form-control" id="exampleInputUsername1" placeholder="Street Address" name="street_address" value="{{old('street_address')? old('street_address'): ''}}">
-                        @error('street_address')
+                        <label for="exampleInputPassword1">Company Name</label><span style="color:red">*</span>
+                        <input type="text" required class="form-control" placeholder="Compnay Name" name="company_name" value="{{old('company_name')? old('company_name'): ''}}">
+                        @error('company_name')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputConfirmPassword1">House No.</label>
-                        <input type="text" required class="form-control" id="exampleInputUsername1" placeholder="House No." name="house_number" value="{{old('house_number')? old('house_number'): ''}}">
-                        @error('house_number')
+                        <label for="exampleInputPassword1">Company Address</label><span style="color:red">*</span>
+                        <input type="text" required class="form-control" placeholder="Compnay Address" name="company_address" value="{{old('company_address')? old('company_address'): ''}}">
+                        @error('company_address')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </small>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Company Location</label><span style="color:red">*</span>
+                        <input type="text" required class="form-control" placeholder="Compnay Location" name="company_location" value="{{old('company_location')? old('company_location'): ''}}">
+                        @error('company_location')
+                        <small style="margin:15px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Company Tell No.</label> <span style="color:red">*</span>
+                        <input type="text" required class="form-control" placeholder="Compnay Phone" name="company_phone" value="{{old('company_phone')? old('company_phone'): ''}}">
+                        @error('company_phone')
+                        <small style="margin:15px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
+                    </div>
+
                   
                     <div class="form-group">
-                        <label for="exampleInputConfirmPassword1">Tell No.</label>
-                        <input type="number" required class="form-control" id="exampleInputUsername1" placeholder="Tell No." name="tell" value="{{old('tell')? old('tell'): ''}}">
+                        <label for="exampleInputConfirmPassword1">Customer Tell No.</label><span style="color:red">*</span>
+
+                        <input type="number" required class="form-control" placeholder="Tell No." name="tell" value="{{old('tell')? old('tell'): ''}}">
                         @error('tell')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>

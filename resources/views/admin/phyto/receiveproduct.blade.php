@@ -79,7 +79,7 @@
                                     </div>
                                 </td>
                                 <td class="font">B{{$Phytochemistry->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} <br> {{$Phytochemistry->name}}</td>
+                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} </td>
                                 <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
                                 <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
                                 {!! $Phytochemistry->product_status !!}
@@ -101,14 +101,14 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                                <h5 class="modal-title" id="demoModalLabel">  Phytochemistry Product Details </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="card-body"> 
                                                     
                                                     <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$Phytochemistry->productType->Code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} |   {{ucfirst($Phytochemistry->name)}}</small>
+                                                    <small class="text-muted ">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}}</small>
                                                     <h6>Product Type </h6>
                                                     <small class="text-muted ">{{ucfirst($Phytochemistry->productType->name)}}</small>
                                                     <h6>Quantity</h6>
@@ -127,12 +127,12 @@
                                                     
                                                     @endforeach
 
-                                                    <hr><h5>Customer Details</h5>
+                                                    {{-- <hr><h5>Customer Details</h5>
                                                     
                                                     <h6>Name</h6>
                                                     <small class="text-muted ">{{ucfirst($Phytochemistry->customer->name)}}</small>
                                                     <h6>Tell</h6>
-                                                    <small class="text-muted ">{{ucfirst($Phytochemistry->customer->tell)}}</small>
+                                                    <small class="text-muted ">{{ucfirst($Phytochemistry->customer->tell)}}</small> --}}
                                                     
                                                     <hr><h5>Distribution Periods</h5>
                                                     <div  style="margin-bottom: 5px">

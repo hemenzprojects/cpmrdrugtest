@@ -7,8 +7,8 @@
             <div class="page-header-title">
                 <i class="ik ik-edit bg-blue"></i>
                 <div class="d-inline">
-                    <h5>Customers</h5>
-                    <span>Bellow are registerd customers</span>
+                    <h5>Customers Record</h5>
+                    <span>Bellow are registerd customers edit form to update customer record</span>
                 </div>
             </div>
         </div>
@@ -31,14 +31,15 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-body">
-                <div class="dt-responsive ">
-                    <table id="complex-dt" class="table table-striped table-bordered nowrap">
+            <div class="card-body" style="overflow-x: scroll;">
+                <div class="dt-responsive " >
+                    <table id="complex-dt" class="table table-striped table-bordered nowrap" >
                         <thead>
                             <tr>
                             <th>Name</th>
                             <th>Street Address</th>
                             <th>Tell.</th>
+                            <th>Company Name</th>
                             <th>Added By</th>
                             <th>Action</th>
         
@@ -48,21 +49,20 @@
                             @foreach($customers as $customer)
                         <tr>
                             <td class="font">{{$customer->name}}</td>
-                             <td class="font">{{$customer->street_address}}</td>
+                            <td class="font">{{$customer->email}}</td>
                             <td class="font">{{$customer->tell}}</td>
-                            <td class="font">{{$customer->created_by}}</td>
+                            <td class="font">{{$customer->company_name}}</td>
+                            <td class="font">{{\App\Admin::find($customer->added_by_id)->full_name}}</td>
+
                             <td class="font">
                             <div class="table-actions">
-                                                    
-                                    {{-- {!! $product->show_tag !!} --}}
-
-                                    {!! $customer->edit_tag !!}
-                                
+                                {!! $customer->show_tag !!}
+                                {!! $customer->edit_tag !!}
                                 <a href="#"><i class="ik ik-trash-2"></i></a>
                             </div>
 
                             </td>
-        
+                            
                         </tr>
                       
                         @endforeach
@@ -76,7 +76,7 @@
     </div>
     <div class="col-md-4">
         <div class="card" style="min-height: 422px;">
-            <div class="card-header"><h3>Register Customer</h3></div>
+            <div class="card-header"><h3>Update Customer Details</h3></div>
             <div class="card-body">
                 <form action="{{url('admin/sid/customer/update',['id' => $c])}}" method="POST">
                     {{ csrf_field() }}
@@ -124,27 +124,44 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Street Address</label>
-                        <input type="text" required class="form-control" id="exampleInputUsername1" placeholder="Street Address" name="street_address" value="{{old('street_address')? old('street_address'): $customer->street_address}}">
-                        @error('street_address')
+                        <label for="exampleInputPassword1">Company Name</label>
+                        <input type="text" required class="form-control" placeholder="Company Name" name="company_name" value="{{old('company_name')? old('company_name'): $c->company_name}}">
+                        @error('company_name')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputConfirmPassword1">House No.</label>
-                        <input type="text" required class="form-control" id="exampleInputUsername1" placeholder="House No." name="house_number" value="{{old('house_number')? old('house_number'): $c->house_number}}">
-                        @error('house_number')
+                        <label for="exampleInputConfirmPassword1">Company Address.</label>
+                        <input type="text" required class="form-control"  placeholder="Company Address." name="company_address" value="{{old('company_address')? old('company_address'): $c->company_address}}">
+                        @error('company_address')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </small>
                         @enderror
                     </div>
-                  
                     <div class="form-group">
-                        <label for="exampleInputConfirmPassword1">Tell No.</label>
-                        <input type="number" required class="form-control" id="exampleInputUsername1" placeholder="Tell No." name="tell" value="{{old('tell')? old('tell'): $c->tell}}">
+                        <label for="exampleInputConfirmPassword1">Company Location.</label>
+                        <input type="text" required class="form-control"  placeholder="Company Location." name="company_location" value="{{old('company_location')? old('company_location'): $c->company_location}}">
+                        @error('company_location')
+                        <small style="margin:15px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputConfirmPassword1">Company Tell No.</label>
+                        <input type="number" required class="form-control"  placeholder="Company Phone." name="company_phone" value="{{old('company_phone')? old('company_phone'): $c->company_phone}}">
+                        @error('company_phone')
+                        <small style="margin:15px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputConfirmPassword1">Customer Tell No.</label>
+                        <input type="number" required class="form-control" placeholder="Tell No." name="tell" value="{{old('tell')? old('tell'): $c->tell}}">
                         @error('tell')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>

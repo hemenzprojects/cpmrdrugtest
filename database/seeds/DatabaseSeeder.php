@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PhytochemicalConstituentSeeder::class);
         $this->call(PhytoOrganolepticsSeeder::class);
         $this->call(PhytoPhytochemicalSeeder::class);
+        $this->call(PharmStandardSeeder::class);
+
        
 
 

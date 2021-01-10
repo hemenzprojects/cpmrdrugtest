@@ -68,11 +68,11 @@
                                         <span href="" class="badge  pull-right" style="background-color: red; color:#fff">
                                         {{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}}
                                         </span>
-                                          <span>{{ucfirst($animalexp->name)}}</span>
+                                          {{-- <span>{{ucfirst($animalexp->name)}}</span> --}}
                                         </p>
                                        
                                     </div> 
-                                    <a onclick="return confirm('Are you of deleting record?')" href="{{url('admin/pharm/animalexperiment/reject',['id' =>$animalexp->id ])}}">
+                                    <a onclick="return confirm('Are you sure of deleting record?')" href="{{url('admin/pharm/animalexperiment/reject',['id' =>$animalexp->id ])}}">
                                         <div class="col-md-2 col-md-12">
                                             <i class="ik ik-trash-2"></i>
                                         </div>
@@ -93,7 +93,7 @@
                                         <div class="card-body"> 
                                     
                                             <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}} |   {{ucfirst($animalexp->name)}}</small>
+                                            <small class="text-muted ">{{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}} </small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($animalexp->productType->name)}}</small> 
                                             <small class="text-muted "></small>
@@ -194,7 +194,7 @@
                                             <span href="" class="badge  pull-right" style="background-color: #ffc107">
                                             {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
                                             </span>
-                                              <span>{{ucfirst($inprogress->name)}}</span>
+                                              {{-- <span>{{ucfirst($inprogress->name)}}</span> --}}
                                             </p> 
                                             <span class="badge  pull-right"> 
                                             <strong>Test :</strong> 
@@ -826,10 +826,10 @@
                         </div>
                         {{-- need to check  --}}
                          <select required name="product_id" id="pharmproduct_id" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                            <option value="1">Select Product</option>
+                            <option value="">Select Product</option>
                             @foreach($animalexps as $animalexp)
-                            @foreach($animalexp->pharmsamplePreparation as $item)                     
-                            <option spvolume="{{$item->pivot->measurement}}"  product_ma="{{\App\Product::find($item->pivot->product_id)->productType->method_applied}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->name}}</option>
+                            @foreach($animalexp->pharmsamplePreparation as $item)                                                                              
+                            <option spvolume="{{$item->pivot->measurement}}"  product_ma="{{\App\Product::find($item->pivot->product_id)->productType->method_applied}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->productType->code}}|{{\App\Product::find($item->pivot->product_id)->id}}|{{\App\Product::find($item->pivot->product_id)->created_at->format('y')}}</option>
                             @endforeach
                             @endforeach
                          </select>

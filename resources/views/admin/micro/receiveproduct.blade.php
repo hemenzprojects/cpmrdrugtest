@@ -79,7 +79,7 @@
                                     </div>
                                 </td> 
                                 <td class="font">B{{$microproduct->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} <br>{{ucfirst($microproduct->name)}}</td>
+                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</td>
                                 <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                 <td class="font">{{$microproduct->pivot->quantity}}</td>
                                 {!! $microproduct->product_status !!}
@@ -110,13 +110,16 @@
                                                 <div class="card-body"> 
                                                     
                                                     <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}} |   {{ucfirst($microproduct->name)}}</small>
+                                                    <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</small>
                                                     <h6>Product Type </h6>
                                                     <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
                                                     <h6>Quantity</h6>
                                                     <small class="text-muted "> {{$microproduct->pivot->quantity}}</small>
                                                     <h6>Indication</h6>
                                                     <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
+
+                                                    <h6>Dosage</h6>
+                                                    <p class="text-muted"> {{ ucfirst($microproduct->dosage)}}<br></p>
 
                                                     <hr><h5>Distribution Details</h5>
                                                     <h6>Received By </h6>
@@ -130,12 +133,12 @@
 
                                                     </small>
                                                                                                       
-                                                    <hr><h5>Customer Details</h5>
+                                                    {{-- <hr><h5>Customer Details</h5>
                                                     
                                                     <h6>Name</h6>
                                                     <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
                                                     <h6>Tell</h6>
-                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small>
+                                                    <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small> --}}
                                                     
                                                     <hr><h5>Distribution Periods</h5>
                                                     <div  style="margin-bottom: 5px">

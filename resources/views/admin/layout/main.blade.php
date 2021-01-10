@@ -90,7 +90,7 @@
                             </div>
                             <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal"><i class="ik ik-grid"></i></button>
                             <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="img/user.jpg" alt=""></a>
+                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{asset('admin/img/profile.jpg')}}" alt=""></a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{{url('admin/profile/create')}}"><i class="ik ik-user dropdown-icon"></i> Profile</a>
                                     <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>

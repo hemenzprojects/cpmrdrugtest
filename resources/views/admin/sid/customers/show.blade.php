@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-center"> 
-                        <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="150">
+                        <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="120">
                         <h4 class="card-title mt-10">{{$customer->name}}</h4>
                     </div>
                 </div>
@@ -38,10 +38,15 @@
                     <small class="text-muted d-block">{{$customer->email}}</small>
                     <h6>Contact</h6>
                     <small class="text-muted d-block">{{$customer->tell}}</small>
-                    <h6>Street Address</h6>
-                    <small class="text-muted d-block">{{$customer->street_address}}</small>
-                    <h6>House Number</h6>
-                    <small class="text-muted d-block">{{$customer->house_number}}</small>
+                    <h6>Company Name</h6>
+                    <small class="text-muted d-block">{{$customer->company_name}}</small>
+                    <h6>Company Address</h6>
+                    <small class="text-muted d-block">{{$customer->company_address}}</small>
+                    <h6>Company Location</h6>
+                    <small class="text-muted d-block">{{$customer->company_location}}</small>
+                    <h6>Company Phone</h6>
+                    <small class="text-muted d-block">{{$customer->company_phone}}</small>
+                   
                     <br>
                    
                 </div>

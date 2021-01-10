@@ -42,6 +42,7 @@
                         </table>
                     </div>
 
+             
                     <div class="card-header d-block">
                         <h6>Microbial Load Analysis</h6>
                     </div>
@@ -61,7 +62,68 @@
                                 </tr>
                             </thead>
                         <tbody>
-                           
+                            @if ($check_load->load_analyses_id ==1)
+                            {{-- @foreach ($microbial_loadanalyses as $item) --}}
+                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+                            <tr>
+                                <td class="font">
+                                    <?php
+                                     if ($i<2) {
+                                    $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
+
+                                    echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
+                                     }else {
+                                        $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
+                                        print_r($test_conducted); 
+                                     }   
+                                   ?>
+                                    
+                                    {{-- {{$microbial_loadanalyses[$i]->test_conducted}} --}}
+                                    <input type="hidden" class="form-control" name="loadanalyses" placeholder="Result" value="{{$microbial_loadanalyses[$i]->test_conducted}}">
+                                </td>
+                                <td class="font">
+                                 
+                                <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 13.4px">
+                                    <?php 
+                                    if ($i<2) {
+                                        $results= explode(' ',$microbial_loadanalyses[$i]->result);
+                                        $rs_part1 =$results[0];
+                                        $rs_part2 = explode('^',$results[2]);
+                                    
+                                        print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+                                        
+                                    }
+                                    else {
+                                    $results =  $microbial_loadanalyses[$i]->result;
+                                    print_r($results); 
+                                    }
+                                    ?>
+                                <p>
+                                    <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
+                                    {{-- <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}"> --}}
+
+                                </td>
+                                <td class="font">
+                                    <?php 
+                                    if ($i<2) {
+                                      $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
+                                      $rs_part1 =$acceptance_criterion[0];
+                                      $rs_part2 = explode('^',$acceptance_criterion[2]);
+                                 
+                                      print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+                                       
+                                    }else {
+                                      $acceptance_criterion =  $microbial_loadanalyses[$i]->acceptance_criterion;
+                                      print_r($acceptance_criterion); 
+                                    }
+                                  ?>
+                                    {{-- {{($item->acceptance_criterion)}} --}}
+                                </td>                                                          
+                            </tr>
+                            @endfor
+                            @endif
+
+                            @if ($check_load->load_analyses_id ==3)
                             @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
                             <tr>
                                 <td class="font">
@@ -69,29 +131,31 @@
                                     <input type="hidden" class="form-control" name="loadanalyses" placeholder="Result" value="{{$microbial_loadanalyses[$i]->test_conducted}}">
                                 </td>
                                 <td class="font">
-                                    {{$microbial_loadanalyses[$i]->result}}
+                                   {{$microbial_loadanalyses[$i]->result}}
                                 </td>
                                 <td class="font">
                                     {{$microbial_loadanalyses[$i]->acceptance_criterion}}
                                 </td>                                                          
                             </tr>
                             @endfor
+                           @endif
                         </tbody>
                        </table>  
                     </div>
-                    @if (is_array($microbial_efficacyanalyses)) 
-                    @foreach($microbial_efficacyanalyses->groupBy('id')->first() as $efficacyanalyses)
-                      @if ($efficacyanalyses->efficacy_analyses_id ==2)
+                
+
+               
+
+                    @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
                       <div class="card-heade" style="margin: 2%">
                         <h6>Microbial Efficacy Analysis</h6>
-                    </div>
-                      @endif
-                    @endforeach
-                    @endif
-                   
+                     </div> 
+                  
+                     
                     <div class="table-responsive">
+                        
                         <table class="table table-striped table-bordered nowrap dataTable">
-                            <thead class="meatablehead 768992334039322" style="display: none">
+                            <thead class="meatablehead">
                                 <tr class="table-warning">
                                     <th>Pathogen</th>
                                     <th>PI Zone</th>
@@ -111,20 +175,19 @@
                                     <td class="font">{{$efficacyanalyses->ci_zone}}</td>
                                     <td class="font">{{$efficacyanalyses->fi_zone}}</td>
                                 </tr>
-                            
-                               </div>
                              
                             @endforeach
                            </tbody>
                        </table>  
                     </div>
+                    @endif
                      <div class="row" style="margin-top: 4%">
                          <div class="col-md-12">
                             <strong><span>General Comment:</span></strong>
                             <p>{{\App\Product::find($report_id)->micro_comment}} </p>
                      </div>
                      <div class="col-md-12">
-                        <strong><span>Conclussion:</span></strong>
+                        <strong><span>Conclusion:</span></strong>
                         <p>{{\App\Product::find($report_id)->micro_conclution}} </p><br><br>
                      </div>
                  </div>
