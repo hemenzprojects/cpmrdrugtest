@@ -13,6 +13,8 @@ use App\PharmTestConducted;
 use App\PharmSamplePreparation;
 use App\PharmAnimalExperiment;
 use App\PharmToxicity;
+use App\PharmAnimalModel;
+use App\PharmFinalReport;
 use \Session;
 use \Hash;
 use \Auth;
@@ -217,8 +219,20 @@ class PharmController extends Controller
               Session::flash("message_title", "success");
               return redirect()->back();
              }
+ 
+              public function samplepreparation_index(){
 
+               $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(100)->get();
 
+                return View('admin.pharm.samplepreparation.index',$data); 
+              }
+
+              public function samplepreparation_report(Request $r){
+
+              $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
+              return View('admin.pharm.samplepreparation.index',$data);
+                
+              }
 
                public function animalexperimentation_create(){
 
@@ -292,6 +306,21 @@ class PharmController extends Controller
 
               // dd($r->all());
                     
+              $data = $r->validate([
+                'product_id' => 'required', 
+                'pharm_testconducted' => 'required|numeric', 
+                'animalmodel' => 'required', 
+                'weight' => 'required', 
+                'group' => 'required|numeric', 
+                'time_administration' => 'required', 
+                'death' => 'required', 
+                'toxicity' => 'required', 
+                'sex' => 'required', 
+                'total_days' => 'required',  
+                'dosage' => 'required', 
+                
+            ]);
+
               if ($r->animalmodel) {
                 for ($i=0; $i < count($r->animalmodel); $i++) { 
                   
@@ -301,12 +330,13 @@ class PharmController extends Controller
                   'animal_model'=>$r->animalmodel[$i],
                   'weight'=>$r->weight[$i],
                   'volume'=>$r->volume_given[$i],
+                  'time_administration'=>$r->time_administration[$i], 
                   'death'=>$r->death[$i], 
                   'toxicity'=>$r->toxicity[$i],
                   'sex'=>$r->sex[$i],
                   'method'=>$r->method_of_admin[$i],
-                  'group'=>$r->group[$i],
-                  'period'=>$r->period[$i],
+                  'group'=>$r->group,
+                  'time_death'=>$r->time_death[$i],
                   'total_days'=>$r->total_days,
                   'dosage'=>$r->dosage[$i],
                   'added_by_id'=> Auth::guard('admin')->id(),
@@ -316,7 +346,10 @@ class PharmController extends Controller
                    
                 }
               }
-               
+                $data = [ 
+                'product_id' => $r->product_id,
+                ];
+                PharmFinalReport::create($data);
 
                  $data = [ 
                   'pharm_testconducted' => $r->pharm_testconducted,
@@ -354,6 +387,9 @@ class PharmController extends Controller
               $deleteData=PharmAnimalExperiment::where('product_id',$id); 
               $deleteData->delete(); 
 
+              $deleteData=PharmFinalReport::where('product_id',$id); 
+              $deleteData->delete(); 
+
               Session::flash("message", "Animal Experiment deleted Successfully");
               Session::flash("message_title", "success");
               return redirect()->back();
@@ -364,26 +400,29 @@ class PharmController extends Controller
               $deleteData=PharmAnimalExperiment::where('product_id',$id); 
               $deleteData->delete(); 
 
-              if ($r->pharm_animal_model) {
-                for ($i=0; $i <  count($r->pharm_animal_model); $i++) { 
+              if ($r->animalmodel) {
+                for ($i=0; $i <  count($r->animalmodel); $i++) { 
+
                   PharmAnimalExperiment::create([
-                    'product_id'=>$id,
+                    'product_id'=>$r->product_id,
                     'pharm_testconducted_id'=>$r->pharm_testconducted,
-                    'animal_model'=>$r->pharm_animal_model[$i],
+                    'animal_model'=>$r->animalmodel[$i],
                     'weight'=>$r->weight[$i],
-                    'volume'=>$r->volume[$i],
+                    'volume'=>$r->volume_given[$i],
+                    'time_administration'=>$r->time_administration[$i], 
                     'death'=>$r->death[$i], 
                     'toxicity'=>$r->toxicity[$i],
                     'sex'=>$r->sex[$i],
-                    'method'=>$r->method[$i],
-                    'group'=>$r->group[$i],
-                    'period'=>$r->period[$i],
+                    'method'=>$r->method_of_admin[$i],
+                    'group'=>$r->group,
+                    'time_death'=>$r->time_death[$i],
                     'total_days'=>$r->total_days,
                     'dosage'=>$r->dosage[$i],
                     'added_by_id'=> Auth::guard('admin')->id(),
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                     ]);
+                     
               
                 }            
               }
@@ -395,10 +434,18 @@ class PharmController extends Controller
 
              public function animalexperiment_recordbook(){
 
-             $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(100)->get();
+             $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(200)->get();
              
               return View('admin.pharm.animalexperiment.recordbook',$data);
              }
+
+
+              public function animalexperiment_recordbook_report(Request $r){
+              
+
+              $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
+              return View('admin.pharm.animalexperiment.recordbook',$data); 
+              }
 
              public function report_show($id){
 
@@ -408,6 +455,8 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->first();
 
+              $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+
               if($data['pharmreports']  == null){     
               return redirect()->route('admin.pharm.samplepreparation.create');
               }
@@ -416,18 +465,30 @@ class PharmController extends Controller
 
              }
 
-             public function animalexperimentation_fetchtoxicity(){
-               return ['data'=>PharmToxicity::get(['id','name'])];
-             }
+                public function animalexperimentation_fetchtoxicity(){
+                  return ['data'=>PharmToxicity::get(['id','name'])];
+                }
 
-               public function pharmreport_create(Request $r, $id){
+                public function animalexperimentation_fetchanimalmodel(){
+
+                  return ['data'=>PharmAnimalModel::get(['id','name'])];
+                }
+
+                public function pharmreport_create(Request $r, $id){
                
-                // dd($r->all());
+                // dd($r->all(),$id);
+                
                  if ($r->date_analysed > \Carbon\Carbon::now()) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Please check date field. Date must not exceed todays date');
                   return redirect()->back();
                  }
+                //  if ($r->pharm_testconducted != 1) {
+                //   Session::flash('message_title', 'error');
+                //   Session::flash('message', 'Please check date field. data entry issue');
+                //   return redirect()->back();
+                //  }
+
       
                  $products =Product::where('id', $id)->where("pharm_process_status", 4)->with("departments")->whereHas("departments", function($q){
                   return $q->where("dept_id", 2);
@@ -442,9 +503,34 @@ class PharmController extends Controller
                   $product->pharm_hod_evaluation = 1;
                   $product->pharm_analysed_by = Auth::guard('admin')->id();
                   $product->pharm_dateanalysed = $r->date_analysed;
+                  $product->pharm_grade = $r->pharm_grade;
+
                   $product->update();
 
              
+                  $data = ([
+                    'product_id'=>$id,
+                    'pharm_testconducted_id'=>$r->pharm_testconducted,
+                    'pharm_animal_model'=>$r->animal_model,
+                    'num_of_animals'=>$r->animal_sex,
+                    'animal_sex'=>$r->animal_sex,
+                    'no_group'=>$r->no_group, 
+                    'method_of_admin'=>$r->method_of_admin, 
+                    'formulation'=>$r->formulation,
+                    'preparation'=>$r->preparation,
+                    'method_of_admin'=>$r->method_of_admin,
+                    'no_days'=>$r->no_days,
+                    'no_death'=>$r->no_death,
+                    'dosage'=>$r->dosage,
+                    'estimated_dose'=>$r->estimated_dose,
+                    'signs_toxicity'=>$r->signs_toxicity,
+                    'added_by_id'=> Auth::guard('admin')->id(),
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                    ]);
+
+                PharmFinalReport::where('product_id', $id)->update($data);
+            
                 Session::flash("message", "Result of experiment has been submitted to process report");
                 Session::flash("message_title", "success");
                
@@ -476,6 +562,8 @@ class PharmController extends Controller
             }
 
              public function evaluate_one_index($id){
+
+            
               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",7);
                if(count($productdepts->get()) < 1){     
                  return redirect()->route('admin.pharm.hod_office.approval');
@@ -485,6 +573,9 @@ class PharmController extends Controller
               $data['pharmreports'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->first();
+
+              $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+
         
                return view('admin.pharm.hodoffice.showreport',$data);
              }
@@ -551,6 +642,8 @@ class PharmController extends Controller
           }
 
           public function evaluate_one_edit(Request $r, $id){
+
+
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -561,10 +654,17 @@ class PharmController extends Controller
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
               return redirect()->back();
             }
-             Product::where('id',$id)->update([
+            $p = Product::find($id);
+            $p->update([
               'pharm_hod_evaluation'=> $r->evaluate,
               'pharm_appoved_by'=>$r->adminid,
             ]); 
+
+            if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
+              $p->update(['overall_status'=> 2]);
+            }else {
+              $p->update(['overall_status'=> 1]);
+            }
 
            Session::flash("message", "Report Evaluation completed.");
            Session::flash("message_title", "success");  
@@ -617,6 +717,8 @@ class PharmController extends Controller
              return $q->where("dept_id", 2)->where("status", '>',6);
              })->with('animalExperiment')->whereHas("animalExperiment")->first();
 
+             $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+
              return view('admin.pharm.completedreport',$data);
              
           }
@@ -657,7 +759,7 @@ class PharmController extends Controller
              public function completedreports_index($id){
 
               $data['ptype_id'] = $id;
-               $data['completed_products'] = Product::where('product_type_id',$id)->where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
+              $data['completed_products'] = Product::where('product_type_id',$id)->where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id",2)->where('status','>', 6);
               })->get();
 
@@ -702,12 +804,15 @@ class PharmController extends Controller
                 return redirect()->route('admin.pharm.general_report.index');
                }
               $data['product_types'] = \App\ProductType::all();
-               $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->with("departments")->whereHas("departments", function($q){
-                return $q->where("dept_id",2)->where('status','<',8);
+             $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->whereHas("departments", function($q)use($r){
+                return $q->where("dept_id",2)->where('status','<',8)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
               })->get();
-               $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->with("departments")->whereHas("departments", function($q){
-                return $q->where("dept_id",2)->where('status','>', 6);
+
+             $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->whereHas("departments", function($q)use($r){
+                return $q->where("dept_id",2)->where('status','>', 6)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
               })->get(); 
+
+            
 
               return view('admin.pharm.generalreport.index',$data);
 

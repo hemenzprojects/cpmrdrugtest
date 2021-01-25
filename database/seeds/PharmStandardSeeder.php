@@ -13,6 +13,14 @@ class PharmStandardSeeder extends Seeder
     {
         DB::table('pharm_standards')->truncate();
         DB::table('pharm_standards')->insert([
+            'name'   =>  'None',
+            'description'   =>  'None',
+            'default'   =>  'None',
+            'added_by_id'   =>  1,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('pharm_standards')->insert([
             'name'   =>  'standard 1',
             'description'   =>  'For creams',
             'default'   =>  'An area of hair on the lateral portion of the albino rats (about 9 cm2) was trimmed and shaved with a razor blade. The rats were divided into 3 groups (n=5). Group one was injected intradermally with 0.1 ml of 1% w/v of the cream dissolved in glycerol, group two with 0.1 ml of 5% w/v of the cream dissolved in glycerol and group three as control was treated with only 0.1 ml glycerol. The cream was also applied topically (0.5-1.0 g) to the shaved area of the first two groups of rats and the animals were observed for a period of 48 hours for any signs of ulceration, irritation and/or inflammation as compared to the control groups.',

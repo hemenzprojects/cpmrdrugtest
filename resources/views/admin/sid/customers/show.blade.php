@@ -46,7 +46,8 @@
                     <small class="text-muted d-block">{{$customer->company_location}}</small>
                     <h6>Company Phone</h6>
                     <small class="text-muted d-block">{{$customer->company_phone}}</small>
-                   
+                    <h6>Date</h6>
+                    <small class="text-muted d-block">{{$customer->created_at->format('d/ m / Y')}}</small>
                     <br>
                    
                 </div>

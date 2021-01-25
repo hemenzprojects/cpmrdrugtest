@@ -53,7 +53,7 @@
                         </a>
                     </div>
                 </div>
-                <table id="order-table" class="table table-striped table-bordered nowrap dataTable">
+                <table id="order-table_labs" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -62,6 +62,7 @@
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
+                            <th style="display: none">status id</th>
                             <th>Distributed by</th>
                             <th>Received by</th>
                             <th>Actions</th>                        
@@ -79,10 +80,16 @@
                                     </div>
                                 </td>
                                 <td class="font">B{{$Phytochemistry->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} </td>
+                                <td class="font">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}} 
+                                    @if ($Phytochemistry->failed_tag)
+                                    <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                    @endif
+                                </td>
+  
                                 <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
                                 <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
                                 {!! $Phytochemistry->product_status !!}
+                                <td style="display: none">{{$Phytochemistry->pivot->status}}</td>
                                 @foreach ($Phytochemistry->productDept->groupBy('id')->first() as $distribution)
                                 <td class="font">{{$distribution->distributed_by_admin}}</td>
                                 <td class="font">{{$distribution->received_by_admin}}</td>

@@ -31,11 +31,12 @@
         <div class="card">
             <div class="card-body" style="overflow-x: scroll;">
                 <div class="dt-responsive " >
-                    <table id="complex-dt" class="table table-striped table-bordered nowrap" >
+                    <table id="order-table2" class="table table-striped table-bordered nowrap" >
                         <thead>
                             <tr>
+                            <th>ID</th>
                             <th>Name</th>
-                            <th>Street Address</th>
+                            {{-- <th>Street Address</th> --}}
                             <th>Tell.</th>
                             <th>Company Name</th>
                             <th>Added By</th>
@@ -46,8 +47,10 @@
                         <tbody>
                             @foreach($customers as $customer)
                         <tr>
+                            <td style="display: non">C-{{$customer->created_at->format('His')}}{{$customer->id}}</td>
+
                             <td class="font">{{$customer->name}}</td>
-                            <td class="font">{{$customer->email}}</td>
+                            {{-- <td class="font">{{$customer->email}}</td> --}}
                             <td class="font">{{$customer->tell}}</td>
                             <td class="font">{{$customer->company_name}}</td>
                             <td class="font">{{\App\Admin::find($customer->added_by_id)->full_name}}</td>

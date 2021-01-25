@@ -9,7 +9,7 @@
            <div class="text-center"> 
            <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
            <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
-           <p class="card-subtitle">Pharmacology & Toxicology Department</p>
+           <p class="card-subtitle">Phytochemistry Department</p>
           </div>
 
           <div class="card">
@@ -25,10 +25,15 @@
                             </tr>
                             <tr>
                             <td class="font"><strong>Date Recievied:</strong></td>
-                                <td class="font">{{$phytoshowreport->name}}</td>
+                            <td class="font">
+                                
+                                @foreach (\App\ProductDept::where('product_id',$phytoshowreport->id)->where('dept_id',3)->get() as $item)
+                                {{$item->received_at}}   
+                                @endforeach
+                                </td>
                             </tr>
                             <tr>
-                                <td class="font"><strong>Date of Report:</strong></td> 
+                                <td class="font"><strong>Date Analyzed:</strong></td> 
                                 <td class="font">{{$phytoshowreport->phyto_dateanalysed}}</td>
                             </tr>
                             <tr>
@@ -241,6 +246,18 @@
                
                   <h6 style="margin-top: 2%">DATE ANALYSED</h6>
                  <input class="form-control" required type="date" name="date_analysed" value="{{$phytoshowreport->phyto_dateanalysed}}" style="width:250px">
+                   
+
+                 <div class="col-sm-3" style="margin-top:30px">
+                    <div class="form-group">
+                        <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+                        <select name="phyto_grade" required class="form-control" id="exampleSelectGender">
+                        <option value="{{\App\Product::find($phytoshowreport->id)->phyto_grade}}">{!! \App\Product::find($phytoshowreport->id)->phyto_grade_report !!}</option>
+                            <option value="1">Failed</option>
+                            <option value="2">Passed</option>
+                        </select>                                
+                        </div>
+                </div>
 
                  <div class="row invoice-info" style="margin: 15px">
                     <?php

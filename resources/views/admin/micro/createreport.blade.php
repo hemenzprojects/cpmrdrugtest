@@ -167,7 +167,7 @@
                        {{count($microproduct_withtest)}} 
                     </label>
                     @endforeach
-                    <h3>In Progress</h3>
+                    <h3>Under Analysis</h3>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="ik ik-chevron-left action-toggle"></i></li>
@@ -184,7 +184,7 @@
                   <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                         
                         <ul class="list-group" id="myList">
-                            @foreach($microproduct_withtests as $microproduct_withtest)
+                            @foreach($microproduct_withtests->sortBy('micro_hod_evaluation') as $microproduct_withtest)
                           <li class="list-group-item" style="padding: 1px;border:1px">
                             <div class="dd-handle">
                                     
@@ -223,8 +223,14 @@
                                               @endforeach 
                                               <span>
                                               <small class="float-right font"> <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
-                                             <span>
-                                                 {{-- {{$report}} --}}
+                                              <span>
+                                                  @if ($microproduct_withtest->micro_grade != null )
+                                                  <span>
+                                                    <small class="float-right font"> <strong>Grade: </strong> {!! $microproduct_withtest->micro_grade_report !!}</small>
+                                                <span>  
+                                                  @endif 
+                                                  
+                                             
                                         </div>
                                     </a>
                                 </div>

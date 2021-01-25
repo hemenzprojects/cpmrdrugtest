@@ -105,7 +105,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="http://localhost/drugProject/public/admin/login">
+                            <a href="{{route('admin.login')}}">
                                 <div class="widget-body">
                                     Login  <i class="ik ik-log-in"></i>
                                 </div>
@@ -124,7 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="http://localhost/drugProject/public/admin/login">
+                                <a href="{{url('admin/login')}}">
                                 <div class="widget-body">
                                     Login  <i class="ik ik-log-in"></i>
                                 </div>
@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="http://localhost/drugProject/public/admin/login">
+                                <a href="{{url('admin/login')}}">
                                 <div class="widget-body">
                                     Login  <i class="ik ik-log-in"></i>
                                 </div>
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="http://localhost/drugProject/public/admin/login">
+                                <a href="{{route('admin.login')}}">
                                 <div class="widget-body">
                                     Login  <i class="ik ik-log-in"></i>
                                 </div>

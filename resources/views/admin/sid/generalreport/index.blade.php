@@ -70,9 +70,9 @@
                                 <div class="state">
                                     <h5 style="font-size: 15px">Pending </h5><hr>
         
-                                    @foreach ($pending_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-                                    <h2 style="color: red"> {{count($item)}}</h2>
-                                    @endforeach 
+                                    {{-- @foreach ($pending_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item) --}}
+                                    <h2 style="color: red"> {{count($product_type['pending'])}}</h2>
+                                    {{-- @endforeach  --}}
                                             
                                 </div>
                                 <small class="text-small mt-10 d-block">Total number of pending reports</small>
@@ -85,9 +85,8 @@
                             <div class="card-block text-center">
                                 <div class="state">
                                     <h5 style="font-size: 15px">Completed </h5><hr>
-                                    @foreach ($completed_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-                                    <h2 style="color: green"> {{count($item)}}</h2>
-                                    @endforeach
+                                    <h2 style="color: green"> {{count($product_type['completed'])}}</h2>
+                                    
                                             
                                 </div>
                                 <small class="text-small mt-10 d-block">Total number of completed reports</small>
@@ -110,7 +109,7 @@
              @endforeach --}}
            </div>
         <div class="card-body">
-            <table id="order-table" class="table table-striped table-bordered nowrap">
+            <table id="general-report" class="table table-striped table-bordered nowrap">
          <thead>
          <tr>
              <th>#</th>
@@ -120,23 +119,22 @@
          </tr>
          </thead>
          <tbody>
+             @php $i=0; @endphp
             @foreach ($product_types as $product_type)                                    
              <tr>
-             <td class="font">{{$product_type->id}} </td>
+             <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
              <td class="font"> 
-                  @foreach ($pending_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-                {{count($item)}}
-                 @endforeach   
+                {{count($product_type['pending'])}}
              </td>
              <td class="font"> 
-                @foreach ($completed_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-                {{count($item)}}
-                @endforeach  
+                {{count($product_type['completed'])}}
              </td>
     
              </tr>
-            
+            @php
+               $i++; 
+            @endphp
               @endforeach
              
          </tbody>

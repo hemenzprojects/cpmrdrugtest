@@ -53,7 +53,7 @@
                         </a>
                     </div>
                 </div>
-                <table id="order-table3" class="table table-striped table-bordered nowrap dataTable">
+                <table id="order-table_labs" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -62,6 +62,7 @@
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
+                            <th style="display: none">status id</th>
                             <th>Delivered by</th>
                             <th>Received by</th>
                             <th>Actions</th>                        
@@ -79,11 +80,15 @@
                                     </div>
                                 </td> 
                                 <td class="font">B{{$microproduct->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</td>
+                                <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
+                                    @if ($microproduct->failed_tag)
+                                    <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                    @endif
+                                </td>
                                 <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                 <td class="font">{{$microproduct->pivot->quantity}}</td>
                                 {!! $microproduct->product_status !!}
-                                
+                                <td style="display: none">{{$microproduct->pivot->status}}</td>
                                 <td class="font">
                                     {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
                                 </td>

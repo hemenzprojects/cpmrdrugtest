@@ -191,8 +191,13 @@
                          </div>
                         <div class="col-md-12">
                             <strong><span>Conclusion:</span></strong>
-                            <p>{{\App\Product::find($report_id)->micro_conclution}} </p><br><br>
+                            <p>{{\App\Product::find($report_id)->micro_conclution}} </p><br>
                         </div>
+                        <div class="col-md-12">
+                            <strong><span>Report Grade:</span></strong>
+                            <p>{!! \App\Product::find($report_id)->micro_grade_report !!} </p><br><br>
+                        </div>
+
                    </div>
                     <div class="row invoice-info" style="margin: 15px">
 

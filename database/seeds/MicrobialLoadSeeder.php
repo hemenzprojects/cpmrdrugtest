@@ -15,7 +15,7 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->insert([
             
             'test_conducted'   =>  '1 TAMC/ 37 0 C /24hrs/PCA',
-            'result'   =>  '8.9 x 10^3',
+            'result'   =>  '0.0 x 10^0',
             'rs_total'   =>  8900,
             'acceptance_criterion'=>  '5.0 X 10^4',
             'ac_total'   =>  50000,
@@ -27,7 +27,7 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->insert([
                     
             'test_conducted'   =>  '2 TYMC/ 25 0 C /5Days/MEA',
-            'result'   =>  '3.5 x 10^3',
+            'result'   =>  '0.0 x 10^0',
             'rs_total'   =>  3500,
             'acceptance_criterion'=>  '5.0 X 10^2',
             'ac_total'   =>  500,
@@ -38,8 +38,8 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->insert([
                     
             'test_conducted'   =>  'E Coli',
-            'result'   =>  'Present',
-            'rs_total'   =>  1,
+            'result'   =>  'None',
+            'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absent',
             'ac_total'   =>  0,
             'created_at' => date("Y-m-d H:i:s"),
@@ -49,7 +49,7 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->insert([
                     
             'test_conducted'   =>  'Salmonella spp',
-            'result'   =>  'Absent',
+            'result'   =>  'None',
             'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absence',
             'ac_total'   =>  0,
@@ -60,7 +60,7 @@ class MicrobialLoadSeeder extends Seeder
         DB::table('microbial_load_analyses')->insert([
                     
             'test_conducted'   =>  'Staphylococcus spp',
-            'result'   =>  'Absent',
+            'result'   =>  'None',
             'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absence',
             'ac_total'   =>  0,

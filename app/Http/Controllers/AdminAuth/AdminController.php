@@ -16,6 +16,7 @@ class AdminController extends Controller
     }
 
     public function index(){
+
         return view('admin.home');
     }
 
@@ -53,4 +54,13 @@ class AdminController extends Controller
             Session::flash("message_title", "success");
             return redirect()->back();
     }
+
+    public function create_admin(Admin $admin){
+
+        $data['admins'] = Admin::all();
+        return view('admin.auth.createadmin',$data);
+        
+    }
+
+
 }

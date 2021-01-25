@@ -34,7 +34,7 @@
                         <h4>ADMNISTRATION</h4>
                         @endif
                         <div class="top-menu d-flex align-items-center">
-                            <div class="dropdown">
+                            {{-- <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="notiDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-bell"></i><span class="badge bg-danger">3</span></a>
                                 <div class="dropdown-menu dropdown-menu-right notification-dropdown" aria-labelledby="notiDropdown">
                                     <h4 class="header">Notifications</h4>
@@ -69,8 +69,8 @@
                                     </div>
                                     <div class="footer"><a href="javascript:void(0);">See all activity</a></div>
                                 </div>
-                            </div>
-                            <button type="button" class="nav-link ml-10 right-sidebar-toggle"><i class="ik ik-message-square"></i><span class="badge bg-success">3</span></button>
+                            </div> --}}
+                            {{-- <button type="button" class="nav-link ml-10 right-sidebar-toggle"><i class="ik ik-message-square"></i><span class="badge bg-success">3</span></button>
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-plus"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right menu-grid" aria-labelledby="menuDropdown">
@@ -87,15 +87,14 @@
                                     <a class="dropdown-item" href="#" data-toggle="tooltip" data-placement="top" title="Notifications"><i class="ik ik-bell"></i></a>
                                     <a class="dropdown-item" href="#" data-toggle="tooltip" data-placement="top" title="More"><i class="ik ik-more-horizontal"></i></a>
                                 </div>
-                            </div>
-                            <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal"><i class="ik ik-grid"></i></button>
+                            </div> --}}
+                            {{-- <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal"><i class="ik ik-grid"></i></button> --}}
+                           <span class="">Welcome! {{Auth::guard('admin')->user()->full_name}}</span>
                             <div class="dropdown">
                             <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{asset('admin/img/profile.jpg')}}" alt=""></a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{{url('admin/profile/create')}}"><i class="ik ik-user dropdown-icon"></i> Profile</a>
                                     <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>
-                                    <a class="dropdown-item" href="#"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="ik ik-mail dropdown-icon"></i> Inbox</a>
-                                    <a class="dropdown-item" href="#"><i class="ik ik-navigation dropdown-icon"></i> Message</a>
                                     <a class="dropdown-item" href="{{ url('admin/logout') }}"><i class="ik ik-power dropdown-icon"></i> Logout</a>
                                     
 

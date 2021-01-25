@@ -28,6 +28,10 @@ class CreateProductsTable extends Migration
 
             $table->integer('overall_status')->default(0)->nullable();
 
+            $table->integer('micro_grade')->nullable()->comment('1 -Failed 2 - Passed');
+            $table->integer('pharm_grade')->nullable()->comment('1 -Failed 2 - Passed');
+            $table->integer('phyto_grade')->nullable()->comment('1 -Failed 2 - Passed');
+
             $table->text('micro_comment')->nullable();
             $table->text('micro_conclution')->nullable();
             $table->date('micro_dateanalysed')->nullable();
@@ -57,6 +61,8 @@ class CreateProductsTable extends Migration
             $table->integer('phyto_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
             $table->integer('phyto_appoved_by')->nullable();
             $table->integer('phyto_analysed_by')->nullable();
+
+            $table->string('failed_tag')->nullable();
        
             $table->integer('added_by_id')->nullable();
 

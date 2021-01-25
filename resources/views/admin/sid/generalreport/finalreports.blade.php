@@ -36,17 +36,17 @@
             </td>
 
              <td class="font">
-            <a target="_blank" href="{{ route('admin.micro.printreport',['id' => $final_report->id]) }}">
+            <a target="_blank" href="{{ route('admin.sid.print_microreport',['id' => $final_report->id]) }}">
                 <button type="button" class="btn btn-outline-success btn-rounded">Print Report</button>
             </a>
            </td>
              <td class="font">
-                <a  target="_blank" href="{{url('admin/pharm/completedreport/show',['id' => $final_report->id])}}">
+                <a  target="_blank" href="{{route('admin.sid.print_pharmreport',['id' => $final_report->id])}}">
                     <button type="button" class="btn btn-outline-success btn-rounded">Print Report</button>
                 </a>
             </td>
              <td class="font">
-                <a  target="_blank" href="{{url('admin/phyto/completedreport/show',['id' => $final_report->id])}}">
+                <a  target="_blank" href="{{route('admin.sid.print_phytoreport',['id' => $final_report->id])}}">
                  <button type="button" class="btn btn-outline-success btn-rounded"></i>Print Report</button>
                 </a>
                 </td>

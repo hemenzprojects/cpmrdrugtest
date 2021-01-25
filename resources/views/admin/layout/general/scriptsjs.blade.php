@@ -563,11 +563,14 @@ $('#checkusertoacceptproduct').submit(function(e){
 
 <script>
   var toxic = [];
+  var animalmodel = [];
   $(document).ready(function(){
       var i=1;
+      var j=1;
     $('#add').click(function(){
       i++; 
-      $('#dynamic_field').append('<tr id="row'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>   <td class="font"><select class="form-control select2 toxicity1" name="toxicity[]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"> <select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>    <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="1">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+      $('#dynamic_field').append('<tr id="row'+i+'"> <td class="font"><div class=""><select class="form-control animalmodel" tag="'+j+'" name="animalmodel[]" required style="width:130px"></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="(g)" value="(g)" style="width:70px"></td><td class="font"><input type="text" class="form-control sp_volume" required name="dosage[]"  placeholder="(mg/kg)" Value ="5000 (mg/kg)" style="width:100px"></td>    <td class="font"> <select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>     <td><input type="text" class="form-control" required name="time_administration[]" placeholder="Time/period" style="width:100px"></td>   <td class="font"><select class="form-control select2 toxicity1" name="toxicity[]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>    <td><input type="text" class="form-control" required name="time_death[]" placeholder="Time of death" style="width:100px"></td>   <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>     <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+
 
       getToxicity(toxic,function(r){
         console.log(i,r)
@@ -576,7 +579,18 @@ $('#checkusertoacceptproduct').submit(function(e){
           $(`select[tag=${i}]`).append(`<option class='toxicity${item.id}' value='${item.id}'>${item.name}</option>`)
         })
       })
-         $(`select[tag=${i}]`).select2();
+      $(`select[tag=${i}]`).select2();
+      
+
+      getAnimalmodel(animalmodel,function(r){
+        console.log(i,r)
+        $(`select[tag=${j}]`).html('')
+        r.forEach(function(item){
+          $(`select[tag=${j}]`).append(`<option value='${item.id}'>${item.name}</option>`)
+        })
+      })
+
+         $(`select[tag=${j}]`).select2();
 
       });
       
@@ -599,6 +613,24 @@ $('#checkusertoacceptproduct').submit(function(e){
         }
       }
 
+      function getAnimalmodel(data,callback){
+        if(data.length>0)
+        {
+          callback(data)
+        }else{
+          $.get("{{url('admin/pharm/animalexperimentation/fetchtanimal_model')}}",function(resp){
+            if(resp){
+              animalmodel = resp.data
+              callback(resp.data)
+            }else{
+              callback(null)
+            }
+          }).fail(function(){
+            callback(null)
+          })
+        }
+      }
+
     $(document).on('click', '.btn_remove', function(){
 		var button_id = $(this).attr("id"); 
 		$('#row'+button_id+'').remove();
@@ -608,97 +640,6 @@ $('#checkusertoacceptproduct').submit(function(e){
   });
 </script>
 
-<script>
-   var toxic1 = [];
-  $(document).ready(function(){
-      var i=1;
-    $('#add_2').click(function(){
-      i++;
-      $('#dynamic_field_2').append('<tr id="row1'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>  <td class="font"><select class="form-control select2 toxicity2" name="toxicity[]" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex2" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"><select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>  <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="2">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_2">X</button></td></tr>');
-
-      getToxicity(toxic1,function(r){
-        console.log(i,r)
-        $(`select[tag=${i}]`).html('')
-        r.forEach(function(item){
-          $(`select[tag=${i}]`).append(`<option value='${item.id}'>${item.name}</option>`)
-        })
-      })
-         $(`select[tag=${i}]`).select2();
-
-    });
-
-
-      function getToxicity(data,callback){
-        if(data.length>0)
-        {
-          callback(data)
-        }else{
-          $.get("{{url('admin/pharm/animalexperimentation/fetchtoxicity')}}",function(resp){
-            if(resp){
-              toxic1 = resp.data
-              callback(resp.data)
-            }else{
-              callback(null)
-            }
-          }).fail(function(){
-            callback(null)
-          })
-        }
-      }
-
-    $(document).on('click', '.btn_remove_2', function(){
-		var button_id = $(this).attr("id"); 
-		$('#row1'+button_id+'').remove();
-	});
-  
-  
-  });
-</script>
-
-<script>
-     var toxic2 = [];
-  $(document).ready(function(){
-      var i=1;
-    $('#add_3').click(function(){
-      i++;
-      $('#dynamic_field_3').append('<tr id="row2'+i+'"><td class="font"><div class=""><select class="form-control animalmodel" name="animalmodel[]" required style="width:170px"><option value="1">SRD Rats</option><option value="2">SD Rats</option></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="kg" style="width:70px"></td><td class="font"><input type="text" class="form-control spvolume" required name="volume_given[]"  placeholder="(cm)" style="width:70px"></td>  <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>  <td class="font"><select class="form-control select2 toxicity3" name="toxicity[]" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control allsex3" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>    <td class="font"><select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>  <td><input type="text" class="form-control" required name="period[]" placeholder="Time/period" style="width:100px"></td><td><input type="text" class="form-control"  name="dosage[]" placeholder="Dosage" value=""></td><input type="hidden" class="form-control"  name="group[]" placeholder="P" value="3">  <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_3">X</button></td></tr>');
-
-      getToxicity(toxic2,function(r){
-        console.log(i,r)
-        $(`select[tag=${i}]`).html('')
-        r.forEach(function(item){
-          $(`select[tag=${i}]`).append(`<option value='${item.id}'>${item.name}</option>`)
-        })
-      })
-         $(`select[tag=${i}]`).select2();
-    });
-
-    function getToxicity(data,callback){
-        if(data.length>0)
-        {
-          callback(data)
-        }else{
-          $.get("{{url('admin/pharm/animalexperimentation/fetchtoxicity')}}",function(resp){
-            if(resp){
-              toxic1 = resp.data
-              callback(resp.data)
-            }else{
-              callback(null)
-            }
-          }).fail(function(){
-            callback(null)
-          })
-        }
-      }
-
-    $(document).on('click', '.btn_remove_3', function(){
-		var button_id = $(this).attr("id"); 
-		$('#row2'+button_id+'').remove();
-	});
-  
-  
-  });
-</script>
 
 <script>
   $("#pharmproduct_id").change(function() {
@@ -938,4 +879,11 @@ console.log(animalmodel);
         // Continue the form submit
     // e.currentTarget.submit();
     })
+
     </script>
+
+    <script>
+      
+    </script>
+
+    

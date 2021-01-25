@@ -6,7 +6,7 @@ Route::get('/home', function (){
     $users[] = Auth::guard('admin')->user();
 
     //dd($users);
-
-    return view('admin.home');
+    return redirect()->route('admin.general.dashboard');
+    // return view('admin.home');
 })->name('home');
 

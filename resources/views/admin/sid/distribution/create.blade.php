@@ -48,8 +48,11 @@
                                 <select name="product_id" style="" class="form-control select2">
                                     @foreach($products as $product)
                                                 
-                                    <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}> {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} - {{ucfirst($product->name)}}
-                                    
+                                    <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}>
+                                         {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} - {{ucfirst($product->name)}} 
+                                         {{-- @if ($product->failed_tag)
+                                         - <p style="color: red">(submit for review. <strong>Micro:</strong> {!! $product->micro_grade_report !!}, <strong>Pharm:</strong> {!! $product->pharm_grade_report !!}, <strong>Phyto:</strong> {!! $product->phyto_grade_report !!})</p> 
+                                         @endif --}}
                                     </option>
                                     @endforeach
                                 </select>
@@ -238,6 +241,7 @@
                                                 <th>Product Type</th>
                                                 <th>Quantity</th>
                                                 <th>status</th>
+                                                <th style="display: none">status id</th>
                                                 <th>Distributed by</th>
                                                 <th>Received by</th>
                                                 <th>Actions</th>                        
@@ -251,22 +255,74 @@
                                                     <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                     <td class="font">{{$product->pivot->quantity}}</td>
                                                     {!! $product->product_status !!}
+                                                    <td style="display: none">{{$product->pivot->status}}</td>
                                                     <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>
                                                     <td class="font">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</td>
                                                                             
                                                   <td>
                                                     <div class="table-actions">
                                                                                             
-                                                    <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$j}}" title="View" href=""><i class="ik ik-eye"></i></a>
+                                                    <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$j}}{{$product->id}}" title="View" href="{{$j}}{{$product->id}}"><i class="ik ik-eye"></i></a>
                                                     <a title="Edit" href=""><i class="ik ik-edit"></i></a>
                                                     @if ($product->pivot->status == '1')
                                                     <a onclick="return confirm('Note! This action will delete selected category ?')" href="{{route('admin.sid.distributed_product.delete', ['id' => $product->id,'dept_id' =>$dept[$j]->id,'activetab'=>$j])}}"><i class="ik ik-trash-2"></i></a>
                                                      @endif
-                                                </div>
+                                                  </div>
                                                 
                                                 </td>
                                           </tr>
-                                            
+                                          <div class="modal fade" id="demoModal{{$j}}{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="demoModalLabel">{{App\Department::find($product->pivot->dept_id)->name}} Product Details of <span style="color: red">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} </span></h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                     
+                                                        <div class="card-body"> 
+                                                            
+                                                            <h6> Product Name </h6>
+                                                            <small class="text-muted ">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} |   {{ucfirst($product->name)}}</small>
+                                                            <h6>Product Type </h6>
+                                                            <small class="text-muted ">{{ucfirst($product->productType->name)}}</small>
+                                                            <h6>Quantity</h6>
+                                                            <small class="text-muted "> {{$product->pivot->quantity}}</small>
+                                                            <h6>Indication</h6>
+                                                            <p class="text-muted"> {{ ucfirst($product->indication)}}<br></p>
+                                
+                                                            <hr><h5>Distribution Details</h5>
+                                                            <h6>Received By </h6>
+                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
+                                                            <h6>Distributed By </h6>
+                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
+                                                            <h6>Delivered By </h6>
+                                                            <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
+
+                                
+                                                            <hr><h5>Distribution Periods</h5>
+                                                            <div  style="margin-bottom: 5px">
+                                                            <h6 >product distribution period</h6>
+                                                            <small class="text-muted">
+                                                            Date: {{$product->pivot->created_at->format('Y-m-d')}}
+                                                            Time: {{$product->pivot->created_at->format('H:i:s')}}
+                                                            </small>
+                                                            </div>
+                                                            <h6> product delivery period</h6>
+                                                            <small class="text-muted ">
+                                                            Date: {{$product->pivot->updated_at->format('Y-m-d')}}
+                                                            Time: {{$product->pivot->updated_at->format('H:i:s')}}
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                            
                                             @endforeach
                                         </tbody>
@@ -278,61 +334,7 @@
             
                </div>
         </div>
-        <div class="modal fade" id="demoModal{{$j}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                         {{$j}}
-                        {{-- <div class="card-body"> 
-                            
-                            <h6> Product Name </h6>
-                            <small class="text-muted ">{{$product->productType->Code}}|{{$product->id}}|{{$product->created_at->format('y')}} |   {{ucfirst($product->name)}}</small>
-                            <h6>Product Type </h6>
-                            <small class="text-muted ">{{ucfirst($product->productType->name)}}</small>
-                            <h6>Quantity</h6>
-                            <small class="text-muted "> {{$product->pivot->quantity}}</small>
-                            <h6>Indication</h6>
-                            <p class="text-muted"> {{ ucfirst($product->indication)}}<br></p>
-
-                            <hr><h5>Distribution Details</h5>
-                            <h6>Received By </h6>
-                            <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                            <h6>Distributed By </h6>
-                            <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                            <h6>Delivered By </h6>
-                            <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                               
-                            <h6>Name</h6>
-                            <small class="text-muted ">{{ucfirst($product->customer->name)}}</small>
-                            <h6>Tell</h6>
-
-                            <hr><h5>Distribution Periods</h5>
-                            <div  style="margin-bottom: 5px">
-                            <h6 >product distribution period</h6>
-                            <small class="text-muted">
-                            Date: {{$product->pivot->created_at->format('Y-m-d')}}
-                            Time: {{$product->pivot->created_at->format('H:i:s')}}
-                            </small>
-                            </div>
-                            <h6> product delivery period</h6>
-                            <small class="text-muted ">
-                            Date: {{$product->pivot->updated_at->format('Y-m-d')}}
-                            Time: {{$product->pivot->updated_at->format('H:i:s')}}
-                            </small>
-                        </div> --}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    
         @endfor
     </div>
 </div>

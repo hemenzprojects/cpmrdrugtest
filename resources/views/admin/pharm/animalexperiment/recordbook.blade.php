@@ -6,80 +6,51 @@
         <div class="card-body">
             <div class="card">
                 <div class="text-center" style="margin: 2%"> 
-                    <h4 class="font" style="font-size:18px">Generate Report</h4>
+                    <h4 class="font" style="font-size:18px">Generate report on prepared samples</h4>
                    <p class="card-subtitle"> selec date below to generate report</p>
                   </div>
                 <div class="row" style="margin:1%">
                 
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Daily Report</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-primary mr-2">Search</button>                                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Monthly Report</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-primary mr-2">Search</button>                                        </div>
-                    </div>
-            
-                    <div class="col-md-4">
-                        <div class="form-group row">
-                            <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Yearly Report</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-primary mr-2">search</button>                                        </div>
+                    <div class="col-lg-6">
+                      
+                       
                     </div>
                 </div>
             </div>
             <div class="card-header row">
                 <div class="col col-sm-3">
-                    <div class="card-options d-inline-block">
-                        <a href="#"><i class="ik ik-inbox"></i></a>
-                        <a href="#"><i class="ik ik-plus"></i></a>
-                        <a href="#"><i class="ik ik-rotate-cw"></i></a>
-                        <div class="dropdown d-inline-block">
-                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-more-horizontal"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="moreDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">More Action</a>
-                            </div>
-                        </div>
-                    </div>
+                    Total Quantity: 
+                    <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
+                       {{count($recordbooks)}} 
+                    </label>
                 </div>
-                <div class="col col-sm-6">
+                <div class="col col-sm-9">
                     <div class="card-search with-adv-search dropdown">
-                        <form action="" class="">
-                            <input type="text" class="form-control global_filter" id="global_filter" placeholder="Search.." required="">
-                            <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
-                            <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <form action="{{route('admin.pharm.animalexperiment_recordbook.report')}}" method="POST">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span style="margin: 5">From</span>  <input type="date" name="from_date" class="form-control" value="2020-01-10">
+                                </div>
+                                <div class="col-md-4">
+                                    <span style="margin: 5px">To</span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
+                                </div>
+                                <div class="col-md-4">
+                                  
+                                    <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
+                                </div>
+                            </div>
                             
                         </form>
                     </div>
                 </div>
-                <div class="col col-sm-3">
-                    <div class="card-options text-right">
-                        <span class="mr-5" id="top">1 - 50 of 2,500</span>
-                        <a href="#"><i class="ik ik-chevron-left"></i></a>
-                        <a href="#"><i class="ik ik-chevron-right"></i></a>
-                    </div>
-                </div>
+               
             </div><br>
             
             <div class="dt-responsive">
                
                     <table id="lang-dt" class="table table-striped table-bordered nowrap">
-                      Total Quantity: 
-                       <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
-                          {{count($recordbooks)}} 
-                       </label>
+                    
                       
                     <thead>
                     <tr>
@@ -105,7 +76,7 @@
                                 {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
                             </span>
                             </a> 
-                            - {{ucfirst(\App\Product::find($recordbook->product_id)->name)}}
+                            
                             </td>
                             <td class="font">
                                 {{$recordbook->measurement}}
@@ -140,7 +111,7 @@
                                 
                                         <h6> Product Name </h6>
                                         <small class="text-muted "> {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
-                                            - {{ucfirst(\App\Product::find($recordbook->product_id)->name)}}</small>
+                                           </small>
                                         <h6>Product Type </h6>
                                         <small class="text-muted ">{{ucfirst(\App\Product::find($recordbook->product_id)->productType->name)}}</small>
                                                                      
@@ -164,7 +135,7 @@
                                                 </p>
                                                  <p>
                                                     <h6 >Date Analysed</h6>
-{{--                                                   
+                                                   {{--                                                   
                                                     Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
                                                     Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small> --}}
                                                    

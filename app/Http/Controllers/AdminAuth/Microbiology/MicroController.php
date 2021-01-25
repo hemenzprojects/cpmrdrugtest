@@ -47,7 +47,7 @@ class MicroController extends Controller
 
               if ($status > 2 ) {
               Session::flash('message_title', 'error');
-              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
               return redirect()->back();
           } 
               if ($deptproduct_id == 0) {
@@ -390,6 +390,8 @@ class MicroController extends Controller
                   $product->micro_hod_evaluation = 1;
                   $product->micro_analysed_by = Auth::guard('admin')->id();
                   $product->micro_conclution = $r->micro_conclution;
+                  $product->micro_grade = $r->micro_grade;
+
                   $product->update();
                  
                   Session::flash("message", "Report Successfully completed and updated.");
@@ -510,6 +512,7 @@ class MicroController extends Controller
             public function evaluate_one_edit(Request $r, $id){
 
               // dd($r->all());
+
               if ($r->evaluate <1) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -520,11 +523,21 @@ class MicroController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
               }
-               Product::where('id',$id)->update([
+              
+
+              $p= Product::find($id);
+              $p->update([
                 'micro_hod_evaluation'=> $r->evaluate,
                 'micro_appoved_by'=>$r->adminid,
-              ]); 
-
+              ]);
+              
+              if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
+                $p->update(['overall_status'=> 2]);
+              }else {
+                $p->update(['overall_status'=> 1]);
+              }
+              
+             
              Session::flash("message", "Report Evaluation completed.");
              Session::flash("message_title", "success");  
              return redirect()->back();

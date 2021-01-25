@@ -2,89 +2,371 @@
 
 @section('content')
               
-                <div class="">
-                    <div class="">
-                        <div class="row clearfix">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="widget">
-                                    <div class="widget-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="state">
-                                                <h6>Registed Products </h6>
-                                                <h2>1,410</h2>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="ik ik-award"></i>
-                                            </div>
-                                        </div>
-                                        <small class="text-small mt-10 d-block">Total number of product in a day</small>
-                                    </div>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
-                                    </div>
+
+@if (Auth::guard('admin')->user()->dept_id ==4)
+    
+    <div class="">
+        <div class="">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6> Products at the lab</h6>
+                                    <h2> {{count($all_product)}}
+                                    </h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="widget">
-                                    <div class="widget-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="state">
-                                                <h6>Completed Products</h6>
-                                                <h2>41</h2>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="ik ik-thumbs-up"></i>
-                                            </div>
-                                        </div>
-                                        <small class="text-small mt-10 d-block">Total number of product tested </small>
-                                    </div>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="widget">
-                                    <div class="widget-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="state">
-                                                <h6>Failed Products</h6>
-                                                <h2>410</h2>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="ik ik-calendar"></i>
-                                            </div>
-                                        </div>
-                                        <small class="text-small mt-10 d-block">Total number of failed products</small>
-                                    </div>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="widget">
-                                    <div class="widget-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="state">
-                                                <h6>Products Analysed</h6>
-                                                <h2>41,410</h2>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="ik ik-message-square"></i>
-                                            </div>
-                                        </div>
-                                        <small class="text-small mt-10 d-block">Total Comments</small>
-                                    </div>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <small class="text-small mt-10 d-block">Total number of distributed products </small>
                         </div>
-                  
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Completed Products</h6>
+                                    <h2>{{count($all_completedproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of product tested in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Pending Products</h6>
+                                    <h2>{{count($all_pendingproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of Pending products in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Failed Products</h6>
+                                    <h2>{{count($all_failedproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-message-square"></i>
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of failed products in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+ @endif
 
-              
+ @if (Auth::guard('admin')->user()->dept_id ==1)
+    
+    <div class="">
+        <div class="">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6> Products at the lab</h6>
+                                    <h2> {{count($micro_products)}}
+                                    </h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of distributed products </small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Completed Products</h6>
+                                    <h2>{{count($micro_completedproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of product tested in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Pending Products</h6>
+                                    <h2>{{count($micro_pendingproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-square"></i>  
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of Pending products in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="state">
+                                    <h6>Failed Products</h6>
+                                    <h2>{{count($micro_failedproduct)}}</h2>
+                                </div>
+                                <div class="icon">
+                                    <i class="ik ik-message-square"></i>
+                                </div>
+                            </div>
+                            <small class="text-small mt-10 d-block">Total number of failed products in a year</small>
+                        </div>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+        
+
+{{-- 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Hello {{Auth::guard('admin')->user()->full_name}} !</strong> You have
+        @foreach (App\ProductDept::where('dept_id', Auth::guard('admin')->user()->dept_id)->where('status',1)->get()->groupBy('status') as $item)
+           {{count($item)}}
+        @endforeach
+        pending products to be received from SID.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <i class="ik ik-x"></i>
+        </button>
+    </div> --}}
+
+ @endif
+
+
+ @if (Auth::guard('admin')->user()->dept_id ==2)
+    
+ <div class="">
+     <div class="">
+         <div class="row clearfix">
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6> Products at the lab</h6>
+                                 <h2> {{count($pharm_products)}}
+                                 </h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i> 
+                                                        </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of distributed products </small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Completed Products</h6>
+                                 <h2>{{count($pharm_completedproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i>
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of product tested in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Pending Products</h6>
+                                 <h2>{{count($pharm_pendingproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i>
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of Pending products in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Failed Products</h6>
+                                 <h2>{{count($pharm_failedproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                 <i class="ik ik-message-square"></i>
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of failed products in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     
+     </div>
+ </div>
+@endif
+
+@if (Auth::guard('admin')->user()->dept_id ==3)
+    
+ <div class="">
+     <div class="">
+         <div class="row clearfix">
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6> Products at the lab</h6>
+                                 <h2> {{count($phyto_products)}}
+                                 </h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i>         
+                                                </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of distributed products </small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Completed Products</h6>
+                                 <h2>{{count($phyto_completedproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i>  
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of product tested in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Pending Products</h6>
+                                 <h2>{{count($phyto_pendingproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                <i class="ik ik-square"></i>  
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of Pending products in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-lg-3 col-md-6 col-sm-12">
+                 <div class="widget">
+                     <div class="widget-body">
+                         <div class="d-flex justify-content-between align-items-center">
+                             <div class="state">
+                                 <h6>Failed Products</h6>
+                                 <h2>{{count($phyto_failedproduct)}}</h2>
+                             </div>
+                             <div class="icon">
+                                 <i class="ik ik-message-square"></i>
+                             </div>
+                         </div>
+                         <small class="text-small mt-10 d-block">Total number of failed products in a year</small>
+                     </div>
+                     <div class="progress progress-sm">
+                         <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     
+     </div>
+ </div>
+@endif
 @endsection

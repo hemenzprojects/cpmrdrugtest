@@ -164,8 +164,9 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Exp</div>
                                                     </div>
-                                                     <input class="form-control" type="date" placeholder="Date Expired"  name="exp_date" value="{{old('exp_date')? old('exp_date'): ''}}">
-                                                </div>
+                                                     <input class="form-control" type="date"  placeholder="Date Expired"  name="exp_date" value="{{old('exp_date')? old('exp_date'): ''}}">
+                                                     
+                                                    </div>
                                                 <div>
                                                      @error('exp_date')
                                                      <small style="margin:15px" class="form-text text-danger" role="alert">
@@ -231,39 +232,46 @@
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-lg-8 col-md-12">
-                                    <h3 class="card-title">All products Recieved</h3>
+                                    <h3 class="card-title">All products Received</h3>
                                   </div>
                                 <div class="col-md-12">
                                   
 
-									 <table id="order-table2" class="table table-striped table-bordered nowrap dataTable">
+									 <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable">
 									    <thead>
 									        <tr>
-									            <th>Code</th>
+                                                <th>Code</th>
+									            <th style="display: none">Code</th>
+                                                
 									            <th>Product Name</th>
 									            <th>Product Type</th>
 									            <th>Customer</th>
                                                 <th>Amt Paid</th>
                                                 <th>Created By</th>
-                                                <th>Date/Time Created</th>
+                                                <th>Date</th>
                                                 <th>Actions</th>
 									            
 									       </tr>
 									    </thead>
 									    <tbody>                                                
-                                            @foreach($products as $product)
+                                            @foreach($products->sortBy('id') as $product)
                                             <tr>
+                                            <td style="display: none">{{$product->id}}</td>
                                             <td class="font">
                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
                                                     {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
                                                 </span>
                                                 </td>
-                                            <td class="font">{{ucfirst($product->name)}}</td>
+                                               <td class="font">{{ucfirst($product->name)}}
+                                                @if ($product->failed_tag)
+                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                                @endif
+                                            </td>
                                             <td class="font">{{$product->productType->name}}</td>
                                             <td class="font">{{$product->customer_name}}</td>
                                             <td class="font">{{$product->price}}</td>
                                             <td class="font">{{ucfirst($product->created_by)}}</td>
-                                            <td class="font">{{$product->created_at}}</td>
+                                            <td class="font">{{$product->created_at->format('Y / m / d')}}</td>
                                             <td>
                                                 <div class="table-actions">
                                                 {!! $product->show_tag !!}
@@ -271,7 +279,6 @@
                                                 @if ($product->overall_status <1)
                                                 {!! $product->edit_tag !!}
                                                 @endif
-
                                                 <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
                                                 <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
                                                 </a>

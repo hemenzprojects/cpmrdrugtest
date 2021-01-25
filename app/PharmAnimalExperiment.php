@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PharmAnimalExperiment extends Model
 {
-    protected $fillable = ['product_id','pharm_testconducted_id','animal_model','weight','volume','death','toxicity','sex','method','group','period','dosage','total_days','added_by_id','created_at','updated_at'];
+    protected $fillable = ['product_id','pharm_testconducted_id','animal_model','weight','volume', 'time_administration','death','toxicity','sex','method','group','time_death','dosage','total_days','added_by_id','created_at','updated_at'];
 
     
     //******* pharm animal models */
@@ -16,16 +16,16 @@ class PharmAnimalExperiment extends Model
         return $this->belongsTo('App\PharmToxicity', 'toxicity');
     }
     
-    public function getPharmAnimalModelAttribute(){
-        if ($this->animal_model ==1) {
-            return 'SRD Rat';
-        } if ($this->animal_model ==2) {
-            return 'SD Rats';
-        }  
-        if ($this->animal_model ==3) {
-            return 'AD Mouse';
-        }   
-     }
+    // public function getPharmAnimalModelAttribute(){
+    //     if ($this->animal_model ==1) {
+    //         return 'SRD Rat';
+    //     } if ($this->animal_model ==2) {
+    //         return 'SD Rats';
+    //     }  
+    //     if ($this->animal_model ==3) {
+    //         return 'AD Mouse';
+    //     }   
+    //  }
      public function getNoDeathAttribute(){
         if ($this->death ==1) {
             return 'yes';

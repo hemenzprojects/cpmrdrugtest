@@ -61,96 +61,72 @@
                     @endforeach
                 </p>
                 </div>
-    
                 <table class="table">
                     <tbody>   
                         <tr>
                             <td class="font"><strong>Animal Model</strong></td>
                             <td class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                                {{$item->pharm_animal_model}}
-                                @endforeach
+                                {{$pharm_finalreports->pharm_animal_model}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>No. of Animals</strong></td>
                             <td class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('product_id') as $item)
-                                {{count($item)}}
-                                @endforeach
+                                {{$pharm_finalreports->num_of_animals}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Sex</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                                {{ucfirst($item->animal_sex)}}
-                                @endforeach
+                                {{$pharm_finalreports->animal_sex}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>No. of Groups</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->where('group',1)->groupBy('group') as $item)
-                                2(N = {{count($item)}})
-                                @endforeach
+                                {{$pharm_finalreports->no_group}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Route of Administration</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                                {{ucfirst($item->animal_method)}}
-                                @endforeach
+                                {{$pharm_finalreports->method_of_admin}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Formulation</strong></td> 
-                            <td  class="font">{{$completed_report->productType->name}}</td>
+                            <td  class="font">{{$pharm_finalreports->formulation}}</td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Preparation</strong></td> 
-                        <td  class="font">Freeze - dried sample of  {{$completed_report->productType->name}} ( {{$completed_report->productType->code}}|{{$completed_report->id}}|{{$completed_report->created_at->format('y')}} )</td>
+                        <td  class="font">{{$pharm_finalreports->preparation}}</td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                                {{$item->dosage}}
-                                @endforeach
+                                {{$pharm_finalreports->dosage}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Period of Observation</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                                {{$item->total_days}} Days
-                                    @endforeach
+                                {{$pharm_finalreports->no_days}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>No. of Death Recorded</strong></td> 
                             <td  class="font">
-                                @if (count($completed_report->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                
-                                        Nill
-                                @endif
-
-                                @foreach ($completed_report->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                    {{count($item)}}
-                                @endforeach  
+                                {{$pharm_finalreports->no_death}}
                             </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
-                            <td  class="font"> Greater than 5000 mg/kg</td>
+                            <td  class="font">{{$pharm_finalreports->estimated_dose}}</td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
                             <td  class="font">
-                                @foreach ($completed_report->animalExperiment->unique('toxicity')->where('toxicity', '!=', 2) as $item)     
-                                {{$item->animalToxicity->name}} ,
-                                @endforeach
+                                {{$pharm_finalreports->signs_toxicity}}
                             </td>
                         </tr>
                         <tr>
@@ -158,7 +134,7 @@
                             <td></td>
                         </tr>
                     </tbody>
-                </table>  
+              </table> 
                 <div class="card" style="padding: 2%">
                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
 

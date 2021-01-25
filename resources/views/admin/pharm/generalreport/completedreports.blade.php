@@ -78,11 +78,12 @@
                                     <table id="order-table" class="table table-striped table-bordered nowrap">
                                  <thead>
                                  <tr>
-                                     <th>#</th>
+                                    
                                      <th>Product</th>
                                      <th>Test conducted</th>
                                      <th>Assigned To</th>
                                      <th>Evaluation</th>
+                                     <th>Grade</th>
                                      <th>Date Analysed</th>  
                                      <th>Date Submited</th> 
                                      <th>Action</th>
@@ -91,14 +92,7 @@
                                  <tbody>
                                      @foreach ($completed_products as $completed_product)                                      
                                      <tr>
-                                     <td class="font">
-                                         <div class="">
-                                             <label class="custom-control custom-checkbox">
-                                             <input type="checkbox" name="pharm_evaluated_product[]" class="custom-control-input" value="{{$completed_product->id}}">
-                                                 <span class="custom-control-label"></span>
-                                             </label>
-                                         </div>
-                                     </td>
+                                  
                                      <td class="font">
                                          <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$completed_product->id}}" title="View Experiment" href=""></i>  
                                              <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
@@ -124,6 +118,11 @@
                                          </li>
                                      </td>
                                      <td class="font">{!! $completed_product->hod_pharm_evaluation !!}</td>
+                                     <td class=""> 
+                                        @if ($completed_product->pharm_grade != Null)
+                                        <strong>{!! $completed_product->pharm_grade_report !!}</strong>
+                                        @endif
+                                    </td>
                                      <td class="font">{{$completed_product->pharm_dateanalysed}}</td>
                                      <td class="font">{{$completed_product->updated_at->format('d/m/Y')}}</td>
                                      <td class="font">

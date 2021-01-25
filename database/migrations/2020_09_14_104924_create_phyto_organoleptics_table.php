@@ -17,6 +17,7 @@ class CreatePhytoOrganolepticsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 32)->nullable();
             $table->string('feature', 128)->nullable();
+            $table->integer('action')->default(0);
             $table->integer('added_by_id')->nullable();
             $table->timestamps();
         });

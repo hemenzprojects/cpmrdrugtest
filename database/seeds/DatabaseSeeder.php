@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PhytoOrganolepticsSeeder::class);
         $this->call(PhytoPhytochemicalSeeder::class);
         $this->call(PharmStandardSeeder::class);
+        $this->call(AnimalModelSeeder::class);
+
 
        
 

@@ -19,13 +19,14 @@ class CreatePharmAnimalExperimentsTable extends Migration
             $table->integer('pharm_testconducted_id');
             $table->integer('animal_model');
             $table->string('weight');
-            $table->string('volume');
+            $table->string('volume')->nullable();
+            $table->string('time_administration');
             $table->integer('death')->nullable();
             $table->integer('toxicity');
             $table->integer('sex');
             $table->integer('method');
             $table->integer('group');
-            $table->string('period');
+            $table->string('time_death');
             $table->integer('total_days');
             $table->string('dosage')->nullable();
 

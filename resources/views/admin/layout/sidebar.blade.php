@@ -15,7 +15,7 @@
                             <nav id="main-menu-navigation" class="navigation-main">
                                 
                                 <div class="nav-item active">
-                                    <a href=""><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                                    <a href="{{url('admin/general/home')}}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
                                 </div>
                                 
                                 @if (Auth::guard('admin')->user()->dept_id ==4)
@@ -28,7 +28,7 @@
                                     <a href="#"><i class="ik ik-menu"></i><span>Products</span> 
                                         <div class="submenu-content">
                                        <a href="{{url('admin/sid/product/create')}}" class="menu-item">New Product</a>
-                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">Product Categories</a>
+                                       <a href="{{url('admin/sid/product/category/create')}}" class="menu-item">Product Categories</a>
                                        <a href="{{url('admin/sid/distribution/create')}}" class="menu-item">Product Distribution</a>
 
           
@@ -47,6 +47,7 @@
                                
                     
                                      @if (Auth::guard('admin')->user()->dept_id ==1)
+
                                      <div class="nav-lavel">Microbiology</div>
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
@@ -65,10 +66,17 @@
                                             <a href="#" class="menu-item">Assign Duty</a>
                                             <a href="{{route('admin.micro.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
                                             <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
-                                            
                                             </div>
                                         </div> 
-                                     @endif
+                                        <div class="nav-item has-sub">
+                                            <a href="#"><i class="ik ik-layout"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                            <div class="submenu-content">
+                                            <a href="#" class="menu-item"></a>
+                                            <a href="#" class="menu-item">Microbial Load Analysis </a>
+                                            <a href="#" class="menu-item"> Microbial Efficacy Analysis </a>
+                                            </div>
+                                        </div> 
+                                        @endif
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
                                         <div class="submenu-content">
@@ -98,8 +106,8 @@
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-filter"></i><span>Sample Preparation</span></a>
                                          <div class="submenu-content" style="">
-                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Make preparation</a>
-                                             <a href="pages/ui/badges.html" class="menu-item">Prepared Samples</a>
+                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Perform preparation</a>
+                                             <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Record Book</a>
                                          </div>
                                      </div>
                                      @endif
@@ -109,7 +117,7 @@
                                          <a href="#"><i class="ik ik-file-plus"></i><span>Animal Experimentation</span></a>
                                          <div class="submenu-content" style="">
                                              <a href="{{route('admin.pharm.animalexperimentation.create')}}" class="menu-item">Receieve Product</a>
-                                             <a href="{{route('admin.pharm.animalexperimentation.maketest')}}" class="menu-item">Make Experiment</a>
+                                             <a href="{{route('admin.pharm.animalexperimentation.maketest')}}" class="menu-item">Perform Experiment</a>
                                              
      
                                          </div>
@@ -150,38 +158,109 @@
                             
                                      @if (Auth::guard('admin')->user()->dept_id ==3)
                                     
-                                     <div class="nav-lavel">Phytochemistry</div>
-                                     <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
-                                         <div class="submenu-content">
-                                             <a href="{{route('admin.phyto.receiveproduct')}}" class="menu-item">Receieve Product</a>
-                                             <a href="{{route('admin.phyto.makereport.index')}}" class="menu-item">Report Preparation</a>
-                                             <a href="" class="menu-item"></a>
-                                            
-                                         </div>
-                                     </div>
-                                     @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                            <div class="nav-lavel">Phytochemistry</div>
+                                            <div class="nav-item has-sub">
+                                                <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
+                                                <div class="submenu-content">
+                                                    <a href="{{route('admin.phyto.receiveproduct')}}" class="menu-item">Receieve Product</a>
+                                                    <a href="{{route('admin.phyto.makereport.index')}}" class="menu-item">Report Preparation</a>
+                                                    <a href="" class="menu-item"></a>
+                                                    
+                                                </div>
+                                            </div>
+                                                @if (Auth::guard('admin')->user()->user_type_id ==1)
 
-                                     <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
-                                         <div class="submenu-content">
-                                          <a href="#" class="menu-item">Assign Duty</a>
-                                         <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
-                                         <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
-                                          
-                                         </div>
-                                     </div>
-                                     @endif
+                                                <div class="nav-item has-sub">
+                                                    <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                                    <div class="submenu-content">
+                                                    <a href="#" class="menu-item">Assign Duty</a>
+                                                    <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
+                                                    <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
+                                                    
+                                                    </div>
+                                                </div>
+                                                @endif
+
+                                            <div class="nav-item has-sub">
+                                                <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                                <div class="submenu-content">
+                                                <a href="{{route('admin.phyto.general_report.index')}}" class="menu-item">Report Statistics</a>
+                                                    <a href="" class="menu-item">Pending Products</a>
+                                                    <a href="" class="menu-item"></a>
+                                                    
+                                                </div>
+                                             </div>
                                       @endif
                                    
                               
                                 <div class="nav-lavel">Support</div>
+
+                                {{-- SID --}}
+                                @if (Auth::guard('admin')->user()->dept_id ==4)
+                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                    <div class="submenu-content">
+                                    <a href="{{route('admin.sid.config.user.create')}}" class="menu-item">Add Users</a>
+                                    <a href="#" class="menu-item">User Roles</a>
+                                    <a href="#" class="menu-item"> User Permissions </a>
+                                    </div>
+                                </div> 
+                                @endif
+                                @endif
+
+                                   {{-- MICRO CONFIG  --}}
+                                @if (Auth::guard('admin')->user()->dept_id ==1)
+                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                    <div class="submenu-content">
+                                    <a href="#" class="menu-item"></a>
+                                    <a href="#" class="menu-item">Microbial Load Analysis </a>
+                                    <a href="#" class="menu-item"> Microbial Efficacy Analysis </a>
+                                    </div>
+                                </div> 
+                                @endif
+                                @endif
+                                {{-- PHARM CONFIG  --}}
+
+                                @if (Auth::guard('admin')->user()->dept_id ==2)
+                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                    <div class="submenu-content">
+                                    <a href="#" class="menu-item"></a>
+                                    <a href="#" class="menu-item">Animal Models</a>
+                                    <a href="#" class="menu-item">  Signs of Toxicity</a>
+                                    <a href="#" class="menu-item">  Test Conducted</a>
+                                    </div>
+                                </div> 
+                                @endif
+                                @endif
+
+                             {{-- PHARM CONFIG  --}}
+                                @if (Auth::guard('admin')->user()->dept_id ==3)
+                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                    <div class="submenu-content">
+                                    <a href="{{route('admin.phyto.hod_office.config')}}" class="menu-item">  Report Template settings</a>
+                                   
+                                    </div>
+                                </div> 
+                                @endif
+                                @endif
                                 <div class="nav-item">
                                     <a href="javascript:void(0)"><i class="ik ik-monitor"></i><span>Documentation</span></a>
                                 </div>
                                 <div class="nav-item">
                                     <a href="javascript:void(0)"><i class="ik ik-help-circle"></i><span>Submit Issue</span></a>
                                 </div>
+                               
                             </nav>
                         </div>
                     </div>

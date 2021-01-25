@@ -146,7 +146,7 @@
             <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
-                        @foreach($phytoreports as $phytoreport)
+                        @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <div class="dd-handle">
                                 <div class="row align-items-center">
@@ -222,7 +222,7 @@
 
                                         </div> 
                                         <div class="col-lg-2 col-md-12">
-                                        <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a>   
+                                        <a href="{{url('admin/phyto/completedreport/show',['id'=>$phytocompeleted_report->id])}}"><i class="ik ik-eye"></i></a>   
                                         </div>                                                           
                                         
                                     </div>  
@@ -265,7 +265,7 @@
                     <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
                     <table class="table table-inverse">                      
                         <tbody>
-                            @foreach ($phyto_organoleptics as $organo_item)
+                            @foreach ($phyto_organoleptics->where('action',1) as $organo_item)
                             <tr>
                             <th>
                                 <label class="custom-control custom-checkbox">
@@ -274,6 +274,7 @@
                                </label>
                            </th>
                             <td class="font">{{$organo_item->name}} :</td>
+                            
                             <input type="hidden" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
 
                             <td class="font"><input class="form-control" type="text" name="organolepticsfeature_{{$organo_item->id}}" value="{{$organo_item->feature}}"></td>
@@ -298,8 +299,11 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                    </label>
                                </th>
-                                <td class="font">{{$physicochem_item->name}} :</td>
-                                <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                <td class="font"> 
+                                <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p>
+                                    <input class="form-control" type="{{$physicochem_item->id != 4?'hidden':''}}" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                </td>
+                                {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
                                 <td class="font"><input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}"></td>
                                 </tr>        
                                 @endforeach

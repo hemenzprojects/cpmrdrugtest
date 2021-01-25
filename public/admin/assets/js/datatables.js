@@ -524,12 +524,12 @@ $(document).ready(function() {
     $('#simpletable').DataTable();
     $('#order-table0').DataTable({
         "order": [
-            [1, "desc"]
+            [5, "asc"]
         ]
     });
     $('#order-table1').DataTable({
         "order": [
-            [1, "desc"]
+            [5, "asc"]
         ]
     });
   
@@ -538,14 +538,30 @@ $(document).ready(function() {
             [1, "desc"]
         ]
     });
+
+    $('#general-report').DataTable({
+        "order": [
+            [0, "asc"]
+        ]
+    });
     $('#order-table2').DataTable({
         "order": [
-            [6, "desc"]
+            [5, "asc"]
+        ]
+    });
+    $('#order-table_product').DataTable({
+        "order": [
+            [0, "desc"]
         ]
     });
     $('#order-table3').DataTable({
         "order": [
             [6, "desc"]
+        ]
+    });
+    $('#order-table_labs').DataTable({
+        "order": [
+            [6, "asc"]
         ]
     });
 

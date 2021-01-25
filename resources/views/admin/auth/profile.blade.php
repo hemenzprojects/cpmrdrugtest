@@ -66,6 +66,7 @@
                             <label for="exampleInputName1">Email</label>
                             <input type="email" class="form-control" name="email" placeholder="Email" value="{{$user->email}}">
                             </div>
+                        
                             <div class="form-group">
                                 <label for="exampleInputName1">Signature. </label><br>
                                 <input type="file" name="select_file" />

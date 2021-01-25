@@ -77,6 +77,7 @@
                                                 <th>Test conducted</th>
                                                 <th>Assigned To</th>
                                                 <th>Evaluation</th>
+                                                <th>Grade</th>
                                                 <th>Date Analysed</th>  
                                                 <th>Action</th>                  
                                             </tr>
@@ -111,6 +112,14 @@
                                             <td class="font">{{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</td>
                                             @endforeach 
                                             <td class="font">{!! $completed_product->hod_evaluation !!}</td>
+                                             
+                                            
+                                            <td class=""> 
+                                                @if ($completed_product->micro_grade != Null)
+                                                <strong>{!! $completed_product->micro_grade_report !!}</strong>
+                                                @endif
+                                            </td>
+
                                             <td class="font">
                                             {{$completed_product->micro_dateanalysed}}
                                             </td>

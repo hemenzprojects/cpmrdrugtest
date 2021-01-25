@@ -16,6 +16,7 @@
       position: 'top-right'
     })
   };
+  
   showToastPosition = function(position) {
     'use strict';
     resetToastPosition();

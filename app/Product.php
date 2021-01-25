@@ -6,11 +6,44 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','quantity','mfg_date','exp_date','indication','dosage',
+    protected $fillable = ['name','customer_id','product_type_id','price','quantity','overall_status','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
-    'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','added_by_id'];
-   
+    'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
+
+    // public static function completedReports()
+    // {
+    //     return self::whereHas('productDept')->get()->where("overall_status",2);
+    // }
+
+    // public static function pendingReports($from_date=null, $to_date=null)
+    // {
+    //     if($from_date || $to_date){
+    //         return self::whereHas("departments", function($q) use($from_date, $to_date){
+    //             return $q->with("departments")->where("status", '>=', 2)
+    //                 ->where('product_depts.created_at', '>=', $from_date)
+    //                 ->where('product_depts.created_at','<=',$to_date);
+    //           })->get()->where('overall_status', '<', 2);
+    //     }
+
+    //     return self::whereHas('productDept')->get()->where('overall_status', '<', 2);
+    // }
+    
+    // public function getOverallStatusAttribute()
+    // {
+    //     if($this->micro_hod_evaluation >= 2 && $this->pharm_hod_evaluation >= 2 && $this->phyto_hod_evaluation >= 2){
+    //         return 2;
+    //     }
+        
+    //     $sum = $this->micro_hod_evaluation + $this->pharm_hod_evaluation + $this->phyto_hod_evaluation;
+
+    //     if($sum < 3){
+    //         return 1;
+    //     }
+        
+    //     return 1;
+    // }
+    
     public function productType()
     {
         return $this->belongsTo('App\ProductType', 'product_type_id');
@@ -41,9 +74,9 @@ class Product extends Model
     public function getProductStatusAttribute()
     {
         if ($this->pivot->status === 1) {
-           return '<td><label class="badge badge-danger">Pending</label></td>';
+           return '<td><label class="badge badge-danger">PENDING</label></td>';
         }elseif ($this->pivot->status === 2) {
-            return '<td><label class="badge badge-success">Received</label></td>';
+            return '<td><label class="badge badge-success">RECEIVED</label></td>';
         }
         elseif ($this->pivot->status === 3) {
             return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
@@ -61,7 +94,7 @@ class Product extends Model
             return '<td><button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button></td>';
         }
         elseif (($this->pharm_hod_evaluation > 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>Approved</button></td>';
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>APPROVED</button></td>';
         }
         elseif ($this->pivot->status === 8) {
             return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
@@ -92,7 +125,21 @@ class Product extends Model
         ->withPivot(['efficacy_analyses_id','pathogen','pi_zone','ci_zone','fi_zone']);
     }
 
+    public function getMicroGradeReportAttribute(){
 
+        if ($this->micro_grade === Null) {
+           return 'None';
+        }
+
+        if ($this->micro_grade === 1) {
+            return  '<span style="color:#ff0000; font-size:11.5px">Failed</span>';
+         }
+
+        if ($this->micro_grade === 2) {
+            return '<span style="color:#0d8205; font-size:11.5px">Passed</span>';
+        }
+
+    }
 
     //*******************************Pharmacology*********************** */
    
@@ -148,6 +195,21 @@ class Product extends Model
         return '<a data-toggle="tooltip" data-placement="auto" title="View Product" href="'. route('admin.sid.product.show', ['id' => $this]) .'"><i class="ik ik-eye"></i></a>';
     }
   
+    public function getPharmGradeReportAttribute(){
+
+        if ($this->pharm_grade === Null) {
+           return 'None';
+        }
+
+        if ($this->pharm_grade === 1) {
+            return  '<span style="color:#ff0000; font-size:11.5px">Failed</span>';
+         }
+
+        if ($this->pharm_grade === 2) {
+            return '<span style="color:#0d8205; font-size:11.5px">Passed</span>';
+        }
+
+    }
     
     // Micro Report Evaluations
 
@@ -277,5 +339,22 @@ class Product extends Model
         }
   
       }
+
+      
+    public function getPhytoGradeReportAttribute(){
+
+        if ($this->phyto_grade === Null) {
+           return 'None';
+        }
+
+        if ($this->phyto_grade === 1) {
+            return  '<span style="color:#ff0000; font-size:11.5px">Failed</span>';
+         }
+
+        if ($this->phyto_grade === 2) {
+            return '<span style="color:#0d8205; font-size:11.5px">Passed</span>';
+        }
+
+    }
   
 }  

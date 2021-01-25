@@ -78,7 +78,7 @@
                         <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Product Report Status</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Setting</a>
+                        <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Product History</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
@@ -151,6 +151,8 @@
                             
                            
                             @foreach ($product->productDept->where('dept_id',1) as $item)
+
+                            
                             @if($item->status ==1)
                             <h6 class="mt-30">Microbiology <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
                             <div class="progress  progress-sm">
@@ -169,7 +171,7 @@
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
                             </div>
                             @endif @if($item->status ==4)
-                            <h6 class="mt-30">Microbiology <span class="pull-right">100%</span></h6><span>Product report completed</span>
+                            <h6 class="mt-30">Microbiology <span class="pull-right">100% </span></h6><span>Product report completed, Test {!! $product->micro_grade_report !!}</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
@@ -179,6 +181,8 @@
 
          
                             @foreach ($product->productDept->where('dept_id',2) as $item)
+                           
+
                             @if($item->status ==1)
                             <h6 class="mt-30">Pharmachology <span class="pull-right">10%</span></h6></h6><span>Product is yet to be distibuted to department </span>
                             <div class="progress progress-sm">
@@ -206,7 +210,7 @@
                             @endif
 
                             @if($item->status ==8)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed</span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed. Test  {!! $product->pharm_grade_report !!}</span>
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
@@ -216,7 +220,8 @@
                             
 
                             @foreach ($product->productDept->where('dept_id',3) as $item)
-                           
+                            
+
                             @if($item->status ==1)
                             <h6 class="mt-30">phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
                             <div class="progress  progress-sm">
@@ -236,7 +241,7 @@
                             </div>   
                             @endif
                             @if($item->status ==4)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed</span>
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. Test {!! $product->phyto_grade_report !!}</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>   
@@ -249,12 +254,61 @@
                     </div>
                     <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
                         <div class="card-body">
-                            
+                            <div class="card-body">
+                                <div class="dt-responsive">
+                                    <table id=""
+                                           class="table table-striped table-bordered nowrap">
+                                        <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Amount Paid</th>
+                                            <th>Micro</th>
+                                            <th>Pharm</th>
+                                            <th>Phyto</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($product_history as $p)
+                                            <tr>
+                                                <td class="font">{{$p->productType->code}}|{{$p->id}}|{{$p->created_at->format('y')}}</td>
+                                                <td class="font">{{$p->name}}</td>
+                                                <td class="font">{{$p->productType->name}}</td>
+                                                <td class="font">{{$p->price}}</td>
+                                                <td class="font">{!! $p->micro_grade_report !!}</td>
+                                                <td class="font">{!! $p->pharm_grade_report !!}</td>
+                                                <td class="font">{!! $p->phyto_grade_report !!}</td>
+
+
+                                               <td></td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                
+                                    </table>
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>
+                @if (\App\Product::find($product->id)->overall_status == 2)
+                @if (\App\Product::find($product->id)->micro_grade == 1 || \App\Product::find($product->id)->pharm_grade == 1 ||  \App\Product::find($product->id)->phyto_grade == 1)
+                <div class="card-body template-demo">
+                    <a href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
+                    <button  type="button" class="btn btn-info btn-block">REVIEW PRODUCT</button>
+                    </a>
+                </div>  
+                @endif
+                @endif
+              
+                
             </div>
         </div>
+ 
+
+       
+        
     </div>
 </div>
 

@@ -65,90 +65,67 @@
                     <tr>
                         <td class="font"><strong>Animal Model</strong></td>
                         <td class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                            {{$item->pharm_animal_model}}
-                            @endforeach
+                            {{$pharm_finalreports->pharm_animal_model}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>No. of Animals</strong></td>
                         <td class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('product_id') as $item)
-                            {{count($item)}}
-                            @endforeach
+                            {{$pharm_finalreports->num_of_animals}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Sex</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                            {{ucfirst($item->animal_sex)}}
-                            @endforeach
+                            {{$pharm_finalreports->animal_sex}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>No. of Groups</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->where('group',1)->groupBy('group') as $item)
-                            2(N = {{count($item)}})
-                            @endforeach
+                            {{$pharm_finalreports->no_group}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Route of Administration</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                            {{ucfirst($item->animal_method)}}
-                            @endforeach
+                            {{$pharm_finalreports->method_of_admin}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Formulation</strong></td> 
-                        <td  class="font">{{$pharmreports->productType->name}}</td>
+                        <td  class="font">{{$pharm_finalreports->formulation}}</td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Preparation</strong></td> 
-                    <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} )</td>
+                    <td  class="font">{{$pharm_finalreports->preparation}}</td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                            {{$item->dosage}}
-                            @endforeach
+                            {{$pharm_finalreports->dosage}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Period of Observation</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                            {{$item->total_days}} Days
-                                @endforeach
+                            {{$pharm_finalreports->no_days}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>No. of Death Recorded</strong></td> 
                         <td  class="font">
-                            @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                            
-                                    Nill
-                            @endif
-
-                            @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                {{count($item)}}
-                            @endforeach  
+                            {{$pharm_finalreports->no_death}}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
-                        <td  class="font"> Greater than 5000 mg/kg</td>
+                        <td  class="font">{{$pharm_finalreports->estimated_dose}}</td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
                         <td  class="font">
-                            @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 2) as $item)     
-                            {{$item->animalToxicity->name}} ,
-                            @endforeach
+                            {{$pharm_finalreports->signs_toxicity}}
                         </td>
                     </tr>
                     <tr>
@@ -179,6 +156,12 @@
             {{$pharmreports->pharm_comment}}   
         </p>  
        </div>
+
+       <div class="col-md-12">
+        <strong><span>REPORT GRADE:</span></strong>
+        <p>{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!} </p><br><br>
+       </div>
+
 
         <div class="row" style="margin: 35px">
           <div class="col-sm-4 invoice-col">

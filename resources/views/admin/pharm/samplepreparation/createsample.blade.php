@@ -211,7 +211,7 @@
                 <div class="card-body todo-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                     <div class="dd" data-plugin="nestable" >
                         <ul class="list-group" id="myList2">
-                            @foreach($exp_inprogress as $inprogress)
+                            @foreach($exp_inprogress->sortBy('pharm_hod_evaluation') as $inprogress)
                           
 
                             <li class="list-group-item dd-item" style="padding: 1px;border:1px" data-id="1">

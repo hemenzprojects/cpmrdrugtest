@@ -194,7 +194,7 @@
                                                     <input type="number" class="form-control" name="ci_zoneform[]"  value="{{$metest->ci_zone}}">
                                                 </td>
                                                 <td class="font">
-                                                    <input type="number" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
+                                                    <input type="text" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
                                                 </td>
 
                                             </tr>
@@ -247,20 +247,32 @@
                             </table> 
                        </div>
                        @endif
-
-                      @foreach ($show_productdept as $showproduct)
+                     {{-- 
+                      @foreach ($show_productdept as $showproduct) --}}
  
+                    
                     <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
                         <strong><span>General Comment</span></strong><br><br>
                        
-                    <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}} </textarea>
+                       <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}}</textarea>
                         <strong><span>Conclusion</span></strong><br><br>
                         <div class="input-group">
                         <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($report_id)->micro_conclution}}">
                         </div> 
                    </div>
-                  @endforeach
-                    <div class="row invoice-info" style="margin: 15px">
+                    {{-- @endforeach --}}
+                    <div class="col-sm-3" style="margin-top:30px">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+                            <select name="micro_grade" required class="form-control" id="exampleSelectGender">
+                            <option value="{{\App\Product::find($report_id)->micro_grade}}">{!! \App\Product::find($report_id)->micro_grade_report !!}</option>
+                                <option value="1">Failed</option>
+                                <option value="2">Passed</option>
+                            </select>                                
+                            </div>
+                    </div>
+
+                    <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                         <?php
                         $micro_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_analysed_by:'');
                         $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');

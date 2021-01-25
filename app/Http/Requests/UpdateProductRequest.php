@@ -33,7 +33,7 @@ class UpdateProductRequest extends FormRequest
             'name' => 'required|min:3',        
             'customer_id' => 'required',
             'product_type_id' => 'required',
-            'price' => ['required','numeric',new ProductPriceLimit],
+            // 'price' => ['required','numeric',new ProductPriceLimit],
             'quantity' =>  'required|numeric', 
             'dosage' => 'required|min:3',
             // 'mfg_date' => 'required',

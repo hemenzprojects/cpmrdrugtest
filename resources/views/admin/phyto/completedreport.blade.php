@@ -17,7 +17,7 @@
         <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
         <p class="card-subtitle">Phytochemistry Department</p>
        </div>
-  <div class="card">
+  <div class="card" style="padding:40px">
             
        <div class="" style="margin-top: 10px">
         <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> PRODUCT DETAILS</strong></h4>
@@ -142,7 +142,8 @@
 
     </div>
 
-</div>
+     </div>
+
   </div>
  
 </div>

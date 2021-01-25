@@ -42,5 +42,8 @@
     background-color: #0c2702;
     }
 
+    .physicochem_4{
+        display: none;
+    }
    </style>
 </head>

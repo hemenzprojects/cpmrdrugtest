@@ -137,7 +137,7 @@
 
         </div>
         
-           <div class="col-12">
+           <div class="col-12" style="margin-top: 50px">
             <div class="row">
                 <div class="col-md-6" style="margin-right: 16%">
                   @if (\App\Product::find($report_id)->phyto_hod_evaluation <2)
@@ -204,10 +204,10 @@
                   </div>
                 </div>
                 <div class="col-md-4">  
-                     @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2) 
+                     @if (\App\Product::find($report_id)->phyto_hod_evaluation == 2) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                 <a target="_blank" href="{{url('admin/phyto/completedreport/show',['id' => $report_id])}}">
+                 <a href="#">
                   <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
                  </a>
                   @endif

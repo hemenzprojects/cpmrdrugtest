@@ -50,114 +50,215 @@
         </div>
         @if ($pharmreports->pharm_testconducted ==1)
         <div class="card">
-          <div class=""> 
-            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
+        <div class="row">
+                <div class="col-md-8">
+                        <div class=""> 
+                            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
 
-            <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} |   {{ucfirst($pharmreports->name)}} in 
-                @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                {{$item->pharm_animal_model}}
-                @endforeach
-            </p>
-           </div>
+                            <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} |   {{ucfirst($pharmreports->name)}} in 
+                                @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                {{$item->pharm_animal_model}}
+                                @endforeach
+                            </p>
+                        </div>
 
-           <table class="table">
-            <tbody>
-                <tr>
-                    <td class="font"><strong>Animal Model</strong></td>
-                    <td class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                       {{$item->pharm_animal_model}}
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                   <td class="font"><strong>No. of Animals</strong></td>
-                    <td class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('product_id') as $item)
-                        {{count($item)}}
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Sex</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                       {{ucfirst($item->animal_sex)}}
-                        @endforeach
-                 </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>No. of Groups</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->where('group',1)->groupBy('group') as $item)
-                        2(N = {{count($item)}})
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Route of Administration</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                       {{ucfirst($item->animal_method)}}
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Formulation</strong></td> 
-                    <td  class="font">{{$pharmreports->productType->name}}</td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Preparation</strong></td> 
-                <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} )</td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                       {{$item->dosage}}
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Period of Observation</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                        {{$item->total_days}} Days
-                         @endforeach
-                   </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>No. of Death Recorded</strong></td> 
-                    <td  class="font">
-                        @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                       
-                              Nill
-                        @endif
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <input type="hidden" class="" name="pharm_testconducted" value="1">
 
-                        @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                         {{count($item)}}
-                        @endforeach  
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
-                    <td  class="font"> Greater than 5000 mg/kg</td>
-                </tr>
-                <tr>
-                    <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
-                    <td  class="font">
-                        @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
-                        {{$item->animalToxicity->name}} ,
-                        @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-          </table>  
-          
+                                    <td class="font"><strong>Animal Model</strong></td>
+                                    <td class="font">
+                                    <input type="text" required class="" name="animal_model" value="{{$pharm_finalreports->pharm_animal_model}}" placeholder="None">
+                                    </td>
+                                </tr>
+                                <tr>
+                                <td class="font"><strong>No. of Animals</strong></td>
+                                    <td class="font">
+                                        <input type="text" required class="" name="num_of_animals" value="{{$pharm_finalreports->num_of_animals}}" placeholder="None">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Sex</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required class="" name="animal_sex" value="{{$pharm_finalreports->animal_sex}}" placeholder="None">
+
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>No. of Groups</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required class="" name="no_group" value="{{$pharm_finalreports->no_group}}" placeholder="None">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Route of Administration</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required class="" name="method_of_admin" value="{{$pharm_finalreports->method_of_admin}}" placeholder="None">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Formulation</strong></td> 
+                                    <td  class="font"><input type="text" required name="formulation" value="{{$pharm_finalreports->formulation}}" placeholder="None"></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Preparation</strong></td> 
+                                <td  class="font">
+                                    <textarea name="preparation" id="" cols="30" rows="2"  placeholder="None">{{$pharm_finalreports->preparation}}</textarea>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required name="dosage" value="{{$pharm_finalreports->dosage}}" placeholder="None">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Period of Observation</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required name="no_days" value="{{$pharm_finalreports->no_days}}" placeholder="None">
+                                   </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>No. of Death Recorded</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required name="no_death" value="{{$pharm_finalreports->no_death}}" placeholder="None">
+  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
+                                    <td  class="font">
+                                        <input type="text" required name="estimated_dose" value="{{$pharm_finalreports->estimated_dose}}" placeholder="None">
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                    <td  class="font">
+                                       
+                                         <textarea name="signs_toxicity" id="" cols="30"   placeholder="None" rows="3">{{$pharm_finalreports->signs_toxicity}}</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                </div> 
+                <div class="col-md-4" style="background-color:">
+                    <div class="card-body">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Report submitted from animal house</strong> 
+                            
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="font"><strong>Animal Model</strong></td>
+                                        <td class="font">
+                                            @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item)
+                                            {{App\PharmAnimalModel::find($item->animal_model)->name}},
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td class="font"><strong>No. of Animals</strong></td>
+                                        <td class="font">
+                                            @foreach ($pharmreports->animalExperiment->groupBy('product_id') as $item)
+                                            {{count($item)}}
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Sex</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                           {{ucfirst($item->animal_sex)}}
+                                            @endforeach
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>No. of Groups</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->groupBy('group') as $item)
+                                            2(N = {{count($item) / 2}})
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Route of Administration</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
+                                        {{ucfirst($item->animal_method)}}
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Formulation</strong></td> 
+                                        <td  class="font">{{$pharmreports->productType->name}}</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                    <td class="font"><strong>Preparation</strong></td> 
+                                    <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} )</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                        {{$item->dosage}}
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Period of Observation</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                            {{$item->total_days}} Days
+                                            @endforeach
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>No. of Death Recorded</strong></td> 
+                                        <td  class="font">
+                                            @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
+                                        
+                                                Nill
+                                            @endif
+    
+                                            @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
+                                            {{count($item)}}
+                                            @endforeach  
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
+                                        <td  class="font"> Greater than 5000 mg/kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                        <td  class="font">
+                                            @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
+                                            {{$item->animalToxicity->name}} ,
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="ik ik-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+         </div>
             <div class="" style="padding: 2%">
             
                 <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
@@ -176,46 +277,157 @@
         @endif
       
        @if ($pharmreports->pharm_testconducted ==2)
-
-       <div class="card" style="padding: 2%">
-        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-            <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_standard" >{{$pharmreports->pharm_standard}}
-            </textarea> 
-         @endif
-
-         @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-         <textarea name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6">{{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </textarea>
-         @endif
-
-           <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
-
+     <div class="row">
+         <div class="col-md-8">
+          <div class="card" style="padding: 2%">
             @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-            <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result" >{{$pharmreports->pharm_result}}
-            </textarea> 
-            @endif
-            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-            <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result">Experimental rats in groups 1 and 2 that received 0.1ml intradermal injection of the balm dissolved in glycerol at 1% and 5% w/v respectively, showed @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 2) as $item) {{$item->animalToxicity->name}}, @endforeach at the site of injection. This indicates that even at a high level of 5% w/v the balm did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.
-            </textarea>
+                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_standard" >{{$pharmreports->pharm_standard}}
+                </textarea> 
             @endif
 
-        </div>
-    
-       <div class="card" style="padding: 2%">
-        
-            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-            <textarea  style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" >{{$pharmreports->pharm_comment}}
-            </textarea> 
-            @endif
             @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-            <textarea style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" > {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} appears to be safe / not safe when applied to the skin.
-        
-            </textarea> 
+            <textarea name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6">{{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </textarea>
             @endif
+
+            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
+
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
+                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result" >{{$pharmreports->pharm_result}}
+                </textarea> 
+                @endif
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
+                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result">Experimental rats in groups 1 and 2 that received 0.1ml intradermal injection of the balm dissolved in glycerol at 1% and 5% w/v respectively, showed @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 2) as $item) {{$item->animalToxicity->name}}, @endforeach at the site of injection. This indicates that even at a high level of 5% w/v the balm did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.
+                </textarea>
+                @endif
+
+            </div>
         
-        </div>  
+                <div class="card" style="padding: 2%">
+                    
+                        <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
+                        <textarea  style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" >{{$pharmreports->pharm_comment}}
+                        </textarea> 
+                        @endif
+                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
+                        <textarea style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" > {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} appears to be safe / not safe when applied to the skin.
+                    
+                        </textarea> 
+                        @endif
+                    
+                </div>
+            </div> 
+            <div class="col-md-4" >
+                <div class="card-body">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Report submitted from animal house</strong> 
+                        
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="font"><strong>Animal Model</strong></td>
+                                    <td class="font">
+                                        @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item)
+                                        {{App\PharmAnimalModel::find($item->animal_model)->name}},
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                <td class="font"><strong>No. of Animals</strong></td>
+                                    <td class="font">
+                                        @foreach ($pharmreports->animalExperiment->groupBy('product_id') as $item)
+                                        {{count($item)}}
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Sex</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                       {{ucfirst($item->animal_sex)}}
+                                        @endforeach
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>No. of Groups</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->groupBy('group') as $item)
+                                        2(N = {{count($item) / 2}})
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Route of Administration</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
+                                    {{ucfirst($item->animal_method)}}
+                                        @endforeach
+                                    </td>
+                                </tr>
+                             
+                               
+                                <tr>
+                                    <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                    {{$item->dosage}}
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>Period of Observation</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                        {{$item->total_days}} Days
+                                        @endforeach
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="font"><strong>No. of Death Recorded</strong></td> 
+                                    <td  class="font">
+                                        @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
+                                    
+                                            Nill
+                                        @endif
+
+                                        @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
+                                        {{count($item)}}
+                                        @endforeach  
+                                    </td>
+                                </tr>
+                               
+                                <tr>
+                                    <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                    <td  class="font">
+                                        @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
+                                        {{$item->animalToxicity->name}} ,
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="ik ik-x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+      </div> 
        @endif
-    
+       <div class="col-sm-3" style="margin-top:30px">
+        <div class="form-group">
+            <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+            <select name="pharm_grade" required class="form-control" id="exampleSelectGender">
+            <option value="{{\App\Product::find($pharmreports->id)->pharm_grade}}">{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!}</option>
+                <option value="1">Failed</option>
+                <option value="2">Passed</option>
+            </select>                                
+            </div>
+    </div>
 
        <div class="row" style="margin: 35px">
                 <div class="col-sm-4 invoice-col">

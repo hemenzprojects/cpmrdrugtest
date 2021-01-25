@@ -68,6 +68,7 @@ class PhytoController extends Controller
             'status' => $status,
             'received_by' => $adminId,
             'delivered_by' => $delivered_by,
+            'received_at' => \Carbon\Carbon::now(),
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
             ];
@@ -132,6 +133,8 @@ class PhytoController extends Controller
             }
 
             public function makereport_create(Request $r){
+              
+              // dd($r->all());
 
               if ($r->date_analysed > \Carbon\Carbon::now()) {
                 Session::flash('message_title', 'error');
@@ -405,6 +408,7 @@ class PhytoController extends Controller
 
             public function makereport_update(Request $r, $id){
           
+              //  dd($r->all());
               $data = $r->validate([
               'chemicalconst' => 'required', 
                ]);
@@ -434,6 +438,7 @@ class PhytoController extends Controller
                 $product->phyto_comment = $r->comment;
                 $product->phyto_hod_evaluation = 1;
                 $product->phyto_dateanalysed = $r->date_analysed;
+                $product->phyto_grade = $r->phyto_grade;
                 $product->phyto_analysed_by = Auth::guard('admin')->id();
 
                 $product->update();
@@ -566,11 +571,19 @@ class PhytoController extends Controller
                     Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                     return redirect()->back();
                   }
-                   Product::where('id',$id)->update([
+                  
+                  $p= Product::find($id);
+                  $p->update([
                     'phyto_hod_evaluation'=> $r->evaluate,
                     'phyto_appoved_by'=>$r->adminid,
                   ]); 
-      
+                 
+                  if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
+                    $p->update(['overall_status'=> 2]);
+                  }else {
+                    $p->update(['overall_status'=> 1]);
+                  }
+                  
                  Session::flash("message", "Report Evaluation completed.");
                  Session::flash("message_title", "success");  
                  return redirect()->back();
@@ -583,8 +596,8 @@ class PhytoController extends Controller
           
              $data['report_id'] = $id; 
 
-              $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
-               return $q->where("dept_id", 3)->where("status",3);
+              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->with('departments')->whereHas("departments", function($q){
+               return $q->where("dept_id", 3)->where("status",4);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
              ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
 
@@ -592,5 +605,123 @@ class PhytoController extends Controller
              
           }
 
+          
+           public function generalreport_index(){
+           
+            $data['product_types'] = \App\ProductType::all();
+
+            $data['from_date'] = "2020-01-01";
+            $data['to_date'] = now();
+            
+           $data['pending_products'] = Product::where('phyto_hod_evaluation', '<', 2)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",3)->where('status','>',1)->where('status','<',4);
+            })->get();
+           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",3)->where('status','>',1)->where('status','>',2);
+            })->get();
+
+            return view('admin.phyto.generalreport.index',$data);
+           }
+
+
+           public function completedreports_index($id){
+
+           $data['ptype_id'] = $id;
+           $data['completed_products'] =Product::where('phyto_hod_evaluation', 2)->where('product_type_id',$id)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",3)->where('status','>',2);
+            })->get();
+
+            return view('admin.phyto.generalreport.completedreport',$data);
+           }
+           
+           public function between_months(Request $r){
+
+
+            $data = $r->all();
+           
+            if ($r->from_date == null) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select required date to begin begin');
+              return redirect()->route('admin.phyto.general_report.index');
+             }
+      
+            if ($r->to_date == null) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select required date to end report');
+              return redirect()->route('admin.phyto.general_report.index');
+             }
+       
+             $data = $r->all();
+             $data['product_types'] = \App\ProductType::all();
+
+              $data['pending_products'] = Product::where('phyto_hod_evaluation', '<', 2)->with("departments")
+              ->whereHas("departments", function($q)use($r){
+               return $q->where("dept_id",3)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
+              })->get();
+              
+               $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")
+              ->whereHas("departments", function($q)use($r){
+                return $q->where("dept_id",3)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
+              })->get();
+
+            return view('admin.phyto.generalreport.index',$data);
+           }
+
+           //************************************************Phyto Configurations ************************** */
+
+           public function hodoffice_config(){
+            $data['phyto_physicochemdata'] = PhytoPhysicochemData::all();
+            $data['phyto_organoleptics'] = PhytoOrganoleptics::all();
+            $data['phyto_chemicalconsts'] = PhytoChemicalConstituents::all();
+            
+            return view('admin.phyto.hodoffice.config',$data);
+           }
+
+           public function config_organoleptics_create(Request $r){
+
+            $data = $r->validate([
+              'name' => 'required', 
+              'feature' => 'required',   
+            ]);
+
+            $data = ([
+              'name' => $r->name,
+              'feature' => $r->feature,
+              'added_by_id' => Auth::guard('admin')->id(),
+             ]);
+             
+            PhytoOrganoleptics::create($data);
+            return redirect()->route('admin.phyto.hod_office.config');
+
+           }
+
+           public function config_organoleptics_update (Request $r){
+              
+            // dd($r->all());
+            if ($r->action > 2 ) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
+              return redirect()->back();
+          } 
+              if ($r->action == 0 && $r->action == null) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select required product and submit.');
+              return redirect()->back();
+          } 
+ 
+            $data = 
+            [ 
+            'action' => $r->action,
+            'added_by_id' => Auth::guard('admin')->id(),
+            'created_at' => \Carbon\Carbon::now(),
+            ];
+           
+            PhytoOrganoleptics::whereIN('id', $r->organo_item)->update($data);
+            PhytoOrganoleptics::whereNotin('id',$r->organo_item)->update(['action' =>0]);
+            Session::flash("message", "Template updated successfully");
+            Session::flash("message_title", "success");  
+            return redirect()->back();
+
+           }
 }
 

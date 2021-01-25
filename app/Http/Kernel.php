@@ -64,6 +64,24 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'deptone' => \App\Http\Middleware\DeptOneAccess::class,
+        'deptonehod' => \App\Http\Middleware\DeptOneHodAccess::class,
+        'pharmdept' => \App\Http\Middleware\PharmDeptAccess::class,
+        'pharmdepthod' => \App\Http\Middleware\PharmDeptHodAccess::class,
+        'pharmdeptanimalexp' => \App\Http\Middleware\PharmDeptAnimalExpAccess::class,
+        'phytodept' => \App\Http\Middleware\PhytoDeptAccess::class,
+        'phytodepthod' => \App\Http\Middleware\PhytoDeptHodAccess::class,
+        'sidept' => \App\Http\Middleware\SIDeptAccess::class,
+        'sidepthod' => \App\Http\Middleware\SIDeptHodAccess::class,
+
+
+
+
+
+
+
+
+
     ];
 
     /**
