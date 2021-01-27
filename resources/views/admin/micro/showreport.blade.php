@@ -49,7 +49,7 @@
                 @endforeach
 
                     <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
-                        {{-- this table is for too manny microbial count --}}
+
                     <div class="table-responsive ">
                         <table class="table table-striped table-bordered nowrap dataTable">
                             <thead>
@@ -58,33 +58,17 @@
                                     <th>Test Conducted</th>
                                     <th class="77772" style="display: none">Result (CFU/ml)</th>
                                     <th class="77771" style="display: none">Result (CFU/g)</th>
-                                    <th>Accepted Criterion (BP, 2016)</th>
+                                    <th>Accepted Criterion BP
+                                   (@foreach($show_microbial_loadanalyses as $temp)
+                                    @if($show_microbial_loadanalyses->first() == $temp)
+                                    {{$temp->date_template}})
+                                    @endif
+                                    @endforeach
+                                    </th>
+                                    <th>Compliance Statement</th>
                                   
                                 </tr>
                             </thead>
-                           <tbody class="3" style="display: none">
-                           
-                            @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-                              <tr>
-                                <input type="hidden" name="mlmc_ids[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
-                                <td class="font">
-                                    {{$show_microbial_loadanalyses[$i]->test_conducted}}
-                                    <input type="hidden" class="form-control" name="mc_test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">
-                                </td>
-                                <td class="font">
-                                    <input type="text" required class="form-control" name="mc_result[]"  placeholder="{{$i>1?'Manny count Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
-                                </td>
-                                <td class="font">
-                               
-                                    <input type="text" required class="form-control" name="mc_acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
-                                </td>
-                                
-                            <input type="hidden" required class="custom-control-input" id="mannycount_loadanalyses{{$i}}" name="mannycount_loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
-                                
-                            </tr>
-                            @endfor
-                            </tbody>
-
                             {{-- Load analyses table without many count --}}
                             <tbody class="1">
                            
@@ -95,10 +79,7 @@
                         
                                 <td class="font">
                                     {{$show_microbial_loadanalyses[$i]->test_conducted}}
-                                    <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">
-
-               
-                                     
+                                    <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">     
                                 </td> 
                                 <td class="font">
                                     @if ($i<2)
@@ -140,15 +121,34 @@
                                 <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="criterion_disabled{{$i}}" name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}"  value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
                                 <input type="hidden" class="form-control" id="ac_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
                                 </td>
-                                
+                                  <td>
+                                    <select name="mlcompliance[]" class="form-control" required>
+                                        <option value="{{$show_microbial_loadanalyses[$i]->compliance}}">{!! $show_microbial_loadanalyses[$i]->micro_compliance !!}</option>
+                                        <option value="1">Failed</option>
+                                        <option value="2">Passed</option>
+                                    </select>
+                                  
+   
+                                  </td>
                                 <input type="hidden"  class="form-control" id="load_analyses{{$i}}" name="loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
                                 
                              </tr>
                             @endfor
                         </tbody>
-                       </table>  
+                       </table>
+
                     </div>
                 
+                    <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
+                        <strong><span>General Conclusion</span></strong><br><br>
+                        <div class="input-group">
+                            <select name="micro_la_conclution" class="form-control" id="exampleSelectGender">
+                                <option value="{{\App\Product::find($report_id)->micro_la_conclution}}">{!! \App\Product::find($report_id)->micro_load_conc !!}</option>
+                                <option value="1">The sample meets with the requirements as per BP specifications</option>
+                                <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
+                            </select>
+                        </div> 
+                   </div>
                     <div class="checkefficacy1 col-sm-3">
                         <label class="custom-control custom-checkbox" >
                             <input type="checkbox" class=" custom-control-input" name="efficacyanalyses_form" id="check_efficacy2" value="243123">
@@ -246,12 +246,26 @@
                                </tbody>
                             </table> 
                        </div>
+
+                       <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
+                        <strong><span>General Conclusion</span></strong><br><br>
+                        <div class="input-group">
+                            <select name="micro_ea_conclution" required class="form-control">
+                                <option value="{{\App\Product::find($report_id)->micro_ea_conclution}}">{!! \App\Product::find($report_id)->micro_efficacy_conc !!}</option>
+                                <option value="1">The product did not show antimicrobial activity</option>
+                                <option value="2">The product showed antimicrobial activity</option>
+                            </select>
+                        </div> 
+                   </div>
                        @endif
+
+     
+                   {{\App\Product::find($report_id)->micro_text_grade}}
                      {{-- 
                       @foreach ($show_productdept as $showproduct) --}}
  
                     
-                    <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
+                    {{-- <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
                         <strong><span>General Comment</span></strong><br><br>
                        
                        <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}}</textarea>
@@ -259,7 +273,8 @@
                         <div class="input-group">
                         <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($report_id)->micro_conclution}}">
                         </div> 
-                   </div>
+                   </div> --}}
+
                     {{-- @endforeach --}}
                     <div class="col-sm-3" style="margin-top:30px">
                         <div class="form-group">

@@ -203,7 +203,7 @@
                             @endif
 
                             @if($item->status ==7)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">70%</span></h6><span>Product under Experimentation</span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">70%</span></h6><span>Product under Experimentation {!! $product->pharm_grade_report !!}</span>
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
                             </div>
@@ -235,7 +235,7 @@
                             </div>   
                             @endif
                             @if($item->status ==3)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">70%</span></h6> <span>Report preparation in progress</span>
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">70%</span></h6> <span>Report preparation in progress {!! $product->phyto_grade_report !!}</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">70% Complete</span> </div>
                             </div>   
@@ -292,11 +292,11 @@
                         </div>
                     </div>
                 </div>
-                @if (\App\Product::find($product->id)->overall_status == 2)
-                @if (\App\Product::find($product->id)->micro_grade == 1 || \App\Product::find($product->id)->pharm_grade == 1 ||  \App\Product::find($product->id)->phyto_grade == 1)
+                @if ($product->overall_status == 2)
+                @if ($product->failed_final_grade)
                 <div class="card-body template-demo">
-                    <a href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
-                    <button  type="button" class="btn btn-info btn-block">REVIEW PRODUCT</button>
+                    <a   href="{{route('admin.sid.product.review', ['product' => $product])}}">
+                    <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">REVIEW PRODUCT</button>
                     </a>
                 </div>  
                 @endif

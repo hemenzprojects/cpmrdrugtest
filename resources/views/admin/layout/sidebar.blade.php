@@ -68,14 +68,7 @@
                                             <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
                                             </div>
                                         </div> 
-                                        <div class="nav-item has-sub">
-                                            <a href="#"><i class="ik ik-layout"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
-                                            <div class="submenu-content">
-                                            <a href="#" class="menu-item"></a>
-                                            <a href="#" class="menu-item">Microbial Load Analysis </a>
-                                            <a href="#" class="menu-item"> Microbial Efficacy Analysis </a>
-                                            </div>
-                                        </div> 
+                                     
                                         @endif
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
@@ -218,8 +211,8 @@
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
                                     <a href="#" class="menu-item"></a>
-                                    <a href="#" class="menu-item">Microbial Load Analysis </a>
-                                    <a href="#" class="menu-item"> Microbial Efficacy Analysis </a>
+                                    <a href="{{route('admin.micro.hod_office.config')}}" class="menu-item">Report template settings </a>
+                                   
                                     </div>
                                 </div> 
                                 @endif
@@ -241,14 +234,14 @@
                                 @endif
                                 @endif
 
-                             {{-- PHARM CONFIG  --}}
+                                {{-- PHYTO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==3)
                                 @if (Auth::guard('admin')->user()->user_type_id ==1)
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
-                                    <a href="{{route('admin.phyto.hod_office.config')}}" class="menu-item">  Report Template settings</a>
+                                    <a href="{{route('admin.phyto.hod_office.config')}}" class="menu-item">  Report template settings</a>
                                    
                                     </div>
                                 </div> 

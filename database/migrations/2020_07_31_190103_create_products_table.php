@@ -34,10 +34,12 @@ class CreateProductsTable extends Migration
 
             $table->text('micro_comment')->nullable();
             $table->text('micro_conclution')->nullable();
+            $table->integer('micro_la_conclution')->nullable();
+            $table->integer('micro_ea_conclution')->nullable();
             $table->date('micro_dateanalysed')->nullable();
             $table->date('micro_datecompleted')->nullable();
             $table->integer('micro_overall_status')->default(1)->nullable();
-            $table->integer('micro_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->integer('micro_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
             $table->integer('micro_appoved_by')->nullable();
             $table->integer('micro_analysed_by')->nullable();
             $table->integer('micro_reference')->nullable();

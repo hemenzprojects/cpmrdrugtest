@@ -222,17 +222,22 @@
                                             </span>
                                               @endforeach 
                                               <span>
-                                              <small class="float-right font"> <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
+                                              <small class="float-right font" > <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
                                               <span>
                                                   @if ($microproduct_withtest->micro_grade != null )
                                                   <span>
-                                                    <small class="float-right font"> <strong>Grade: </strong> {!! $microproduct_withtest->micro_grade_report !!}</small>
-                                                <span>  
+                                                    <small class="float-right font" style="margin: 0.5px"> <strong>Grade: </strong> {!! $microproduct_withtest->micro_grade_report !!}</small>
+                                                 <span>  
                                                   @endif 
-                                                  
-                                             
+
                                         </div>
                                     </a>
+                                    <span class="float-right font">
+                                        <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.delete',['id' =>$microproduct_withtest->id ])}}">
+                                          
+                                          <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
+                                        </a>
+                                    </span>
                                 </div>
                                 </div>
              
@@ -314,7 +319,7 @@
     <div class="row">
         <div class="card">
             <ul class="nav justify-content-center" style="margin-top: 10px"> 
-              <h4>CREATE MICROBIAL REPORT </h4>
+              <h4>CREATE MICROBIAL REPORT</h4>
             </ul>
             <div class="card-body">
                 <form action="{{route('admin.micro.report.create_test')}}" method="POST">
@@ -357,16 +362,24 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th style="display: none">#</th>
+                                                    <th>#</th>
                                                     <th>Test Conducted</th>
-                                                    <th id="stateresult" class="77772">Result (CFU/g)</th>
-                                                    <th>Acceptance Criterion</th>
+                                                    <th id="stateresult" class="77772">Result/Unit (CFU/g)</th>
+                                                    <th>Acceptance Criterion
+                                                         <span class="font">
+                                                        (BP @foreach ($MicrobialLoadAnalysis->groupBy('id')->first()  as $item)
+                                                        {{$item->expired_at}}
+                                                        <input type="hidden" name="date_template" value="{{$item->date}}">
+                                                           @endforeach )
+                                                       </span></th>
+                                                       
+                                                    <th>Compliance Statement</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
+                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis->where('action',1)); $i++)
                                                 <tr>
-                                                    <td class="font" style="display: none">
+                                                    <td class="font" style="">
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" name="mltest_id[]" value="{{$MicrobialLoadAnalysis[$i]->id}}" class="custom-control-input" checked="">
                             
@@ -375,15 +388,22 @@
                                                     </td>
                                                     <td class="font">
                                                         {{$MicrobialLoadAnalysis[$i]->test_conducted}}
-                                                        <input type="hidden" class="form-control" name="test_conducted[]" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
+                                                        <input type="hidden" class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
+                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
                                                     </td>
                                                     <td class="font">
                                                         
-                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
+                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
+                                                    <td class="font">
+                                                        <select name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control" id="exampleSelectGender">
+                                                            <option value="">None</option>
+                                                            <option value="1">Passed</option>
+                                                            <option value="2">Failed</option>
+                                                        </select>
+                                                      </td>
                                                 </tr>
                                                 @endfor
                                             </tbody>
@@ -393,52 +413,7 @@
                             </div>
                             <p></p>
                         </div> 
-                        <div class="col-sm-12 3 box" style="display: none">
-                            <div class="card">
-                                <div class="card-header d-block">
-                                    <div class="card-header"><h3>Microbial Load Analysis |</h3>Many count</div>
-                                </div>
-                                <div class="card-body p-0 table-border-style">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead >
-                                                <tr class="table-info">
-                                                    <th style="display: none">#</th>
-                                                    <th>Test Conducted</th>
-                                                    <th id="manycount_stateresult"> Result (CFU/g)</th>
-                                                    <th>Acceptance Criterion</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
-                                                <tr>
-                                                    <td class="font" style="display: none">
-                                                        <label class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="mlmctest_id[]" value="{{$MicrobialLoadAnalysis[$i]->id}}" class="custom-control-input" checked="">
-                            
-                                                            <span class="custom-control-label">&nbsp;</span>
-                                                        </label> 
-                                                    </td>
-                                                    <td class="font">
-                                                        {{$MicrobialLoadAnalysis[$i]->test_conducted}}
-                                                        <input type="hidden" class="form-control" name="mlmctest_conducted[]" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
-                                                    </td>
-                                                    <td class="font">
-                                                    <input type="text" class="form-control" required name="mlmcresult[]" id="{{$i<2?'mresult':''}}{{$i}}" placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
-                                                    </td>
-                                                    <td class="font">
-                                                        <input type="text" class="form-control" required name="mlmcacceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="mla-mannycount{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
-                                                    </td>
-                                                </tr>
-                                                @endfor
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <p></p>
-                        </div> 
-
+                    
                         <div class="col-sm-12 2 box" style="display: none">
                             <div class="card">
                                 <div class="card-header d-block">
@@ -449,7 +424,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th style="display: none">#</th>
+                                                    <th style="">#</th>
                                                     <th>Pathogen</th>
                                                     <th>Product Inhibition Zone</th>
                                                     <th>Ciprofloxacin Inhibition Zone</th>
@@ -457,9 +432,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($MicrobialEfficacyAnalysis as $metest)
+                                                @foreach($MicrobialEfficacyAnalysis->where('action',1) as $metest)
                                                 <tr>
-                                                    <td class="font" style="display: none">      
+                                                    <td class="font" style="">      
                                                         <label class="custom-control custom-checkbox">
                                                             <input type="checkbox" name="metest_id[]" value="{{$metest->id}}" class="custom-control-input" checked="true">
                             
@@ -467,17 +442,17 @@
                                                         </label> 
                                                     </td>
                                                     <td class="font">{{$metest->pathogen}}</td>
-                                                    <input type="hidden" class="form-control" name="pathogen[]" value="{{$metest->pathogen}}">
+                                                    <input type="hidden" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
 
                                                     <td class="font">
-                                                        <input type="text" class="form-control" required name="pi_zone[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
+                                                        <input type="text" class="form-control" required name="pi_zone_{{$metest->id}}" placeholder="PI Zone" value="{{$metest->pi_zone}}">
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="ci_zone[]" value="{{$metest->ci_zone}}">
+                                                        <input type="text" class="form-control" name="ci_zone_{{$metest->id}}" value="{{$metest->ci_zone}}">
                                                     </td>
 
                                                     <td class="font">
-                                                        <input type="text" class="form-control" name="fi_zone[]"  value="{{$metest->fi_zone}}">
+                                                        <input type="text" class="form-control" name="fi_zone_{{$metest->id}}"  value="{{$metest->fi_zone}}">
                                                     </td>
 
                                                 </tr>

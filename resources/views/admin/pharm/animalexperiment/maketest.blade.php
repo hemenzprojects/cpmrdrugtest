@@ -224,7 +224,8 @@
                                                 <a data-toggle="modal"  data-placement="auto" data-target="#fullwindowModal{{$inprogress->id}}" title="View Product" href="">
                                                 <i class="ik ik-edit-2">Edit</i>
                                                   </a>
-                                           </div><br> 
+                                           </div>
+                                           <br> 
                                             @endif
                                           
                                       </div>

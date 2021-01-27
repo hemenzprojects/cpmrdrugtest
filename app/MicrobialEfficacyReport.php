@@ -16,7 +16,7 @@ class MicrobialEfficacyReport extends Model
     public function getEfficacyStatusAttribute()
     {
         if ($this->efficacy_analyses_id === 2) {
-           return '<td><label class="badge badge-danger">Pendingrnrmrmrmrrrmrmrmr</label></td>';
+           return '<td><label class="badge badge-danger">Pending</label></td>';
         }elseif ($this->efficacy_analyses_id === null) {
             'j';
         }

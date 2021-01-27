@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ProductDept;
 
 class Product extends Model
 {
     protected $fillable = ['name','customer_id','product_type_id','price','quantity','overall_status','mfg_date','exp_date','indication','dosage',
-    'micro_comment','micro_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
+    'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
     'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
 
@@ -43,7 +44,24 @@ class Product extends Model
         
     //     return 1;
     // }
+
+    public function isReviewedByDept($dept_id)
+    {
+        $product_ids = Product::where("failed_tag", $this->failed_tag)->pluck("id")->toArray();
+        $related_tests = ProductDept::where("dept_id", $dept_id)->whereIn("product_id", $product_ids)->get();
+
+        return count($related_tests) > 1;
+    }
+
+    public function getFailedFinalGradeAttribute()
+    {
+        return !($this->micro_grade == 2 && $this->pharm_grade == 2 &&  $this->phyto_grade == 2);
+    }
     
+    public function getLastReviewProductAttribute()
+    {
+        return self::where('failed_tag', $this->failed_tag)->orderBy("created_at", "DESC")->first();
+    }
     public function productType()
     {
         return $this->belongsTo('App\ProductType', 'product_type_id');
@@ -141,6 +159,40 @@ class Product extends Model
 
     }
 
+    
+    public function getMicroloadConcAttribute(){
+
+        if ($this->micro_la_conclution === Null) {
+           return 'None';
+        }
+
+        if ($this->micro_la_conclution === 1) {
+            return  '<span  font-size:15.5px">The sample meets with the requirements as per BP specifications</span>';
+         }
+
+        if ($this->micro_la_conclution === 2) {
+            return '<span  font-size:15.5px">The sample doest not meets with the requirements as per BP specifications</span>';
+        }
+
+    }
+
+    public function getMicroEfficacyConcAttribute(){
+
+        if ($this->micro_ea_conclution === Null) {
+           return 'None';
+        }
+
+        if ($this->micro_ea_conclution === 1) {
+            return  '<span  font-size:15.5px">The product did not show antimicrobial activity</span>';
+         }
+
+        if ($this->micro_ea_conclution === 2) {
+            return '<span  font-size:15.5px">The product showed antimicrobial activity</span>';
+        }
+
+    }
+
+
     //*******************************Pharmacology*********************** */
    
     public function samplePreparation()
@@ -215,9 +267,12 @@ class Product extends Model
 
     public function getEvaluationAttribute()
     {
-       if($this->micro_hod_evaluation === 1){
+       if($this->micro_hod_evaluation === 0){
         return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
-      }elseif ($this->micro_hod_evaluation === 2) {
+      } if($this->micro_hod_evaluation === 1){
+        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Withheld </button>';
+      }
+      elseif ($this->micro_hod_evaluation === 2) {
         return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
      }
 
@@ -225,9 +280,13 @@ class Product extends Model
 
     public function getHodEvaluationAttribute()
     {
-       if($this->micro_hod_evaluation === 1){
-        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld</button>';
-      }elseif ($this->micro_hod_evaluation === 2) {
+       if($this->micro_hod_evaluation === 0){
+        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Pending</button>';
+      }
+      if($this->micro_hod_evaluation === 1){
+       return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld</button>';
+     }
+      elseif ($this->micro_hod_evaluation === 2) {
         return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
      }
 

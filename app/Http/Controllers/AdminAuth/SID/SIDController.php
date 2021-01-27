@@ -424,6 +424,11 @@ class SIDController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
             }
+            if (Product::find( $product_id)->micro_grade ==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed microbial test. Please check and submit to appropriate department');
+                return redirect()->back();
+            }
             $temp = [
                 'dept_id' => $department_1,
                 'product_id' => $product_id,
@@ -444,6 +449,11 @@ class SIDController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
             }
+            if (Product::find( $product_id)->pharm_grade ==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed Pharmacology test. Please check and submit to appropriate department');
+                return redirect()->back();
+            }
             $temp = [
                 'dept_id' => $department_2,
                 'product_id' => $product_id,
@@ -462,6 +472,11 @@ class SIDController extends Controller
             if ($department_3  != $value) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+                return redirect()->back();
+            }
+            if (Product::find($product_id)->phyto_grade ==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed Phytochemistry test. Please check and submit to appropriate department');
                 return redirect()->back();
             }
             $temp = [
@@ -492,7 +507,7 @@ class SIDController extends Controller
 
     public function distribute_onedept_store(Request $request)
     {
-
+        
         if ($request->product_id == null) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Product field is required. ');
@@ -500,6 +515,31 @@ class SIDController extends Controller
         }
         Session::flash('activetab', !blank($request->activetab) ? $request->activetab : 0);
         $admin_id = Auth::guard('admin')->id();
+        
+        // dd($request->all());
+         if ($request->dept_id == 1) {
+            if (Product::find($request->product_id)->micro_grade==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed Microbial test. Please check and submit to appropriate department');
+                return redirect()->back();
+            }
+            Session::flash('activetab', !blank($request->activetab) ? $request->activetab : 0);
+         }
+        elseif ($request->dept_id == 2) {
+            if (Product::find($request->product_id)->pharm_grade ==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed Pharmacology test. Please check and submit to appropriate department');
+                return redirect()->back();
+            }Session::flash('activetab', !blank($request->activetab) ? $request->activetab : 0);
+         }
+        elseif ($request->dept_id == 3) {
+            if (Product::find($request->product_id)->phyto_grade ==2) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product passed Phytochemical test. Please check and submit to appropriate department');
+                return redirect()->back();
+            }Session::flash('activetab', !blank($request->activetab) ? $request->activetab : 0);
+         }
+
 
         $data = ([
             'product_id' => $request->product_id,
@@ -772,13 +812,21 @@ class SIDController extends Controller
         
     }
 
-    public function product_review(Product $id){
+    public function product_review(Product  $product){
 
+        $product = $product->last_review_product;
+        // return $product->failed_final_grade? "yes": "no";
+        if (!$product->failed_final_grade) {
+          Session::flash('message_title', 'error');
+          Session::flash('message', 'Sorry Product has passed all lab tests and cant be reviewed.');
+          return redirect()->back();
+        } 
+          
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
 
-        $data['p'] = $id;
+        $data['p'] = $product;
 
         return View('admin.sid.products.review', $data);
 
@@ -787,6 +835,9 @@ class SIDController extends Controller
     public function review_create(Request $request, $id){
 
         $failed_tag = $request->failed_tag;
+        $micro_grade =Null;
+        $pharm_grade =Null;
+        $phyto_grade =Null;
 
        $p = Product::find($id);
        if ($p->failed_tag ) {
@@ -795,7 +846,16 @@ class SIDController extends Controller
         $p->update(['failed_tag' => $request->failed_tag]);
        }
        
-
+       if ($p->micro_grade == 2) {
+        $micro_grade = 2;
+       }
+       if ($p->pharm_grade == 2) {
+        $pharm_grade = 2;
+       }
+       if ($p->phyto_grade == 2) {
+        $phyto_grade = 2;
+       }
+     
 
        $data = ([
         'name' => $request->name,
@@ -808,9 +868,14 @@ class SIDController extends Controller
         'dosage' => $request->dosage,
         'indication' => $request->indication,
         'failed_tag' => $failed_tag,
+        'micro_grade' => $micro_grade,
+        'pharm_grade' => $pharm_grade,
+        'phyto_grade' => $phyto_grade,
+
+
         'added_by_id' => Auth::guard('admin')->id(),
 
-    ]);
+       ]);
 
     Product::create($data);
     Session::flash("message", "Product Successfully Created.");

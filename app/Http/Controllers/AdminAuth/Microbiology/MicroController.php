@@ -126,51 +126,109 @@ class MicroController extends Controller
                 return View('admin.micro.createreport', $data); 
               }
 
-
-
               public function test_create(MicroTestCreateRequest $r){
-                $input = $r->all();
+
                 
-               
+                $input = $r->all();
+                // dd($input);
+
                 if (($r->microbialcount == 3) && ($r->loadanalyses == 1)) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Sytem requires you to re-input data due to multiple checked boxes (Both Microbial Load and Too many Microbial count field were checked please rectify) Thank you');
                   return redirect()->back();
                 }
-     
-                $mp_id = $input['micro_product_id'];
+                   
+                $test_conducted = [];
+                $result = [];
+                $acceptance_criterion = [];
+                $mlcompliance = [];
 
-                $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
-                if(count($productdepts->get()) < 1){
-                    
-                    return redirect()->back();
+                $pathogen = [];
+                $pi_zone = [];
+                $ci_zone = [];
+                $fi_zone = [];
+                
+                foreach ($r->mltest_id as $key => $value) {
+                 if(!isset($r->{'test_conducted_'.$value}) or $r->{'test_conducted_'.$value}==null){
+                   Session::flash('message_title', 'error');
+                   Session::flash('message', 'test_conducted field is required.');
+                   return redirect()->back();
+                 }
+                 if(!isset($r->{'result_'.$value}) or $r->{'result_'.$value}==null){
+                   Session::flash('message_title', 'error');
+                   Session::flash('message', 'result_ field is required.');
+                   return redirect()->back();
+                 }
+                 if(!isset($r->{'acceptance_criterion_'.$value}) or $r->{'acceptance_criterion_'.$value}==null){
+                   Session::flash('message_title', 'error');
+                   Session::flash('message', 'acceptance_criterion field is required.');
+                   return redirect()->back();
+                 }
+                 if(!isset($r->{'mlcompliance_'.$value}) or $r->{'mlcompliance_'.$value}==null){
+                   Session::flash('message_title', 'error');
+                   Session::flash('message', 'Compliance field is required.');
+                   return redirect()->back();
+                 }
+
+                 array_push($test_conducted,$r->{'test_conducted_'.$value});
+                 array_push($result,$r->{'result_'.$value});
+                 array_push($acceptance_criterion,$r->{'acceptance_criterion_'.$value});
+                 array_push($mlcompliance,$r->{'mlcompliance_'.$value});
+
+               }
+
+               foreach ($r->metest_id as $key => $value) {
+                if(!isset($r->{'pathogen_'.$value}) or $r->{'pathogen_'.$value}==null){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'pathogen field is required.');
+                  return redirect()->back();
                 }
+                if(!isset($r->{'pi_zone_'.$value}) or $r->{'pi_zone_'.$value}==null){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'pi_zone field is required.');
+                  return redirect()->back();
+                }
+                if(!isset($r->{'ci_zone_'.$value}) or $r->{'ci_zone_'.$value}==null){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'ci_zone field is required.');
+                  return redirect()->back();
+                }
+                if(!isset($r->{'fi_zone_'.$value}) or $r->{'fi_zone_'.$value}==null){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'fi_zone field is required.');
+                  return redirect()->back();
+                }
+
+                array_push($pathogen,$r->{'pathogen_'.$value});
+                array_push($pi_zone,$r->{'pi_zone_'.$value});
+                array_push($ci_zone,$r->{'ci_zone_'.$value});
+                array_push($fi_zone,$r->{'fi_zone_'.$value});
+              }
     
-                $productdept = $productdepts->first();
-                $productdept->status = 3;
-                $productdept->update();
-              
+
                 if($r->loadanalyses){
-                    for ($i=0; $i < count($r->result); $i++) { 
+                    for ($i=0; $i < count($result); $i++) { 
                     if ($i<2) {
-                      $results= explode(' ',$r->result[$i]);
+                      $results= explode(' ',$result[$i]);
                       $rs_part1 =$results[0];
                       $rs_part2 = explode('^',$results[2]);
                       $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
 
-                      $criterial= explode(' ',$r->acceptance_criterion[$i]);
+                      $criterial= explode(' ',$acceptance_criterion[$i]);
                       $ac_part1 =$criterial[0];
                       $ac_part2 = explode('^',$criterial[2]);
                      $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
 
                      
                          MicrobialLoadReport::create([
-                          'test_conducted'=>$r->test_conducted[$i],
+                          'test_conducted'=>$test_conducted[$i],
                           'product_id'=>$r->micro_product_id,
                           'rs_total'=>$rs_total,
-                          'result'=>$r->result[$i],
-                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                          'result'=>$result[$i],
+                          'acceptance_criterion'=>$acceptance_criterion[$i],
+                          'compliance'=>$mlcompliance[$i],
                           'ac_total'=>$ac_total,
+                          'date_template'=>$r->date_template,
                           'added_by_id' => Auth::guard('admin')->id(),
                           'load_analyses_id'=>$r->loadanalyses,
                           'created_at' => \Carbon\Carbon::now(),
@@ -179,11 +237,13 @@ class MicroController extends Controller
              
                     }else{
                         MicrobialLoadReport::create([
-                          'test_conducted'=>$r->test_conducted[$i],
+                          'test_conducted'=>$test_conducted[$i],
                           'product_id'=>$r->micro_product_id,
-                          'result'=>$r->result[$i],
-                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                          'result'=>$result[$i],
+                          'acceptance_criterion'=>$acceptance_criterion[$i],
+                          'compliance'=>$mlcompliance[$i],
                           'ac_total'=>$ac_total,
+                          'date_template'=>$r->date_template,
                           'added_by_id' => Auth::guard('admin')->id(),
                           'load_analyses_id'=>$r->loadanalyses,
                           'created_at' => \Carbon\Carbon::now(),
@@ -196,14 +256,14 @@ class MicroController extends Controller
                     }
                   
                   if($r->efficacyanalyses){
-                  for ($j=0; $j < count($r->pi_zone); $j++) { 
+                  for ($j=0; $j < count($pi_zone); $j++) { 
                           MicrobialEfficacyReport::create([
                           'efficacy_analyses_id'=>$r->efficacyanalyses,
                           'product_id'=>$r->micro_product_id,
-                          'pathogen'=>$r->pathogen[$j],
-                          'pi_zone'=>$r->pi_zone[$j],
-                          'ci_zone'=>$r->ci_zone[$j], 
-                          'fi_zone'=>$r->fi_zone[$j],
+                          'pathogen'=>$pathogen[$j],
+                          'pi_zone'=>$pi_zone[$j],
+                          'ci_zone'=>$ci_zone[$j], 
+                          'fi_zone'=>$fi_zone[$j],
                           'added_by_id' => Auth::guard('admin')->id(),
                           'created_at' => \Carbon\Carbon::now(),
                           'updated_at' => \Carbon\Carbon::now(),
@@ -212,22 +272,19 @@ class MicroController extends Controller
                        }
                    }
                   
-                    if ($r->microbialcount){
-                    for ($k=0; $k < count($r->mlmcresult); $k++){
-                      MicrobialLoadReport::create([
-                      'test_conducted'=>$r->mlmctest_conducted[$k],
-                      'product_id'=>$r->micro_product_id,
-                      'result'=>$r->mlmcresult[$k],
-                      'acceptance_criterion'=>$r->mlmcacceptance_criterion[$k],
-                      'added_by_id' => Auth::guard('admin')->id(),
-                      'load_analyses_id'=>$r->microbialcount,
-                      'created_at' => \Carbon\Carbon::now(),
-                      'updated_at' => \Carbon\Carbon::now(),
-                        ]);
-                      }
-                   }
-                  
+                    
+                $mp_id = $input['micro_product_id'];
 
+                $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
+                if(count($productdepts->get()) < 1){
+                    
+                    return redirect()->back();
+                }
+    
+                $productdept = $productdepts->first();
+                $productdept->status = 3;
+                $productdept->update();
+              
                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
                   Session::flash("message_title", "success");
                   return redirect()->route('admin.micro.report.create');
@@ -274,75 +331,55 @@ class MicroController extends Controller
               
                    if($r->loadanalyses){
                     for ($i =0; $i < count($r->result); $i++){ 
-                    if ($i<2) {
-                      $results= explode(' ',$r->result[$i]);
-                      $rs_part1 =$results[0];
-                      $rs_part2 = explode('^',$results[2]);
-                      $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
+                          if ($i<2) {
+                            $results= explode(' ',$r->result[$i]);
+                            $rs_part1 =$results[0];
+                            $rs_part2 = explode('^',$results[2]);
+                            $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
 
-                      $criterial= explode(' ',$r->acceptance_criterion[$i]);
-                      $ac_part1 =$criterial[0];
-                      $ac_part2 = explode('^',$criterial[2]);
-                      $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
-                      
-                      \App\MicrobialLoadReport::find($r->mltest_id[$i])->update([
-                       'test_conducted'=>$r->test_conducted[$i],
-                       'result'=>$r->result[$i],
-                       'rs_total'=>$rs_total,
-                       'acceptance_criterion'=>$r->acceptance_criterion[$i],
-                       'ac_total'=>$ac_total,
-                       'added_by_id' => Auth::guard('admin')->id(),
-                       'updated_at' => \Carbon\Carbon::now(),
-                     ]);
+                            $criterial= explode(' ',$r->acceptance_criterion[$i]);
+                            $ac_part1 =$criterial[0];
+                            $ac_part2 = explode('^',$criterial[2]);
+                            $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
+                            
+                            \App\MicrobialLoadReport::find($r->mltest_id[$i])->update([
+                            'test_conducted'=>$r->test_conducted[$i],
+                            'result'=>$r->result[$i],
+                            'rs_total'=>$rs_total,
+                            'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                            'compliance'=>$r->mlcompliance[$i],
+                            'ac_total'=>$ac_total,
+                            'added_by_id' => Auth::guard('admin')->id(),
+                            'updated_at' => \Carbon\Carbon::now(),
+                          ]);
+                          
+                          }
                     
+                            else{
+                              DB::table('microbial_load_reports')->where('id', $mlr_ids[$i])
+                              ->update([
+                                'test_conducted'=>$ml_testconducteds[$i],
+                                'result'=>$r->result[$i],
+                                'rs_total'=>1,
+                                'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                                'compliance'=>$r->mlcompliance[$i],
+                                'ac_total'=>1,
+                                'added_by_id' => Auth::guard('admin')->id(),
+                                'updated_at' => \Carbon\Carbon::now(),
+                              ]);
+                              }
+                       }
+                        // $products = Product::where('id',$id);
+                        // if(count($productdepts->get()) < 1){
+                        //   return redirect()->back();
+                        // }
+                        // $product = $products->first();
+                        // $product->micro_la_conclution =$r->micro_comment;
+                        // $product->micro_ea_conclution =$r->micro_conclution;
+                        // $product->micro_dateanalysed =$r->date_analysed;
+                        // $product->update();
                      }
-                    
-                       else{
-                        DB::table('microbial_load_reports')->where('id', $mlr_ids[$i])
-                         ->update([
-                          'test_conducted'=>$ml_testconducteds[$i],
-                          'result'=>$r->result[$i],
-                          'rs_total'=>1,
-                          'acceptance_criterion'=>$r->acceptance_criterion[$i],
-                          'ac_total'=>1,
-                          'added_by_id' => Auth::guard('admin')->id(),
-                          'updated_at' => \Carbon\Carbon::now(),
-                        ]);
-                         }
-                   }
-                      $products = Product::where('id',$id);
-                      if(count($productdepts->get()) < 1){
-                       return redirect()->back();
-                      }
-                      $product = $products->first();
-                      $product->micro_comment =$r->micro_comment;
-                      $product->micro_conclution =$r->micro_conclution;
-                      $product->micro_dateanalysed =$r->date_analysed;
-                      $product->update();
-                    }
                 
-                      if ($r->mannycount_loadanalyses)
-                      {
-                          for ($i=0; $i < count($r->mlmc_ids); $i++){
-                            \App\MicrobialLoadReport::find($r->mlmc_ids[$i])->update([
-                                 'load_analyses_id'=>$r->mannycount_loadanalyses,
-                                  'test_conducted'=>$r->mc_test_conducted[$i],
-                                  'result'=>$r->mc_result[$i],
-                                  'acceptance_criterion'=>$r->mc_acceptance_criterion[$i],
-                                  'added_by_id' => Auth::guard('admin')->id(),
-                            ]);
-                          }
-                          $products = Product::where('id',$id);
-                          if(count($productdepts->get()) < 1){
-                           return redirect()->back();
-                          }
-                          $product = $products->first();
-                          $product->micro_comment =$r->micro_comment;
-                          $product->micro_conclution =$r->micro_conclution;
-                          $product->micro_dateanalysed =$r->date_analysed;
-                          $product->update();
-                      }
-
                         if($r->efficacyanalyses_form){
                          for ($k=0; $k < count($r->metestform_id); $k++) { 
                          $data1 = ([
@@ -377,7 +414,7 @@ class MicroController extends Controller
                               );
                           $l++;
                         }
-                     }
+                      }
 
                   $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
@@ -385,12 +422,15 @@ class MicroController extends Controller
                     if(count($products->get()) < 1){     
                       return redirect()->back();
                     }
+
                   $product = $products->first();
-                  $product->micro_comment = $r->micro_comment;
-                  $product->micro_hod_evaluation = 1;
-                  $product->micro_analysed_by = Auth::guard('admin')->id();
-                  $product->micro_conclution = $r->micro_conclution;
+                  $product->micro_ea_conclution = $r->micro_ea_conclution;
+                  $product->micro_la_conclution = $r->micro_la_conclution;
                   $product->micro_grade = $r->micro_grade;
+                  $product->micro_hod_evaluation = 0;
+                  $product->micro_dateanalysed =$r->date_analysed;
+                  $product->micro_analysed_by = Auth::guard('admin')->id();
+                  
 
                   $product->update();
                  
@@ -401,7 +441,42 @@ class MicroController extends Controller
 
               }
               
-                public function printreport($id){
+              public function report_delete($id){
+            
+                   $product = Product::where('id',$id)->where('micro_hod_evaluation','=',2)->whereHas("departments", function($q){
+                    return $q->where("dept_id", 1)->where("status", 3);
+                    })->first();
+                    if($product){
+                      Session::flash('message_title', 'error');
+                      Session::flash('message', 'Sorry product can not be deleted.');     
+                      return redirect()->back();
+                    }
+                    
+                 MicrobialLoadReport::where('product_id',$id)->delete();
+                 MicrobialEfficacyReport::where('product_id',$id)->delete();
+                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
+                 if(count($productdepts->get()) < 1){
+                     
+                     return redirect()->back();
+                 }
+                 $productdept = $productdepts->first();
+                 $productdept->status = 2;
+                 $productdept->update();
+                 
+                 $data = ([
+                  'micro_hod_evaluation'=>Null,
+                  'micro_dateanalysed'=>Null,
+                  'micro_la_conclution'=>Null,
+                  'micro_ea_conclution'=>Null,
+                  'micro_grade'=>Null,
+                  'micro_analysed_by'=>Null,
+                 ]);
+                 Product::where('id',$id)->update($data);
+
+                     return redirect()->back();
+              }
+
+              public function printreport($id){
 
                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",'>',2);
                 if(count($productdepts->get()) < 1){  
@@ -429,7 +504,7 @@ class MicroController extends Controller
 
              public function hodoffice_evaluation(){
               
-               $data['evaluations'] = Product::where('micro_hod_evaluation','>',0)->with('departments')->whereHas("departments", function($q){
+               $data['evaluations'] = Product::where('micro_hod_evaluation','!=',Null)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
               })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
 
@@ -591,6 +666,116 @@ class MicroController extends Controller
               
             }
 
+            public function hodoffice_config(){
+   
+              $data['microbial_efficacys'] = MicrobialEfficacyAnalyses::all();
+              $data['microbial_loadanalyses'] = MicrobialLoadAnalyses::all();
+
+              return view('admin.micro.hodoffice.config',$data);
+            }
+
+            public function microbialanalysis_create(request $r){
+              $data = $r->validate([
+                'test_conducted' => 'required', 
+                'result' => 'required', 
+                'acceptance_criterion' => 'required',          
+              ]);
+
+               $data = ([
+                'test' => $r->test,
+                'result' => $r->result,
+                'acceptance_criterion' => $r->acceptance_criterion,
+                'added_by_id' => Auth::guard('admin')->id(),
+               ]);
+
+               MicrobialLoadAnalyses::create($data);
+               return redirect()->back();
+            }
+
+            public function microbialefficacy_create(request $r){
+              
+              // dd($r->all());
+              $data = $r->validate([
+                'pathogen' => 'required', 
+                'pi_zone' => 'required', 
+                'ci_zone' => 'required',   
+                'fi_zone' => 'required',   
+              ]);
+
+              $data = ([
+               'pathogen' => $r->pathogen,
+               'pi_zone' => $r->pi_zone,
+               'ci_zone' => $r->pi_zone,
+               'fi_zone' => $r->pi_zone,
+               'added_by_id' => Auth::guard('admin')->id(),
+              ]);
+
+              MicrobialEfficacyAnalyses::create($data);
+              return redirect()->back();
+           }
+
+
+            public function microbialanalysis_update(request $r){
+              $data = $r->validate([
+                'date' => 'required',          
+              ]);
+
+              
+           if ($r->action > 2 ) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
+            return redirect()->back();
+          } 
+              if ($r->action == 0 && $r->action == null) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select required product and submit.');
+              return redirect()->back();
+          } 
+              
+          $data = 
+          [ 
+          'action' => $r->action,
+          'date' => $r->date,
+          'added_by_id' => Auth::guard('admin')->id(),
+          'created_at' => \Carbon\Carbon::now(),
+          ];
+         
+          MicrobialLoadAnalyses::whereIN('id', $r->microbial_loadanalyse_id)->update($data);
+          MicrobialLoadAnalyses::whereNotin('id',$r->microbial_loadanalyse_id)->update(['action' =>0]);
+          Session::flash("message", "Template updated successfully");
+          Session::flash("message_title", "success");  
+          return redirect()->back();
+           }
+
+           public function microbialefficacy_update(request $r){
+     
+            if ($r->action > 2 ) {
+             Session::flash('message_title', 'error');
+             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
+             return redirect()->back();
+           } 
+               if ($r->action == 0 && $r->action == null) {
+               Session::flash('message_title', 'error');
+               Session::flash('message', 'Please select required product and submit.');
+               return redirect()->back();
+           } 
+               
+           $data = 
+           [ 
+           'action' => $r->action,
+           'added_by_id' => Auth::guard('admin')->id(),
+           'created_at' => \Carbon\Carbon::now(),
+           ];
+          
+           MicrobialEfficacyAnalyses::whereIN('id', $r->microbial_efficacy_id)->update($data);
+           MicrobialEfficacyAnalyses::whereNotin('id',$r->microbial_efficacy_id)->update(['action' =>0]);
+           Session::flash("message", "Template updated successfully");
+           Session::flash("message_title", "success");  
+           return redirect()->back();
+            }
+
+
+            
            // ********************************* General Report Section *********************************//
 
            public function completedreport_show($id){

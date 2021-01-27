@@ -81,7 +81,7 @@
                                 </td> 
                                 <td class="font">B{{$microproduct->pivot->updated_at->format('dym')}}</td>
                                 <td class="font">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
-                                    @if ($microproduct->failed_tag)
+                                    @if ($microproduct->isReviewedByDept(1))
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif
                                 </td>

@@ -4,7 +4,7 @@
 <div class="row">
 
         <div class="container">
-            <div class="card" style="padding: 15px">
+            <div class="card" style="padding: 25px">
             
                 <div class="text-center"> 
                 <img src="{{asset('admin/img/logo.jpg')}}" class="" width="12%">
@@ -35,6 +35,7 @@
                                         </td>
                                     <td class="font"> {{$completedproduct->micro_dateanalysed}}  </td>
                                     
+                                    
                                 </tr>
                                {{-- {{ $dept->pivot}} --}}
                                @endforeach 
@@ -42,10 +43,9 @@
                         </table>
                     </div>
 
-             
-                    <div class="card-header d-block">
+                    <div class="card-heade" style="margin-top: 5%">
                         <h6>Microbial Load Analysis</h6>
-                    </div>
+                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered nowrap dataTable">
                             <thead>
@@ -57,7 +57,15 @@
                                     @if ($completedproduct->productType->state ==1)
                                     <th >Result (CFU/g)</th>
                                     @endif
-                                    <th>Accepted Criterion (BP, 2016)</th>
+                                    <th>Accepted Criterion BP 
+                                      (  @foreach($microbial_loadanalyses as $temp)
+                                        @if($microbial_loadanalyses->first() == $temp)
+                                        {{$temp->date_template}}
+                                        @endif
+                                        @endforeach)
+                                    </th>
+                                    <th>Compliance</th>
+
                                   
                                 </tr>
                             </thead>
@@ -120,36 +128,24 @@
                                     }
                                   ?>
                                     {{-- {{($item->acceptance_criterion)}} --}}
-                                </td>                                                          
+                                </td> 
+                                <td>
+                                    {!! $microbial_loadanalyses[$i]->micro_compliance !!}
+                                </td>                                                         
                             </tr>
                             @endfor
                             @endif
-
-                            @if ($check_load->load_analyses_id ==3)
-                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-                            <tr>
-                                <td class="font">
-                                    {{$microbial_loadanalyses[$i]->test_conducted}}
-                                    <input type="hidden" class="form-control" name="loadanalyses" placeholder="Result" value="{{$microbial_loadanalyses[$i]->test_conducted}}">
-                                </td>
-                                <td class="font">
-                                   {{$microbial_loadanalyses[$i]->result}}
-                                </td>
-                                <td class="font">
-                                    {{$microbial_loadanalyses[$i]->acceptance_criterion}}
-                                </td>                                                          
-                            </tr>
-                            @endfor
-                           @endif
                         </tbody>
-                       </table>  
+                       </table> 
+                       
+                       <div class="col-md-12" style="margin-top: 30px">
+                        <strong><h6>General Conclusion:</h6></strong>
+                        <p class="text-muted mb-0" style="margin-top: 15px">{!! \App\Product::find($report_id)->micro_load_conc !!} </p>
+                     </div>
                     </div>
-                
-
-               
 
                     @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
-                      <div class="card-heade" style="margin: 2%">
+                      <div class="card-heade" style="margin-top: 5%">
                         <h6>Microbial Efficacy Analysis</h6>
                      </div> 
                   
@@ -182,20 +178,17 @@
                            </tbody>
                        </table>  
                     </div>
+                    <div class="col-md-12" style="margin-top: 30px">
+                        <strong><h6>General Conclusion:</h6></strong>
+                        <p class="text-muted mb-0" style="margin-top: 15px">{!! \App\Product::find($report_id)->micro_efficacy_conc !!}</p><br>
+                    </div>
                     @endif
 
-                     <div class="row" style="margin-top: 4%">
-                         <div class="col-md-12">
-                            <strong><span>General Comment:</span></strong>
-                            <p>{{\App\Product::find($report_id)->micro_comment}} </p>
-                         </div>
+                     <div class="row" style="margin: 0.5%; margin-top: 7%">
+                        
+                       
                         <div class="col-md-12">
-                            <strong><span>Conclusion:</span></strong>
-                            <p>{{\App\Product::find($report_id)->micro_conclution}} </p><br>
-                        </div>
-                        <div class="col-md-12">
-                            <strong><span>Report Grade:</span></strong>
-                            <p>{!! \App\Product::find($report_id)->micro_grade_report !!} </p><br><br>
+                            <strong><h6>Report Grade:</h6></strong><p>{!! \App\Product::find($report_id)->micro_grade_report !!} </p><br><br>
                         </div>
 
                    </div>

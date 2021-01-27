@@ -57,7 +57,7 @@
    Route::post('sid/product/update/{id}','AdminAuth\SID\SIDController@product_update');
 
    //products review Route
-   Route::get('sid/product/{id}/review','AdminAuth\SID\SIDController@product_review')->name('admin.sid.product.review');
+   Route::get('sid/product/{product}/review','AdminAuth\SID\SIDController@product_review')->name('admin.sid.product.review');
    Route::post('sid/product/review/create/{id}','AdminAuth\SID\SIDController@review_create');
 
 
@@ -113,6 +113,7 @@
     Route::post('/microbiology/report/create_test', 'AdminAuth\Microbiology\MicroController@test_create')->name('admin.micro.report.create_test');
     Route::get('micro/report/show/{id}','AdminAuth\Microbiology\MicroController@report_show')->name('admin.microbial_report.show');
     Route::post('micro/report/update/{id}','AdminAuth\Microbiology\MicroController@report_update');
+    Route::get('micro/report/delete/{id}','AdminAuth\Microbiology\MicroController@report_delete')->name('admin.micro.report.delete');
     Route::get('micro/completedreport/show/{id}','AdminAuth\Microbiology\MicroController@completedreport_show')->name('admin.micro.completedreport.show');
     Route::get('micro/printreport/{id}','AdminAuth\Microbiology\MicroController@printreport')->name('admin.micro.printreport');
 
@@ -146,6 +147,13 @@
   //Microbiology Hod Sign to Approve */
   Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign');
   Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport');
+
+  //Microbiology configurations */
+  Route::get('micro/hod_office/config','AdminAuth\Microbiology\MicroController@hodoffice_config')->name('admin.micro.hod_office.config');
+  Route::post('micro/config/microbialanalysis/create','AdminAuth\Microbiology\MicroController@microbialanalysis_create')->name('admin.micro.config.microbialanalysis.create');
+  Route::post('micro/config/microbialanalysis/update','AdminAuth\Microbiology\MicroController@microbialanalysis_update')->name('admin.micro.config.microbialanalysis.update');
+  Route::post('micro/config/microbialefficacy/create','AdminAuth\Microbiology\MicroController@microbialefficacy_create')->name('admin.micro.config.microbialefficacy.create');
+  Route::post('micro/config/microbialefficacy/update','AdminAuth\Microbiology\MicroController@microbialefficacy_update')->name('admin.micro.config.microbialefficacy.update');
 
   });
 

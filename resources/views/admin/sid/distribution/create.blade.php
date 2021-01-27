@@ -251,7 +251,10 @@
                                             @foreach($dept[$j]->products()->with('departments')->orderBy('status')->get() as $product)
                                             <tr>
                                                     <td class="font">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</td>
-                                                    <td class="font">{{ucfirst($product->name)}}</td>
+                                                    <td class="font">{{ucfirst($product->name)}}
+                                                        
+                                                    </td>
+                                                    
                                                     <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                     <td class="font">{{$product->pivot->quantity}}</td>
                                                     {!! $product->product_status !!}

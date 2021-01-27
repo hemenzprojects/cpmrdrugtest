@@ -22,6 +22,8 @@ class CreateMicrobialLoadReportsTable extends Migration
             $table->double('rs_total')->nullable();
             $table->string('acceptance_criterion')->nullable();
             $table->double('ac_total')->nullable();
+            $table->integer('compliance')->nullable();
+            $table->string('date_template')->nullable();
             $table->integer('added_by_id')->nullable();
             $table->integer('approved_by_id')->nullable();
 

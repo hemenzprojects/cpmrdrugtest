@@ -81,7 +81,7 @@
                                 </td> 
                                 <td class="font">B{{$pharmproduct->pivot->updated_at->format('dym')}}</td>
                                 <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}
-                                    @if ($pharmproduct->failed_tag)
+                                    @if ($pharmproduct->failed_tag || $pharmproduct->pharm_grade ==1)
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif
                                 </td>
