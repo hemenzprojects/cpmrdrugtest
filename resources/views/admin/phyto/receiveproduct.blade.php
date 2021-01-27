@@ -85,7 +85,7 @@
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif
                                 </td>
-  
+                                   {{-- shsh --}}
                                 <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
                                 <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
                                 {!! $Phytochemistry->product_status !!}
