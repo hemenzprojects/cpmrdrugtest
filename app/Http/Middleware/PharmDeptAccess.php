@@ -16,12 +16,12 @@ class PharmDeptAccess
      */
     public function handle($request, Closure $next)
     {
-        
-        if(Auth::guard('admin')->user()->dept_id == '2' && Auth::guard('admin')->user()->user_type_id == '1'  || Auth::guard('admin')->user()->user_type_id == '2'){
+        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id == '2' && (Auth::guard('admin')->user()->user_type_id == '1'  || Auth::guard('admin')->user()->user_type_id == '2')){
 
         return $next($request);
         }
-        return back();
+        return redirect('/');
+
          
     }
 }

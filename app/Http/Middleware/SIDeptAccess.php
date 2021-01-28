@@ -16,8 +16,9 @@ class SIDeptAccess
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->user()->dept_id != '4'){
-            return back();
+        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id != '4'){
+            return redirect('/');
+
         }
         return $next($request);
     }

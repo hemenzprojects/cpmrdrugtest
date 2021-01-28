@@ -17,8 +17,9 @@ class DeptOneAccess
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->user()->dept_id != '1'){
-            return back();
+       // dd(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id != '1');
+        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id != '1'){
+            return redirect('/');
         }
         return $next($request);
     }

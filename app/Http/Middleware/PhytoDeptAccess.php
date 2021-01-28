@@ -16,8 +16,9 @@ class PhytoDeptAccess
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->user()->dept_id != '3'){
-            return back();
+        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id != '3'){
+            return redirect('/');
+
         }
         return $next($request);
     }
