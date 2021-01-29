@@ -24,7 +24,7 @@
                                 </td>
                             </tr>
                             <tr>
-                            <td class="font"><strong>Date Recievied:</strong></td>
+                            <td class="font"><strong>Date Recievied: </strong></td>
                             <td class="font">
                                 
                                 @foreach (\App\ProductDept::where('product_id',$phytoshowreport->id)->where('dept_id',3)->get() as $item)
