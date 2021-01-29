@@ -33,9 +33,7 @@
                                         {{$item->updated_at->format('d/m/Y')}}
                                         @endforeach
                                         </td>
-                                    <td class="font"> {{$completedproduct->micro_dateanalysed}}  </td>
-                                    
-                                    
+                                    <td class="font"> {{$completedproduct->micro_dateanalysed}}</td>
                                 </tr>
                                {{-- {{ $dept->pivot}} --}}
                                @endforeach 

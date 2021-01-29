@@ -351,8 +351,8 @@
                                 <tr>
                                     <td class="font"><strong>No. of Groups</strong></td> 
                                     <td  class="font">
-                                        @foreach ($pharmreports->animalExperiment->groupBy('group') as $item)
-                                        2(N = {{count($item) / 2}})
+                                        @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                                         {{$item->group}} Group
                                         @endforeach
                                     </td>
                                 </tr>

@@ -133,9 +133,12 @@
                                     <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$evaluation->id}}" title="View Experiment" href=""></i>  
                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
                                     {{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}}
-                                    </span><br>
+                                    </span>
 
                                     </a>
+                                    <sup style="font-size: 1px">
+                                        {{$evaluation->productType->code}}{{$evaluation->id}}{{$evaluation->created_at->format('y')}}
+                                     </sup> 
                                 </td>
                                 <td class="font">
                                     {{\App\PharmTestConducted::find($evaluation->pharm_testconducted)->name}}

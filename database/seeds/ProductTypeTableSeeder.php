@@ -93,7 +93,7 @@ class ProductTypeTableSeeder extends Seeder
           'form'=> 1,
           'state'=> 1,
           'method_applied'=>2,
-          'pharm_standard_id'=>1,
+          'pharm_standard_id'=>2,
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")

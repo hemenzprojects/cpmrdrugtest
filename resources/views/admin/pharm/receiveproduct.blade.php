@@ -57,8 +57,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Code</th>
-                            <th>Product Name</th>
+                            <th> Batch</th>
+                            <th>Product</th>
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
@@ -81,10 +81,14 @@
                                 </td> 
                                 <td class="font">B{{$pharmproduct->pivot->updated_at->format('dym')}}</td>
                                 <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}
-                                    @if ($pharmproduct->failed_tag || $pharmproduct->pharm_grade ==1)
+                                   <sup style="font-size: 1px">
+                                    {{$pharmproduct->productType->code}}{{$pharmproduct->id}}{{$pharmproduct->created_at->format('y')}}
+                                   </sup>
+                                    @if ($pharmproduct->isReviewedByDept(2))
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif
                                 </td>
+                                
                                 <td class="font">{{ucfirst($pharmproduct->productType->name)}}</td>
                                 <td class="font">{{$pharmproduct->pivot->quantity}}</td>
                                 {!! $pharmproduct->product_status !!}

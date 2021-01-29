@@ -142,6 +142,8 @@
         </div>  
       </div>
 
+         {{-- This section is for Dermal test --}}
+
        <div class="card test2" style="display: none;padding: 2%">
         <p style="font-size:16px">{{$pharmreports->pharm_standard}}</p>
 
@@ -271,8 +273,8 @@
                      @if (\App\Product::find($report_id)->pharm_hod_evaluation ==2) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                 <a target="_blank" href="{{url('admin/pharm/report/hod_office/complete_report',['id' => $report_id])}}">
-                  <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
+                 <a onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" target="_blank" href="{{url('admin/pharm/report/hod_office/complete_report',['id' => $report_id])}}">
+                  <button type="button" class="btn btn-success pull-right">  Complete Report</button>
                  </a>
                   @endif
               </div>

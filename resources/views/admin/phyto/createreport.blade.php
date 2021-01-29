@@ -35,7 +35,11 @@
                                     <p><span href="" class="badge badge-danger pull-right">
                                     {{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}}
                                     </span>
-                                      <span>{{ucfirst($phytoproduct->name)}}</span>
+                                      <span>
+                                        <sup style="font-size: 1px">
+                                            {{$phytoproduct->productType->code}}{{$phytoproduct->id}}{{$phytoproduct->created_at->format('y')}}
+                                         </sup> 
+                                      </span>
                                     </p>
                                 </div> 
                                 <div class="col-lg-2 col-md-12">
@@ -154,7 +158,9 @@
                                             <p><span href="" class="badge badge-warning pull-right">
                                             {{$phytoreport->productType->code}}|{{$phytoreport->id}}|{{$phytoreport->created_at->format('y')}}
                                             </span>
-                                            <span></span>
+                                            <sup style="font-size: 1px">
+                                                {{$phytoreport->productType->code}}{{$phytoreport->id}}{{$phytoreport->created_at->format('y')}}
+                                             </sup> 
                                             </p>
 
                                             <span>
@@ -208,7 +214,9 @@
                                                 <p><span href="" class="badge badge-warning pull-right">
                                                 {{$phytocompeleted_report->productType->code}}|{{$phytocompeleted_report->id}}|{{$phytocompeleted_report->created_at->format('y')}}
                                                 </span>
-                                                <span></span>
+                                                <sup style="font-size: 1px">
+                                                    {{$phytocompeleted_report->productType->code}}{{$phytocompeleted_report->id}}{{$phytocompeleted_report->created_at->format('y')}}
+                                                 </sup> 
                                                 </p>
 
                                                 <span>
@@ -253,8 +261,9 @@
                         </ul>
                     <select  class="form-control select2" name="product_id">
                         @foreach($phytoproducts as $phytoproduct)
-                       <option value="{{$phytoproduct->id}}">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}} - {{$phytoproduct->name}}
-                        </option>
+                       <option value="{{$phytoproduct->id}}">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}}
+                       
+                      </option>
                         @endforeach
                     </select>
                 </div>

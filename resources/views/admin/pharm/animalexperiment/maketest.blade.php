@@ -51,12 +51,12 @@
                     </div>
                 </div>
                   <span class="" style="padding:5px">
-                    <input class="form-control" id="listSearch2" type="text" placeholder="Type something to search list items">
+                    <input class="form-control" id="listSearch1" type="text" placeholder="Type something to search list items">
                   </span>
                     
                 <div class="card-body todo-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                     <div class="dd" data-plugin="nestable" >
-                        <ul class="list-group" id="myList2">
+                        <ul class="list-group" id="myList1">
                             @foreach($animalexps as $animalexp)
                           <a data-toggle="modal"  data-placement="auto" data-target="#demoModal{{$animalexp->id}}" title="View Product" href="">
 
@@ -68,7 +68,10 @@
                                         <span href="" class="badge  pull-right" style="background-color: red; color:#fff">
                                         {{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}}
                                         </span>
-                                          {{-- <span>{{ucfirst($animalexp->name)}}</span> --}}
+                                        <sup style="font-size: 1px">
+                                            {{$animalexp->productType->code}}{{$animalexp->id}}{{$animalexp->created_at->format('y')}}
+                                         </sup> 
+                
                                         </p>
                                        
                                     </div> 
@@ -194,7 +197,9 @@
                                             <span href="" class="badge  pull-right" style="background-color: #ffc107">
                                             {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
                                             </span>
-                                              {{-- <span>{{ucfirst($inprogress->name)}}</span> --}}
+                                            <sup style="font-size: 1px">
+                                                {{$inprogress->productType->code}}{{$inprogress->id}}{{$inprogress->created_at->format('y')}}
+                                             </sup> 
                                             </p> 
                                             <span class="badge  pull-right"> 
                                             <strong>Test :</strong> 
@@ -519,8 +524,13 @@
                                         <p>
                                         <span href="" class="badge  pull-right" style="background-color: #26c281">
                                         {{$completed->productType->code}}|{{$completed->id}}|{{$completed->created_at->format('y')}}
+                                       
+                                       </span>
+                                          <span> 
+                                              <sup style="font-size: 1px">
+                                                {{$completed->productType->code}}{{$completed->id}}{{$completed->created_at->format('y')}}
+                                         </sup> 
                                         </span>
-                                          <span>{{ucfirst($completed->name)}}</span>
                                         </p>
                                         <span> <strong>Test :</strong> 
                                             {{\App\PharmTestConducted::find($completed->pharm_testconducted)->name}}

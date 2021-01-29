@@ -654,6 +654,17 @@ class PharmController extends Controller
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
               return redirect()->back();
             }
+             $product = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2);
+             })->with('animalExperiment')->whereHas("animalExperiment");
+             
+             if(count($product->get()) < 1){
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'System Error! Product cant be approved ');     
+              return redirect()->back();
+            }
+            
+
             $p = Product::find($id);
             $p->update([
               'pharm_hod_evaluation'=> $r->evaluate,
@@ -672,6 +683,14 @@ class PharmController extends Controller
            }
 
            public function hod_complete_report($id){
+                
+                $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
+               if (!$completed) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Warning! Product cant be completed ');
+                return redirect()->route('admin.pharm.hod_office.approval');
+               }
+             
                 $data2 = [ 
                   'status' => 8,
                 ];

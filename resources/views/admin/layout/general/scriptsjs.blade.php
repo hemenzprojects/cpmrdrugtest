@@ -569,7 +569,7 @@ $('#checkusertoacceptproduct').submit(function(e){
       var j=1;
     $('#add').click(function(){
       i++; 
-      $('#dynamic_field').append('<tr id="row'+i+'"> <td class="font"><div class=""><select class="form-control animalmodel" tag="'+j+'" name="animalmodel[]" required style="width:130px"></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="(g)" value="(g)" style="width:70px"></td><td class="font"><input type="text" class="form-control sp_volume" required name="dosage[]"  placeholder="(mg/kg)" Value ="5000 (mg/kg)" style="width:100px"></td>    <td class="font"> <select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>     <td><input type="text" class="form-control" required name="time_administration[]" placeholder="Time/period" style="width:100px"></td>   <td class="font"><select class="form-control select2 toxicity1" name="toxicity[]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>    <td><input type="text" class="form-control" required name="time_death[]" placeholder="Time of death" style="width:100px"></td>   <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>     <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+      $('#dynamic_field').append('<tr id="row'+i+'"> <td class="font"><div class=""><select class="form-control animalmodel" tagg="'+j+'" name="animalmodel[]" required style="width:130px"></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="(g)" value="(g)" style="width:70px"></td><td class="font"><input type="text" class="form-control sp_volume" required name="dosage[]"  placeholder="(mg/kg)" Value ="5000 (mg/kg)" style="width:100px"></td>    <td class="font"> <select class="form-control select2" required name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option></select></td>     <td><input type="text" class="form-control" required name="time_administration[]" placeholder="Time/period" style="width:100px"></td>   <td class="font"><select class="form-control select2 toxicity1" name="toxicity[]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control" required  name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>    <td><input type="text" class="form-control" required name="time_death[]" placeholder="Time of death" style="width:100px"></td>   <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>     <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
 
 
       getToxicity(toxic,function(r){
@@ -584,9 +584,9 @@ $('#checkusertoacceptproduct').submit(function(e){
 
       getAnimalmodel(animalmodel,function(r){
         console.log(i,r)
-        $(`select[tag=${j}]`).html('')
+        $(`select[tagg=${j}]`).html('')
         r.forEach(function(item){
-          $(`select[tag=${j}]`).append(`<option value='${item.id}'>${item.name}</option>`)
+          $(`select[tagg=${j}]`).append(`<option value='${item.id}'>${item.name}</option>`)
         })
       })
 
@@ -693,7 +693,7 @@ console.log(spvolume);
 $('#toxicity1').change(function(){
   if($(this).is(':checked')){
     console.log('cc')
-    $('select[tag]').val('15').trigger('change') 
+    $('select[tag]').val('18').trigger('change') 
 
   }else{
     $('select[tag]').val('1').trigger('change')

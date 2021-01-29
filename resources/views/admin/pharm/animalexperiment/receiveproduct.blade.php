@@ -50,6 +50,9 @@
                                 {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
                         </span>
                         </a> 
+                        <sup style="font-size: 1px">
+                            {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
+                         </sup> 
                         </td>
                         <td class="font">
                             {{$product->measurement}}

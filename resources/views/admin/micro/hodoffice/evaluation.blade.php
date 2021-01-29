@@ -169,7 +169,10 @@
                                                 <td class="font">
                                                     <span style="color: #0e9059">
                                                     {{$product_evaluation->productType->code}}|{{$product_evaluation->id}}|{{$product_evaluation->created_at->format('y')}} 
-                                                   </span><br> {{$product_evaluation->name}}</td>
+                                                   </span>
+                                                <sup style="font-size: 1px" >{{$product_evaluation->productType->code}}{{$product_evaluation->id}}{{$product_evaluation->created_at->format('y')}}</sup>
+
+                                                </td>
                                                 <td class="font">
                                                     <li ><small class="">{{count($product_evaluation->loadAnalyses)}} Microbial Load Analysis</li>
                                                         @foreach ($product_evaluation->loadAnalyses->groupBy('id')->first() as $loadnalyses)

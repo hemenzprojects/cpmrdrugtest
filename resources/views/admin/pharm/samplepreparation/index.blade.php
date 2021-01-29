@@ -75,6 +75,9 @@
                              <span href="" class="badge badge-danger pull-right">
                                 {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
                             </span>
+                            <sup style="font-size: 1px">
+                                {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}{{$recordbook->product_id}}{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
+                             </sup> 
                             </a> 
                             
                             </td>

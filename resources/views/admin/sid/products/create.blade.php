@@ -258,10 +258,11 @@
                                             <tr>
                                             <td style="display: none">{{$product->id}}</td>
                                             <td class="font">
-                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                     {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
                                                 </span>
-                                                </td>
+                                                <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
+                                           </td>
                                                <td class="font">{{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
                                                 <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>

@@ -63,7 +63,9 @@
                                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""> 
                                             <span href="" class="badge badge-danger pull-right">
                                              {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
-                                           </span>
+                                             <sup style="font-size: 1px" >{{$microproduct->productType->code}}{{$microproduct->id}}{{$microproduct->created_at->format('y')}}</sup>
+                                           
+                                            </span>
                                             </a>  
                                           <span></span>
                                         </p>
@@ -196,7 +198,9 @@
                                             <h4 class="">
                                                   <span href="" class="badge badge-warning pull-right">
                                                     {{$microproduct_withtest->productType->code}}|{{$microproduct_withtest->id}}|{{$microproduct_withtest->created_at->format('y')}}
-                                                  </span>
+                                                <sup style="font-size: 1px" >{{$microproduct_withtest->productType->code}}{{$microproduct_withtest->id}}{{$microproduct_withtest->created_at->format('y')}}</sup>
+                                                  
+                                                </span>
                                                   <span href="" class="badge pull-right">
                                                   <p style="font-size: 10px;margin: 2px"></p>
                                                   </span><br>
@@ -287,6 +291,7 @@
                                               <h4 class="">
                                                   <span href="" class="badge badge-success pull-right">
                                                   {{$microproduct_completedtest->productType->code}}|{{$microproduct_completedtest->id}}|{{$microproduct_completedtest->created_at->format('y')}}
+                                                <sup style="font-size: 1px" > {{$microproduct_completedtest->productType->code}}{{$microproduct_completedtest->id}}{{$microproduct_completedtest->created_at->format('y')}}</sup>
                                                 </span>                
                                                 <small class="float-right text-muted">{{count($microproduct_completedtest->loadAnalyses)}} MLA Tests</small><br>
                                                 @if (count($microproduct_completedtest->efficacyAnalyses)>0)

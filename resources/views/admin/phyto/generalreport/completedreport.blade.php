@@ -46,6 +46,9 @@
                                                     <span style="color: #0e9059">
                                                     {{$completed_product->productType->code}}|{{$completed_product->id}}|{{$completed_product->created_at->format('y')}} 
                                                    </span>
+                                                   <sup style="font-size: 1px">
+                                                    {{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}} 
+                                                 </sup>
                                                 </td>
                                                 <td class="font">
                                                 @foreach ($completed_product->organolipticReport->groupBy('id')->first() as $item)

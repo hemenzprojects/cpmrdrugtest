@@ -57,7 +57,7 @@
    Route::post('sid/product/update/{id}','AdminAuth\SID\SIDController@product_update');
 
    //products review Route
-   Route::get('sid/product/{product}/review','AdminAuth\SID\SIDController@product_review')->name('admin.sid.product.review');
+   Route::get('sid/product/review/{product}','AdminAuth\SID\SIDController@review_product')->name('admin.sid.product.review');
    Route::post('sid/product/review/create/{id}','AdminAuth\SID\SIDController@review_create');
 
 

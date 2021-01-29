@@ -96,7 +96,8 @@
                                             <td class="font">
                                                 <span style="color: #0e9059">
                                                 {{$completed_product->productType->code}}|{{$completed_product->id}}|{{$completed_product->created_at->format('y')}} 
-                                               {{-- </span><br> {{$completed_product->name}}</td> --}}
+                                                <sup style="font-size: 1px" >{{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}} </sup>
+
                                             <td class="font">
                                                 <li ><small class="">{{count($completed_product->loadAnalyses)}} Microbial Load Analysis</li>
                                                     @foreach ($completed_product->loadAnalyses->groupBy('id')->first() as $loadnalyses)

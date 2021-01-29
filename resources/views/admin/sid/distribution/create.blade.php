@@ -250,7 +250,13 @@
                                         <tbody>                                            
                                             @foreach($dept[$j]->products()->with('departments')->orderBy('status')->get() as $product)
                                             <tr>
-                                                    <td class="font">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</td>
+                                                    <td class="font">
+                                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                            {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                        </span>
+                                                      <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
+
+                                                    </td>
                                                     <td class="font">{{ucfirst($product->name)}}
                                                         
                                                     </td>

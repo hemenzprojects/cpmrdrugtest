@@ -68,6 +68,9 @@
                                         <p>
                                         <span href="" class="badge  pull-right" style="background-color:red; color:#fff">
                                         {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
+                                        <sup style="font-size: 1px">
+                                            {{$sample_prep->productType->code}}{{$sample_prep->id}}{{$sample_prep->created_at->format('y')}}
+                                           </sup>
                                         </span>
                                           {{-- <span>{{ucfirst($sample_prep->name)}}</span> --}}
                                         </p>
@@ -223,7 +226,10 @@
                                        <a data-toggle="modal"  data-placement="auto" data-target="#demoModal{{$inprogress->id}}" title="View Experiment" href=""></i>  
                                         <span href="" class="badge  pull-right" style="background-color: #ffc107 ">
                                         {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
-                                        </span>
+                                        <sup style="font-size: 1px">
+                                            {{$inprogress->productType->code}}{{$inprogress->id}}{{$inprogress->created_at->format('y')}}
+                                         </sup>    
+                                       </span>
                                         </a> 
                                          <span></span>
                                         </p>
@@ -453,7 +459,10 @@
                                        <a data-toggle="modal"  data-placement="auto" data-target="#demoModal{{$exp_completed->id}}" title="View Experiment" href=""></i>  
                                         <span href="" class="badge  pull-right" style="background-color: #26c281 ">
                                         {{$exp_completed->productType->code}}|{{$exp_completed->id}}|{{$exp_completed->created_at->format('y')}}
-                                        </span>
+                                        <sup style="font-size: 1px">
+                                            {{$exp_completed->productType->code}}{{$exp_completed->id}}{{$exp_completed->created_at->format('y')}}
+                                         </sup> 
+                                      </span>
                                         </a> 
                                          <span>{{ucfirst($exp_completed->name)}}</span>
                                         </p>
@@ -716,7 +725,10 @@
                                      
                                         {{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}
                                 </span>
-                                </a> - {{ucfirst($pharmproduct->name)}}
+                                </a> 
+                                 <sup style="font-size: 1px">
+                                    {{$pharmproduct->productType->code}}{{$pharmproduct->id}}{{$pharmproduct->created_at->format('y')}}
+                                 </sup> 
                                 </td>
                                 <td class="font">
                                     <input type="text" class="form-control" name="measurement_{{$pharmproduct->id}}"  placeholder="Volume/Mass/Weight" >

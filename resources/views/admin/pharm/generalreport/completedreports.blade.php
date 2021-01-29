@@ -97,9 +97,12 @@
                                          <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$completed_product->id}}" title="View Experiment" href=""></i>  
                                              <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
                                          {{$completed_product->productType->code}}|{{$completed_product->id}}|{{$completed_product->created_at->format('y')}}
-                                         </span><br>
+                                         </span>
      
                                          </a>
+                                         <sup style="font-size: 1px">
+                                            {{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}}
+                                         </sup> 
                                      </td>
                                      <td class="font">
                                          {{\App\PharmTestConducted::find($completed_product->pharm_testconducted)->name}}

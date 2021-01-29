@@ -170,6 +170,9 @@
                                                     <span style="color: #0e9059">
                                                     {{$product_evaluation->productType->code}}|{{$product_evaluation->id}}|{{$product_evaluation->created_at->format('y')}} 
                                                    </span>
+                                                   <sup style="font-size: 1px">
+                                                    {{$product_evaluation->productType->code}}{{$product_evaluation->id}}{{$product_evaluation->created_at->format('y')}} 
+                                                 </sup> 
                                                 </td>
                                                 <td class="font">
                                                 @foreach ($product_evaluation->organolipticReport->groupBy('id')->first() as $item)

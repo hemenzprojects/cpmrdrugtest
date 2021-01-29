@@ -18,8 +18,6 @@
              <th>Pharmacology</th>
              <th>Phytochemistry</th>
              <th>Print All</th>
-
-
          </tr>
          </thead>
          <tbody>
@@ -27,12 +25,15 @@
              <tr>
                                          
              <td class="font">
-               
-             </td>
+                <sup style="font-size: 1px" >{{$final_report->productType->code}}{{$final_report->id}}{{$final_report->created_at->format('y')}} </sup>
+            </td>
              <td class="font"> 
                  <span style="color: #0e9059">
                 {{$final_report->productType->code}}|{{$final_report->id}}|{{$final_report->created_at->format('y')}} 
-               </span> - {{$final_report->name}} 
+               </span> 
+               
+
+               {{$final_report->name}} 
             </td>
 
              <td class="font">

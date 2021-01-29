@@ -424,7 +424,7 @@ class SIDController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
             }
-            if (Product::find( $product_id)->micro_grade ==2) {
+            if (Product::find( $product_id)->micro_grade ==2){
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Sorry! Product passed microbial test. Please check and submit to appropriate department');
                 return redirect()->back();
@@ -600,6 +600,7 @@ class SIDController extends Controller
         $data['to_date'] = now();
 
         $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
+
         return View('admin.sid.generalreport.index', $data);
     }
 
@@ -654,7 +655,7 @@ class SIDController extends Controller
             $query->whereHas("departments",function ($q) use ($r) {
                         return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
                     });
-    }])->get();
+         }])->get();
 
                 // return $data;
                 // die();
@@ -812,8 +813,8 @@ class SIDController extends Controller
         
     }
 
-    public function product_review(Product  $product){
-
+    public function review_product(Product  $product){
+     
         $product = $product->last_review_product;
         // return $product->failed_final_grade? "yes": "no";
         if (!$product->failed_final_grade) {
@@ -834,10 +835,13 @@ class SIDController extends Controller
 
     public function review_create(Request $request, $id){
 
-        $failed_tag = $request->failed_tag;
+       $failed_tag = $request->failed_tag;
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
+        $micro_hod_evaluation =Null;
+        $pharm_hod_evaluation =Null;
+        $phyto_hod_evaluation =Null;
 
        $p = Product::find($id);
        if ($p->failed_tag ) {
@@ -855,7 +859,17 @@ class SIDController extends Controller
        if ($p->phyto_grade == 2) {
         $phyto_grade = 2;
        }
-     
+
+       if ($p->micro_grade == 2) {
+        $micro_hod_evaluation = 2;
+       }
+       if ($p->pharm_grade == 2) {
+        $pharm_hod_evaluation = 2;
+       }
+       if ($p->phyto_grade == 2) {
+        $phyto_hod_evaluation = 2;
+       }
+  
 
        $data = ([
         'name' => $request->name,
@@ -871,12 +885,13 @@ class SIDController extends Controller
         'micro_grade' => $micro_grade,
         'pharm_grade' => $pharm_grade,
         'phyto_grade' => $phyto_grade,
-
-
+        'micro_hod_evaluation' => $micro_hod_evaluation,
+        'pharm_hod_evaluation' => $pharm_hod_evaluation,
+        'phyto_hod_evaluation' => $phyto_hod_evaluation,
         'added_by_id' => Auth::guard('admin')->id(),
 
        ]);
-
+  
     Product::create($data);
     Session::flash("message", "Product Successfully Created.");
     Session::flash("message_title", "success");
