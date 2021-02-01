@@ -158,7 +158,7 @@
 
                             
                             @if($item->status ==1)
-                            <h6 class="mt-30">Microbiology <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
+                            <h6 class="mt-30">Microbiology <span class="pull-right">10%</span></h6><span>Product is yet to be distributed to department </span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
                             </div>
@@ -188,7 +188,7 @@
                            
 
                             @if($item->status ==1)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">10%</span></h6></h6><span>Product is yet to be distibuted to department </span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">10%</span></h6></h6><span>Product is yet to be distributed to department </span>
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">90% Complete</span> </div>
                             </div>
@@ -227,7 +227,7 @@
                             
 
                             @if($item->status ==1)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distibuted to department </span>
+                            <h6 class="mt-30">phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distributed to department </span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">70% Complete</span> </div>
                             </div>   
@@ -283,9 +283,6 @@
                                                 <td class="font">{!! $p->micro_grade_report !!}</td>
                                                 <td class="font">{!! $p->pharm_grade_report !!}</td>
                                                 <td class="font">{!! $p->phyto_grade_report !!}</td>
-
-
-                                               
                                             </tr>
                                             @endforeach
                                         </tbody>

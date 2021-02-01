@@ -906,7 +906,7 @@ class SIDController extends Controller
         ->with('success', 'Product Created successfully');
     }
 
-    //******************************************************************* SID Configuration (Admin) ********************************* */
+    //******************************************************************* SID Configuration (Admin)************************************* */
     public function create_admin(Admin $admin){
 
         $data['depts'] = \App\Department::all();
@@ -926,8 +926,7 @@ class SIDController extends Controller
             'email' => 'required|email|max:255|unique:admins',
             'password' => 'required|min:6|confirmed',
         ]);
-     
-          
+    
         $data = ([
             'title' => $r->title,
             'first_name' => $r->first_name,
@@ -942,6 +941,5 @@ class SIDController extends Controller
 
         Admin::create($data);
         return redirect()->back();
-
     }
 }
