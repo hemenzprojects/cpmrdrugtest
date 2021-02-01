@@ -19,10 +19,11 @@ class CreateProductsTable extends Migration
             $table->integer('customer_id');
             $table->integer('product_type_id');
             $table->double('price');
-            $table->integer('initial_amt')->default(1);
+            $table->string('receipt_num');
+            $table->integer('account_status')->default(1)->comment('1 - First payment 2 - Other payments');
             $table->double('quantity');
-            $table->date('mfg_date');
-            $table->date('exp_date');
+            $table->date('mfg_date')->nullable();
+            $table->date('exp_date')->nullable();
             $table->text('dosage');
             $table->text('indication');
 

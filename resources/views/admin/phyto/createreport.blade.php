@@ -170,11 +170,25 @@
 
                                           <span><strong>Evaluation:</strong> 
                                            {!! $phytoreport->phyto_report_evaluation !!}
-                                          </span>
-
+                                          </span><br>
+                                          <span><strong>Created at:</strong> 
+                                           <sup style="font-size: 10px">  @foreach($phytoreport->organolipticReport as $temp)
+                                            @if($phytoreport->organolipticReport->first() == $temp)
+                                            {{$temp->created_at->format('d/m/y')}}
+                                            @endif
+                                            @endforeach</sup>
+                                            
+                                            </span>
+                                            <span class="float-right font">
+                                                <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.phyto.report.delete',['id' =>$phytoreport->id ])}}">
+                                                  <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
+                                                </a>
+                                                 
+                                            </span>
                                     </div> 
                                     <div class="col-lg-2 col-md-12">
-                                    <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a>   
+                                    <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a> 
+                                      
                                     </div>                                                           
                                     
                                 </div>  
@@ -227,6 +241,8 @@
                                             <span><strong>Evaluation:</strong> 
                                             {!! $phytocompeleted_report->phyto_report_evaluation !!}
                                             </span>
+                                           
+    
 
                                         </div> 
                                         <div class="col-lg-2 col-md-12">
@@ -261,9 +277,8 @@
                         </ul>
                     <select  class="form-control select2" name="product_id">
                         @foreach($phytoproducts as $phytoproduct)
-                       <option value="{{$phytoproduct->id}}">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}}
-                       
-                      </option>
+                       <option value="{{$phytoproduct->id}}" style="font-size: 2px">{{$phytoproduct->productType->code}}-{{$phytoproduct->id}}-{{$phytoproduct->created_at->format('y')}} </option>
+                  
                         @endforeach
                     </select>
                 </div>
@@ -300,7 +315,7 @@
 
                         <table class="table table-inverse">                      
                             <tbody>
-                                @foreach ($phyto_physicochemdata as $physicochem_item)
+                                @foreach ($phyto_physicochemdata->where('action',1) as $physicochem_item)
                                 <tr>
                                 <th>
                                     <label class="custom-control custom-checkbox">
@@ -333,8 +348,10 @@
                             <?php
                             $phytochem =1;
                             ?>
-                            @foreach ($phyto_chemicalconst as $item)
+                            @foreach ($phyto_chemicalconst->where('action',1) as $item)
+                           
                             <option value="{{$item->id}}" {{$phytochem == $item->id? "selected":""}}>{{$item->name}}</option>  
+  
                             @endforeach
                           
                         </select>

@@ -25,7 +25,8 @@ class CreateAdminsTable extends Migration
             $table->string('tell')->nullable();
             $table->string('street_address')->nullable();
             $table->string('house_number')->nullable();
-            $table->integer('user_type_id')->default(6);
+            $table->integer('user_type_id');
+            $table->integer('dept_office_id');
             $table->rememberToken();
             $table->timestamps();
 
@@ -38,7 +39,13 @@ class CreateAdminsTable extends Migration
             ->references('id')->on('depts')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+
+            $table->foreign('dept_office_id')
+            ->references('id')->on('dept_offices')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
         });
+
     }
 
     /**

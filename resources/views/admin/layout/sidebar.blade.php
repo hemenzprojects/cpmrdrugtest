@@ -59,7 +59,7 @@
                                     
                                          </div>
                                      </div>
-                                        @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                        @if (Auth::guard('admin')->user()->dept_office_id ==1)
                                         <div class="nav-item has-sub">
                                             <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
                                             <div class="submenu-content">
@@ -85,7 +85,7 @@
                               
                                      @if (Auth::guard('admin')->user()->dept_id ==2)
 
-                                     @if (Auth::guard('admin')->user()->user_type_id == 2 || Auth::guard('admin')->user()->user_type_id == 1)
+                                     @if (Auth::guard('admin')->user()->dept_office_id == 2 || Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-lavel">Pharmacology</div>
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
@@ -105,7 +105,7 @@
                                      </div>
                                      @endif
 
-                                     @if (Auth::guard('admin')->user()->user_type_id == 3 ||Auth::guard('admin')->user()->user_type_id == 1)
+                                     @if (Auth::guard('admin')->user()->dept_office_id == 3 ||Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-file-plus"></i><span>Animal Experimentation</span></a>
                                          <div class="submenu-content" style="">
@@ -124,7 +124,7 @@
                                         </div>
                                      </div>
                                      @endif
-                                     @if (Auth::guard('admin')->user()->user_type_id == 2 ||Auth::guard('admin')->user()->user_type_id == 1)
+                                     @if (Auth::guard('admin')->user()->dept_office_id == 2 ||Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
                                         <div class="submenu-content">
@@ -134,7 +134,7 @@
                                         </div>
                                      </div>
                                      @endif
-                                     @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                     @if (Auth::guard('admin')->user()->dept_office_id ==1)
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
                                          <div class="submenu-content">
@@ -161,7 +161,7 @@
                                                     
                                                 </div>
                                             </div>
-                                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                                 <div class="nav-item has-sub">
                                                     <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
@@ -190,12 +190,12 @@
 
                                 {{-- SID --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==4)
-                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                 <div class="nav-item has-sub">
-                                    <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
+                                    <a href="#"><i class="ik ik-settings"></i><span>Users Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
-                                    <a href="{{route('admin.sid.config.user.create')}}" class="menu-item">Add Users</a>
+                                    <a href="{{route('admin.sid.config.user.create')}}" class="menu-item">Users View</a>
                                     <a href="#" class="menu-item">User Roles</a>
                                     <a href="#" class="menu-item"> User Permissions </a>
                                     </div>
@@ -205,7 +205,7 @@
 
                                    {{-- MICRO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==1)
-                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
@@ -220,7 +220,7 @@
                                 {{-- PHARM CONFIG  --}}
 
                                 @if (Auth::guard('admin')->user()->dept_id ==2)
-                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
@@ -236,7 +236,7 @@
 
                                 {{-- PHYTO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==3)
-                                @if (Auth::guard('admin')->user()->user_type_id ==1)
+                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>

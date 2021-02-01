@@ -36,62 +36,103 @@
            @endif
     </div>
 </div> --}}
-<div class="card">
+>
 
-    <div class="card-body">
-        <div class="row">
+       <div class="row">
             <div class="col-md-6">
                 <form method="post" action="{{url('/admin/profile/uploadfile')}}" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                <div class="text-center"> 
-                    <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="100">
-                <h4 class="card-title mt-10">{{$user->full_name}}</h4>
-                <p class="card-subtitle">{{\App\Department::find($user->dept_id)->name}} Department</p>     
-                </div>
-                 <div class="row" style="margin: 5">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleInputName1">First Name</label>
-                            <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{$user->first_name}}">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="exampleInputName1">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{$user->last_name}}">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="exampleInputName1">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{$user->email}}">
+                    {{ csrf_field() }}    
+                <div class="card" style="min-height: 484px;">
+                    <div class="card-header">
+                       
+                            <div class="col-sm-4">
+                                <img src="{{asset('admin/img/profile.jpg')}}" class="rounded-circle" width="40" style="margin: 5px">
                             </div>
-                        
-                            <div class="form-group">
-                                <label for="exampleInputName1">Signature. </label><br>
-                                <input type="file" name="select_file" />
-                                <img src="{{asset($user->sign_url)}}" class="" width="25%">
-                            <span class="text-muted"> jpg, png, gif</span>
+                            <div class="col-sm-8">
+                                <div class="page-header-title">
+                                    <div class="d-inline">
+                                        <h5>User Profile</h5>
+                                        <span>{{$user->full_name}} - {{\App\Department::find($user->dept_id)->name}} Department</span>
+                                    </div>
+                                </div>
                             </div>
-            
-                            <div class="form-group">
-                                <label for="exampleInputName1">Telephone</label>
-                                <input type="text" class="form-control" name="tel" placeholder="Telephone" value="{{$user->tell}}">
-                            </div>
-                            
-                            <div class="form-group">
-                            <input onclick="return confirm('Note: Changes made will affect details of user activities.')" type="submit" name="upload" class="btn btn-primary" value="Upload">
-                            </div>
-                    </div>
-                  </div>
-               
-            </form>
-         </div>
-
-            <div class="col-md-6">
                 
+                    </div>
+                    <div class="card-body">
+                        <form class="forms-sample">
+                            <div class="form-group row">
+                                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">First Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{$user->first_name}}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Last Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{$user->last_name}}">
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputMobile" class="col-sm-3 col-form-label">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" name="email" placeholder="Email" value="{{$user->email}}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Signature. </label>
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1"></label><br>
+                                        <input type="file" name="select_file" />
+                                        <img src="{{asset($user->sign_url)}}" class="" width="25%">
+                                    <span class="text-muted"> jpg, png, gif</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Telephone</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="tel" placeholder="Telephone" value="{{$user->tell}}">
+                                </div>
+                            </div>
+                           
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Change Password</h3>
+                        <span></span>
+
+                    </div>
+                    <div class="card-body">
+                        <form class="forms-sample">
+                            <div class="" style="margin-top:100px">
+                                <h4 class="card-title mt-10"></h4>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4">Old Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4"> New Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4"> Confirm New Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 @endsection

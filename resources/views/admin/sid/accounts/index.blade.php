@@ -55,8 +55,8 @@
                         <div class="col-md-4">
                             <div class="card">
                             <div class="text-center" style="margin: "> 
-                                  <h5>Total Amount Paid: <span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
-                                  <h5>Total Amount Due : <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{460 - $product->price }}.00</span></h5> 
+                                  <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
+                                  <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{460 - $product->price }}.00</span></h5> 
 
                                </div>
                             </div>
@@ -72,6 +72,7 @@
                             <thead>
                                 <tr>
                                     <th>Customer</th>
+                                    <th>Receipt Num</th>
                                     <th>Date</th>
                                     <th>Amt (Gh)</th>
                                     <th>#</th>
@@ -82,6 +83,9 @@
                                 <tr>
                                     <td>
                                         <p>{{$item->customer}}</p>
+                                    </td>
+                                    <td>
+                                        <p>{{$item->receipt_num}}</p>
                                     </td>
                                     <td>
                                         <p>{{$item->created_at}}</p>
@@ -100,10 +104,11 @@
                             <thead>
                                 <tr>
                                 <th>Total</th>
+                                <th></th>
                                 <th>
                                     <input type="hidden" class="form-control" name="initial_amt" value="{{$product->price}}">
                                 </th>
-                                <th><strong>{{$product->price}}</strong></th>
+                                <th style="font-size: 17px"><strong>{{$product->price}}.00</strong></th>
                                 <th><strong></strong></th>
 
                                 </tr>
@@ -116,6 +121,14 @@
                         <div class="col-sm-6 col-lg-6">
                             <div class="form-group">
                                 <input type="text" class="form-control"  name="customer" placeholder="Customer" value="{{$product->customer_name}}">
+                                @error('customer')
+                                <small class="form-text text-danger" role="alert">
+                                    <strong>{{$message}}</strong>
+                                </small>
+                                @enderror<br>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"  name="receipt_num" placeholder="Receipt Num">
                                 @error('customer')
                                 <small class="form-text text-danger" role="alert">
                                     <strong>{{$message}}</strong>

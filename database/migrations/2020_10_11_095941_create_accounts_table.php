@@ -17,7 +17,9 @@ class CreateAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('product_id');
             $table->string('customer');
+            $table->string('receipt_num');
             $table->double('price');
+
             $table->foreign('product_id')
             ->references('id')->on('products')
             ->onDelete('cascade')

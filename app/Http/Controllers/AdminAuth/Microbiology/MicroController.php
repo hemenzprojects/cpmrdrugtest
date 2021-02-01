@@ -115,11 +115,11 @@ class MicroController extends Controller
                   return $q->where("dept_id", 1)->where("status", 2);
                 })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
 
-                $data['microproduct_withtests'] = Product::with('departments')->whereHas("departments", function($q){
+                $data['microproduct_withtests'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
     
-                $data['microproduct_completedtests'] = Product::with('departments')->whereHas("departments", function($q){
+                $data['microproduct_completedtests'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 4);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->limit(100)->get();
 
@@ -284,6 +284,14 @@ class MicroController extends Controller
                 $productdept = $productdepts->first();
                 $productdept->status = 3;
                 $productdept->update();
+
+                $products= Product::where('id',$mp_id);
+                if(count($products->get()) < 1){
+                    return redirect()->back();
+                }
+                $product = $products->first();
+                $product->micro_analysed_by = Auth::guard('admin')->id();
+                $product->update();
               
                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
                   Session::flash("message_title", "success");
@@ -650,7 +658,7 @@ class MicroController extends Controller
               $adminPassword = $request->get('password');
 
               $checkmailonly = Admin::where('dept_id',1)->where('email', '=', $userEmail)->first();
-              $admin = Admin::where('dept_id',1)->where('user_type_id',1)->where('email', '=', $userEmail)->first();
+              $admin = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
 
               if (!$checkmailonly) {
                 return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);

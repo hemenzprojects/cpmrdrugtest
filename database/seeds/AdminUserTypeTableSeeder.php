@@ -14,46 +14,45 @@ class AdminUserTypeTableSeeder extends Seeder
         DB::table('user_types')->truncate();
 
         DB::table('user_types')->insert([
-          'name'   =>  'Head of Departments',
+          'name'   =>  'Head of Department',
           'added_by_id'   =>  1,
           'created_at' => date("Y-m-d H:i:s"),
           'updated_at' => date("Y-m-d H:i:s")
       ]);
 
       DB::table('user_types')->insert([
-        'name'   =>  'Assistant',
+        'name'   =>  'Assistant Head',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
      ]);
 
      DB::table('user_types')->insert([
-        'name'   =>  'Lab Technician',
+        'name'   =>  'Lab Technician ',
+        'added_by_id'   =>  1,
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s")
+    ]);
+    DB::table('user_types')->insert([
+        'name'   =>  'Assistant Lab Technician ',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
     ]);
 
     DB::table('user_types')->insert([
-        'name'   =>  'Lab Assistant',
+        'name'   =>  'Administrators',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
     ]);
-    
-     DB::table('user_types')->insert([
-        'name'   =>  'Unit Head',
-        'added_by_id'   =>  1,
-        'created_at' => date("Y-m-d H:i:s"),
-        'updated_at' => date("Y-m-d H:i:s")
-     ]);
 
-     
-     DB::table('user_types')->insert([
-        'name'   =>  'Officer',
+    
+    DB::table('user_types')->insert([
+        'name'   =>  'Assistant Administrators',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
-     ]);
+    ]);
     }
 }

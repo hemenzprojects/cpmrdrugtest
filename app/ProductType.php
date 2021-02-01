@@ -19,7 +19,7 @@ class ProductType extends Model
 
     public function pending()
     {
-        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2);
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->whereHas('departments');
 
     }
 

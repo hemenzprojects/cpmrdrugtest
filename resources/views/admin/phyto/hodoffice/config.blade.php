@@ -128,6 +128,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
+                            <form  class="" action="{{url('admin/phyto/config/physicochemdata/update')}}" method="post">
+                                    {{ csrf_field() }}
                              <table class="table table-inverse">                      
                                  <tbody>
                                      <tr>
@@ -138,14 +140,14 @@
                                      @foreach ($phyto_physicochemdata as $physicochemdata)
                                      <tr>
                                   
-                                     <td class="font"><input type="name" value="{{$physicochemdata->name}} :"></td>
+                                     <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}} :"></td>
          
-                                     <td class="font"><input class="form-control" type="text" name="feature" value="{{$physicochemdata->result}}"></td>
+                                     <td class="font"><input class="form-control" type="text" name="result[]" value="{{$physicochemdata->result}}"></td>
                                      <td > 
                              
                                          <div class="form-check mx-sm-2">
                                              <label class="custom-control custom-checkbox">
-                                                 <input type="checkbox" class="custom-control-input" >
+                                                 <input type="checkbox" name="physicochem_item[]" value="{{$physicochemdata->id}}" class="custom-control-input" {{$physicochemdata->action == 1 ?'checked':''}} >
                                                  <span class="custom-control-label">&nbsp;</span>
                                              </label>
                                          </div>
@@ -154,9 +156,24 @@
                                      @endforeach
                                 </tbody>
                              </table>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select required name="action" class="form-control" id="exampleSelectGender">
+                                            <option value=""> Select Action</option>                                        
+                                                <option  value="0" >Hide</option>
+                                                <option  value="1" >Show</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary mr-2">Update Template</button>
+                                    </div>
+                                </div>
+                            </form>
                             </div>
                             <div class="col-md-6">
-                                 <form  class="forms-sample" action="{{url('admin/phyto/config/organoleptics/create')}}" method="post">
+                                 <form  class="forms-sample" action="{{url('admin/phyto/config/physicochemdata/create')}}" method="post">
                                  {{ csrf_field() }}
  
                                  <div class="card-header"><h3>Create New feature</h3></div>
@@ -170,9 +187,9 @@
                                      @enderror
                                  </div>
                                  <div class="form-group">
-                                     <label for="exampleInputName1">Feature</label>
-                                     <input type="text" required name="feature" class="form-control" placeholder="Feature">
-                                     @error('feature')
+                                     <label for="exampleInputName1">Result</label>
+                                     <input type="text" required name="result" class="form-control" placeholder="Feature">
+                                     @error('result')
                                      <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
                                          <strong>{{$message}}</strong>
                                      </small>
@@ -194,6 +211,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
+                            <form  class="" action="{{url('admin/phyto/config/chemicalconsts/update')}}" method="post">
+                                    {{ csrf_field() }}
                              <table class="table table-inverse">                      
                                  <tbody>
                                      <tr>
@@ -206,13 +225,12 @@
                                   
                                      <td class="font"><input type="name" value="{{$chemicalconst->name}} :"></td>
          
-                                     <td class="font"><input class="form-control" type="text" name="feature" value="{{$chemicalconst->description}}"></td>
-                                     <td > 
-                             
+                                     <td class="font"><input class="form-control" type="text" name="description" value="{{$chemicalconst->description}}"></td>
+                                     <td >
                                          <div class="form-check mx-sm-2">
                                              <label class="custom-control custom-checkbox">
-                                                 <input type="checkbox" class="custom-control-input" >
-                                                 <span class="custom-control-label">&nbsp;</span>
+                                                <input type="checkbox" name="chemicalconsts_item[]" value="{{$chemicalconst->id}}" class="custom-control-input" {{$chemicalconst->action == 1 ?'checked':''}} >
+                                                <span class="custom-control-label">&nbsp;</span>
                                              </label>
                                          </div>
                                          </td>
@@ -220,9 +238,24 @@
                                      @endforeach
                                 </tbody>
                              </table>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select required name="action" class="form-control" id="exampleSelectGender">
+                                            <option value=""> Select Action</option>                                        
+                                                <option  value="0" >Hide</option>
+                                                <option  value="1" >Show</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary mr-2">Update Template</button>
+                                    </div>
+                                </div>
+                            </form>
                             </div>
                             <div class="col-md-6">
-                                 <form  class="forms-sample" action="{{url('admin/phyto/config/organoleptics/create')}}" method="post">
+                                 <form  class="forms-sample" action="{{url('admin/phyto/config/chemicalconsts/create')}}" method="post">
                                  {{ csrf_field() }}
  
                                  <div class="card-header"><h3>Create New feature</h3></div>
@@ -236,8 +269,8 @@
                                      @enderror
                                  </div>
                                  <div class="form-group">
-                                     <label for="exampleInputName1">Feature</label>
-                                     <input type="text" required name="feature" class="form-control" placeholder="Feature">
+                                     <label for="exampleInputName1">Description</label>
+                                     <input type="text" required name="description" class="form-control" placeholder="Description">
                                      @error('feature')
                                      <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
                                          <strong>{{$message}}</strong>

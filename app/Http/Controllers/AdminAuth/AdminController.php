@@ -56,10 +56,12 @@ class AdminController extends Controller
     }
 
     public function create_admin(Admin $admin){
-
+        
+        $data['depts'] = \App\Department::all();
+        $data['user_types'] = \App\UserType::all();
+        $data['dept_offices'] = \App\DeptOffice::all();
         $data['admins'] = Admin::all();
         return view('admin.auth.createadmin',$data);
-        
     }
 
 

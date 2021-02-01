@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
+use App\Admin;
 use App\Customer;
 use App\Department;
 use App\ProductType;
@@ -161,6 +162,7 @@ class SIDController extends Controller
             'customer_id' => $request->customer_id,
             'quantity' => $request->quantity,
             'price' => $request->price,
+            'receipt_num' => $request->receipt_num,
             'mfg_date' => $request->mfg_date,
             'exp_date' => $request->exp_date,
             'dosage' => $request->dosage,
@@ -307,9 +309,12 @@ class SIDController extends Controller
     public function account_store(Request $r, $id)
     {
         //   dd($r->all(), $id);
+     
         $data = $r->validate([
             'amt_paid' => 'required',
-            'customer' => 'required'
+            'customer' => 'required',
+            'receipt_num' => 'required'
+
         ]);
         if ($r->amt_paid > 460) {
             Session::flash('message_title', 'error');
@@ -317,6 +322,7 @@ class SIDController extends Controller
             return redirect()->back();
         }
         $product =  product::find($id);
+        
         if (!$product) {
             return redirect()->back();
         }
@@ -334,29 +340,29 @@ class SIDController extends Controller
             return redirect()->back();
         }
 
-        if ($product->initial_amt == 1) {
+        if ($product->account_status == 1) {
             $data = ([
                 'product_id' => $id,
                 'customer' => $r->customer,
+                'receipt_num' => $product->receipt_num,
                 'price' => $r->initial_amt,
             ]);
             Account::create($data);
         }
 
-        $data = ([
-            'product_id' => $id,
-            'customer' => $r->customer,
-            'price' => $r->amt_paid,
-        ]);
-        Account::create($data);
+            $data = ([
+                'product_id' => $id,
+                'customer' => $r->customer,
+                'receipt_num' => $r->receipt_num,
+                'price' => $r->amt_paid,
+            ]);
+            Account::create($data);
 
-
-
-        $data = ([
-            'initial_amt' => 2,
-            'price' => $actualamt
-        ]);
-        Product::where('id', $id)->where('price', '=', $r->initial_amt)->update($data);
+            $data = ([
+                'account_status' => 2,
+                'price' => $actualamt
+            ]);
+            Product::where('id', $id)->where('price', '=', $r->initial_amt)->update($data);
 
         return redirect()->route('admin.sid.product.account.index', ['id' => $product->id, 'price' => $product->price]);
     }
@@ -738,7 +744,7 @@ class SIDController extends Controller
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
 
-        $data['all_failedproduct'] = Product::whereNotNull('failed_tag')
+        $data['all_failedproduct'] = Product::where('micro_grade','!=',2)->orwhere('pharm_grade','!=',2)->orwhere('phyto_grade','!=',2)
         ->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
@@ -879,6 +885,7 @@ class SIDController extends Controller
         'price' => $request->price,
         'mfg_date' => $request->mfg_date,
         'exp_date' => $request->exp_date,
+        'receipt_num' => $p->receipt_num,
         'dosage' => $request->dosage,
         'indication' => $request->indication,
         'failed_tag' => $failed_tag,
@@ -899,4 +906,42 @@ class SIDController extends Controller
         ->with('success', 'Product Created successfully');
     }
 
+    //******************************************************************* SID Configuration (Admin) ********************************* */
+    public function create_admin(Admin $admin){
+
+        $data['depts'] = \App\Department::all();
+        $data['user_types'] = \App\UserType::all();
+        $data['dept_offices'] = \App\DeptOffice::all();
+        $data['admins'] = Admin::all();
+        return view('admin.auth.createadmin',$data);
+        
+    }
+
+    public function registeradmin_store(Request $r){
+
+        $data = $r->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'dept_id' => 'required',
+            'email' => 'required|email|max:255|unique:admins',
+            'password' => 'required|min:6|confirmed',
+        ]);
+     
+          
+        $data = ([
+            'title' => $r->title,
+            'first_name' => $r->first_name,
+            'last_name' => $r->last_name,
+            'dept_id' => $r->dept_id,
+            'user_type_id' => $r->user_type,
+            'dept_office_id' => $r->dept_office_id,
+            'tell' => $r->tell,
+            'email' => $r->email,
+            'password' => bcrypt($r->password),
+        ]);
+
+        Admin::create($data);
+        return redirect()->back();
+
+    }
 }

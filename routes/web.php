@@ -15,7 +15,9 @@
         return view('welcome');
     });
 
-
+    Route::get('/home', function () {
+      return view('welcome');
+  });
   Route::group(['prefix' => 'admin'], function (){
 
   Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
@@ -23,7 +25,7 @@
   Route::get('/logout', 'AdminAuth\LoginController@logout')->name('logout');
 
   Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm')->name('register');
-  Route::post('/register', 'AdminAuth\RegisterController@register');
+  Route::post('/register', 'AdminAuth\RegisterController@register')->name('admin.register');
 
   Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail')->name('password.request');
   Route::post('/password/reset', 'AdminAuth\ResetPasswordController@reset')->name('password.email');
@@ -37,12 +39,13 @@
   
   Route::get('general/home','AdminAuth\SID\SIDController@homedashboard')->name('admin.general.dashboard');
 
+  
+
   Route::group(['middleware'=>['sidept']],function(){
 
 //*******************************************************SID DEPT ******************************************************* */
 
   //customers Route
- 
   Route::get('sid/customer/create','AdminAuth\SID\SIDController@customer_index')->name('admin.sid.customer.create');
   Route::get('sid/customer/{id}/edit','AdminAuth\SID\SIDController@customer_edit')->name('admin.sid.customer.edit');
   Route::get('sid/customer/{id}/show','AdminAuth\SID\SIDController@customer_show')->name('admin.sid.customer.show');
@@ -99,8 +102,8 @@
    // SID Configurations
    Route::group(['middleware'=>['sidepthod']],function(){
 
-   Route::get('sid/config/admin/create','AdminAuth\AdminController@create_admin')->name('admin.sid.config.user.create');
-   
+   Route::get('sid/config/admin/create','AdminAuth\SID\SIDController@create_admin')->name('admin.sid.config.user.create');
+   Route::post('admin/register', 'AdminAuth\SID\SIDController@registeradmin_store')->name('admin.register.store');
   });
 
     //************************************************************* Microbiology Route *******************************************************
@@ -242,7 +245,8 @@
    Route::get('phyto/makereport/show/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_show')->name('admin.phyto.makereport.show');
    Route::post('phyto/makereport/create/','AdminAuth\Phytochemistry\PhytoController@makereport_create')->name('admin.phyto.makereport.create');
    Route::post('phyto/makereport/update/{id}','AdminAuth\Phytochemistry\PhytoController@makereport_update')->name('admin.phyto.makereport.update');
-  
+   Route::get('phyto/report/delete/{id}','AdminAuth\Phytochemistry\PhytoController@report_delete')->name('admin.phyto.report.delete');
+
    Route::get('phyto/makereport/organoleptics/delete/{p_id}/{organo_id}','AdminAuth\Phytochemistry\PhytoController@organoleptics_delete')->name('admin.phyto.makereport.organoleptics.delete');
    Route::post('phyto/makereport/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@organoleptics_update')->name('admin.phyto.makereport.organoleptics.update');
 
@@ -274,6 +278,12 @@
      Route::get('phyto/hod_office/config','AdminAuth\Phytochemistry\PhytoController@hodoffice_config')->name('admin.phyto.hod_office.config');
      Route::post('phyto/config/organoleptics/create','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_create')->name('admin.phyto.config.organoleptics.create');
      Route::post('phyto/config/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_update')->name('admin.phyto.config.organoleptics.update');
+
+     Route::post('phyto/config/physicochemdata/create','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_create')->name('admin.phyto.config.physicochemdata.create');
+     Route::post('phyto/config/physicochemdata/update','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_update')->name('admin.phyto.config.physicochemdata.update');
+
+     Route::post('phyto/config/chemicalconsts/create','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_create')->name('admin.phyto.config.chemicalconsts.create');
+     Route::post('phyto/config/chemicalconsts/update','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_update')->name('admin.phyto.config.chemicalconsts.update');
 
     });
 

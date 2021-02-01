@@ -219,12 +219,12 @@
                                                  </span><br>   
                
                                             </h4>
-                                             @foreach($microproduct_withtest->microbialloadReports->groupBy('id')->first() as $report)
+                                        
                                             <span>
                                                
-                                            <small class="float-right font"><strong>Assigned: </strong>{{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</small><br>
+                                            <small class="float-right font"><strong>Assigned: </strong>{{\App\Admin::find($microproduct_withtest->micro_analysed_by)? \App\Admin::find($microproduct_withtest->micro_analysed_by)->full_name:'null'}}</small><br>
                                             </span>
-                                              @endforeach 
+                                        
                                               <span>
                                               <small class="float-right font" > <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
                                               <span>
@@ -238,9 +238,16 @@
                                     </a>
                                     <span class="float-right font">
                                         <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.delete',['id' =>$microproduct_withtest->id ])}}">
-                                          
                                           <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
                                         </a>
+                                         
+                                    </span>
+                                    <span style="font-size:10px">
+                                        @foreach($microproduct_withtest->loadAnalyses as $temp)
+                                        @if($microproduct_withtest->loadAnalyses->first() == $temp)
+                                        {{$temp->created_at->format('d/m/y')}}
+                                        @endif
+                                        @endforeach
                                     </span>
                                 </div>
                                 </div>

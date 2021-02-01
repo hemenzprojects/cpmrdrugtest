@@ -89,7 +89,7 @@
                                     <br>
                                     <p class="text-muted">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</p>
                                 </div>
-                                
+                            
                              </div>
                              <hr>
                             <div class="row">
@@ -106,6 +106,10 @@
                                 <div class="col-md-3 col-6"> <strong>Amount Paid</strong>
                                     <br>
                                     <p class="text-muted">{{$product->price}}</p>
+                                </div>
+                                <div class="col-md-3 col-6"> <strong>Receipt Number</strong>
+                                    <br>
+                                    <p class="text-muted">{{$product->receipt_num}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -281,7 +285,7 @@
                                                 <td class="font">{!! $p->phyto_grade_report !!}</td>
 
 
-                                               <td></td>
+                                               
                                             </tr>
                                             @endforeach
                                         </tbody>

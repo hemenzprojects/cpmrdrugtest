@@ -176,7 +176,7 @@
                     
                                                 </div>       
                                             </div>  
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="input-group mb-2 mr-sm-2">
                                          
                                                     <textarea required type="text" class="form-control" id="exampleTextarea1" name="indication" placeholder="Indication" value="{{old('indication')? old('indication'): ''}}" rows="4"></textarea>
@@ -189,16 +189,32 @@
                                                     @enderror
                                                 </div>
                                              </div>
-                                            <div class="col-sm-3">
+                                             <div class="col-sm-2">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Amount Paid</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Amt</div>
                                                     </div>
-                                                    <input required type="text" class="form-control" id="" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
+                                                    <input required type="number" class="form-control" id="" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
                                                 </div>
                                                 <div>
                                                     @error('price')
+                                                    <small style="margin:15px" class="form-text text-danger" role="alert">
+                                                        <strong>{{$message}}</strong>
+                                                    </small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="sr-only" for="inlineFormInputGroupUsername2">Receipt Num</label>
+                                                <div class="input-group mb-2 mr-sm-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">Receipt No.</div>
+                                                    </div>
+                                                    <input required type="text" class="form-control" id="" name="receipt_num" placeholder="Receipt No." value="{{old('receipt_num')? old('receipt_num'): ''}}">
+                                                </div>
+                                                <div>
+                                                    @error('receipt_num')
                                                     <small style="margin:15px" class="form-text text-danger" role="alert">
                                                         <strong>{{$message}}</strong>
                                                     </small>

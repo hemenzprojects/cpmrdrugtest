@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin';
+    // protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin.guest');
+        $this->middleware('admin');
     }
 
     /**
@@ -47,7 +47,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
+    {  
         return Validator::make($data, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -65,15 +65,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+       
         return Admin::create([
             'title' => $data['title'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'dept_id' => $data['dept_id'],
-            'user_type_id' => $data['user_type_id'],
+            'user_type_id' => $data['user_type'],
+            'tell' => $data['tell'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
     }
 
     /**

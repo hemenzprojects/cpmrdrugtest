@@ -16,7 +16,7 @@ class SIDeptHodAccess
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id == '4' && Auth::guard('admin')->user()->user_type_id == '1'){
+        if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->dept_id == '4' && Auth::guard('admin')->user()->dept_office_id == '1'){
          
             return $next($request);
         }

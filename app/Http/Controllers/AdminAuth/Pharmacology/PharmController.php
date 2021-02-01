@@ -109,7 +109,7 @@ class PharmController extends Controller
     
             public function samplepreparation_create(){
 
-              $data['pharm_testconducteds'] = PharmTestConducted::all();
+             $data['pharm_testconducteds'] = PharmTestConducted::all();
               $data['pharmproducts'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 2);
               })->with('samplePreparation')->whereDoesntHave("samplePreparation")->get();
@@ -284,7 +284,7 @@ class PharmController extends Controller
              }
 
               public function maketest(){
-
+              
               $data['pharm_toxicity'] = PharmToxicity::all();
 
               $data['animalexps'] = Product::where('pharm_process_status',4)->with('departments')->whereHas("departments", function($q){
@@ -622,7 +622,7 @@ class PharmController extends Controller
 
             $checkallmail = Admin::where('email', '=', $userEmail)->first();
             $checkmailonly = Admin::where('dept_id',2)->where('email', '=', $userEmail)->first();
-            $admin = Admin::where('dept_id',2)->where('user_type_id',1)->where('email', '=', $userEmail)->first();
+            $admin = Admin::where('dept_id',2)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
 
             if (!$checkallmail) {
               return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);

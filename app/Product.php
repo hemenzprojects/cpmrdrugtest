@@ -7,7 +7,7 @@ use App\ProductDept;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
+    protected $fillable = ['name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
     'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
@@ -50,7 +50,7 @@ class Product extends Model
 
         $product_ids = Product::where("failed_tag",'!=', Null)->where("failed_tag", $this->failed_tag)->pluck("id")->toArray();
         
-        $related_tests = ProductDept::whereIn("product_id", $product_ids)->where("dept_id", 2)->get();
+        $related_tests = ProductDept::whereIn("product_id", $product_ids)->where("dept_id", $dept_id)->get();
        
         return count($related_tests) > 1;
     }
