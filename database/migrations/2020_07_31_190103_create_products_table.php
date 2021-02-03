@@ -41,6 +41,7 @@ class CreateProductsTable extends Migration
             $table->date('micro_datecompleted')->nullable();
             $table->integer('micro_overall_status')->default(1)->nullable();
             $table->integer('micro_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->text('micro_hod_remarks')->nullable();
             $table->integer('micro_appoved_by')->nullable();
             $table->integer('micro_analysed_by')->nullable();
             $table->integer('micro_reference')->nullable();
@@ -49,6 +50,7 @@ class CreateProductsTable extends Migration
             $table->integer('pharm_overall_status')->default(1)->nullable();
             $table->integer('pharm_process_status')->default(1)->nullable()->comment('begins from (3-animal experiment)');
             $table->integer('pharm_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->text('pharm_hod_remarks')->nullable();
             $table->text('pharm_result')->nullable();
             $table->text('pharm_comment')->nullable();
             $table->text('pharm_standard')->nullable();
@@ -62,6 +64,7 @@ class CreateProductsTable extends Migration
             $table->date('phyto_datecompleted')->nullable();
             $table->integer('phyto_overall_status')->default(1)->nullable();
             $table->integer('phyto_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->text('phyto_hod_remarks')->nullable();
             $table->integer('phyto_appoved_by')->nullable();
             $table->integer('phyto_analysed_by')->nullable();
 

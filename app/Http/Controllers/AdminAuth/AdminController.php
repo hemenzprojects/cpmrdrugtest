@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Session;
 use App\Admin;
+use Illuminate\Support\Facades\Hash;
 use \Auth;
+
 
 class AdminController extends Controller
 {
@@ -64,5 +66,27 @@ class AdminController extends Controller
         return view('admin.auth.createadmin',$data);
     }
 
+    public function change_password(Request $r){
+        $data = $r->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        
+        $admin = Admin::where('id',Auth::guard('admin')->id())->first();
+        if (!Hash::check($r->current_password, $admin->password))
+        {
+            // The passwords does not match
+            Session::flash('messagetitle', 'error');
+            Session::flash('message', 'Incorrect current password! Check and try again.');
+            return redirect()->back();
+        }
+     
+        $admin->password = bcrypt($r->password);
+        $admin->save();
+
+        Session::flash('message_title', 'success');
+        Session::flash('message', 'Password changed successfully.');
+        return redirect()->back();
+    }
 
 }

@@ -8,9 +8,9 @@ use App\ProductDept;
 class Product extends Model
 {
     protected $fillable = ['name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
-    'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_appoved_by','micro_analysed_by',
-    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by',
-    'phyto_overall_status','phyto_hod_evaluation','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
+    'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by','pharm_hod_remarks',
+    'phyto_overall_status','phyto_hod_evaluation','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
 
     // public static function completedReports()
     // {
@@ -305,6 +305,13 @@ class Product extends Model
     }
     // Pharm Report Evaluations
 
+    public function getPharmHodRemarkAttribute()
+    {
+       if($this->pharm_hod_remarks === Null){
+        return '<p style="color:red"> Hod Remarks Pending </p>';
+      }
+    }
+    
     public function getPharmEvaluationAttribute()
     {
        if($this->pharm_hod_evaluation === 1){
@@ -334,7 +341,6 @@ class Product extends Model
       }
 
     }
-
 
       //*******************************Phytochemistry*********************** */
 

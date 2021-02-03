@@ -56,9 +56,7 @@
                 <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
     
                 <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$completed_report->productType->code}}|{{$completed_report->id}}|{{$completed_report->created_at->format('y')}} |   {{ucfirst($completed_report->name)}} in 
-                    @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
-                    {{$item->pharm_animal_model}}
-                    @endforeach
+                    {{$pharm_finalreports->pharm_animal_model}}
                 </p>
                 </div>
                 <table class="table">

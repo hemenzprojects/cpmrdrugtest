@@ -32,11 +32,11 @@
   Route::get('/password/reset', 'AdminAuth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
   Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
 
-
   Route::get('/','AdminAuth\AdminController@index');
   Route::get('/profile/create', 'AdminAuth\AdminController@profile_create')->name('admin.profile.create');
   Route::post('/profile/uploadfile', 'AdminAuth\AdminController@update_admin');
-  
+  Route::post('/password/change', 'AdminAuth\AdminController@change_password')->name('admin.password.change');
+
   Route::get('general/home','AdminAuth\SID\SIDController@homedashboard')->name('admin.general.dashboard');
 
   
@@ -221,6 +221,7 @@
    Route::post('pharm/hod_office/evaluate', 'AdminAuth\Pharmacology\PharmController@evaluate')->name('admin.pharm.hod_office.evaluate');
    Route::get('pharm/hod_office/completedreports','AdminAuth\Pharmacology\PharmController@hodoffice_completedreports')->name('admin.pharm.hod_office.completedreports');
    Route::get('pharm/hod_office/evaluate_one/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_index');
+   Route::Post('pharm/hod_office/editreport/{id}/', 'AdminAuth\Pharmacology\PharmController@hod_editreport');
 
    Route::get('pharm/report/hod_office/complete_report/{id}','AdminAuth\Pharmacology\PharmController@hod_complete_report')->name('admin.pharm.hod_office.complete_report');
 

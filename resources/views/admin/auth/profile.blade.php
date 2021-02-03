@@ -36,7 +36,7 @@
            @endif
     </div>
 </div> --}}
->
+
 
        <div class="row">
             <div class="col-md-6">
@@ -108,26 +108,58 @@
                     <div class="card-header">
                         <h3>Change Password</h3>
                         <span></span>
-
+                        
                     </div>
                     <div class="card-body">
-                        <form class="forms-sample">
-                            <div class="" style="margin-top:100px">
+
+                        <p>Password should contain characters from three of the following five groups (quoted from the Microsoft document):
+                            Uppercase letters of European languages (A through Z, with diacritical marks, Greek and Cyrillic characters)<br>
+                            Lowercase letters of European languages (A through Z, sharp S, with diacritical marks, Greek and Cyrillic characters)
+                            Base 10 digits (0 through 9); non-alphanumeric characters (special characters): (~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/)<br>
+                            </p>
+                        <form method="post" action="{{route('admin.password.change')}}" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="" style="">
                                 <h4 class="card-title mt-10"></h4>
                             <div class="form-group">
-                                <label for="exampleInputPassword4">Old Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                                <label for="exampleInputPassword4">Current Password</label>
+                                <input type="password" name="current_password" class="form-control" id="exampleInputPassword4" placeholder="Current Password">
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword4"> New Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                            @if ($errors->has('current_password'))
+                            <span class="invalid-feedback" role="alert">
+                        <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                                    {{ $errors->first('password') }}</p>
+                            </span>
+                        @endif
+                              
+                      <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Password</div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword4"> Confirm New Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                            <input id="password" placeholder="Password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                        </div>
+
+                        @if ($errors->has('password'))
+                        <span class="invalid-feedback" role="alert">
+                    <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                                {{ $errors->first('password') }}</p>
+                        </span>
+                    @endif
+                    
+                    </div>
+                    <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Confirm Password</div>
                             </div>
+                            <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation" required>
+
+                        </div>
+                    </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                <button type="submit" class="btn btn-primary mr-2">Change Password</button>
                             </div>
                             </div>
                         </form>

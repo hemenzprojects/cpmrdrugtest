@@ -97,9 +97,9 @@
 
                                    
                                      <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-filter"></i><span>Sample Preparation</span></a>
+                                         <a href="#"><i class="ik ik-filter"></i><span>Report Preparation</span></a>
                                          <div class="submenu-content" style="">
-                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Perform preparation</a>
+                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Sample preparation </a>
                                              <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Record Book</a>
                                          </div>
                                      </div>

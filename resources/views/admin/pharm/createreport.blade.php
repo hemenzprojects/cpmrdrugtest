@@ -56,9 +56,7 @@
                             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
 
                             <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} |   {{ucfirst($pharmreports->name)}} in 
-                                @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                                {{$item->pharm_animal_model}}
-                                @endforeach
+                                {{$pharm_finalreports->pharm_animal_model}}
                             </p>
                         </div>
 
@@ -148,6 +146,19 @@
                                 </tr>
                             </tbody>
                         </table>  
+                        <div class="" style="padding: 2%">
+            
+                            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+                            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
+                            <textarea  style="font-size: 14.8px" class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
+                            </textarea> 
+                            @endif
+            
+                            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
+                            <textarea style="font-size: 14.8px" class="form-control" rows="8" name="pharm_remmarks">LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+                            </textarea>
+                            @endif
+                        </div> 
                 </div> 
                 <div class="col-md-4" style="background-color:">
                     <div class="card-body">
@@ -259,19 +270,7 @@
                     </div>
                 </div>
          </div>
-            <div class="" style="padding: 2%">
             
-                <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==1)
-                <textarea  style="font-size: 14.8px" class="form-control" rows="8" name="pharm_remmarks" >{{$pharmreports->pharm_comment}}
-                </textarea> 
-                @endif
-
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-                <textarea style="font-size: 14.8px" class="form-control" rows="8" name="pharm_remmarks">LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
-                </textarea>
-                @endif
-            </div>
        
         </div>
         @endif
@@ -418,16 +417,27 @@
             </div>
       </div> 
        @endif
-       <div class="col-sm-3" style="margin-top:30px">
-        <div class="form-group">
-            <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
-            <select name="pharm_grade" required class="form-control" id="exampleSelectGender">
-            <option value="{{\App\Product::find($pharmreports->id)->pharm_grade}}">{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!}</option>
-                <option value="1">Failed</option>
-                <option value="2">Passed</option>
-            </select>                                
+        <div class="row">
+            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation > 0)
+            <div class="col-sm-8">
+                <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD REMARKS: </strong></h4>
+                <div class="alert alert-info" role="alert">
+                    {!! $pharmreports->pharm_hod_remark !!}{{$pharmreports->pharm_hod_remarks}}
+                  </div>
             </div>
-    </div>
+            @endif
+            <div class="col-sm-3" style="margin-top:30px">
+             <div class="form-group">
+                 <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+                 <select name="pharm_grade" required class="form-control" id="exampleSelectGender">
+                 <option value="{{\App\Product::find($pharmreports->id)->pharm_grade}}">{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!}</option>
+                     <option value="1">Failed</option>
+                     <option value="2">Passed</option>
+                 </select>                                
+              </div>
+         </div>
+        </div>
+     
 
        <div class="row" style="margin: 35px">
                 <div class="col-sm-4 invoice-col">

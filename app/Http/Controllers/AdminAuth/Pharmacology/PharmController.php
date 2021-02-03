@@ -506,19 +506,18 @@ class PharmController extends Controller
                   $product->pharm_grade = $r->pharm_grade;
 
                   $product->update();
-
+                     
              
                   $data = ([
                     'product_id'=>$id,
                     'pharm_testconducted_id'=>$r->pharm_testconducted,
                     'pharm_animal_model'=>$r->animal_model,
                     'num_of_animals'=>$r->animal_sex,
-                    'animal_sex'=>$r->animal_sex,
+                    'animal_sex'=>$r->num_of_animals,
                     'no_group'=>$r->no_group, 
                     'method_of_admin'=>$r->method_of_admin, 
                     'formulation'=>$r->formulation,
                     'preparation'=>$r->preparation,
-                    'method_of_admin'=>$r->method_of_admin,
                     'no_days'=>$r->no_days,
                     'no_death'=>$r->no_death,
                     'dosage'=>$r->dosage,
@@ -643,7 +642,6 @@ class PharmController extends Controller
 
           public function evaluate_one_edit(Request $r, $id){
 
-
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -681,6 +679,61 @@ class PharmController extends Controller
            Session::flash("message_title", "success");  
            return redirect()->back();
            }
+            
+           public function hod_editreport(Request $r, $id){
+          
+            $products =Product::where('id', $id)->where("pharm_process_status", 4)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id", 2);
+              });
+             if(count($products->get()) < 1){    
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'System Error! Product cant be edited');  
+               return redirect()->back();
+              }
+          
+            if ($r->pharm_testconducted == 1) {
+            
+              $data = ([
+                'product_id'=>$id,
+                'pharm_testconducted_id'=>$r->pharm_testconducted,
+                'pharm_animal_model'=>$r->animal_model,
+                'num_of_animals'=>$r->animal_sex,
+                'animal_sex'=>$r->num_of_animals,
+                'no_group'=>$r->no_group, 
+                'method_of_admin'=>$r->method_of_admin, 
+                'formulation'=>$r->formulation,
+                'preparation'=>$r->preparation,
+                'no_days'=>$r->no_days,
+                'no_death'=>$r->no_death,
+                'dosage'=>$r->dosage,
+                'estimated_dose'=>$r->estimated_dose,
+                'signs_toxicity'=>$r->signs_toxicity,
+                'added_by_id'=> Auth::guard('admin')->id(),
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+                ]);
+  
+                PharmFinalReport::where('product_id', $id)->update($data);
+            }
+              if ($r->pharm_testconducted == 2) {
+
+                $product = $products->first();
+                $product->pharm_result = $r->pharm_result;
+                $product->pharm_comment = $r->pharm_comment;
+                // $product->hod_remarks = $r->hod_remarks;
+                $product->update();
+              }
+
+              $product = $products->first();
+              $product->pharm_grade = $r->pharm_grade;
+              $product->pharm_hod_remarks = $r->pharm_hod_remarks;
+              $product->update();
+
+              Session::flash("message", "Report updated successfully");
+              Session::flash("message_title", "success");
+               
+              return redirect()->back();
+           }
 
            public function hod_complete_report($id){
                 
@@ -708,6 +761,8 @@ class PharmController extends Controller
                 $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                return $q->where("dept_id", 2)->where("status", '>',6);
                })->with('animalExperiment')->whereHas("animalExperiment")->first();
+
+               $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
 
                return view('admin.pharm.completedreport',$data);
 
