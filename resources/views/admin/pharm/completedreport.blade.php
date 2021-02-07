@@ -100,7 +100,7 @@
                         <td  class="font">{{$pharm_finalreports->preparation}}</td>
                         </tr>
                         <tr>
-                            <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                            <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
                             <td  class="font">
                                 {{$pharm_finalreports->dosage}}
                             </td>
@@ -118,11 +118,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
+                            <td class="font"><strong>Estimated Median Lethal Dose (LD<sub>50</sub>)</strong></td> 
                             <td  class="font">{{$pharm_finalreports->estimated_dose}}</td>
                         </tr>
                         <tr>
-                            <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                            <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                             <td  class="font">
                                 {{$pharm_finalreports->signs_toxicity}}
                             </td>
@@ -136,7 +136,7 @@
                 <div class="card" style="padding: 2%">
                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
 
-                    <p style="font-size: 16px">
+                    <p style="font-size: 16px; text-align: justify ">
                     {{$completed_report->pharm_comment}}   
                     </p>       
                 </div>      
@@ -144,16 +144,16 @@
          @endif
        
          @if ($completed_report->pharm_testconducted == 2)
-            <p style="font-size:16px">{{$completed_report->pharm_standard}}</p>
+            <p style="font-size:16px; text-align: justify ">{{$completed_report->pharm_standard}}</p>
 
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
-            <p style="font-size: 15px">
+            <p style="font-size: 15px; text-align: justify">
                 {{$completed_report->pharm_result}}   
             </p> 
             
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
-            <p style="font-size: 15px">
+            <p style="font-size: 15px; text-align: justify ">
                 {{$completed_report->pharm_comment}}   
             </p> 
          @endif
@@ -203,7 +203,7 @@
             <h4 class="font" style="font-size:15px;"><strong> REFERENCE: </strong></h4>
         </div>
         <div class="col-sm-9">
-            <p> 1. Canadian Centre for Occupational Health and Safety (2019)</p>
+            <p> 1- Canadian Centre for Occupational Health and Safety (2019)</p>
 
         </div>
     </div>

@@ -167,4 +167,89 @@
                 </div>
             </div>
         </div>
+
+
+        
+   <div class="row">
+       <div class="col-sm-6">
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>Permissions System Administrator access only</h3>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="ik ik-chevron-left action-toggle"></i></li>
+                        <li><i class="ik ik-minus minimize-card"></i></li>
+                        <li><i class="ik ik-x close-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Feature</th>
+                            <th>permission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 0; ?>
+                            @foreach(App\Admin::find($user->id)->permissions as $key => $permission)
+                                <?php $i++; ?>
+                                <?php if($i%2 == 0) continue; ?>
+                                <tr>
+                                    <td>{{$i}}</td>
+                                    <td class="font">{{$permission->name}}</td>
+                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="btn-danger btn-xs">Disabled</span>' !!}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+       </div>
+       <div class="col-sm-6">
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>Permissions System Administrator access only</h3>
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        <li><i class="ik ik-chevron-left action-toggle"></i></li>
+                        <li><i class="ik ik-minus minimize-card"></i></li>
+                        <li><i class="ik ik-x close-card"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Feature</th>
+                            <th>permission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 0; ?>
+                            @foreach(App\Admin::find($user->id)->permissions as $key => $permission)
+                                <?php $i++; ?>
+                                <?php if(!($i%2 == 0)) continue; ?>
+                                <tr>
+                                    <td>{{$i}}</td>
+                                    <td class="font">{{$permission->name}}</td>
+                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="btn-danger btn-xs">Disabled</span>' !!}</td>
+                                 </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+       </div>
+
+   </div>
+
 @endsection

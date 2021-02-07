@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PharmStandardSeeder::class);
         $this->call(AnimalModelSeeder::class);
         $this->call(DeptOfficeTableSeeder::class);
+        $this->call(AdminFeatureTableSeeder::class);
+        $this->call(AdminFeatureTypeTableSeeder::class);
+
 
 
 

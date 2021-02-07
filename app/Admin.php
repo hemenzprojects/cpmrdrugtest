@@ -43,4 +43,25 @@ class Admin extends Authenticatable
 
         return $this->title.' '.$this->first_name.' '.$this->last_name;
     }
+
+    public function type()
+    {
+        return $this->belongsTo('App\UserType', "user_type_id");
+    }
+
+    public function permissions()
+    {
+        return $this->type->permissions();
+    }
+
+    public function hasPermission($id)
+    {
+        $pm = $this->permissions()->where('admin_feature_types.feature_id',$id)->first()->pivot->enabled;
+
+        if($pm == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 }

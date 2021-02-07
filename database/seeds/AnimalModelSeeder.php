@@ -13,7 +13,7 @@ class AnimalModelSeeder extends Seeder
     {
         DB::table('pharm_animal_models')->truncate();
         DB::table('pharm_animal_models')->insert([
-            'name'   =>  'SRD RAT',        
+            'name'   =>  'SD Rat',        
             'description'   =>  'Text of animal model',
             'added_by_id'   =>  1,
             'created_at' => date("Y-m-d H:i:s"),

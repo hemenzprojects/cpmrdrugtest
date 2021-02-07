@@ -22,7 +22,7 @@ class CreatePharmAnimalExperimentsTable extends Migration
             $table->string('volume')->nullable();
             $table->string('time_administration');
             $table->integer('death')->nullable();
-            $table->integer('toxicity');
+            $table->string('toxicity');
             $table->integer('sex');
             $table->integer('method');
             $table->integer('group');

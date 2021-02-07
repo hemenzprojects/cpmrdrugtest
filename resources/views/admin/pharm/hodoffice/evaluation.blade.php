@@ -37,7 +37,7 @@
                             <div class="widget-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="state">
-                                        <h6>Report(s) evaluation</h6>
+                                        <h6>Report(s) withheld</h6>
                                         @foreach ($withhelds->groupBy('pharm_hod_evaluation') as $result_evaluation) 
                                        <h2>{{count($result_evaluation)}}</h2>
                                      

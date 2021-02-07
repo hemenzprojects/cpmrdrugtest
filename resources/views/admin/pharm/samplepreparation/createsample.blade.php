@@ -236,7 +236,7 @@
                                           <span> <strong>Test :</strong> 
                                           {{\App\PharmTestConducted::find($inprogress->pharm_testconducted)->name}}
                                         </span><br>
-                                        <span> <strong>Exp Analysed By :</strong> 
+                                           <span> <strong>Exp Analysed By :</strong> 
                                            
                                             @foreach ($inprogress->animalExperiment->groupBy('id')->first() as $item)
                                             {{\App\Admin::find($item->added_by_id)->full_name}}
@@ -412,6 +412,7 @@
                                 </div>
                             </div>
                             @endforeach
+                            
                         </ul>
                     </div>
 
@@ -647,7 +648,7 @@
 
                 </div>
                 <span style="padding: 10px;color:#007bff">
-                <a href="{{route('admin.pharm.hod_office.completedreports')}}" class="text-dark" style="float: right; ">View all</a>
+                <a href="{{route('admin.pharm.completedreports.index')}}" class="text-dark" style="float: right; ">View all</a>
                 </span>
                 </div>
             
@@ -690,7 +691,7 @@
                         <label class="badge badge-warning" style="background-color:#f5365c; margin-right:5px;">
                            {{count($pharmproduct)}} 
                         </label>
-                        @endforeach Sample Preparation Todo List</h3>
+                        @endforeach Sample Prepared To Animal House</h3>
                 </div>
               <form action="{{route('admin.pharm.samplepreparation.store')}}" method="post">
                 {{ csrf_field() }}
@@ -703,8 +704,6 @@
                                 <th>#</th>
                                 <th>Product</th>
                                 <th>Measurement</th>
-                                <th>Dosage</th>
-                                <th>Yield</th>
                                 <th>Test Conducted</th>
                                 <th>Remarks</th>
                             </tr>
@@ -733,12 +732,12 @@
                                 <td class="font">
                                     <input type="text" class="form-control" name="measurement_{{$pharmproduct->id}}"  placeholder="Volume/Mass/Weight" >
                                 </td>
-                                <td class="font">
+                                {{-- <td class="font">
                                     <input type="text" class="form-control" name="dosage_{{$pharmproduct->id}}"  placeholder="Dosage">
                                 </td>
                                 <td class="font">
                                     <input type="text" class="form-control" name="yield_{{$pharmproduct->id}}"  placeholder="Yield">
-                                </td>
+                                </td> --}}
                                 <td class="font">
                             
                                     <select  name="pharm_testconducted_{{$pharmproduct->id}}" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">

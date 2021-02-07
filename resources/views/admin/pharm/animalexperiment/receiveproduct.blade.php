@@ -24,9 +24,9 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Volume</th>
-                    <th>Dosage</th>
-                    <th>Yield</th>
+                    <th>Measurement</th>
+                    {{-- <th>Dosage</th>
+                    <th>Yield</th> --}}
                     <th>Test Conducted</th>
                     <th>Delivery Officer</th>
                     <th>Received By</th>
@@ -57,12 +57,12 @@
                         <td class="font">
                             {{$product->measurement}}
                         </td>
-                        <td class="font">
+                        {{-- <td class="font">
                             {{$product->dosage}}
                         </td>
                         <td class="font">
                             {{$product->yield}}
-                        </td>
+                        </td> --}}
                         <td class="font">
                             {{\App\PharmTestConducted::find($product->pharm_testconducted_id)->name}}
                         </td>

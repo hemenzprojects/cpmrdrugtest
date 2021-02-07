@@ -17,6 +17,7 @@ use App\Department;
 use App\ProductType;
 use App\Product;
 use App\Account;
+use App\UserType;
 use App\PharmStandards;
 use App\ProductDept;
 use \Auth;
@@ -791,7 +792,27 @@ class SIDController extends Controller
           ->whereHas("departments", function ($q) use ($data) {
               return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
+     
+          //*************************************************Animal House ************************** */
 
+          $data['pharm_products'] = Product::where('pharm_process_status',4)->whereHas("departments", function ($q) use ($data) {
+            return $q->where("dept_id", 2)->where("status",3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->get();
+
+           $data['acute_toxicty_total'] = Product::where('pharm_process_status',5)->where('pharm_testconducted',1)   
+          ->whereHas("departments", function ($q) use ($data) {
+              return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->get();
+
+          $data['pharm_completedexperiments'] = Product::where('pharm_process_status',5)    
+          ->whereHas("departments", function ($q) use ($data) {
+              return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->get();
+
+          $data['dermal_toxicty_total'] = Product::where('pharm_process_status',5)->where('pharm_testconducted',2)   
+          ->whereHas("departments", function ($q) use ($data) {
+              return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->get();
           
       //****************************************** PHYTO */
 
@@ -941,5 +962,11 @@ class SIDController extends Controller
 
         Admin::create($data);
         return redirect()->back();
+    }
+
+    public function user_permisions(){
+
+     $data['user_types'] = UserType::all();
+     return view('admin.auth.permissions',$data);
     }
 }

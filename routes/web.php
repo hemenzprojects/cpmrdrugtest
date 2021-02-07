@@ -104,6 +104,8 @@
 
    Route::get('sid/config/admin/create','AdminAuth\SID\SIDController@create_admin')->name('admin.sid.config.user.create');
    Route::post('admin/register', 'AdminAuth\SID\SIDController@registeradmin_store')->name('admin.register.store');
+   Route::get('admin/permisions', 'AdminAuth\SID\SIDController@user_permisions')->name('admin.sid.config.user.permissions');
+
   });
 
     //************************************************************* Microbiology Route *******************************************************
@@ -172,6 +174,7 @@
    Route::post('/pharmacology/acceptproduct','AdminAuth\Pharmacology\PharmController@acceptproduct')->name('admin.pharm.acceptproduct');
    Route::get('pharm/report/show/{id}','AdminAuth\Pharmacology\PharmController@report_show')->name('admin.pharm.report.show');
    Route::post('/pharm/report/create/{id}', 'AdminAuth\Pharmacology\PharmController@pharmreport_create')->name('admin.pharm.report.create');
+   Route::get('pharm/completedexperiment/show/{id}','AdminAuth\Pharmacology\PharmController@completedexperiment_show')->name('admin.pharm.completedexperiment.show');
    Route::get('pharm/completedreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.pharm.completedreport.show');
 
       //**Pharmacology samplepreparation */
@@ -185,7 +188,7 @@
      Route::get('pharm/general_report/index','AdminAuth\Pharmacology\PharmController@generalreport_index')->name('admin.pharm.general_report.index');
      Route::get('pharm/completed_reports/index/{id}','AdminAuth\Pharmacology\PharmController@completedreports_index')->name('admin.pharm.completed_reports.index');
      Route::post('pharm/general_report/yearly','AdminAuth\Pharmacology\PharmController@generalyearly_report')->name('admin.pharm.generalyearlyreport');
-  
+     Route::get('pharm/completedreports','AdminAuth\Pharmacology\PharmController@completedreports_all')->name('admin.pharm.completedreports.index');
      Route::post('pharm/general_report/between_month','AdminAuth\Pharmacology\PharmController@between_months')->name('admin.pharm.general_report.between_months');
   
      Route::post('pharm/yearly','AdminAuth\Pharmacology\PharmController@yearly_report')->name('yearly');
@@ -203,14 +206,19 @@
    Route::post('pharm/animalexperiment/receive','AdminAuth\Pharmacology\PharmController@animalexperimentation_receive')->name('admin.pharm.animalexperiment.receive');
    Route::get('pharm/animalexperiment/reject/{id}','AdminAuth\Pharmacology\PharmController@animalexperimentation_reject')->name('admin.pharm.animalexperiment.reject');
    Route::post('pharm/animalexperiment_recordbook/report','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook_report')->name('admin.pharm.animalexperiment_recordbook.report');
+   Route::post('pharm/completed_animalexperiment/report','AdminAuth\Pharmacology\PharmController@completed_animalexperiment_report')->name('admin.pharm.completed_animalexperiment.report');
 
    Route::get('pharm/animalexperimentation/maketest','AdminAuth\Pharmacology\PharmController@maketest')->name('admin.pharm.animalexperimentation.maketest');
    Route::post('pharm/animalexperiment/store','AdminAuth\Pharmacology\PharmController@animalexperiment_store')->name('admin.pharm.animalexperiment.store');
    Route::get('pharm/animalexperiment/delete/{id}','AdminAuth\Pharmacology\PharmController@delete_animaltest')->name('admin.pharm.animalexperimentation.delete');
+   
+   Route::get('pharm/animalexperiment/editanimaltest/{id}','AdminAuth\Pharmacology\PharmController@edit_animaltest')->name('admin.pharm.animalexperiment.editanimaltest');
    Route::post('pharm/animalexperiment/update/{id}','AdminAuth\Pharmacology\PharmController@update_animaltest')->name('admin.pharm.animalexperimentation.update');
+   Route::get('pharm/animalexperimentation/testconducted','AdminAuth\Pharmacology\PharmController@animalexperiment_testconducted')->name('admin.pharm.animalexperimentation.testconducted');
    Route::get('pharm/animalexperimentation/recordbook','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook')->name('admin.pharm.animalexperimentation.recordbook');
    Route::get('pharm/animalexperimentation/fetchtoxicity','AdminAuth\Pharmacology\PharmController@animalexperimentation_fetchtoxicity');
    Route::get('pharm/animalexperimentation/fetchtanimal_model','AdminAuth\Pharmacology\PharmController@animalexperimentation_fetchanimalmodel');
+   Route::post('pharm/animalexperiment/send_animaltest','AdminAuth\Pharmacology\PharmController@send_animaltest')->name('admin.pharm.animalexperiment.send_animaltest');
 
    });
 
@@ -219,7 +227,6 @@
    //**Pharmacology HOD Office */
    Route::get('pharm/hod_office/approval','AdminAuth\Pharmacology\PharmController@hodoffice_evaluation')->name('admin.pharm.hod_office.approval');
    Route::post('pharm/hod_office/evaluate', 'AdminAuth\Pharmacology\PharmController@evaluate')->name('admin.pharm.hod_office.evaluate');
-   Route::get('pharm/hod_office/completedreports','AdminAuth\Pharmacology\PharmController@hodoffice_completedreports')->name('admin.pharm.hod_office.completedreports');
    Route::get('pharm/hod_office/evaluate_one/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_index');
    Route::Post('pharm/hod_office/editreport/{id}/', 'AdminAuth\Pharmacology\PharmController@hod_editreport');
 

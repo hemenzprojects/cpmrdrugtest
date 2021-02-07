@@ -6,8 +6,8 @@
         <div class="card-body">
             <div class="card">
                 <div class="text-center" style="margin: 2%"> 
-                    <h4 class="font" style="font-size:18px">Generate report on prepared samples</h4>
-                   <p class="card-subtitle"> selec date below to generate report</p>
+                    <h4 class="font" style="font-size:18px">Generate report on received samples</h4>
+                   <p class="card-subtitle"> select date below to generate report</p>
                   </div>
                 <div class="row" style="margin:1%">
                 
@@ -49,16 +49,16 @@
             
             <div class="dt-responsive">
                
-                    <table id="lang-dt" class="table table-striped table-bordered nowrap">
+                    <table id="#order-table1" class="table table-striped table-bordered nowrap">
                     
                       
                     <thead>
                     <tr>
                     
                         <th>Product</th>
-                        <th>Volume</th>
-                        <th>Dosage</th>
-                        <th>Yield</th>
+                        <th>Measurement</th>
+                        {{-- <th>Dosage</th>
+                        <th>Yield</th> --}}
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
@@ -83,12 +83,12 @@
                             <td class="font">
                                 {{$recordbook->measurement}}
                             </td>
-                            <td class="font">
+                            {{-- <td class="font">
                                 {{$recordbook->dosage}}
                             </td>
                             <td class="font">
                                 {{$recordbook->yield}}
-                            </td>
+                            </td> --}}
                             <td class="font">
                                 {!! \App\Product::find($recordbook->product_id)->pharm_product_status !!}
                             </td>

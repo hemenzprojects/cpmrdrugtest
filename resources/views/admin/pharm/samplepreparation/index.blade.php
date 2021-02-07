@@ -6,8 +6,8 @@
         <div class="card-body">
             <div class="card">
                 <div class="text-center" style="margin: 2%"> 
-                    <h4 class="font" style="font-size:18px">Generate report on prepared samples</h4>
-                   <p class="card-subtitle"> selec date below to generate report</p>
+                    <h4 class="font" style="font-size:18px">Generate report on prepared samples </h4>
+                   <p class="card-subtitle"> Select date below to generate report on samples submitted to Animal House</p>
                   </div>
                 <div class="row" style="margin:1%">
                 
@@ -30,7 +30,7 @@
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-4">
-                                    <span style="margin: 5">From</span>  <input type="date" name="from_date" class="form-control" value="2020-01-10">
+                                <span style="margin: 5">From</span>  <input type="date" name="from_date" class="form-control" value="2020-01-10">
                                 </div>
                                 <div class="col-md-4">
                                     <span style="margin: 5px">To</span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
@@ -49,16 +49,16 @@
             
             <div class="dt-responsive">
                
-                    <table id="lang-dt" class="table table-striped table-bordered nowrap">
+                    <table id="#order-table1" class="table table-striped table-bordered nowrap">
                     
                       
                     <thead>
                     <tr>
                     
                         <th>Product</th>
-                        <th>Volume</th>
-                        <th>Dosage</th>
-                        <th>Yield</th>
+                        <th>Measurement</th>
+                        {{-- <th>Dosage</th>
+                        <th>Yield</th> --}}
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
@@ -84,12 +84,12 @@
                             <td class="font">
                                 {{$recordbook->measurement}}
                             </td>
-                            <td class="font">
+                            {{-- <td class="font">
                                 {{$recordbook->dosage}}
                             </td>
                             <td class="font">
                                 {{$recordbook->yield}}
-                            </td>
+                            </td> --}}
                             <td class="font">
                                 {!! \App\Product::find($recordbook->product_id)->pharm_product_status !!}
                             </td>

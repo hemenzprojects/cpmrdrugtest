@@ -207,6 +207,11 @@ class Product extends Model
         return $this->belongsToMany('App\PharmTestConducted', "pharm_sample_preparations", 'product_id', 'pharm_testconducted_id')
         ->withPivot([ 'product_id','measurement']);
     }
+
+    public function animalExperimentation()
+    {
+        return $this->belongsToMany('App\PharmTestConducted', "pharm_animal_experiments", 'product_id', 'pharm_testconducted_id');
+    }
     public function animalExperiment()
     {
         return $this->hasMany("App\PharmAnimalExperiment","product_id");
@@ -220,7 +225,8 @@ class Product extends Model
             return '<span style="color:#0d8205; font-size:11.5px">received</span>';
         }
         elseif ($this->pharm_process_status === 5) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>Inprogres</button></td>';
+            return '<span style="color:#007bff; font-size:11.5px">Inprogress</span>';
+
         }
     }
 
@@ -305,18 +311,15 @@ class Product extends Model
     }
     // Pharm Report Evaluations
 
-    public function getPharmHodRemarkAttribute()
-    {
-       if($this->pharm_hod_remarks === Null){
-        return '<p style="color:red"> Hod Remarks Pending </p>';
-      }
-    }
     
     public function getPharmEvaluationAttribute()
     {
-       if($this->pharm_hod_evaluation === 1){
+       if($this->pharm_hod_evaluation === 0){
         return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
-      }elseif ($this->pharm_hod_evaluation === 2) {
+      }  if($this->pharm_hod_evaluation === 1){
+        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld </button>';
+      }
+      elseif ($this->pharm_hod_evaluation === 2) {
         return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
      }
 
@@ -324,19 +327,25 @@ class Product extends Model
 
     public function getHodPharmEvaluationAttribute()
     {
-       if($this->pharm_hod_evaluation === 1){
-        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld</button>';
-      }elseif ($this->pharm_hod_evaluation === 2) {
-        return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
-     }
+        if($this->pharm_hod_evaluation === 0){
+            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
+          }  if($this->pharm_hod_evaluation === 1){
+            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld </button>';
+          }
+          elseif ($this->pharm_hod_evaluation === 2) {
+            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
+         }
 
     }
 
     public function getPharmReportEvaluationAttribute()
     {
-       if($this->pharm_hod_evaluation === 1){
+       if($this->pharm_hod_evaluation === 0){
+        return '<span style="color:#ff0000; font-size:11.5px">Pending</span>';
+      } if($this->pharm_hod_evaluation === 1){
         return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
-      }elseif ($this->pharm_hod_evaluation === 2) {
+      }
+      elseif ($this->pharm_hod_evaluation === 2) {
         return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
       }
 

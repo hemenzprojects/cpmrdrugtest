@@ -109,7 +109,7 @@
                                 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                    <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
                                     <td  class="font">
                                         <input type="text" required name="dosage" value="{{$pharm_finalreports->dosage}}" placeholder="None">
                                     </td>
@@ -128,13 +128,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
+                                    <td class="font"><strong>Estimated Median Lethal Dose (LD<sub>50</sub>)</strong></td> 
                                     <td  class="font">
                                         <input type="text" required name="estimated_dose" value="{{$pharm_finalreports->estimated_dose}}" placeholder="None">
                                 </td>
                                 </tr>
                                 <tr>
-                                    <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                    <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                                     <td  class="font">
                                        
                                          <textarea name="signs_toxicity" id="" cols="30"   placeholder="None" rows="3">{{$pharm_finalreports->signs_toxicity}}</textarea>
@@ -147,16 +147,15 @@
                             </tbody>
                         </table>  
                         <div class="" style="padding: 2%">
-            
+   
                             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-                            <textarea  style="font-size: 14.8px" class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
-                            </textarea> 
-                            @endif
-            
-                            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-                            <textarea style="font-size: 14.8px" class="form-control" rows="8" name="pharm_remmarks">LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+                            @if (\App\Product::find($pharmreports->id)->pharm_comment !== Null)
+                            <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
                             </textarea>
+                            @endif
+                            @if (\App\Product::find($pharmreports->id)->pharm_comment === Null)
+                            <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, (P-CODE)  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+                            </textarea> 
                             @endif
                         </div> 
                 </div> 
@@ -202,8 +201,8 @@
                                     <tr>
                                         <td class="font"><strong>Route of Administration</strong></td> 
                                         <td  class="font">
-                                            @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
-                                        {{ucfirst($item->animal_method)}}
+                                            @foreach ($pharmreports->animalExperiment as $item)
+                                           {{($item->animal_method)}},
                                             @endforeach
                                         </td>
                                     </tr>
@@ -217,7 +216,7 @@
                                     <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} )</td>
                                     </tr>
                                     <tr>
-                                        <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                        <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
                                         <td  class="font">
                                             @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
                                         {{$item->dosage}}
@@ -246,19 +245,35 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="font"><strong>Estimated Median Letha Dose (LD/50)</strong></td> 
+                                        <td class="font"><strong>Estimated Median Lethal Dose (LD<sub>50</sub>)</strong></td> 
                                         <td  class="font"> Greater than 5000 mg/kg</td>
                                     </tr>
                                     <tr>
-                                        <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                        <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                                         <td  class="font">
-                                            @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
-                                            {{$item->animalToxicity->name}} ,
-                                            @endforeach
+                                                <?php
+                                                foreach ($pharmreports->animalExperiment as $value) {
+                                                    $orig = $value->toxicity;
+                                                   $items = json_decode($orig);
+                                                }
+                                                    foreach ($items as $item) {
+                                                    echo $item, "\n";
+                                                    }
+                                                    
+                                                   for ($i=0; $i < count($pharmreports->animalExperiment) ; $i++) 
+                                                   { 
+                                                      $item = $pharmreports->animalExperiment[$i]->toxicity;
+                                                     
+                                                    //  echo $value = json_decode($item);
+                                                   }
+                                                   
+                                                ?>
+                                       
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
+                                        <td>
+                                        </td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -279,38 +294,29 @@
      <div class="row">
          <div class="col-md-8">
           <div class="card" style="padding: 2%">
-            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_standard" >{{$pharmreports->pharm_standard}}
+            @if (\App\Product::find($pharmreports->id)->pharm_standard !== Null )
+                <textarea style="font-size: 16px" class="form-control" rows="8" name="pharm_standard" >{{$pharmreports->pharm_standard}}
                 </textarea> 
             @endif
 
-            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
+            @if (\App\Product::find($pharmreports->id)->pharm_standard === Null)
             <textarea name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6">{{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </textarea>
             @endif
 
             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
 
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
                 <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result" >{{$pharmreports->pharm_result}}
                 </textarea> 
-                @endif
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result">Experimental rats in groups 1 and 2 that received 0.1ml intradermal injection of the balm dissolved in glycerol at 1% and 5% w/v respectively, showed @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 2) as $item) {{$item->animalToxicity->name}}, @endforeach at the site of injection. This indicates that even at a high level of 5% w/v the balm did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.
-                </textarea>
-                @endif
-
-            </div>
-        
+            </div>       
                 <div class="card" style="padding: 2%">
                     
-                        <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >0)
-                        <textarea  style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" >{{$pharmreports->pharm_comment}}
+                        <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+                        @if (\App\Product::find($pharmreports->id)->pharm_comment !== Null)
+                        <textarea  style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" >{{$pharmreports->pharm_comment}}
                         </textarea> 
                         @endif
-                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <1)
-                        <textarea style="font-size: 16px" class="form-control" rows="4" name="pharm_remmarks" > {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} appears to be safe / not safe when applied to the skin.
-                    
+                        @if (\App\Product::find($pharmreports->id)->pharm_comment === Null)
+                        <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" > {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} appears to be safe / not safe when applied to the skin.
                         </textarea> 
                         @endif
                     
@@ -366,7 +372,7 @@
                              
                                
                                 <tr>
-                                    <td class="font"><strong>Dose Administered (Mg/Kg)</strong></td> 
+                                    <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
                                     <td  class="font">
                                         @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
                                     {{$item->dosage}}
@@ -396,11 +402,11 @@
                                 </tr>
                                
                                 <tr>
-                                    <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
+                                    <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                                     <td  class="font">
-                                        @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
+                                        {{-- @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
                                         {{$item->animalToxicity->name}} ,
-                                        @endforeach
+                                        @endforeach --}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -422,7 +428,7 @@
             <div class="col-sm-8">
                 <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD REMARKS: </strong></h4>
                 <div class="alert alert-info" role="alert">
-                    {!! $pharmreports->pharm_hod_remark !!}{{$pharmreports->pharm_hod_remarks}}
+                    {{$pharmreports->pharm_hod_remarks}}
                   </div>
             </div>
             @endif
@@ -446,7 +452,7 @@
                 $user_type         = (\App\Admin::find($pharm_analysed_by)? \App\Admin::find($pharm_analysed_by)->user_type_id:'');
                 ?>
                 <p>Analyzed By</p><br>
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation >null)
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
                 <img src="{{asset(\App\Admin::find($pharm_analysed_by)? \App\Admin::find($pharm_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
                 -----------------------------<br>
@@ -479,25 +485,45 @@
 
         <div class="row" style="margin-top: 110px">
             <div class="col-9">
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation <2)
-                <button onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-success pull-right" id="pharm_submit_report" >
-                <i class="fa fa-credit-card"></i> 
-                Submit for Approval
-                </button>
-                @endif
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
-                <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
-                <i class="fa fa-view"></i> Print Report</button>
-                @endif
+                <div class="row">
+                   
+                    <div class="col-sm-3">
+                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
+                        <button onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-success pull-right" id="pharm_submit_report" >
+                        <i class="fa fa-credit-card"></i> 
+                        Save Report
+                        </button>
+                        @endif
+                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                        <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
+                        <i class="fa fa-view"></i> Print Report</button>
+                        @endif
+                    </div>
+                    <div class="col-sm-9">
+                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
+                        <div class="form-check mx-sm-2">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" name="complete_report" value="1" class="custom-control-input">
+                                <span class="custom-control-label">&nbsp;Check to complete report </span>
+                            </label>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+              
+           
                 {{-- <input type="hidden" id="report_url" value="{{url('admin/pharm/completedreport/show',['id' => $pharmreports->id])}}"> --}}
             
           </div>
 
             <div class="col-3">
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==1)
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===0)
                 <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                 @endif
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1)
+                <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i> Report Withheld</button>
+                @endif
+                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===2)
                 <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                @endif
                 {{-- <input type="hidden" id="pharm_hod_evaluation" value="{{\App\Product::find($pharmreports->id)->pharm_hod_evaluation}}"> --}}

@@ -42,16 +42,22 @@ class PharmAnimalExperiment extends Model
      }
      public function getAnimalMethodAttribute(){
         if ($this->method ==1) {
-            return 'Intravenous';
-        } if ($this->method ==2) {
-            return 'Intramuscular';
+            return 'Oral';
+        }if ($this->method ==2) {
+            return 'Subcutanious';
         } 
         if ($this->method ==3) {
-            return 'sometext3';
-        }
-        if ($this->method ==4) {
-            return 'sometext4';
+            return 'Intradermal';
         } 
+        if ($this->method ==4) {
+            return 'Intra Veinous';
+        }
+        if ($this->method ==5) {
+            return 'Applied Topical';
+        }
+        if ($this->method ==6) {
+            return 'Applied Topical & Intradermal';
+        }  
      }
 
 }

@@ -94,7 +94,6 @@
                                              <a href="#" class="menu-item">Reports Taskboard </a> 
                                          </div>
                                      </div>
-
                                    
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-filter"></i><span>Report Preparation</span></a>
@@ -111,15 +110,14 @@
                                          <div class="submenu-content" style="">
                                              <a href="{{route('admin.pharm.animalexperimentation.create')}}" class="menu-item">Receieve Product</a>
                                              <a href="{{route('admin.pharm.animalexperimentation.maketest')}}" class="menu-item">Perform Experiment</a>
-                                             
-     
+
                                          </div>
                                      </div>
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Record Book</span></a>
                                         <div class="submenu-content">
                                         <a href="{{route('admin.pharm.animalexperimentation.recordbook')}}" class="menu-item">Received Product</a>
-                                            <a href="" class="menu-item"></a>
+                                        <a href="{{route('admin.pharm.animalexperimentation.testconducted')}}" class="menu-item">Experiment Conducted</a>
 
                                         </div>
                                      </div>
@@ -128,7 +126,8 @@
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
                                         <div class="submenu-content">
-                                            <a href="{{route('admin.pharm.general_report.index')}}" class="menu-item">Completed Products</a>
+                                            <a href="{{route('admin.pharm.general_report.index')}}" class="menu-item">Report Overview</a>
+                                            <a href="{{route('admin.pharm.completedreports.index')}}" class="menu-item">Completed Reports</a>
                                             <a href="" class="menu-item">Pending Products</a>
                                             <a href="" class="menu-item"></a>
                                         </div>
@@ -140,7 +139,6 @@
                                          <div class="submenu-content">
                                           <a href="#" class="menu-item">Assign Duty</a>
                                          <a href="{{route('admin.pharm.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
-                                         <a href="{{route('admin.pharm.hod_office.completedreports')}}" class="menu-item">Completed Reports</a>
                                           
                                          </div>
                                      </div>
@@ -196,14 +194,14 @@
                                     <a href="#"><i class="ik ik-settings"></i><span>Users Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
                                     <a href="{{route('admin.sid.config.user.create')}}" class="menu-item">Users View</a>
-                                    <a href="#" class="menu-item">User Roles</a>
-                                    <a href="#" class="menu-item"> User Permissions </a>
+                                    <a href="{{route('admin.sid.config.user.permissions')}}" class="menu-item">User Roles</a>
+                                    <a href="#" class="menu-item"> User Permissions</a>
                                     </div>
                                 </div> 
                                 @endif
                                 @endif
 
-                                   {{-- MICRO CONFIG  --}}
+                                {{-- MICRO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==1)
                                 @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
@@ -217,8 +215,8 @@
                                 </div> 
                                 @endif
                                 @endif
-                                {{-- PHARM CONFIG  --}}
 
+                                {{-- PHARM CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==2)
                                 @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
