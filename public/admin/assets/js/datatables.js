@@ -549,6 +549,11 @@ $(document).ready(function() {
             [5, "asc"]
         ]
     });
+    $('#order-table_exp').DataTable({
+        "order": [
+            [5, "asc"]
+        ]
+    });
     $('#order-table_product').DataTable({
         "order": [
             [0, "desc"]

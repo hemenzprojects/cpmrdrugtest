@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+   
 
     <div class="row"> 
         <div class="col-md-4">
@@ -240,7 +241,7 @@
                                           
                                       </div>
                                       <label class="custom-control custom-checkbox">
-                                      <input type="checkbox"  name="product_id[]" class="custom-control-input method_applied" value="{{$inprogress->id}}">
+                                      <input type="checkbox" id="" name="product_id[]" class="custom-control-input method_applied" value="{{$inprogress->id}}">
                                           <span class="custom-control-label"></span>
                                       </label>
                                   </div>
@@ -255,7 +256,7 @@
                          
                   </div>
                   <span style="padding: 10px;color:#007bff">
-                      <button type="submit" class="badge badge-success">Send</button>
+                      <button type="submit" onclick="return confirm('Please make sure selected products completes experiment proccess before sending. Thank you')" class="badge badge-success">Send</button>
                       <a href="" class="text-dark" style="float: right; ">View all</a>
                   </span>
               </div>
@@ -331,7 +332,7 @@
 
               </div>
               <span style="padding: 10px;color:#007bff">
-               <a href="" class="text-dark" style="float: right; ">View all</a>
+              <a href="{{route('admin.pharm.animalexperimentation.testconducted')}}" class="text-dark" style="float: right; ">View all</a>
               </span>
               </div>
           
@@ -473,8 +474,11 @@
                                             <div class="form-group"> 
                                                 <select class="form-control select2" name="method_of_admin[]" style="width:170px">
                                                     <option value="{{$product->method}}">{{$product->animal_method}}</option>                                                     
-                                                    <option value="1">Intravenous </option>
-                                                    <option value="2">Intramuscular </option>
+                                                    <option value="1">Oral</option><option value="2">Subcutanious</option>
+                                                    <option value="3">Intradermal</option>
+                                                    <option value="4">Intra Veinous</option>
+                                                    <option value="5">Applied Topical</option>
+                                                    <option value="6">Applied Topical & Intrademal</option>
                                                 </select>
                                                 </div>
                                         
@@ -488,10 +492,19 @@
 
                                         <td class="font" >
                                                                                                                     
-                                        <div class="form-group"> 
-                                        <select class="form-control select2 toxicity1" name="toxicity[]" style="width:170px">
+                                        <div class="form-group">
+                                            <ul><li style="font-size:10p"> @foreach ($product['toxicity'] as $itm) 
+                                                {{$itm}}  
+                                              @endforeach 
+                                            </li></ul> 
+                                        <select class="form-control select2 toxicity1" name="toxicity[{{$loop->index}}][]" multiple style="width:170px">
+                                            <option selected>
+                                                @foreach ($product['toxicity'] as $itm) 
+                                                {{$itm}}  
+                                              @endforeach 
+                                        </option>
                                         @foreach (\App\PharmToxicity::all() as $toxicity)  
-                                        <option  value="{{$toxicity->id}}" {{$product->toxicity == $toxicity->id? "selected":""}}>
+                                        <option  value="{{$toxicity->name}}" {{$product->toxicity == $toxicity->id? "selected":""}}>
                                             {{$toxicity->name}}
                                         </option>  
                                         @endforeach                                                

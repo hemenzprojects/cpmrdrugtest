@@ -323,7 +323,7 @@ class PharmController extends Controller
                 
             ]);
            
-            $toxicity = array_values($r->toxicity);
+               $toxicity = array_values($r->toxicity);
               if ($r->animalmodel) {
                 for ($i=0; $i < count($r->animalmodel); $i++) { 
                   
@@ -335,7 +335,7 @@ class PharmController extends Controller
                   'volume'=>$r->volume_given[$i],
                   'time_administration'=>$r->time_administration[$i], 
                   'death'=>$r->death[$i], 
-                  'toxicity'=>json_encode($toxicity[$i]),
+                  'toxicity'=>serialize($toxicity[$i]),
                   'sex'=>$r->sex[$i],
                   'method'=>$r->method_of_admin[$i],
                   'group'=>$r->group,
@@ -411,7 +411,7 @@ class PharmController extends Controller
              }
 
              public function edit_animaltest($id){
-
+            
                 $product = Product::where('id',$id)->where("pharm_process_status", 5)->get();
               if (count($product) < 1) {
                 Session::flash('message_title', 'error');
@@ -425,14 +425,15 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 3);
               })->with('samplePreparation')->whereHas("samplePreparation")->get();
 
-              $data['exp_inprogress'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
+              $data['exp_inprogress'] = Product::where('pharm_experiment_by',Auth::guard('admin')->id())->where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 3);
               })->with('samplePreparation')->whereHas("samplePreparation")->with('animalExperiment')->whereHas("animalExperiment")->get();
 
-             $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 8);
+              $data['completed_reports'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
                 })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(100)->get();
-                
+
+              
 
               $data['editexperiment'] = Product::where('id',$id)->where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 2)->where("status", 3);
@@ -445,13 +446,12 @@ class PharmController extends Controller
              }
 
              public function update_animaltest(Request $r, $id){
-
-              
+              //  dd($r->all());
+              $toxicity = array_values($r->toxicity);
               if ($r->product_id == $r->oldproduct_id ) {
               
                 $deleteData=PharmAnimalExperiment::where('product_id',$r->oldproduct_id); 
                 $deleteData->delete(); 
-  
                 if ($r->animalmodel) {
                   for ($i=0; $i <  count($r->animalmodel); $i++) { 
   
@@ -463,7 +463,7 @@ class PharmController extends Controller
                       'volume'=>$r->volume_given[$i],
                       'time_administration'=>$r->time_administration[$i], 
                       'death'=>$r->death[$i], 
-                      'toxicity'=>$r->toxicity[$i],
+                      'toxicity'=>serialize($toxicity[$i]),
                       'sex'=>$r->sex[$i],
                       'method'=>$r->method_of_admin[$i],
                       'group'=>$r->group,
@@ -557,8 +557,8 @@ class PharmController extends Controller
 
                 public function pharmreport_create(Request $r, $id){
                
-                // dd($r->all(),$id);
-                
+                //  dd($r->all());
+                 $date_analysed = (\Carbon\Carbon::parse($r->date_analysed));
                  if ($r->date_analysed > \Carbon\Carbon::now()) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Please check date field. Date must not exceed todays date');
@@ -577,7 +577,7 @@ class PharmController extends Controller
                     $product->pharm_standard = $r->pharm_standard;
                     $product->pharm_analysed_by = Auth::guard('admin')->id();
                     $product->pharm_grade = $r->pharm_grade;
-                    $product->pharm_dateanalysed = $r->date_analysed;
+                    $product->pharm_dateanalysed = $date_analysed;
                     $product->update();
 
              

@@ -96,7 +96,7 @@
             sideBySide: true
         });
         $('#datepicker').datetimepicker({
-            format: 'L'
+            format: 'dd/mm/yyyy'
         });
         $('#timepicker').datetimepicker({
             format: 'LT'

@@ -48,7 +48,7 @@
             </div><br>
             <div class="dt-responsive">
                
-                <table id="#order-table1" class="table table-striped table-bordered nowrap">
+                <table id="order-table_exp" class="table table-striped table-bordered nowrap">
                 
                   
                 <thead>
@@ -64,7 +64,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($all_exp_conducteds as $all_exp_conducted)
+                    @foreach($all_exp_conducteds->sortByDesc('created_at') as $all_exp_conducted)
                     
                     <tr style="background-color: #fff">
                        
@@ -95,13 +95,8 @@
                             @endforeach                    
                         </td> 
                         <td class="font">
-                            @if (count($all_exp_conducted->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                                    
-                            Nill
-                        @endif
-
-                        @foreach ($all_exp_conducted->animalExperiment->where('death',1)->groupBy('death') as $item)
-                        {{count($item)}}
+                        @foreach ($all_exp_conducted->animalExperiment as $item)
+                        {{($item->death)}}
                         @endforeach 
                         </td> 
                         <td class="font">

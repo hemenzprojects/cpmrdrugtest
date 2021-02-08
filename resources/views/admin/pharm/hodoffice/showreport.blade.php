@@ -32,8 +32,8 @@
                                         
                                 </tr>
                                 <tr>
-                                    <td class="font"><strong>Date of Report:</strong></td> 
-                                    <td class="font">{{$pharmreports->pharm_dateanalysed}}</td>
+                                    <td class="font"><strong>Date Analyzed:</strong></td> 
+                                    <td class="font">{{Carbon\Carbon::parse($pharmreports['pharm_dateanalysed'])->format('d/m/Y')}}</td>
                                 </tr>
                                 <tr>
                                     <td class="font"><strong>Test Conducted</strong></td>
@@ -139,7 +139,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
+                                        <td>
+                                          
+                                            
+                                        </td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -245,7 +248,11 @@
                                         <tr>
                                             <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                                             <td  class="font">
-                                            
+                                                @foreach ($pharmreports->animalExperiment as $value)
+                                                @foreach ($value['toxicity'] as $item)   
+                                                    {{$item}}
+                                               @endforeach
+                                              @endforeach
                                             </td>
                                         </tr>
                                         <tr>
@@ -327,7 +334,7 @@
                                                     <td class="font"><strong>Route of Administration</strong></td> 
                                                     <td  class="font">
                                                         @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
-                                                       {{ucfirst($item->animal_method)}}
+                                                       {{ucfirst($item->animal_method)}},
                                                         @endforeach
                                                     </td>
                                                 </tr>
@@ -366,7 +373,11 @@
                                                 <tr>
                                                     <td class="font"><strong>Phisical Sign of Toxicity</strong></td> 
                                                     <td  class="font">
-                                                    
+                                                        @foreach ($pharmreports->animalExperiment as $value)
+                                                        @foreach ($value['toxicity'] as $item)   
+                                                            {{$item}}
+                                                       @endforeach
+                                                      @endforeach
                                                     </td>
                                                 </tr>
                                                 <tr>

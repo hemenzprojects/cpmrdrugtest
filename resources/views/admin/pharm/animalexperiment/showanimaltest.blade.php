@@ -55,7 +55,7 @@
 
             <div class="row">
                 <div class="col-12 table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" >
                         <thead>
                             <tr>
                                 <thead>
@@ -85,7 +85,12 @@
                                 <td class="font">{{$product->dosage}}</td>
                                 <td class="font">{{$product->animal_method}}</td>
                                 <td class="font">{{$product->time_administration}}</td>
-                                <td class="font">{{$product->toxicity}}</td>
+                                <td class="font">
+                      
+                                @foreach ($product['toxicity'] as $itm)             
+                                <li class="">{{$itm}}</li>
+                                @endforeach
+                                </td>
                                 <td class="font">{{$product->no_death}}</td>
                                 <td class="font">{{$product->time_death}}</td>
                                 <td class="font">{{$product->animal_sex}}</td>

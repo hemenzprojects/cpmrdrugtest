@@ -9,7 +9,7 @@ class Product extends Model
 {
     protected $fillable = ['name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by',
-    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_appoved_by','pharm_analysed_by','pharm_hod_remarks',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_appoved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
     'phyto_overall_status','phyto_hod_evaluation','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
 
     // public static function completedReports()
@@ -210,7 +210,8 @@ class Product extends Model
 
     public function animalExperimentation()
     {
-        return $this->belongsToMany('App\PharmTestConducted', "pharm_animal_experiments", 'product_id', 'pharm_testconducted_id');
+        return $this->belongsToMany('App\PharmTestConducted', "pharm_animal_experiments", 'product_id', 'pharm_testconducted_id')
+        ->withPivot([ 'death']);
     }
     public function animalExperiment()
     {

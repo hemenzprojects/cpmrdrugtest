@@ -11,6 +11,9 @@ class PharmAnimalExperiment extends Model
     
     //******* pharm animal models */
 
+    public function getToxicityAttribute($val){
+      return unserialize($val);
+    }
     public function animalToxicity()
     {
         return $this->belongsTo('App\PharmToxicity', 'toxicity');
@@ -25,7 +28,7 @@ class PharmAnimalExperiment extends Model
     //     if ($this->animal_model ==3) {
     //         return 'AD Mouse';
     //     }   
-    //  }
+//  }
      public function getNoDeathAttribute(){
         if ($this->death ==1) {
             return 'yes';

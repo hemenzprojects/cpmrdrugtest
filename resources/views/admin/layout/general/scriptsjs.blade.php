@@ -693,10 +693,10 @@ console.log(spvolume);
 $('#toxicity1').change(function(){
   if($(this).is(':checked')){
     console.log('cc')
-    $('select[tag]').val('18').trigger('change') 
+    $('select[tag]').val('Nill').trigger('change') 
 
   }else{
-    $('select[tag]').val('1').trigger('change')
+    $('select[tag]').val('No Sign').trigger('change')
     console.log('mm')
   }
 })

@@ -811,8 +811,8 @@ class MicroController extends Controller
             $data['from_date'] = "2020-01-01";
             $data['to_date'] = now();
             
-           $data['pending_products'] = Product::where('micro_hod_evaluation', '<', 2)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",1)->where('status','>',1)->where('status','<',4);
+           $data['pending_products'] = Product::where('micro_hod_evaluation', '<', 2)->orwhere('micro_hod_evaluation',Null)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",1);
             })->get();
             $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id",1)->where('status','>',1)->where('status','>',2);

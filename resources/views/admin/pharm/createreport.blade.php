@@ -30,9 +30,17 @@
                                 @endforeach
                             </td>
                         </tr>
-                        <tr>
+                        <tr>                                    
+
                             <td class="font"><strong>Date of Report:</strong></td> 
-                            <td class="font"><input class="form-control" required type="date" name="date_analysed" value="{{$pharmreports->pharm_dateanalysed}}" style="width:250px"></td>
+                            <td class="font">
+                                <div>
+                                   
+                                <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="" placeholder=" {{Carbon\Carbon::parse($pharmreports['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
+
+                                </div>
+                             {{-- <input class="form-control" required type="date" name="date_analysed" data-date-format="DD-MM-YYYY"  style="width:250px"> --}}
+                            </td>
                         </tr>
                         <tr>
                             <td class="font"><strong>Test Conducted</strong></td>
@@ -251,30 +259,21 @@
                                     <tr>
                                         <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                                         <td  class="font">
-                                                <?php
-                                                foreach ($pharmreports->animalExperiment as $value) {
-                                                    $orig = $value->toxicity;
-                                                   $items = json_decode($orig);
-                                                }
-                                                    foreach ($items as $item) {
-                                                    echo $item, "\n";
-                                                    }
-                                                    
-                                                   for ($i=0; $i < count($pharmreports->animalExperiment) ; $i++) 
-                                                   { 
-                                                      $item = $pharmreports->animalExperiment[$i]->toxicity;
-                                                     
-                                                    //  echo $value = json_decode($item);
-                                                   }
-                                                   
-                                                ?>
-                                       
+                                            <ul class="list-group">
+                                            @foreach ($pharmreports->animalExperiment as $item)
+                                            @foreach ($item['toxicity'] as $itm)             
+                                            <li class="">{{$itm}}</li>
+                                            @endforeach
+                                             @endforeach
+                                            </ul>
                                         </td>
+
+                                       
                                     </tr>
                                     <tr>
                                         <td>
                                         </td>
-                                        <td></td>
+                                    <td> <a  style="font-size:10px" href="{{route('admin.pharm.animalexperimentation.testconducted')}}">View Detail</a></td>
                                     </tr>
                                 </tbody>
                             </table>  
@@ -365,7 +364,7 @@
                                     <td class="font"><strong>Route of Administration</strong></td> 
                                     <td  class="font">
                                         @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
-                                    {{ucfirst($item->animal_method)}}
+                                    {{ucfirst($item->animal_method)}},
                                         @endforeach
                                     </td>
                                 </tr>
@@ -402,11 +401,13 @@
                                 </tr>
                                
                                 <tr>
-                                    <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
-                                    <td  class="font">
-                                        {{-- @foreach ($pharmreports->animalExperiment->unique('toxicity')->where('toxicity', '!=', 18) as $item)     
-                                        {{$item->animalToxicity->name}} ,
-                                        @endforeach --}}
+                                    <td class="font"  ><strong>Physical Sign of Toxicity</strong></td> 
+                                    <td  class="font">  
+                                            @foreach ($pharmreports->animalExperiment as $item)
+                                            @foreach ($item['toxicity'] as $itm)             
+                                            {{$itm}}
+                                            @endforeach
+                                             @endforeach                                  
                                     </td>
                                 </tr>
                                 <tr>

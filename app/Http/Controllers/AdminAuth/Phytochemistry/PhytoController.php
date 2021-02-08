@@ -596,7 +596,7 @@ class PhytoController extends Controller
           
              $data['report_id'] = $id; 
 
-              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->with('departments')->whereHas("departments", function($q){
+              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->orwhere('micro_hod_evaluation',Null)->with('departments')->whereHas("departments", function($q){
                return $q->where("dept_id", 3)->where("status",4);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
              ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
