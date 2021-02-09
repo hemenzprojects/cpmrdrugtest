@@ -51,7 +51,7 @@ class CreateProductsTable extends Migration
             $table->integer('pharm_process_status')->default(1)->nullable()->comment('begins from (3-animal experiment)');
             $table->integer('pharm_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
             $table->text('pharm_hod_remarks')->nullable();
-            $table->text('pharm_result')->default('Experimental (Animal Model) in groups 1 and 2 that received 0.1ml (Route of administration) of the (product type) dissolved in glycerol at 1% and 5% w/v respectively, showed  at the site of injection. This indicates that even at a high level of 5% w/v the (product type) did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.')->nullable();
+            $table->text('pharm_result')->nullable();
             $table->text('pharm_comment')->nullable();
             $table->text('pharm_standard')->nullable();
             $table->date('pharm_dateanalysed')->nullable();
