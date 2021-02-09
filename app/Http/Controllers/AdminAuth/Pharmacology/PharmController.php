@@ -430,7 +430,7 @@ class PharmController extends Controller
               })->with('samplePreparation')->whereHas("samplePreparation")->with('animalExperiment')->whereHas("animalExperiment")->get();
 
               $data['completed_reports'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 7);
+                return $q->where("dept_id", 2)->where("status",'>', 6);
                 })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(100)->get();
 
               
@@ -489,7 +489,7 @@ class PharmController extends Controller
 
              public function animalexperiment_recordbook(){
 
-             $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(200)->get();
+             $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(500)->get();
              
               return View('admin.pharm.animalexperiment.recordbook',$data);
              }
