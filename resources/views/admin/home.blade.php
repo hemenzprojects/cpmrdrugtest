@@ -293,7 +293,7 @@
                          <div class="d-flex justify-content-between align-items-center">
                              <div class="state">
                                  <h6>Pending Products </h6>
-                                 <h2> {{count($pharm_products)}}
+                                 <h2> {{count($pharm_animalexp_products)}}
                                  </h2>
                              </div>
                              <div class="icon">

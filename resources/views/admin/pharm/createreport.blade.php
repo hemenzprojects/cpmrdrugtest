@@ -494,9 +494,13 @@
                    
                     <div class="col-sm-3">
                         @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
-                        <button onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-success pull-right" id="pharm_submit_report" >
-                        <i class="fa fa-credit-card"></i> 
+                        <button  type="submit" class="btn btn-success pull-right pharmsubmitreport1" id="pharm_submit_report" >
+                        <i class="fa fa-credit-card "></i> 
                         Save Report
+                        </button>
+                        <button style="display: none" onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-info pull-right pharmsubmitreport2" id="pharm_submit_report" >
+                            <i class="fa fa-credit-card " ></i> 
+                            Submit Report
                         </button>
                         @endif
                         @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
@@ -508,7 +512,7 @@
                         @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
                         <div class="form-check mx-sm-2">
                             <label class="custom-control custom-checkbox">
-                                <input type="checkbox" name="complete_report" value="1" class="custom-control-input">
+                                <input id="pharmsubmitreport" type="checkbox" name="complete_report" value="1" class="custom-control-input">
                                 <span class="custom-control-label">&nbsp;Check to complete report </span>
                             </label>
                         </div>

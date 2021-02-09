@@ -875,7 +875,7 @@ class PharmController extends Controller
            
               $data['product_types'] = \App\ProductType::all();
   
-              $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->with("departments")->whereHas("departments", function($q){
+              $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->orwhere('pharm_hod_evaluation',Null)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id",2)->where('status','>',1)->where('status','<',8);
               })->get();
               $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){

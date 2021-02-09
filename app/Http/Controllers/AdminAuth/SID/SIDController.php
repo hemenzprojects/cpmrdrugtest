@@ -780,7 +780,7 @@ class SIDController extends Controller
           })->get();
 
           $data['pharm_pendingproduct'] = Product::whereHas("departments", function ($q) use ($data) {
-              return $q->where("dept_id", 2)->where("status", '<',8);
+              return $q->where("dept_id", 2)->where("status", '<',8)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
 
           $data['pharm_completedproduct'] = Product::where('pharm_hod_evaluation', 2)    
@@ -795,7 +795,7 @@ class SIDController extends Controller
      
           //*************************************************Animal House ************************** */
 
-          $data['pharm_products'] = Product::where('pharm_process_status',4)->whereHas("departments", function ($q) use ($data) {
+          $data['pharm_animalexp_products'] = Product::where('pharm_process_status',4)->whereHas("departments", function ($q) use ($data) {
             return $q->where("dept_id", 2)->where("status",3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
 
