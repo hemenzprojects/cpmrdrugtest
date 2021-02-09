@@ -294,7 +294,7 @@
          <div class="col-md-8">
           <div class="card" style="padding: 2%">
             @if (\App\Product::find($pharmreports->id)->pharm_standard !== Null )
-                <textarea style="font-size: 16px" class="form-control" rows="8" name="pharm_standard" >{{$pharmreports->pharm_standard}}
+                <textarea style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" >{{$pharmreports->pharm_standard}}
                 </textarea> 
             @endif
 
@@ -303,9 +303,13 @@
             @endif
 
             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
-
-                <textarea style="font-size: 16px" class="form-control" rows="6" name="pharm_result" >{{$pharmreports->pharm_result}}
+                 @if ($pharmreports->pharm_result ===Null)
+                 <textarea class="form-control" style="font-size: 16px"name="pharm_result" rows="10">Experimental (Animal Model) in groups 1 and 2 that received 0.1ml (Route of administration) of the (product type) dissolved in glycerol at 1% and 5% w/v respectively, showed  at the site of injection. This indicates that even at a high level of 5% w/v the (product type) did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.</textarea> 
+                 @endif
+                 @if ($pharmreports->pharm_result !== Null)
+                <textarea style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
                 </textarea> 
+                @endif
             </div>       
                 <div class="card" style="padding: 2%">
                     
