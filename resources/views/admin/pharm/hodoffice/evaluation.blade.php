@@ -111,7 +111,7 @@
                                 <th>#</th>
                                 <th>Product</th>
                                 <th>Test conducted</th>
-                                <th>Assigned To</th>
+                                <th>Assigned</th>
                                 <th>Evaluation</th>
                                 <th>Date Analysed</th>  
                                 <th>Date Submited</th> 
@@ -132,7 +132,7 @@
                                 <td class="font">
                                     <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$evaluation->id}}" title="View Experiment" href=""></i>  
                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
-                                    {{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}}
+                                       {{$evaluation->productType->code}}|{{$evaluation->id}}|{{$evaluation->created_at->format('y')}}
                                     </span>
 
                                     </a>
@@ -155,7 +155,10 @@
                                         </span>
                                        @endforeach
                                     </li>
+                                    <strong>Aproved By</strong>
+                                    <li>{{{\App\Admin::find($evaluation->pharm_appoved_by)->full_name}}}</li>
                                 </td>
+                                
                                 <td class="font">{!! $evaluation->hod_pharm_evaluation !!}</td>
                                 <td class="font">{{$evaluation->pharm_dateanalysed}}</td>
                                 <td class="font">{{$evaluation->updated_at->format('d/m/Y')}}</td>

@@ -94,9 +94,9 @@ class Product extends Model
     public function getProductStatusAttribute()
     {
         if ($this->pivot->status === 1) {
-           return '<td><label class="badge badge-danger">PENDING</label></td>';
+           return '<td><label class="badge badge-danger">Pending</label></td>';
         }elseif ($this->pivot->status === 2) {
-            return '<td><label class="badge badge-success">RECEIVED</label></td>';
+            return '<td><label class="badge badge-success">Received</label></td>';
         }
         elseif ($this->pivot->status === 3) {
             return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
