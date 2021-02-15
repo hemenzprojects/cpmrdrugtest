@@ -11,9 +11,10 @@
                 <div class="w3ls-subscribe">
                     <h4 >New User </h4>
 
-                    <form method="POST" action="{{ route('admin.register.store') }}">
+                    <form method="POST" action="{{ route('admin.register.store') }}" enctype="multipart/form-data">
                     @csrf
                      
+                    <input type="hidden" name="userprofile_create">
 
                     <div class="">
                         <div class="input-group mb-2 mr-sm-2">
@@ -119,17 +120,17 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">User Type </div>
                             </div>
-                            <select required name="user_type" style="" class="form-control select2">
+                            <select required name="user_type_id" style="" class="form-control select2">
                                 <option value="">Select User Type</option>
                                 @foreach($user_types as $user_type)
                                             
-                                <option  value="{{$user_type->id}}" {{$user_type->id == old('user_type')? "selected":""}}>{{$user_type->name}}</option>
+                                <option  value="{{$user_type->id}}" {{$user_type->id == old('user_type_id')? "selected":""}}>{{$user_type->name}}</option>
         
                                 @endforeach
                             </select>
                         </div>
                         <div>
-                            @error('user_type')
+                            @error('user_type_id')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </small>
@@ -193,7 +194,19 @@
                         @endif
                     
                     </div>
-
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Sign</div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label for="exampleInputName1"></label><br>
+                                <input type="file" name="select_file" />
+                                <img src="" class="" width="25%">
+                            <span class="text-muted"> jpg, png, gif</span>
+                            </div>
+                        </div>
+                    </div>
                 
                     <div class="">
                         <div class="input-group mb-2 mr-sm-2">
@@ -260,8 +273,8 @@
                                     <td class="font">{{$admin->full_name}}</td>
                                     <td class="font">{{$admin->tell}}</td>
                                     <td class="font">{{$admin->email}}</td>
-                                    <td class="font">{{App\Department::find($admin->dept_id)->name}}</td>
-                                    <td class="font">{{App\UserType::find($admin->user_type_id)->name}}</td>
+                                    <td class="font">{{App\Department::find($admin->dept_id)? App\Department::find($admin->dept_id)->name:'null'}}</td>
+                                    <td class="font"> {{App\UserType::find($admin->user_type_id)? App\UserType::find($admin->user_type_id)->name:'null'}} </td>
 
                                     <td class="font">
                                     <div class="table-actions">

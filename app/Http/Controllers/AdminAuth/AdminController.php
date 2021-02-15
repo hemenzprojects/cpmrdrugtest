@@ -31,7 +31,8 @@ class AdminController extends Controller
 
         $id = Auth::guard('admin')->id();
         $data['user']  = Admin::where('id',$id)->first();
-        
+        $data['depts'] = \App\Department::all();
+
         return view('admin.auth.profile',$data);
 
     }
@@ -52,6 +53,7 @@ class AdminController extends Controller
             $user->sign_url = $filePath;
         }
             $user->save();
+            
             Session::flash("message", "Profile updated successfully");
             Session::flash("message_title", "success");
             return redirect()->back();
@@ -88,5 +90,29 @@ class AdminController extends Controller
         Session::flash('message', 'Password changed successfully.');
         return redirect()->back();
     }
+
+    public function updateprofile_admin(Request $r, $id){
+        $user = Admin::find($id);
+        $data = $r->validate([
+            'first_name' => 'required|max:255|min:3',
+            'last_name' => 'required|max:255|min:3',
+            'email' => 'required|email|unique:users,email,'.$user->id.',id',
+            'tell' => 'required',
+        ]);
+
+        $data = ([
+        'title' => $r->title,
+        'first_name' => $r->first_name,
+        'last_name' => $r->last_name,
+        'sign_url' => $r->sign_url,
+        'email' => $r->email,
+        'tell' => $r->tell,
+        ]);  
+
+        Admin::where('id',$id)->update($data);
+        Session::flash("message", "User Successfully updated.");
+        Session::flash("message_title", "success");
+        return redirect()->back();
+  }
 
 }

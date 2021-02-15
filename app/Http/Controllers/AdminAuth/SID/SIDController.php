@@ -1174,17 +1174,17 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
-
+ 
         $data['depts'] = \App\Department::all();
         $data['user_types'] = \App\UserType::all();
         $data['dept_offices'] = \App\DeptOffice::all();
-        $data['admins'] = Admin::all();
+         $data['admins'] = Admin::all();
         return view('admin.auth.createadmin',$data);
         
     }
 
     public function registeradmin_store(Request $r){
-        // dd($r->all());
+  
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(24)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -1199,15 +1199,25 @@ class SIDController extends Controller
             'email' => 'required|email|max:255|unique:admins',
             'password' => 'required|min:6|confirmed',
         ]);
-    
+        if ($r->has('select_file')) {
+            $image = $r->file('select_file');
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $folder = '/admin/img/';
+            $filePath = $folder . $new_name;
+            
+            $image->move(public_path('admin\img'), $new_name); 
+            $r->sign_url = $filePath;
+        }
+         
         $data = ([
             'title' => $r->title,
             'first_name' => $r->first_name,
             'last_name' => $r->last_name,
             'position' => $r->position,
             'dept_id' => $r->dept_id,
-            'user_type_id' => $r->user_type,
+            'user_type_id' => $r->user_type_id,
             'dept_office_id' => $r->dept_office_id,
+            'sign_url' => $r->sign_url,
             'tell' => $r->tell,
             'email' => $r->email,
             'password' => bcrypt($r->password),
@@ -1215,7 +1225,6 @@ class SIDController extends Controller
 
 
         Admin::create($data);
-        Product::create($data);
         Session::flash("message", "User Successfully Created.");
         Session::flash("message_title", "success");
         return redirect()->back();
@@ -1283,41 +1292,58 @@ class SIDController extends Controller
         return view('admin.auth.editadmin',$data);
     }
 
-    public function user_updateadmin(Request $r, $id){
+
+
+       public function user_updateadmin(Request $r, $id){
+        //    dd($r->all());
+         $user = Admin::find($id);
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(24)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
+        }
 
-        } 
-    //  dd($r->all(), $id);
-     $data = $r->validate([
-        'title' => 'required',
-        'first_name' => 'required|max:255|min:3',
-        'last_name' => 'required|max:255|min:3',
-        'dept_id' => 'required',
-        'position' => 'required',
-        'email' => 'required',
-        'user_type' => 'required',
-        'dept_office_id' => 'required',
-        'tell' => 'required',
-    ]);
+            $data = $r->validate([
+                'title' => 'required',
+                'first_name' => 'required|max:255|min:3',
+                'last_name' => 'required|max:255|min:3',
+                'dept_id' => 'required',
+                'position' => 'required',
+                'email' => 'required|email|unique:users,email,'.$user->id.',id',
+                'user_type_id' => 'required',
+                'dept_office_id' => 'required',
+                'tell' => 'required',
+            ]);
 
-    $data = ([
-        'title' => $r->title,
-        'first_name' => $r->first_name,
-        'last_name' => $r->last_name,
-        'position' => $r->position,
-        'dept_id' => $r->dept_id,
-        'user_type_id' => $r->user_type,
-        'dept_office_id' => $r->dept_office_id,
-        'tell' => $r->tell,
-     
-    ]);
-    Admin::where('id',$id)->update($data);
+            if ($r->has('select_file')) {
+                $image = $r->file('select_file');
+                $new_name = rand() . '.' . $image->getClientOriginalExtension();
+                $folder = '/admin/img/';
+                $filePath = $folder . $new_name;
+                
+                $image->move(public_path('admin\img'), $new_name); 
+                $r->sign_url = $filePath;
+        
+        
+                  $data = ([
+                'title' => $r->title,
+                'first_name' => $r->first_name,
+                'last_name' => $r->last_name,
+                'position' => $r->position,
+                'dept_id' => $r->dept_id,
+                'user_type_id' => $r->user_type_id,
+                'sign_url' => $r->sign_url,
+                'dept_office_id' => $r->dept_office_id,
+                'tell' => $r->tell,
+             
+            ]);
+            }
+             
+            Admin::where('id',$id)->update($data);
 
-    Session::flash("message", "User Successfully updated.");
-    Session::flash("message_title", "success");
-    return redirect()->back();
-    }
+
+        Session::flash("message", "User Successfully updated.");
+        Session::flash("message_title", "success");
+        return redirect()->back();
+}
 }

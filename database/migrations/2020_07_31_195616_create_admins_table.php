@@ -17,17 +17,17 @@ class CreateAdminsTable extends Migration
             $table->string('title');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('position');
+            $table->string('position')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('img_url')->default('assets/img/users/user.png');
             $table->string('sign_url')->nullable();
-            $table->string('dept_id');
+            $table->string('dept_id')->nullable();
             $table->string('tell')->nullable();
             $table->string('street_address')->nullable();
             $table->string('house_number')->nullable();
-            $table->integer('user_type_id');
-            $table->integer('dept_office_id');
+            $table->integer('user_type_id')->nullable();
+            $table->integer('dept_office_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
 

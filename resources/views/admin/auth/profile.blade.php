@@ -37,10 +37,12 @@
     </div>
 </div> --}}
 
-
+     {{-- @foreach( $errors->all() as $error)
+        <li>{{$error}}</li>
+    @endforeach --}}
        <div class="row">
             <div class="col-md-6">
-                <form method="post" action="{{url('/admin/profile/uploadfile')}}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.profile.update',['id' => $user->id]) }}" enctype="multipart/form-data">
                     {{ csrf_field() }}    
                 <div class="card" style="min-height: 484px;">
                     <div class="card-header">
@@ -62,6 +64,20 @@
                     </div>
                     <div class="card-body">
                         <form class="forms-sample">
+                            <input type="hidden" name="userprofile_update">
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Title</div>
+                                </div>
+                                <select required class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}">
+                                    <option value="{{ $user->title}}">{{ $user->title}}</option>
+                                    <option value="Mr">Mr</option>
+                                    <option  value="Mrs">Mrs</option>
+                                    <option value="Miss">Miss</option>
+                                    <option value="Dr">Dr</option>
+                                    <option value="Prof">Prof</option>
+                                </select>
+                            </div>
                             <div class="form-group row">
                                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">First Name</label>
                                 <div class="col-sm-9">
@@ -86,7 +102,6 @@
                                 <div class="col-sm-9">
                                     <div class="form-group">
                                         <label for="exampleInputName1"></label><br>
-                                        <input type="file" name="select_file" />
                                         <img src="{{asset($user->sign_url)}}" class="" width="25%">
                                     <span class="text-muted"> jpg, png, gif</span>
                                     </div>
@@ -95,7 +110,7 @@
                             <div class="form-group row">
                                 <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Telephone</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="tel" placeholder="Telephone" value="{{$user->tell}}">
+                                    <input type="text" class="form-control" name="tell" placeholder="Telephone" value="{{$user->tell}}">
                                 </div>
                             </div>
                            

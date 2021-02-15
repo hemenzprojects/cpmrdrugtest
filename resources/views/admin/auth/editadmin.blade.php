@@ -11,8 +11,10 @@
                 <div class="w3ls-subscribe">
                     <h4 >New User </h4>
 
-                    <form method="POST" action="{{ route('admin.sid.user.update',['id' => $admin->id]) }}">
+                    <form method="POST" action="{{ route('admin.sid.user.update',['id' => $admin->id]) }}" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="userprofile_create">
+
                     <div class="">
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
@@ -117,12 +119,14 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">User Type </div>
                             </div>
-                            <select required name="user_type" style="" class="form-control select2">
+                            <select required name="user_type_id" style="" class="form-control select2">
+
                                 <option value="">Select User Type</option>
-                                <?php $admin_usertype = old('user_type')? old('user_type'): ($admin->type ? $admin->type->id: "");?>
+                                <?php $admin_usertype = old('user_type_id')? old('user_type_id'): ($admin->type ? $admin->type->id: "");?>
                                 @foreach($user_types as $user_type)
                                <option  value="{{$user_type->id}}" {{$admin_usertype == $user_type->id? "selected":""}}>{{$user_type->name}}</option>
                                 @endforeach
+
                             </select>
                         </div>
                         <div>
@@ -190,7 +194,24 @@
                     
                     </div>
                         
-                     
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Sign</div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label for="exampleInputName1"></label><br>
+                                <input type="file" name="select_file" />
+                            <span class="text-muted"> jpg, png, gif</span>
+                            </div>
+                            @if ($admin->sign_url !== Null)
+                            <img src="{{asset($admin->sign_url)}}" class="" width="50%">
+
+                            @endif
+
+                        </div>
+                    </div>
+
                          <div>
                             <button type="submit" value="Register" class="btn btn-primary mb-2">Update</button>
 
@@ -227,8 +248,9 @@
                                     <td class="font">{{$admin->full_name}}</td>
                                     <td class="font">{{$admin->tell}}</td>
                                     <td class="font">{{$admin->email}}</td>
-                                    <td class="font">{{App\Department::find($admin->dept_id)->name}}</td>
-                                    <td class="font">{{App\UserType::find($admin->user_type_id)->name}}</td>
+                                    <td class="font">{{App\Department::find($admin->dept_id)? App\Department::find($admin->dept_id)->name:'null'}}</td>
+                                    <td class="font"> {{App\UserType::find($admin->user_type_id)? App\UserType::find($admin->user_type_id)->name:'null'}} </td>
+
 
                                     <td class="font">
                                     <div class="table-actions">
