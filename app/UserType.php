@@ -11,4 +11,6 @@ class UserType extends Model
     {
         return $this->belongsToMany('App\AdminFeature',"admin_feature_types")->withPivot('enabled','updated_at');
     }
+
+
 }

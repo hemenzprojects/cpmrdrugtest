@@ -436,7 +436,7 @@
                 $hod_user_type = (\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->user_type_id:'');
 
                 ?>
-                <p>Analysed by</p><br>
+                <p>Analyzed by</p><br>
                 @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
                 <img src="{{asset(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
@@ -451,21 +451,19 @@
         <div class="col-sm-4 invoice-col">
             
          </div>
-           <div class="col-sm-4 invoice-col">
+         <div class="col-sm-4 invoice-col">
             <?php
             $pharm_finalappoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_finalappoved_by:'');
-            $hod_user_type = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
-
+            $user_type         = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
             ?>
-            <p>Approved by</p><br>
-            @if (\App\Product::find($pharmreports->id)->pharm_finalappoved_by !== Null)
+            <p>Approveed by</p><br>
+            @if (\App\Product::find($pharmreports->id)->pharm_finalappoved_by >null)
             <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
             @endif
-
-            ------------------------------<br> 
+            -----------------------------<br>
         
-        <span>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->full_name:'')}}</span>
-        <p>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->position:'')}}</p>
+            <span>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->full_name:'')}}</span>
+            <p>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->position:'')}}</p>
 
         </div> 
         </div>
@@ -475,12 +473,12 @@
           
             <div class="row" style="margin-top: 110px">
                 <div class="col-md-4">
-                    @if (\App\Product::find($report_id)->pharm_hod_evaluation <2)
+                    @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2 && \App\Product::find($report_id)->pharm_process_status ===6 ) 
                     <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>
                     @endif
                 </div>
                 <div class="col-md-8">
-                    @if (\App\Product::find($report_id)->pharm_hod_evaluation ===1) 
+                    @if (\App\Product::find($report_id)->pharm_process_status ===7) 
                     <div class="alert alert-danger" role="alert">
                         Report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  has been rejected.
                     </div>       
@@ -488,13 +486,6 @@
                 </div>
                   <div class="col-md-7" style="margin-right: 1%">
                       
-                      @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2) 
-                     <a href="{{ old('redirect_to', URL::previous())}}">
-                      <div class="alert alert-success" role="alert">
-                          Report succesfully analysed. Final report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  will be approved by the Hod. 
-                      </div>
-                     </a>
-                     @endif
                   
                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document"> 
@@ -505,7 +496,7 @@
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                   </div>
                                   <div class="modal-body">
-                                      <form  id="pharmhodapproveform" sign-user-url="{{route('admin.pharm.hod_office.checkhodsign')}}" action="{{route('admin.pharm.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
+                                      <form  id="pharmhodfinalapproveform" sign-user-url="{{route('admin.pharm.hod_office.finalapproval.checkhodsign')}}" action="{{route('admin.pharm.hod_office.finalapproval.evaluatereport',['id' => $report_id])}}" class="" method="POST">
                                           {{ csrf_field() }}
                                       <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
       
@@ -548,13 +539,12 @@
                       </div>
                     </div>
                 <div class="col-md-4">  
-                     @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2 && \App\Product::find($report_id)->pharm_process_status ===5 || \App\Product::find($report_id)->pharm_process_status ===7 ) 
+                    @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2 && \App\Product::find($report_id)->pharm_process_status ===8 ) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-
-                   <a onclick="return confirm('Consider the following before submitting report : 1.All report fields must be appropriately checked 2.submited Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" href="{{route('admin.pharm.hod_office.finalreport.send',['id' => $report_id])}}">
-                  <button type="button" class="btn btn-success pull-right"> Submit for final approval</button>
-                  </a>
+                  <a onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" target="_blank" href="{{url('admin/pharm/report/hod_office/complete_report',['id' => $report_id])}}">
+                  <button type="button" class="btn btn-success pull-right"> complete report</button>
+                 </a>
                   @endif
               </div>
             </div>

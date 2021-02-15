@@ -34,14 +34,21 @@ class AdminUserTypeTableSeeder extends Seeder
         'updated_at' => date("Y-m-d H:i:s")
     ]);
     DB::table('user_types')->insert([
-        'name'   =>  'Assistant Lab Technician ',
+        'name'   =>  'Assistant Lab Technologist ',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
     ]);
 
     DB::table('user_types')->insert([
-        'name'   =>  'Administrators',
+        'name'   =>  'Administrator',
+        'added_by_id'   =>  1,
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s")
+    ]);
+
+    DB::table('user_types')->insert([
+        'name'   =>  'Assistant Administrator',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")
@@ -49,7 +56,7 @@ class AdminUserTypeTableSeeder extends Seeder
 
     
     DB::table('user_types')->insert([
-        'name'   =>  'Assistant Administrators',
+        'name'   =>  'System Administrator',
         'added_by_id'   =>  1,
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s")

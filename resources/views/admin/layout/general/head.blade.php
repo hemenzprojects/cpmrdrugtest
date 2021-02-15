@@ -45,5 +45,15 @@
     .physicochem_4{
         display: none;
     }
+    .showstatus0{
+        display: none;
+    }
+    .showstatus1{
+        display: none;
+    }
+    .showstatus2{
+        display: none;
+    }
+ 
    </style>
 </head>

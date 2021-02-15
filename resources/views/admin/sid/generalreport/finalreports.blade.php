@@ -51,16 +51,21 @@
                  <button type="button" class="btn btn-outline-success btn-rounded"></i>Print Report</button>
                 </a>
                 </td>
-             <td class="font"> 
-                 
+             <td class="font">
+            
+              
                  <a  target="_blank" href="{{url('admin/sid/final_reports/show',['id' => $final_report->id])}}">
-                    <button type="button" class="btn btn-info"><i class="ik ik-share"></i>Print All</button>
-                </a>    
+                     <button type="button" class="btn btn-info"><i class="ik ik-share"></i>Print All</button>
+                 </a>
+                 
+                 {{$final_report}} 
+                    
             </td>
 
              </tr>
+           
              @endforeach
-             
+            
          </tbody>
          <tr>
             <th>#</th>

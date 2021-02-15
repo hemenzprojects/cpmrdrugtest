@@ -522,6 +522,24 @@ $(document).ready(function() {
 
 
     $('#simpletable').DataTable();
+
+    $('#hod_order-table1').DataTable({
+        "order": [
+            [1, "desc"]
+        ]
+    });
+
+    $('#hod_order-table2').DataTable({
+        "order": [
+            [1, "desc"]
+        ]
+    });
+    
+    $('#hod_order-table3').DataTable({
+        "order": [
+            [1, "desc"]
+        ]
+    });
     $('#order-table0').DataTable({
         "order": [
             [5, "asc"]
@@ -561,7 +579,7 @@ $(document).ready(function() {
     });
     $('#order-table3').DataTable({
         "order": [
-            [6, "desc"]
+            [5, "desc"]
         ]
     });
     $('#order-table_labs').DataTable({

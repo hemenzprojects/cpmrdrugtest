@@ -177,7 +177,7 @@
                     
                                                 </div>       
                                             </div>  
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <div class="input-group mb-2 mr-sm-2">
                                                    
                                                     <textarea type="text" class="form-control" id="exampleTextarea1" name="indication" placeholder="Indication" value="{{old('indication')? old('indication'): ''}}" rows="4">{{$p->indication}}
@@ -191,24 +191,51 @@
                                                     @enderror
                                                 </div>
                                              </div>
-                                            <div class="col-sm-3">
-                                                {{-- <label class="sr-only" for="inlineFormInputGroupUsername2">Amount</label>
+                                             <div class="col-md-3">
+                                                <label class="sr-only" for="inlineFormInputGroupUsername2">Receipt Num</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
-                                                        <div class="input-group-text"></div>
+                                                        <div class="input-group-text">Receipt No.</div>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" name="price" placeholder="Amount" value="{{old('price')? old('price'): $p->price}}">
+                                                <input required type="text" class="form-control" id="" name="receipt_num" placeholder="Receipt No." value="{{old('receipt_num')? old('receipt_num'): $p->receipt_num}}">
                                                 </div>
                                                 <div>
-                                                    @error('price')
+                                                    @error('receipt_num')
                                                     <small style="margin:15px" class="form-text text-danger" role="alert">
                                                         <strong>{{$message}}</strong>
                                                     </small>
                                                     @enderror
-                                                </div> --}}
-                                            </div>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-5">
+                                                <div class="row">
+                                                    @if ($p->micro_hod_evaluation == 2 || $p->pharm_hod_evaluation == 2|| $p->phyto_hod_evaluation == 2)
+
+                                                    <div class="col-md-6">
+                                                        <p>Please check approved lab(s)</p>
+                                                    </div>
+                                                     <div class="col-md-6" >
+                                                    
+                                                     <label class="custom-control custom-checkbox">
+                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == 2 ?'checked':''}}>
+                                                         <span class="custom-control-label">&nbsp;Microbiology</span>
+                                                     </label>
+                                                     <label class="custom-control custom-checkbox">
+                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == 2 ?'checked':''}}>
+                                                         <span class="custom-control-label">&nbsp; Pharmacology</span>
+                                                     </label>
+                                                     <label class="custom-control custom-checkbox">
+                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == 2 ?'checked':''}}>
+                                                         <span class="custom-control-label">&nbsp; Phytochemistry</span>
+                                                     </label>
+                                                 </div>
+                                                  @endif
+                                            
+                                                </div>                                              
+ 
+                                             </div>
                                             <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                                <button type="submit" class="btn btn-primary mb-2">Update Product</button>
 
                                             </div>
                                         </div>
@@ -239,7 +266,7 @@
                                 <div class="col-md-12">
                                   
 
-									 <table id="" class="table table-striped table-bordered nowrap dataTable">
+                                    <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable">
 									    <thead>
 									        <tr>
 									            <th>Code</th>
@@ -253,30 +280,55 @@
 									            
 									       </tr>
 									    </thead>
-									    <tbody>                                                
-                                            @foreach($products as $product)
+                                        <tbody>                                                
+                                            @foreach($products->sortBy('id') as $product)
                                             <tr>
-                                            <td class="font">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</td>
-                                            <td class="font">{{ucfirst($product->name)}}</td>
+                                            <td style="display: none">{{$product->id}}</td>
+                                            <td class="font">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                </span>
+                                                <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
+                                           </td>
+                                               <td class="font">{{ucfirst($product->name)}}
+                                                @if ($product->failed_tag)
+                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                                @endif
+                                            </td>
                                             <td class="font">{{$product->productType->name}}</td>
                                             <td class="font">{{$product->customer_name}}</td>
                                             <td class="font">{{$product->price}}</td>
                                             <td class="font">{{ucfirst($product->created_by)}}</td>
-                                            <td class="font">{{$product->created_at}}</td>
+                                            <td class="font">{{$product->created_at->format('Y / m / d')}}</td>
                                             <td>
                                                 <div class="table-actions">
-                                                    
-                                                        {!! $product->show_tag !!}
-                                                        @if ($product->overall_status <1)
-                                                        {!! $product->edit_tag !!}
-                                                        @endif
-                                                    <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
-                                                        <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
-                                                    </a>
+                                                {!! $product->show_tag !!}
+
+                                                @if ($product->overall_status <1)
+                                                {!! $product->edit_tag !!}
+                                                @endif
+                                                <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
+                                                <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
+                                                </a>
                                                 </div>
                                             </td>
 
                                             </tr>
+                                            <div class="modal fade" id="exampleModalCenter{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterLabel">Transactional Details</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                        </div>
+                                                       
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @endforeach
 									    </tbody>
 									</table>

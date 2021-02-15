@@ -296,7 +296,7 @@
                 @if ($product->overall_status == 2)
                 @if ($product->failed_final_grade)
                 <div class="card-body template-demo">
-                    <a   href="{{route('admin.sid.product.review', ['product' => $product])}}">
+                    <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
                     <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">REVIEW PRODUCT</button>
                     </a>
                 </div>  

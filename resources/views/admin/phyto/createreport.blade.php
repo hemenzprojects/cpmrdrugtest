@@ -369,7 +369,8 @@
 
                   <div class="col-md-6">
                     <h6 style="margin-top: 2%">Date Analysed</h6>
-                   <input type="date" required class="form-control" name="date_analysed">
+                    <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="" placeholder=" {{Carbon\Carbon::now()->format('d/m/Y')}}" style="width:250px">
+
 
                    <h6 style="margin-top: 5%"></h6>
                    <button type="submit" onclick="return confirm('Are sure of report submition')" class="btn btn-primary mr-2">Submit Report</button>

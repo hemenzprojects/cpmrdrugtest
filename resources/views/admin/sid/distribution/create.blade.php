@@ -9,7 +9,7 @@
                 {{-- <i class="ik ik-edit bg-blue"></i> --}}
                 <div class="d-inline">
                     <h5>Product Distribution</h5>
-                    <span>Please input required data in the field requested</span>
+                    <span>Please input required data in the field below</span>
                 </div>
             </div>
         </div>
@@ -19,8 +19,8 @@
                     <li class="breadcrumb-item">
                         <a href="../index.html"><i class="ik ik-home"></i></a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#">Forms</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Group Add-Ons</li>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product distribution</li>
                 </ol>
             </nav>
         </div>
@@ -241,7 +241,7 @@
                                                 <th>Product Type</th>
                                                 <th>Quantity</th>
                                                 <th>status</th>
-                                                <th style="display: none">status id</th>
+                                                <th class="showstatus"></th>
                                                 <th>Distributed by</th>
                                                 <th>Received by</th>
                                                 <th>Actions</th>                        
@@ -257,14 +257,12 @@
                                                       <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
 
                                                     </td>
-                                                    <td class="font">{{ucfirst($product->name)}}
-                                                        
-                                                    </td>
+                                                    <td class="font">{{ucfirst($product->name)}}</td>
                                                     
                                                     <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                     <td class="font">{{$product->pivot->quantity}}</td>
                                                     {!! $product->product_status !!}
-                                                    <td style="display: none">{{$product->pivot->status}}</td>
+                                                    <td class="showstatus"><span style="display: none">{{$product->pivot->status}}</span></td>
                                                     <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>
                                                     <td class="font">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</td>
                                                                             

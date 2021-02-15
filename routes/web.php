@@ -60,7 +60,7 @@
    Route::post('sid/product/update/{id}','AdminAuth\SID\SIDController@product_update');
 
    //products review Route
-   Route::get('sid/product/review/{product}','AdminAuth\SID\SIDController@review_product')->name('admin.sid.product.review');
+   Route::get('sid/product/review/{id}','AdminAuth\SID\SIDController@review_product')->name('admin.sid.product.review');
    Route::post('sid/product/review/create/{id}','AdminAuth\SID\SIDController@review_create');
 
 
@@ -103,9 +103,14 @@
    Route::group(['middleware'=>['sidepthod']],function(){
 
    Route::get('sid/config/admin/create','AdminAuth\SID\SIDController@create_admin')->name('admin.sid.config.user.create');
-   Route::post('admin/register', 'AdminAuth\SID\SIDController@registeradmin_store')->name('admin.register.store');
-   Route::get('admin/permisions', 'AdminAuth\SID\SIDController@user_permisions')->name('admin.sid.config.user.permissions');
+   Route::post('register', 'AdminAuth\SID\SIDController@registeradmin_store')->name('admin.register.store');
+   Route::get('permisions', 'AdminAuth\SID\SIDController@user_permisions')->name('admin.sid.config.user.permissions');
+   Route::get('permisions/edit/{id}', 'AdminAuth\SID\SIDController@user_permisions_edit')->name('admin.sid.config.user.permissions.edit');
+   Route::post('permissions/update', 'AdminAuth\SID\SIDController@permissions_update')->name('admin.permissions.update');
+   Route::get('sid/user/{id}/edit','AdminAuth\SID\SIDController@user_editadmin')->name('admin.sid.user.edit');
+   Route::post('sid/user/{id}/update','AdminAuth\SID\SIDController@user_updateadmin')->name('admin.sid.user.update');
 
+   
   });
 
     //************************************************************* Microbiology Route *******************************************************
@@ -231,10 +236,19 @@
    Route::Post('pharm/hod_office/editreport/{id}/', 'AdminAuth\Pharmacology\PharmController@hod_editreport');
 
    Route::get('pharm/report/hod_office/complete_report/{id}','AdminAuth\Pharmacology\PharmController@hod_complete_report')->name('admin.pharm.hod_office.complete_report');
+   Route::get('pharm/report/hod_office/finalreport_send/{id}','AdminAuth\Pharmacology\PharmController@hod_finalreport_send')->name('admin.pharm.hod_office.finalreport.send');
 
     //Pharmacology Hod Sign to Approve */
     Route::post('/pharm/hod_office/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodsign')->name('admin.pharm.hod_office.checkhodsign');
     Route::post('/pharm/hod_office/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_edit')->name('admin.pharm.hod_office.evaluatereport');
+
+    //Pharmacology Final Hod Sign to Approve */
+    Route::post('/pharm/hod_office/finalapproval/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodfinalapprovalsign')->name('admin.pharm.hod_office.finalapproval.checkhodsign');
+    Route::post('/pharm/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@finalhodevaluate_one_edit')->name('admin.pharm.hod_office.finalapproval.evaluatereport');
+
+
+  // Pharm final Hod Approval 
+    Route::get('pharm/hod_office/finalreport_show/{id}/', 'AdminAuth\Pharmacology\PharmController@hod_finalreport_show');
 
     });
 

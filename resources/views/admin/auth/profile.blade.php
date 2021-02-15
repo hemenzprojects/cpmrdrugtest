@@ -52,7 +52,9 @@
                                 <div class="page-header-title">
                                     <div class="d-inline">
                                         <h5>User Profile</h5>
-                                        <span>{{$user->full_name}} - {{\App\Department::find($user->dept_id)->name}} Department</span>
+                                        <span>{{$user->full_name}} - {{\App\Department::find($user->dept_id)->name}} </span>
+                                        <span>{{App\UserType::find($user->user_type_id)->name}}</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +203,7 @@
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td class="font">{{$permission->name}}</td>
-                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="btn-danger btn-xs">Disabled</span>' !!}</td>
+                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="badge badge-danger btn-xs">Disabled</span>' !!}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -240,7 +242,7 @@
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td class="font">{{$permission->name}}</td>
-                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="btn-danger btn-xs">Disabled</span>' !!}</td>
+                                    <td>{!! $permission->pivot->enabled?'<span class="badge badge-success btn-xs">Enabled</span>':'<span class="badge badge-danger btn-xs">Disabled</span>' !!}</td>
                                  </tr>
                             @endforeach
                         </tbody>

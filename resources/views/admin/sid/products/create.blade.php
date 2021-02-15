@@ -189,7 +189,7 @@
                                                     @enderror
                                                 </div>
                                              </div>
-                                             <div class="col-sm-2">
+                                             <div class="col-sm-3">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Amount Paid</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
@@ -204,8 +204,6 @@
                                                     </small>
                                                     @enderror
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-3">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Receipt Num</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
@@ -221,11 +219,35 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                            <div class="col-sm-5">
+                                               <div class="row">
+                                                <div class="col-md-5">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="check_singlelab" id="check_singlelab" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Single Labs</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-7 singlelab" style="display: none">
+                                                    <p>Please check approved lab(s)</p>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp;Microbiology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Pharmacology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Phytochemistry</span>
+                                                    </label>
+                                                </div>
+                                               </div>                                              
 
                                             </div>
                                         </div>
+
+                                        <button style="float: centre" type="submit" class="btn btn-primary mb-2">Create Product</button>
                                     </form>
                                     
                                      

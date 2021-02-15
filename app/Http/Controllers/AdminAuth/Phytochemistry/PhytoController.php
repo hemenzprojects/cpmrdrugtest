@@ -134,7 +134,8 @@ class PhytoController extends Controller
 
             public function makereport_create(Request $r){
               
-
+              $date_analysed = (\Carbon\Carbon::parse($r->date_analysed));
+  
               if ($r->date_analysed > \Carbon\Carbon::now()) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please check date field. Date must not exceed todays date');
@@ -247,7 +248,7 @@ class PhytoController extends Controller
                 }
               $product = $products->first();
               $product->phyto_comment = $r->comment;
-              $product->phyto_dateanalysed = $r->date_analysed;
+              $product->phyto_dateanalysed = $date_analysed;
               $product->phyto_analysed_by = Auth::guard('admin')->id();
               $product->update();
 
@@ -592,11 +593,14 @@ class PhytoController extends Controller
             //*************************************************** General Report Section ************************** */\
              
              public function completedreport_show($id){
-              
+              $productdepts = ProductDept::where('product_id', $id)->where("dept_id",3)->where("status",4);
+              if(count($productdepts->get()) < 1){     
+               return redirect()->back(); 
+               }
           
              $data['report_id'] = $id; 
 
-              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->orwhere('phytos_hod_evaluation',Null)->with('departments')->whereHas("departments", function($q){
+              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->orwhere('phyto_hod_evaluation',Null)->with('departments')->whereHas("departments", function($q){
                return $q->where("dept_id", 3)->where("status",4);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
              ->with('pchemconstReport')->whereHas('pchemconstReport')->first();

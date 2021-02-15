@@ -55,17 +55,18 @@ $(document).on("click", "a.deleteText", function() {
   })
 
  </script>
+ <script>
+  $('#check_singlelab').change(function(){
+    if($(this).is(':checked')){
+    $(".singlelab").hide(); 
+    $(".singlelab").toggle();
+    }else{
+      $(".singlelab").toggle(); 
+      $(".singlelab").hide();
+    }
+  })
 
-{{-- <script>
-  $(document).ready(function() {
-    $("#animaldeath_2").change(function() {
-      alert "sdssa";
-  var adeath = $('option:selected', this).attr("value");
-  console.log(adeath);
-
-})
-});
-</script> --}}
+ </script>
 <script>
   $(document).ready(function() {
     var evaluation = $('input[id="evaluation"]').attr("value");
@@ -597,7 +598,7 @@ $('#checkusertoacceptproduct').submit(function(e){
         console.log(i,r)
         $(`select[tag=${i}]`).html('')
         r.forEach(function(item){
-          $(`select[tag=${i}]`).append(`<option class='toxicity${item.id}' value='${item.name}'>${item.name}</option>`)
+          $(`select[tag=${i}]`).append(`<option class='toxicity${item.id}' value='${item.name}'> ${item.name} </option>`)
         })
       })
       $(`select[tag=${i}]`).select2();
@@ -861,7 +862,8 @@ console.log(animalmodel);
         // Continue the form submit
     // e.currentTarget.submit();
     })
-    </script>
+  </script>
+
         {{-- phyto hop signin --}}
  
   <script>
@@ -901,7 +903,45 @@ console.log(animalmodel);
     // e.currentTarget.submit();
     })
 
-    </script>
+ </script>
+
+<script>
+  $('#pharmhodfinalapproveform').submit(function(e){
+    
+      e.preventDefault();
+      console.log('attempted to submit form')
+      
+      var _token = $('#_token').val()
+      var useremail = $('#useremail').val()
+      var userpassword = $('#userpassword').val()
+  
+    var data = {
+    'email' : useremail,
+    'password' : userpassword,
+    '_token': _token
+    }
+    
+    var form = $(this);
+    var url = form.attr('sign-user-url');
+    var url2 = form.attr('action')
+    $.post(url, data, function(result){
+    console.log(result)
+  
+    if (result.status === true)
+    {
+      $('#adminid').val(result.admin);
+      
+      e.currentTarget.submit();
+    }
+  
+      // display the error message some where on the page with result.message
+    $('#error-div').html(result.message)
+    })
+    
+      // Continue the form submit
+  // e.currentTarget.submit();
+  })
+ </script>
 
 <script>
   $("#pharmproduct_id").change(function() {
@@ -915,7 +955,6 @@ console.log(animalmodel);
       $("." + 'methodapplied').find('option[value="6"]').attr("selected",false);
     }
   })
-
   
 </script>
 

@@ -30,11 +30,12 @@ class StoreProductRequest extends FormRequest
         $this->session()->flash('message', 'Please check error(s) indicated and retry.');
        
         $rules = [
-            'name' => 'required|min:3|unique:products',        
+            // 'name' => 'required|min:3|unique:products',        
+             'name' => 'required|min:3|',        
             'customer_id' => 'required',
             'product_type_id' => 'required',
             'price' => ['required','numeric',new ProductPriceLimit],
-            'receipt_num' =>  'required', 
+            'receipt_num' =>  'required|unique:products', 
             'quantity' =>  'required|numeric', 
             'dosage' => 'required|min:3',
             // 'mfg_date' => 'required',

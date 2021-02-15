@@ -412,8 +412,8 @@
                                                     <td class="font">
                                                         <select name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control" id="exampleSelectGender">
                                                             <option value="">None</option>
-                                                            <option value="1">Passed</option>
-                                                            <option value="2">Failed</option>
+                                                            <option value="1">Failed</option>
+                                                            <option value="2">Passed</option>
                                                         </select>
                                                       </td>
                                                 </tr>

@@ -28,7 +28,7 @@
                             @foreach ($user_types as $item)
                             <tr>
                                 <td>{{$item->name}}</td>
-                                <td><a href="#!"><i class="ik ik-edit f-16 mr-15 text-green"></i></a></td>
+                            <td><a href="{{route('admin.sid.config.user.permissions.edit',['id' => $item->id])}}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a></td>
                             </tr> 
                             @endforeach
                           
@@ -40,14 +40,39 @@
     </div>
     <div class="col-sm-4">
         <div class="card">
-            fd
-        </div>
+            <table class="table table-hover mb-0">
+                <tbody>
+                    <?php $i = 0; ?>
+                    @foreach (App\AdminFeature::all() as $item)
+                    <?php $i++; ?>
+                    <?php if(!($i%2 == 0)) continue; ?>
+                        <tr>
+                        <td class="font">{{$item->name}}</td>
+                        <td class="font">{{$item->description}}</td>
+                       </tr>
+                    @endforeach
 
+                </tbody>
+            </table>  
+        </div>
     </div>
+
 
     <div class="col-sm-4">
         <div class="card">
-            f
+            <table class="table table-hover mb-0">
+                <tbody>
+                    <?php $i = 0; ?>
+                    @foreach (App\AdminFeature::all() as $item)
+                    <?php $i++; ?>
+                    <?php if($i%2 == 0) continue; ?>
+                       <tr>
+                        <td class="font">{{$item->name}}</td>
+                        <td class="font">{{$item->description}}</td>
+                        </tr>
+                     @endforeach
+                </tbody>
+            </table>  
         </div>
 
     </div>

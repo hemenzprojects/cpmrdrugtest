@@ -34,7 +34,12 @@ class SIDController extends Controller
 
     public function customer_index()
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
+        } 
         //   return  $data = \App\Admin::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
         return View('admin.sid.customers.create', $data);
@@ -47,6 +52,20 @@ class SIDController extends Controller
      */
     public function customer_store(Request $request)
     {
+     
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(2)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+        
+        $customer = Customer::where('email',$request->email)->get();
+        if (count($customer) >0) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! this record cant be edited. In report process mode');
+        }
+        
         $data = $request->validate([
             'title' => 'required',
             'first_name' => 'required|min:3|Alpha',
@@ -80,6 +99,12 @@ class SIDController extends Controller
 
     public function customer_edit(Customer $id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $data['customers'] = Customer::all();
         $data['c'] = $id;
@@ -95,6 +120,12 @@ class SIDController extends Controller
      */
     public function customer_update(UpdatecustomerRequest $request, $id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(2)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data = $request->validate([
             'title' => 'required',
             'first_name' => 'required|min:3|Alpha',
@@ -127,6 +158,12 @@ class SIDController extends Controller
     }
     public function customer_show(Customer $id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data['customer'] = $id;
 
         return View('admin.sid.customers.show', $data);
@@ -147,6 +184,13 @@ class SIDController extends Controller
     //**************************************** */ PRODUCT SECTION ******************************************
     public function product_index()
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
@@ -156,7 +200,42 @@ class SIDController extends Controller
 
     public function product_store(StoreProductRequest $request)
     {
-        // dd($request);
+        // dd($request->all());
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+        $micro_grade =Null;
+        $pharm_grade =Null;
+        $phyto_grade =Null;
+        $micro_hod_evaluation =Null;
+        $pharm_hod_evaluation =Null;
+        $phyto_hod_evaluation =Null;
+       
+       if ($request->check_singlelab) {
+
+        if ($request->micro_hod_evaluation) {
+            $micro_grade =2;
+            $micro_hod_evaluation =2;
+           }
+           if ($request->pharm_hod_evaluation) {
+            $pharm_grade =2;
+            $pharm_hod_evaluation =2;
+           }
+           if ($request->phyto_hod_evaluation) {
+            $phyto_grade =2;
+            $phyto_hod_evaluation =2;
+           }
+           if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
+            return redirect()->back();
+           }
+        
+       }
+
         $data = ([
             'name' => $request->name,
             'product_type_id' => $request->product_type_id,
@@ -168,10 +247,17 @@ class SIDController extends Controller
             'exp_date' => $request->exp_date,
             'dosage' => $request->dosage,
             'indication' => $request->indication,
+            'micro_hod_evaluation' => $micro_hod_evaluation,
+            'pharm_hod_evaluation' => $pharm_hod_evaluation,
+            'phyto_hod_evaluation' => $phyto_hod_evaluation,
+            'micro_grade' => $micro_grade,
+            'pharm_grade' => $pharm_grade,
+            'phyto_grade' => $phyto_grade,
+
             'added_by_id' => Auth::guard('admin')->id(),
         ]);
-
-        Product::create($data);
+        //   return $data;
+         Product::create($data);
 
         Session::flash("message", "Product Successfully Created.");
         Session::flash("message_title", "success");
@@ -182,6 +268,12 @@ class SIDController extends Controller
     public function product_edit(Product $id)
     {
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data['products'] = Product::orderBy('id', 'DESC')->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
@@ -193,7 +285,13 @@ class SIDController extends Controller
 
     public function product_show(Product $id)
     {
-        $data['product'] = $id;
+        $data['product'] = $id; if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+
         $data['product_history']= Product::where('failed_tag',$id->failed_tag)->whereNotNull('failed_tag')->get();
         
         return view('admin.sid.products.show', $data);
@@ -201,24 +299,59 @@ class SIDController extends Controller
 
     public function product_update(UpdateProductRequest $request, $id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
+        } 
+        $micro_grade =Null;
+        $pharm_grade =Null;
+        $phyto_grade =Null;
+        $micro_hod_evaluation =Null;
+        $pharm_hod_evaluation =Null;
+        $phyto_hod_evaluation =Null;
+       
+          if ($request->micro_hod_evaluation) {
+            $micro_grade =2;
+            $micro_hod_evaluation =2;
+           }
+           if ($request->pharm_hod_evaluation) {
+            $pharm_grade =2;
+            $pharm_hod_evaluation =2;
+           }
+           if ($request->phyto_hod_evaluation) {
+            $phyto_grade =2;
+            $phyto_hod_evaluation =2;
+           }
+           if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! Product cant be updated. PLease check single lab appropriately');
+            return redirect()->back();
+           }
         $data = ([
             'name' => $request->name,
             'product_type_id' => $request->product_type_id,
             'customer_id' => $request->customer_id,
             'quantity' => $request->quantity,
-            // 'price'=>$request->price,
             'mfg_date' => $request->mfg_date,
             'exp_date' => $request->exp_date,
+            'receipt_num' => $request->receipt_num,
             'dosage' => $request->dosage,
             'indication' => $request->indication,
+            'micro_hod_evaluation' => $micro_hod_evaluation,
+            'pharm_hod_evaluation' => $pharm_hod_evaluation,
+            'phyto_hod_evaluation' => $phyto_hod_evaluation,
+            'micro_grade' => $micro_grade,
+            'pharm_grade' => $pharm_grade,
+            'phyto_grade' => $phyto_grade,
             'added_by_id' => Auth::guard('admin')->id(),
         ]);
 
         Product::where('id', $id)->update($data);
         Session::flash('message_title', 'success');
-        Session::flash('message', 'Customer successsfully updated.');
-        return redirect()->route('admin.sid.product.create');
+        Session::flash('message', 'Product successsfully updated.');
+        return redirect()->back();
     }
 
 
@@ -227,6 +360,12 @@ class SIDController extends Controller
 
     public function product_type_index()
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(5)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data['product_types'] = ProductType::all();
         $data['pharm_standards'] = PharmStandards::all();
 
@@ -234,6 +373,13 @@ class SIDController extends Controller
     }
 
     public function product_type_edit(ProductType $id){
+
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(5)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $data['p_type'] = $id;
         $data['product_types'] = ProductType::all();
@@ -245,6 +391,12 @@ class SIDController extends Controller
 
     public function product_category_update(Request $r, ProductType $id){
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(6)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data = $r->validate([
             'code' => 'required', 
             'name' => 'required|min:3|Alpha', 
@@ -264,6 +416,12 @@ class SIDController extends Controller
     public function product_category_store(Request $request)
     {
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(6)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data = $request->validate([
             'code' => 'required', 
             'name' => 'required|min:3|Alpha', 
@@ -296,6 +454,12 @@ class SIDController extends Controller
     //********************************************** Account Section ****************************************************** */
     public function account_index($id, $price)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(9)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $product =  product::find($id);
         if (!$product) {
@@ -309,8 +473,14 @@ class SIDController extends Controller
 
     public function account_store(Request $r, $id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(10)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         //   dd($r->all(), $id);
-     
+  
         $data = $r->validate([
             'amt_paid' => 'required',
             'customer' => 'required',
@@ -370,6 +540,12 @@ class SIDController extends Controller
 
     public function account_delete($p_id, $act_id, $price)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(10)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $account = Account::where('id', $act_id)->where('product_id', $p_id)->first();
         if ($account == null) {
@@ -400,6 +576,12 @@ class SIDController extends Controller
 
     public function distribution_index()
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(11)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         //     return \App\Product::find(3)->productDept()->where('dept_id',1)->get();
         //    die();
 
@@ -416,6 +598,12 @@ class SIDController extends Controller
 
     public function distribute_depts_store(ProductDistributionRequest $request)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(12)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $product_id = $request->input('product_id');
         $admin_id = Auth::guard('admin')->id();
@@ -514,6 +702,12 @@ class SIDController extends Controller
 
     public function distribute_onedept_store(Request $request)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(12)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         
         if ($request->product_id == null) {
             Session::flash('message_title', 'error');
@@ -573,7 +767,12 @@ class SIDController extends Controller
 
     public  function deleteProduct($id, $dept_id, $activetab = null)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(12)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
+        } 
         Session::flash('activetab', !blank($activetab) ? $activetab : 0);
 
         $product_dept = ProductDept::where('product_id', $id)->where('dept_id', $dept_id)->first();
@@ -599,10 +798,16 @@ class SIDController extends Controller
     }
 
     //********************************************************* General Report Section ******************* */
+
     public function report_index()
     {
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
+        } 
         $data['from_date'] = "2020-01-01";
         $data['to_date'] = now();
 
@@ -614,6 +819,12 @@ class SIDController extends Controller
 
     public function generalyearly_report(Request $r)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $data = $r->all();
         $data['product_types'] = \App\ProductType::all();
@@ -635,7 +846,12 @@ class SIDController extends Controller
 
     public function between_months(Request $r)
     {
-        // dd($r->all());
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         $data = $r->all();
         if ($r->from_date == null) {
             Session::flash('message_title', 'error');
@@ -686,18 +902,30 @@ class SIDController extends Controller
 
     public function finalreports_index($id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
 
         $data['ptype_id'] = $id;
         $data['final_reports'] = Product::where('product_type_id', $id)
-            ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->wherehas('departments')->get();
-
+            ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->with('departments')->wherehas('departments')->get();
+           dd($data);
         return view('admin.sid.generalreport.finalreports', $data);
     }
 
     public function finalreports_show($id)
     {
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(28)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
-        $data['report_id'] = $id;
+        } 
+
+       return $data['report_id'] = $id;
 
         $data['micro_withcompletedproducts'] = Product::where('id', $id)->with("departments")->whereHas("departments", function ($q) {
             return $q->where("dept_id", 1)->where("status", '>', 2);
@@ -840,21 +1068,32 @@ class SIDController extends Controller
         
     }
 
-    public function review_product(Product  $product){
-     
-        $product = $product->last_review_product;
+    public function review_product(Product  $products, $id){
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(7)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
         // return $product->failed_final_grade? "yes": "no";
-        if (!$product->failed_final_grade) {
+        $product = $products->where('id',$id)->first();
+        $p_last = $product->last_review_product;
+        if (!$p_last->failed_final_grade) {
           Session::flash('message_title', 'error');
           Session::flash('message', 'Sorry Product has passed all lab tests and cant be reviewed.');
           return redirect()->back();
         } 
-          
+       
+        if ($p_last->pending_review_product) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry Product cant be reviewed. Process Pending');
+            return redirect()->back();
+        }
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
 
-        $data['p'] = $product;
+        $data['p'] = Product::where('id',$id)->first();
 
         return View('admin.sid.products.review', $data);
 
@@ -862,6 +1101,12 @@ class SIDController extends Controller
 
     public function review_create(Request $request, $id){
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(8)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
        $failed_tag = $request->failed_tag;
         $micro_grade =Null;
         $pharm_grade =Null;
@@ -879,21 +1124,14 @@ class SIDController extends Controller
        
        if ($p->micro_grade == 2) {
         $micro_grade = 2;
-       }
-       if ($p->pharm_grade == 2) {
-        $pharm_grade = 2;
-       }
-       if ($p->phyto_grade == 2) {
-        $phyto_grade = 2;
-       }
-
-       if ($p->micro_grade == 2) {
         $micro_hod_evaluation = 2;
        }
        if ($p->pharm_grade == 2) {
+        $pharm_grade = 2;
         $pharm_hod_evaluation = 2;
        }
        if ($p->phyto_grade == 2) {
+        $phyto_grade = 2;
         $phyto_hod_evaluation = 2;
        }
   
@@ -930,6 +1168,13 @@ class SIDController extends Controller
     //******************************************************************* SID Configuration (Admin)************************************* */
     public function create_admin(Admin $admin){
 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(23)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+
         $data['depts'] = \App\Department::all();
         $data['user_types'] = \App\UserType::all();
         $data['dept_offices'] = \App\DeptOffice::all();
@@ -939,11 +1184,18 @@ class SIDController extends Controller
     }
 
     public function registeradmin_store(Request $r){
+        // dd($r->all());
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(24)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
+        } 
         $data = $r->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'dept_id' => 'required',
+            'position' => 'required',
             'email' => 'required|email|max:255|unique:admins',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -952,6 +1204,7 @@ class SIDController extends Controller
             'title' => $r->title,
             'first_name' => $r->first_name,
             'last_name' => $r->last_name,
+            'position' => $r->position,
             'dept_id' => $r->dept_id,
             'user_type_id' => $r->user_type,
             'dept_office_id' => $r->dept_office_id,
@@ -960,13 +1213,111 @@ class SIDController extends Controller
             'password' => bcrypt($r->password),
         ]);
 
+
         Admin::create($data);
+        Product::create($data);
+        Session::flash("message", "User Successfully Created.");
+        Session::flash("message_title", "success");
         return redirect()->back();
     }
 
     public function user_permisions(){
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(23)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
 
-     $data['user_types'] = UserType::all();
-     return view('admin.auth.permissions',$data);
+        } 
+     $data['user_types'] = UserType::with('permissions')->get();
+     return view('admin.auth.roles.permissions',$data);
+    }
+
+    public function user_permisions_edit($id){
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(23)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+     $data['all_usertypes'] = UserType::with('permissions')->get();
+    $data['user_types'] = UserType::where('id',$id)->with('permissions')->get();
+    $data['user_type'] = UserType::where('id',$id)->first();
+
+        return view('admin.auth.roles.edit',$data);
+    }
+    
+    public function permissions_update(Request $r){
+
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(24)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+    //  dd($r->all());
+    //    return $r->measurement;
+        $usertype =  UserType::with('permissions')->get();
+        $user_type = Usertype::findOrFail($r->user_types_id);
+
+       foreach($r->permit as $key => $pmt){
+        $user_type->permissions()->updateExistingPivot($key, array('enabled'=>$pmt,  'created_at'=>\Carbon\Carbon::now()), TRUE);   
+        }
+
+        return redirect()->back();
+    }
+
+    public function user_editadmin($id){
+    
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(23)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+        $data['depts'] = \App\Department::all();
+        $data['user_types'] = \App\UserType::all();
+        $data['dept_offices'] = \App\DeptOffice::all();
+        $data['admins'] = Admin::all();
+        $data['admin'] = Admin::find($id);
+
+        return view('admin.auth.editadmin',$data);
+    }
+
+    public function user_updateadmin(Request $r, $id){
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(24)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+
+        } 
+    //  dd($r->all(), $id);
+     $data = $r->validate([
+        'title' => 'required',
+        'first_name' => 'required|max:255|min:3',
+        'last_name' => 'required|max:255|min:3',
+        'dept_id' => 'required',
+        'position' => 'required',
+        'email' => 'required',
+        'user_type' => 'required',
+        'dept_office_id' => 'required',
+        'tell' => 'required',
+    ]);
+
+    $data = ([
+        'title' => $r->title,
+        'first_name' => $r->first_name,
+        'last_name' => $r->last_name,
+        'position' => $r->position,
+        'dept_id' => $r->dept_id,
+        'user_type_id' => $r->user_type,
+        'dept_office_id' => $r->dept_office_id,
+        'tell' => $r->tell,
+     
+    ]);
+    Admin::where('id',$id)->update($data);
+
+    Session::flash("message", "User Successfully updated.");
+    Session::flash("message_title", "success");
+    return redirect()->back();
     }
 }

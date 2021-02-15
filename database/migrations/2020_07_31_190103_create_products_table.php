@@ -57,6 +57,7 @@ class CreateProductsTable extends Migration
             $table->date('pharm_dateanalysed')->nullable();
             $table->date('pharm_datecompleted')->nullable();
             $table->integer('pharm_appoved_by')->nullable();
+            $table->integer('pharm_finalappoved_by')->nullable();
             $table->integer('pharm_analysed_by')->nullable();
             $table->integer('pharm_experiment_by')->nullable();
 

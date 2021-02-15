@@ -66,7 +66,7 @@
                                                         <table class="table table-inverse">                      
                                                             <tbody>
                                                                 
-                                                                @foreach ($phyto_organoleptics->except($organoleptics_ids) as $organo_item)
+                                                                @foreach ($phyto_organoleptics->except($organoleptics_ids)->where('action',1) as $organo_item)
                                                                 <tr>
                                                                     <input type="hidden" name="product_id" value="{{$phytoshowreport->id}}">
                                                                     <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
@@ -147,7 +147,7 @@
                                                         {{ csrf_field() }}                 
                                                         <table class="table table-inverse">                      
                                                             <tbody>
-                                                                @foreach ($phyto_physicochemdata->except($physicochemdata_ids) as $physicochem_item)
+                                                                @foreach ($phyto_physicochemdata->except($physicochemdata_ids)->where('action',1) as $physicochem_item)
                                                                 <tr>
                                                                     <input type="hidden" name="product_id" value="{{$phytoshowreport->id}}">
                                                                     <input type="hidden" name="phyto_testconducted_2" value="{{\App\PhytoTestConducted::find(2)->id}}">
@@ -157,8 +157,10 @@
                                                                     <span class="custom-control-label">&nbsp;</span>
                                                                     </label>
                                                                 </th>
-                                                                <td class="font">{{$physicochem_item->name}} :</td>
-                                                                <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                                                <td class="font">
+                                                                    <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p>
+                                                                    <input type="{{$physicochem_item->id != 4?'hidden':''}}" class="form-control" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                                                </td>
                                                                 <td class="font"><input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}"></td>
                                                                 </tr>        
                                                                 @endforeach
@@ -233,7 +235,7 @@
                          @endforeach
                         @endforeach
 
-                         @foreach (\App\PhytoChemicalConstituents::all() as $item)
+                         @foreach (\App\PhytoChemicalConstituents::where('action',1)->get() as $item)
                          <option value="{{$item->id}}">{{$item->name}}</option>  
                          @endforeach
                      
@@ -303,7 +305,7 @@
                  <div class="row" style="margin-top: 5%">
                      <div class="col-9">
                          @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
-                         <button type="submit" class="btn btn-success pull-right">
+                         <button type="submit" onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" class="btn btn-success pull-right">
                              <i class="fa fa-credit-card"></i> 
                              Submit for Approval
                          </button>

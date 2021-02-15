@@ -9,7 +9,7 @@ class Product extends Model
 {
     protected $fillable = ['name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by',
-    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_appoved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_appoved_by','pharm_finalappoved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
     'phyto_overall_status','phyto_hod_evaluation','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
 
     // public static function completedReports()
@@ -59,7 +59,10 @@ class Product extends Model
     {
         return !($this->micro_grade == 2 && $this->pharm_grade == 2 &&  $this->phyto_grade == 2);
     }
-    
+    public function getPendingReviewProductAttribute()
+    {
+        return ($this->micro_grade == Null || $this->pharm_grade == Null || $this->phyto_grade == Null);
+    }
     public function getLastReviewProductAttribute()
     {
         return self::where('failed_tag', $this->failed_tag)->orderBy("created_at", "DESC")->first();
@@ -114,8 +117,9 @@ class Product extends Model
             return '<td><button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button></td>';
         }
         elseif (($this->pharm_hod_evaluation > 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>APPROVED</button></td>';
+            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>APPROVED </button></td>';
         }
+        
         elseif ($this->pivot->status === 8) {
             return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
         }
@@ -290,7 +294,7 @@ class Product extends Model
     public function getHodEvaluationAttribute()
     {
        if($this->micro_hod_evaluation === 0){
-        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Pending</button>';
+        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Pending </button>';
       }
       if($this->micro_hod_evaluation === 1){
        return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld</button>';
@@ -329,15 +333,34 @@ class Product extends Model
     public function getHodPharmEvaluationAttribute()
     {
         if($this->pharm_hod_evaluation === 0){
-            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
-          }  if($this->pharm_hod_evaluation === 1){
+       return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
+          } 
+        if($this->pharm_hod_evaluation === 1){
             return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld </button>';
           }
-          elseif ($this->pharm_hod_evaluation === 2) {
+        if ($this->pharm_hod_evaluation === 2 &&  $this->pharm_process_status < 6) {
             return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
+         } 
+           if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
+            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Final Approval Process </button>';
          }
 
     }
+
+    public function getFinalHodPharmEvaluationAttribute()
+    {
+           if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
+            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Pendind</button>';
+         }
+         if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 7) {
+            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Withheld</button>';
+         }
+         if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 8) {
+            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Final Report Approved</button>';
+         }
+
+    }
+
 
     public function getPharmReportEvaluationAttribute()
     {

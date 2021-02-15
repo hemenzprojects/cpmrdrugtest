@@ -25,7 +25,7 @@
                         <h4>MICROBIOLOGY</h4>
                         @endif
                         @if (Auth::guard('admin')->user()->dept_id ==2)
-                        <h4>PHARMACOLOGY</h4>
+                        <h4>PHARMACOLOGY | TOXICOLOGY</h4>
                         @endif
                         @if (Auth::guard('admin')->user()->dept_id ==3)
                         <h4>PHYTOCHEMISTRY</h4>

@@ -617,7 +617,7 @@ class PharmController extends Controller
              public function hodoffice_evaluation(){
           
               
-              $data['evaluations'] = Product::where('pharm_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
+              $data['evaluations'] = Product::where('pharm_hod_evaluation','>=',0)->where('pharm_process_status','<',6)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
@@ -631,6 +631,10 @@ class PharmController extends Controller
 
               $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 8);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+   
+               $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
                return view('admin.pharm.hodoffice.evaluation',$data);
@@ -715,6 +719,33 @@ class PharmController extends Controller
             
           }
 
+            
+          public function checkhodfinalapprovalsign(Request $request){
+         
+            $userEmail = $request->get('email');
+            $adminPassword = $request->get('password');
+
+            $checkallmail = Admin::where('email', '=', $userEmail)->first();
+            $checkmailonly = Admin::where('dept_id',2)->where('email', '=', $userEmail)->first();
+            $admin = Admin::where('dept_id',2)->where('dept_office_id',1)->where('user_type_id',1)->where('email', '=', $userEmail)->first();
+
+            if (!$checkallmail) {
+              return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
+            }
+            if (!$checkmailonly) {
+              return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);
+            }
+            if(!$admin){
+              return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
+            }
+            if(!Hash::check($adminPassword, $admin->password)){
+              return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+            }
+            
+            return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+            
+          }
+
           public function evaluate_one_edit(Request $r, $id){
 
             if ($r->evaluate <1) {
@@ -744,6 +775,60 @@ class PharmController extends Controller
               'pharm_appoved_by'=>$r->adminid,
             ]); 
 
+            if ($r->evaluate ==1) {
+              $p->update(['pharm_process_status'=> 5, 'pharm_appoved_by'=> Null]);
+            }
+
+            // if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
+            //   $p->update(['overall_status'=> 2]);
+            // }else {
+            //   $p->update(['overall_status'=> 1]);
+            // }
+
+           Session::flash("message", "Report Evaluation completed.");
+           Session::flash("message_title", "success");  
+           return redirect()->back();
+           }
+            
+           public function finalhodevaluate_one_edit(Request $r, $id){
+              // dd($r->all());
+            if ($r->evaluate <1) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+              return redirect()->back();
+            }
+            if ($r->evaluate >2) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
+              return redirect()->back();
+            }
+             $product = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2);
+             })->with('animalExperiment')->whereHas("animalExperiment");
+             
+             if(count($product->get()) < 1){
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'System Error! Product cant be approved ');     
+              return redirect()->back();
+            }
+             $evaluate = [];
+            if ($r->evaluate ==1) {
+               $evaluate = 7;
+            }
+            if ($r->evaluate ==2) {
+              $evaluate = 8;
+            }  
+         
+           $p = Product::find($id);
+            $p->update([
+              'pharm_process_status'=> $evaluate,
+              'pharm_finalappoved_by'=>$r->adminid,
+            ]); 
+            
+            if ($r->evaluate ==1) {
+              $p->update(['pharm_finalappoved_by'=> Null]);
+            }
+
             if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
               $p->update(['overall_status'=> 2]);
             }else {
@@ -754,9 +839,10 @@ class PharmController extends Controller
            Session::flash("message_title", "success");  
            return redirect()->back();
            }
-            
+
+
            public function hod_editreport(Request $r, $id){
-            
+            //  dd($r->all());
             $products =Product::where('id', $id)->where("pharm_process_status", 5)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 2);
               });
@@ -789,13 +875,15 @@ class PharmController extends Controller
                 ]);
   
                 PharmFinalReport::where('product_id', $id)->update($data);
+                $product = $products->first();
+                $product->pharm_comment = $r->pharm_comment_acute;
+                $product->update();
             }
               if ($r->pharm_testconducted == 2) {
-
                 $product = $products->first();
                 $product->pharm_result = $r->pharm_result;
                 $product->pharm_standard = $r->pharm_standard;
-                $product->pharm_comment = $r->pharm_comment;
+                $product->pharm_comment = $r->pharm_comment_dermal;
                 $product->update();
               }
 
@@ -810,9 +898,52 @@ class PharmController extends Controller
               return redirect()->back();
            }
 
+           public function hod_finalreport_send($id){
+            
+            $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
+           $withheld =Product::where('id', $id)->where("pharm_process_status",'>',5)->first();
+
+            if (!$completed) {
+             Session::flash('message_title', 'error');
+             Session::flash('message', 'Warning! Product cant be submited for approval');
+             return redirect()->route('admin.pharm.hod_office.approval');
+            }
+            if ($withheld) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Warning! Product withheld and cant be submited for approval  ');
+              return redirect()->route('admin.pharm.hod_office.approval');
+             }
+
+              $data = [ 
+              'pharm_process_status' => 6,
+              ];
+              Product::where('id',$id)->where("pharm_process_status", 5)->update($data);
+              
+              Session::flash("message", "Report successfully submitted for final approval.");
+              Session::flash("message_title", "success");  
+             return redirect()->route('admin.pharm.hod_office.approval');
+           }
+
+           public function hod_finalreport_show($id){
+           
+            $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",7);
+             if(count($productdepts->get()) < 1){     
+               return redirect()->route('admin.pharm.hod_office.approval');
+             }  
+             $data['report_id'] = $id; 
+
+          $data['pharmreports'] = Product::where('id',$id)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2)->where("status", 7);
+            })->with('animalExperiment')->whereHas("animalExperiment")->first();
+
+            $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+             return view('admin.pharm.hodoffice.finalreport',$data);
+           }
+
+
            public function hod_complete_report($id){
                 
-                $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
+               $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
                if (!$completed) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! Product cant be completed ');
@@ -868,7 +999,7 @@ class PharmController extends Controller
 
              return view('admin.pharm.completedreport',$data);
              
-          }
+             }
 
 
              public function generalreport_index(){

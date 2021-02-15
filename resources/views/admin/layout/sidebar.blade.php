@@ -27,7 +27,7 @@
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-menu"></i><span>Products</span> 
                                         <div class="submenu-content">
-                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">New Product</a>
+                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">Product View</a>
                                        <a href="{{url('admin/sid/product/category/create')}}" class="menu-item">Product Categories</a>
                                        <a href="{{url('admin/sid/distribution/create')}}" class="menu-item">Product Distribution</a>
 
@@ -50,9 +50,9 @@
 
                                      <div class="nav-lavel">Microbiology</div>
                                      <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
+                                         <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technologist</span></a>
                                          <div class="submenu-content">
-                                             <a href="{{route('admin.micro.receiveproduct')}}" class="menu-item">Receieve Product</a>
+                                             <a href="{{route('admin.micro.receiveproduct')}}" class="menu-item">Receive Product</a>
                                              <a href="{{route('admin.micro.report.create')}}" class="menu-item">Reports Taskboard </a>
                                              <a href="" class="menu-item"></a>
                                              
@@ -71,7 +71,7 @@
                                      
                                         @endif
                                      <div class="nav-item has-sub">
-                                        <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                        <a href="#"><i class="ik ik-file-text"></i><span>General Reports</span></a>
                                         <div class="submenu-content">
                                         <a href="{{route('admin.micro.general_report.index')}}" class="menu-item">Report Statistics</a>
                                             <a href="" class="menu-item">Pending Products</a>
@@ -88,13 +88,12 @@
                                      @if (Auth::guard('admin')->user()->dept_office_id == 2 || Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-lavel">Pharmacology</div>
                                      <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
+                                         <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technologist</span></a>
                                          <div class="submenu-content">
-                                             <a href="{{route('admin.pharm.receiveproduct')}}" class="menu-item">Receieve Product</a>
+                                             <a href="{{route('admin.pharm.receiveproduct')}}" class="menu-item">Receive Product</a>
                                              <a href="#" class="menu-item">Reports Taskboard </a> 
                                          </div>
                                      </div>
-                                   
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-filter"></i><span>Report Preparation</span></a>
                                          <div class="submenu-content" style="">
@@ -108,7 +107,7 @@
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-file-plus"></i><span>Animal Experimentation</span></a>
                                          <div class="submenu-content" style="">
-                                             <a href="{{route('admin.pharm.animalexperimentation.create')}}" class="menu-item">Receieve Product</a>
+                                             <a href="{{route('admin.pharm.animalexperimentation.create')}}" class="menu-item">Receive Product</a>
                                              <a href="{{route('admin.pharm.animalexperimentation.maketest')}}" class="menu-item">Perform Experiment</a>
 
                                          </div>
@@ -124,7 +123,7 @@
                                      @endif
                                      @if (Auth::guard('admin')->user()->dept_office_id == 2 ||Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-item has-sub">
-                                        <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                        <a href="#"><i class="ik ik-file-text"></i><span>General Reports</span></a>
                                         <div class="submenu-content">
                                             <a href="{{route('admin.pharm.general_report.index')}}" class="menu-item">Report Overview</a>
                                             <a href="{{route('admin.pharm.completedreports.index')}}" class="menu-item">Completed Reports</a>
@@ -151,9 +150,9 @@
                                     
                                             <div class="nav-lavel">Phytochemistry</div>
                                             <div class="nav-item has-sub">
-                                                <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technicians</span></a>
+                                                <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technologist</span></a>
                                                 <div class="submenu-content">
-                                                    <a href="{{route('admin.phyto.receiveproduct')}}" class="menu-item">Receieve Product</a>
+                                                    <a href="{{route('admin.phyto.receiveproduct')}}" class="menu-item">Receive Product</a>
                                                     <a href="{{route('admin.phyto.makereport.index')}}" class="menu-item">Report Preparation</a>
                                                     <a href="" class="menu-item"></a>
                                                     
@@ -173,7 +172,7 @@
                                                 @endif
 
                                             <div class="nav-item has-sub">
-                                                <a href="#"><i class="ik ik-file-text"></i><span>Genereal Reports</span></a>
+                                                <a href="#"><i class="ik ik-file-text"></i><span>General Reports</span></a>
                                                 <div class="submenu-content">
                                                 <a href="{{route('admin.phyto.general_report.index')}}" class="menu-item">Report Statistics</a>
                                                     <a href="" class="menu-item">Pending Products</a>

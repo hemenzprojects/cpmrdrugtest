@@ -130,7 +130,6 @@ class MicroController extends Controller
 
                 
                 $input = $r->all();
-                // dd($input);
 
                 if (($r->microbialcount == 3) && ($r->loadanalyses == 1)) {
                   Session::flash('message_title', 'error');
@@ -176,6 +175,7 @@ class MicroController extends Controller
                  array_push($mlcompliance,$r->{'mlcompliance_'.$value});
 
                }
+            
 
                foreach ($r->metest_id as $key => $value) {
                 if(!isset($r->{'pathogen_'.$value}) or $r->{'pathogen_'.$value}==null){
@@ -787,7 +787,10 @@ class MicroController extends Controller
            // ********************************* General Report Section *********************************//
 
            public function completedreport_show($id){
-
+            $productdepts = ProductDept::where('product_id', $id)->where("dept_id",3)->where("status",4);
+            if(count($productdepts->get()) < 1){     
+             return redirect()->back(); 
+             }
             $data['report_id'] = $id; 
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
