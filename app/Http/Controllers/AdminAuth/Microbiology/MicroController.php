@@ -307,7 +307,7 @@ class MicroController extends Controller
 
                 $data['report_id'] = $id;              
                 $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::all();
-                $data['show_productdept'] = productDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
+                $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
           
                 $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
                
@@ -791,7 +791,7 @@ class MicroController extends Controller
             if(count($productdepts->get()) < 1){     
              return redirect()->back(); 
              }
-            $data['report_id'] = $id; 
+           return $data['report_id'] = $id; 
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>', 2);
@@ -809,34 +809,49 @@ class MicroController extends Controller
 
            public function generalreport_index(){
            
-            $data['product_types'] = \App\ProductType::all();
-
             $data['from_date'] = "2020-01-01";
             $data['to_date'] = now();
+
+            $data['product_types'] = \App\ProductType::all();
+            $data['year'] = \Carbon\Carbon::now('y');
+
+            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            })->where('micro_hod_evaluation','<>',2)->get();
             
-           $data['pending_products'] = Product::where('micro_hod_evaluation', '<', 2)->orwhere('micro_hod_evaluation',Null)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",1);
-            })->get();
-            $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",1)->where('status','>',1)->where('status','>',2);
-            })->get();
+            $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            })->WhereNull("micro_hod_evaluation")->get();
+  
+           $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+            $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+             })->get();
 
             return view('admin.micro.generalreport.index',$data);
            }
 
            public function generalyearly_report(Request $r){
-          
+          // return $r;
           $data = $r->all();
            $data['product_types'] = \App\ProductType::all();
+           $data['from_date'] = "2020-01-01";
+           $data['to_date'] = now();
 
-             $data['pending_products'] = Product::where('micro_hod_evaluation', '<', 2)->with("departments")
-           ->whereHas("departments", function($q)use($data){
-              return $q->where("dept_id",1)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
-            })->get();
-            $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")
-            ->whereHas("departments", function($q)use($data){
-              return $q->where("dept_id",1)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
-            })->get();
+           $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->where('micro_hod_evaluation','<>',2)->get();
+          
+          $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->WhereNull("micro_hod_evaluation")->get();
+
+         $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+          $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+           })->get();
 
             return view('admin.micro.generalreport.index',$data);
            }
@@ -850,39 +865,19 @@ class MicroController extends Controller
             return view('admin.micro.generalreport.completedreports',$data);
            }
 
-           public function yearly_report(Request $r){
+           public function pendingreports_index(Request $r, $id){
 
-            $data = $r->all();
-            $data['ptype_id'] = $r->product_type;
-             $data['completed_products'] = Product::where('product_type_id',$data['product_type'])->with('departments')->whereRaw('YEAR(created_at)= ? ',array($data['year']))->whereHas("departments", function($q){
-              return $q->where("dept_id", 1)->where("status", 4);
-            })->get();
-
-            return view('admin.micro.generalreport.completedreports',$data);
+            $data['ptype_id'] = $id;
+            $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",1);
+            })->pluck('id')->toArray();
+            
+             $data['dept1'] = Department::find(1)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
+         
+            return view('admin.micro.generalreport.pendingreports',$data);
            }
 
-           public function monthly_report(Request $r){
-
-            $data = $r->all();
-            $data['ptype_id'] = $r->product_type;
-             $data['completed_products'] = Product::where('product_type_id',$data['product_type'])->with('departments')->whereRaw('YEAR(created_at)= ? and MONTH  (created_at)=?',array($data['year'],$data['month']))->whereHas("departments", function($q){
-              return $q->where("dept_id", 1)->where("status", 4);
-            })->get();
-
-            return view('admin.micro.generalreport.completedreports',$data);
-
-           }
-
-           public function daily_report(Request $r){
-
-            return   $data['completed_products'] = Product::where('product_type_id',$r->product_type)->with('departments')->whereRaw('YEAR(created_at)= ? and MONTH  (created_at)=? and DAY (created_at)=?',array($r->year,$r->month,$r->day))->whereHas("departments", function($q){
-              return $q->where("dept_id", 1)->where("status", 4);
-            })->get();
-
-            return view('admin.micro.generalreport.completedreports',$data);
-           }
-
-           
+       
            public function between_months(Request $r){
 
 
@@ -903,16 +898,22 @@ class MicroController extends Controller
              $data = $r->all();
              $data['product_types'] = \App\ProductType::all();
 
-              $data['pending_products'] = Product::where('micro_hod_evaluation', '<', 2)->with("departments")
-              ->whereHas("departments", function($q)use($r){
-               return $q->where("dept_id",1)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get();
-              
-               $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")
-              ->whereHas("departments", function($q)use($r){
-                return $q->where("dept_id",1)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get();
 
+             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->where('micro_hod_evaluation','<>',2)->get();
+            
+            $data['pending_products2'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->WhereNull("micro_hod_evaluation")->get();
+  
+           $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+            $data['completed_products'] = Product::where('micro_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where('status','>',2)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+             })->get();
+
+             
             return view('admin.micro.generalreport.index',$data);
            }
 }

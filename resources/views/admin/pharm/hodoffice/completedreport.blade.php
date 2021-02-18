@@ -47,7 +47,7 @@
              <td class="font">
                  <a data-toggle="modal"  data-placement="auto" data-target="#exampleModalLong{{$completed_report->id}}" title="View Experiment" href=""></i>  
                      <span  class="badge  pull-right" style="background-color: #de1024; color:#fff; margin:3px">
-                 {{$completed_report->productType->code}}|{{$completed_report->id}}|{{$completed_report->created_at->format('y')}}
+                 {{$completed_report->code}}
                  </span>
 
                  </a>

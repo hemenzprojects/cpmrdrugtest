@@ -2,7 +2,9 @@
 
 @section('content')
 
-
+@php
+    $product = \App\Product::find($report_id);
+@endphp
 <div class="container-fluid">
   
     <div class="card" style="padding: 15px">
@@ -20,12 +22,15 @@
                             <tr>
                                 <td class="font"> <strong>Name of Product:</strong></td>
                                 <td class="font">
-                                    {{$phytoshowreport->productType->code}}|{{$phytoshowreport->id}}|{{$phytoshowreport->created_at->format('y')}}
+                                    {{$phytoshowreport->code}}
                                 </td>
                             </tr>
                             <tr>
                             <td class="font"><strong>Date Recievied:</strong></td>
-                                <td class="font">{{$phytoshowreport->name}}</td>
+                                <td class="font">
+                                    {{ $phytoshowreport->departmentById(2)->pivot->updated_at->format('d/m/Y') }}
+
+                                </td>
                             </tr>
                             <tr>
                                 <td class="font"><strong>Date of Report:</strong></td> 
@@ -98,12 +103,12 @@
 
            <div class="row invoice-info" style="margin: 15px">
             <?php
-            $phyto_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_analysed_by:'');
+            $phyto_analysed_by = ($product? $product->phyto_analysed_by:'');
             $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
             ?>
             <div class="col-sm-4 invoice-col">
                 <p>Analyzed By</p><br>
-                @if (\App\Product::find($report_id)->phyto_hod_evaluation >null)
+                @if ($product->phyto_hod_evaluation >null)
                 <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
                 -----------------------------<br>
@@ -117,13 +122,13 @@
             </div>
             <div class="col-sm-4 invoice-col">
                 <?php
-                $phyto_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_appoved_by:'');
+                $phyto_appoved_by = ($product? $product->phyto_appoved_by:'');
                 $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
 
                 ?>
                 <p>Supervisor</p><br>
 
-                @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
+                @if ($product->phyto_hod_evaluation ==2)
 
                 <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
@@ -140,13 +145,13 @@
            <div class="col-12" style="margin-top: 50px">
             <div class="row">
                 <div class="col-md-6" style="margin-right: 16%">
-                  @if (\App\Product::find($report_id)->phyto_hod_evaluation <2)
+                  @if ($product->phyto_hod_evaluation <2)
                   <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Approve Report</button>
                   @endif
-                  @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2) 
+                  @if ($product->phyto_hod_evaluation ==2) 
                  <a href="{{ old('redirect_to', URL::previous())}}">
                   <div class="alert alert-success" role="alert">
-                      Report succesfully completed. Final report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  will be printed by SID 
+                      Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
                   </div>
                  </a>
                  
@@ -204,10 +209,10 @@
                   </div>
                 </div>
                 <div class="col-md-4">  
-                     @if (\App\Product::find($report_id)->phyto_hod_evaluation == 2) 
+                     @if ($product->phyto_hod_evaluation == 2) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                 <a href="#">
+                 <a href="{{url('admin/phyto/report/hod_office/complete_report',['id' => $product->id])}}">
                   <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
                  </a>
                   @endif

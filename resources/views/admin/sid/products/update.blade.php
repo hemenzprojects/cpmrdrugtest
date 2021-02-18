@@ -269,6 +269,7 @@
                                     <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable">
 									    <thead>
 									        <tr>
+                                                <th style="display: none">Code</th>
 									            <th>Code</th>
 									            <th>Product Name</th>
 									            <th>Product Type</th>
@@ -286,9 +287,8 @@
                                             <td style="display: none">{{$product->id}}</td>
                                             <td class="font">
                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                    {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                    {{$product->code}}
                                                 </span>
-                                                <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
                                            </td>
                                                <td class="font">{{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)

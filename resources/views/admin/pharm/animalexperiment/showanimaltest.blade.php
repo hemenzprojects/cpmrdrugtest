@@ -10,7 +10,7 @@
                     <i class="ik ik-server bg-blue"></i>
                     <div class="d-inline">
                         <h5>Experiment Details</h5>
-                        <span>Pharmacology product experimentation on {{$editexperiment->productType->code}}|{{$editexperiment->id}}|{{$editexperiment->created_at->format('y')}} </span>
+                        <span>Pharmacology product experimentation on {{$editexperiment->code}} </span>
                         
                     </div>
                 </div>
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header"><h3 class="d-block w-100">{{$editexperiment->productType->code}}|{{$editexperiment->id}}|{{$editexperiment->created_at->format('y')}} <small class="float-right"> 
+        <div class="card-header"><h3 class="d-block w-100">{{$editexperiment->code}} <small class="float-right"> 
             @foreach($editexperiment->animalExperiment as $temp)
             @if($editexperiment->animalExperiment->first() == $temp)
             {{$temp->created_at->format('d/m/y')}}

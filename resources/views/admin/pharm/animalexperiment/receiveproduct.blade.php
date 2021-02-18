@@ -46,13 +46,11 @@
                        </td>
                         <td class="font">
                         <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$sample_prep->id}}" title="View Product" href="">
-                         <span href="" class="badge badge-danger pull-right">
-                                {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
-                        </span>
+                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                {{$sample_prep->code}}
+                            </span>
                         </a> 
-                        <sup style="font-size: 1px">
-                            {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
-                         </sup> 
+                         
                         </td>
                         <td class="font">
                             {{$product->measurement}}

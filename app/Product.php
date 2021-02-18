@@ -4,14 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\ProductDept;
+use App\ProductType;
 
 class Product extends Model
 {
-    protected $fillable = ['name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
+    protected $fillable = ['code','name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
     'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_appoved_by','pharm_finalappoved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
     'phyto_overall_status','phyto_hod_evaluation','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
 
+    protected $appends = [
+        "experimental_deaths", "experimental_lives"
+    ];
     // public static function completedReports()
     // {
     //     return self::whereHas('productDept')->get()->where("overall_status",2);
@@ -45,6 +49,33 @@ class Product extends Model
     //     return 1;
     // }
 
+    public function getExperimentalDeathsAttribute()
+    {
+        return count($this->animalExperiment->where("death",2));
+    }
+
+    public function getExperimentalLivesAttribute()
+    {
+        return count($this->animalExperiment->where("death",1));
+    }
+
+    public static function generateCode(ProductType $product_type){
+        $products_count = count(
+            self::where("product_type_id", $product_type->id)
+            ->where("created_at", ">=", date("y") . "-01-01 00:00:00")->get()
+        );
+
+        $code = "";
+        
+        do {
+            $products_count++;
+            $code = $product_type->code."/".str_pad($products_count,  4, "0", STR_PAD_LEFT) . "/" . date("y");
+            $already_existing = count(self::where("code", $code)->get());
+        } while($already_existing);
+
+        return $code;
+    }  
+
     public function isReviewedByDept($dept_id)
     {
 
@@ -63,10 +94,12 @@ class Product extends Model
     {
         return ($this->micro_grade == Null || $this->pharm_grade == Null || $this->phyto_grade == Null);
     }
+
     public function getLastReviewProductAttribute()
     {
         return self::where('failed_tag', $this->failed_tag)->orderBy("created_at", "DESC")->first();
     }
+
     public function productType()
     {
         return $this->belongsTo('App\ProductType', 'product_type_id');
@@ -88,6 +121,12 @@ class Product extends Model
     {
         return $this->hasMany("App\ProductDept","product_id");
     }
+
+    public function departmentById($dept_id)
+    {
+        return $this->departments->where("id", $dept_id)->first();
+    }
+
     public function departments(){
         return $this->belongsToMany('App\Department','product_depts','product_id','dept_id')
         ->withpivot('quantity','dept_id','status','distributed_by','received_by','delivered_by','received_at','created_at','updated_at');
@@ -350,7 +389,7 @@ class Product extends Model
     public function getFinalHodPharmEvaluationAttribute()
     {
            if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
-            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Pendind</button>';
+            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Pending</button>';
          }
          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 7) {
             return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Withheld</button>';

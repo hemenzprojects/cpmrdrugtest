@@ -28,7 +28,7 @@ class PharmController extends Controller
         $this->middleware('admin');
     }
 
-    //********************* Micro Receive Product ****************** */
+    //********************* pharm Receive Product ****************** */
 
     public function receiveproduct_index(){
           
@@ -532,7 +532,6 @@ class PharmController extends Controller
                }
 
              public function report_show($id){
-              // dd($id);            
 
               $data['pharmreports'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
@@ -1004,30 +1003,47 @@ class PharmController extends Controller
 
              public function generalreport_index(){
            
-              $data['product_types'] = \App\ProductType::all();
-  
-              $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->orwhere('pharm_hod_evaluation',Null)->with("departments")->whereHas("departments", function($q){
-                return $q->where("dept_id",2)->where('status','>',1)->where('status','<',8);
-              })->get();
-              $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
-                return $q->where("dept_id",2)->where('status','>', 6);
+             $data['from_date'] = "2020-01-01";
+            $data['to_date'] = now();
+
+            $data['product_types'] = \App\ProductType::all();
+            $data['year'] = \Carbon\Carbon::now('y');
+
+            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            })->where('pharm_hod_evaluation','<>',2)->get();
+            
+            $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            })->WhereNull("pharm_hod_evaluation")->get();
+
+            $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+              $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($data){
+                return $q->where("dept_id",2)->where('status','>', 6)->whereRaw('YEAR(received_at)= ?', array($data['year']));
               })->get();
 
               return view('admin.pharm.generalreport.index',$data);
              }
              public function generalyearly_report(Request $r){
-             
               $data = $r->all();
               $data['product_types'] = \App\ProductType::all();
-
-              $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->with("departments")
-              ->whereHas("departments", function($q)use($data){
-                return $q->where("dept_id",2)->where('status','>',1)->where('status','<',8)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
-              })->get();
+              $data['from_date'] = "2020-01-01";
+              $data['to_date'] = now();
+   
+              $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
+               return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+             })->where('pharm_hod_evaluation','<>',2)->get();
+             
+             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
+               return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+             })->WhereNull("pharm_hod_evaluation")->get();
+   
+              $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
                $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->with("departments")
                ->whereHas("departments", function($q)use($data){
-                return $q->where("dept_id",2)->where('status','>',1)->where('status','>', 6)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
+                return $q->where("dept_id",2)->where('status','>', 6)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
               })->get();
 
                return view('admin.pharm.generalreport.index',$data);
@@ -1037,12 +1053,62 @@ class PharmController extends Controller
              public function completedreports_index($id){
 
               $data['ptype_id'] = $id;
-              $data['completed_products'] = Product::where('product_type_id',$id)->where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
+              $data['completed_products'] = Product::where('product_type_id',$id)->where('pharm_hod_evaluation',2)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id",2)->where('status','>', 6);
               })->get();
 
               return view('admin.pharm.generalreport.completedreports',$data);
              }
+
+             public function pendingreports_index(Request $r, $id){
+             
+             $data['ptype_id'] = $id;
+             $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
+                return $q->where("dept_id",2)->where('status','>',1)->where('status','<', 8);
+              })->pluck('id')->toArray();
+             
+             $data['dept2'] = Department::find(2)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
+          
+              return view('admin.pharm.generalreport.pendingreports',$data);
+             }
+
+             public function between_months(Request $r){
+
+              // $data = $r->all();
+              if ($r->from_date == null) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select required date to begin begin');
+                return redirect()->route('admin.pharm.general_report.index');
+               }
+        
+              if ($r->to_date == null) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select required date to end report');
+                return redirect()->route('admin.pharm.general_report.index');
+               }
+               
+              $data['product_types'] = \App\ProductType::all();
+
+           
+             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->where('pharm_hod_evaluation','<>',2)->get();
+            
+            $data['pending_products2'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->WhereNull("pharm_hod_evaluation")->get();
+  
+            $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+             $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->whereHas("departments", function($q)use($r){
+                return $q->where("dept_id",2)->where('status','>', 6)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
+              })->get(); 
+
+              return view('admin.pharm.generalreport.index',$data);
+
+             }
+
+
 
              public function yearly_report(Request $r){
               $data = $r->all();
@@ -1066,35 +1132,7 @@ class PharmController extends Controller
   
              }
 
-             public function between_months(Request $r){
-           
-
-              // $data = $r->all();
-              if ($r->from_date == null) {
-                Session::flash('message_title', 'error');
-                Session::flash('message', 'Please select required date to begin begin');
-                return redirect()->route('admin.pharm.general_report.index');
-               }
-        
-              if ($r->to_date == null) {
-                Session::flash('message_title', 'error');
-                Session::flash('message', 'Please select required date to end report');
-                return redirect()->route('admin.pharm.general_report.index');
-               }
-              $data['product_types'] = \App\ProductType::all();
-             $data['pending_products'] = Product::where('pharm_hod_evaluation', '<', 2)->whereHas("departments", function($q)use($r){
-                return $q->where("dept_id",2)->where('status','<',8)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get();
-
-             $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->whereHas("departments", function($q)use($r){
-                return $q->where("dept_id",2)->where('status','>', 6)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get(); 
-
             
-
-              return view('admin.pharm.generalreport.index',$data);
-
-             }
 
   
 }

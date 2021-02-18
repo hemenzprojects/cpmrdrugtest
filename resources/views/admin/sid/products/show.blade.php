@@ -276,7 +276,10 @@
                                         <tbody>
                                             @foreach ($product_history as $p)
                                             <tr>
-                                                <td class="font">{{$p->productType->code}}|{{$p->id}}|{{$p->created_at->format('y')}}</td>
+                                                <td class="font">
+                                               <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$product->code}}
+                                                </span></td>
                                                 <td class="font">{{$p->name}}</td>
                                                 <td class="font">{{$p->productType->name}}</td>
                                                 <td class="font">{{$p->price}}</td>
@@ -293,17 +296,21 @@
                         </div>
                     </div>
                 </div>
-                @if ($product->overall_status == 2)
+                {{-- @if ($product->overall_status == 2)
                 @if ($product->failed_final_grade)
                 <div class="card-body template-demo">
                     <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
-                    <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">REVIEW PRODUCT</button>
+                    <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">PRODUCT ASSESSMENT</button>
                     </a>
                 </div>  
                 @endif
-                @endif
+                @endif --}}
               
-                
+                <div class="card-body template-demo">
+                    <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
+                    <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">PRODUCT ASSESSMENT</button>
+                    </a>
+                </div> 
             </div>
         </div>
  

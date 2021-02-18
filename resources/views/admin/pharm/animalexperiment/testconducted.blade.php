@@ -70,13 +70,11 @@
                        
                         <td class="font">
                         <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$all_exp_conducted->id}}" title="View Product" href="">
-                         <span href="" class="badge badge-danger pull-right">
-                            {{ucfirst($all_exp_conducted->productType->code)}}|{{$all_exp_conducted->id}}|{{$all_exp_conducted->created_at->format('y')}}
-                        </span>
+                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                {{$all_exp_conducted->code}}
+                            </span>
                         </a> 
-                        <sup style="font-size: 1px">
-                            {{ucfirst($all_exp_conducted->productType->code)}}{{$all_exp_conducted->id}}{{$all_exp_conducted->created_at->format('y')}}
-                         </sup> 
+                        
                         </td>
                         <td class="font">
                             @foreach ($all_exp_conducted->animalExperiment->unique('pharm_testconducted') as $item)
@@ -95,9 +93,8 @@
                             @endforeach                    
                         </td> 
                         <td class="font">
-                        @foreach ($all_exp_conducted->animalExperiment as $item)
-                        {{($item->death)}}
-                        @endforeach 
+                            {{$all_exp_conducted->experimental_deaths}} Deaths <br>
+                            {{$all_exp_conducted->experimental_Lives}} Lives 
                         </td> 
                         <td class="font">
                             (  @foreach($all_exp_conducted->animalExperiment as $temp)

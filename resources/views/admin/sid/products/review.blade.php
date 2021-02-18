@@ -10,7 +10,7 @@
                             <i class="ik ik-edit bg-blue"></i>
                             <div class="d-inline">
                                 <h5>Product Review of {{$p->name}}  <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
-                                    {{$p->productType->code}}|{{$p->id}}|{{$p->created_at->format('y')}}
+                                    {{$product->code}}
                                 </span></h5>
                                 <span>Please input required data in the field requested and submit for review</span>
                             </div>
@@ -260,8 +260,8 @@
                                             @foreach($products as $product)
                                             <tr>
                                             <td class="font">
-                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
-                                                    {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$product->code}}
                                                 </span>
                                                 </td>
                                             <td class="font">{{ucfirst($product->name)}}

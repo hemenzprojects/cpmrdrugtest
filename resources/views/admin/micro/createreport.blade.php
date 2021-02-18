@@ -61,11 +61,10 @@
                                     <div class="col-lg-10 col-md-12">
                                         <p>
                                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""> 
-                                            <span href="" class="badge badge-danger pull-right">
-                                             {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
-                                             <sup style="font-size: 1px" >{{$microproduct->productType->code}}{{$microproduct->id}}{{$microproduct->created_at->format('y')}}</sup>
-                                           
-                                            </span>
+                                            
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$microproduct->code}}
+                                               </span>
                                             </a>  
                                           <span></span>
                                         </p>
@@ -89,7 +88,7 @@
                                     
                                             <h6> Product</h6>
 
-                                            <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</small>
+                                            <small class="text-muted ">{{$microproduct->code}}</small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
                                             <h6>Quantity</h6>
@@ -196,11 +195,11 @@
                                         <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
                                         <div class="feeds-body">
                                             <h4 class="">
-                                                  <span href="" class="badge badge-warning pull-right">
-                                                    {{$microproduct_withtest->productType->code}}|{{$microproduct_withtest->id}}|{{$microproduct_withtest->created_at->format('y')}}
-                                                <sup style="font-size: 1px" >{{$microproduct_withtest->productType->code}}{{$microproduct_withtest->id}}{{$microproduct_withtest->created_at->format('y')}}</sup>
                                                   
-                                                </span>
+                                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                        {{$microproduct_withtest->code}}
+                                                   </span>
+                                               
                                                   <span href="" class="badge pull-right">
                                                   <p style="font-size: 10px;margin: 2px"></p>
                                                   </span><br>
@@ -296,10 +295,9 @@
                                           <div class="feeds-left"><i class="ik ik-square text-warning"></i></div>
                                           <div class="feeds-body">
                                               <h4 class="">
-                                                  <span href="" class="badge badge-success pull-right">
-                                                  {{$microproduct_completedtest->productType->code}}|{{$microproduct_completedtest->id}}|{{$microproduct_completedtest->created_at->format('y')}}
-                                                <sup style="font-size: 1px" > {{$microproduct_completedtest->productType->code}}{{$microproduct_completedtest->id}}{{$microproduct_completedtest->created_at->format('y')}}</sup>
-                                                </span>                
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$microproduct_completedtest->code}}
+                                               </span>        
                                                 <small class="float-right text-muted">{{count($microproduct_completedtest->loadAnalyses)}} MLA Tests</small><br>
                                                 @if (count($microproduct_completedtest->efficacyAnalyses)>0)
                                                 <small class="float-right text-muted">{{count($microproduct_completedtest->efficacyAnalyses)}} MEA Tests</small><br>
@@ -349,8 +347,7 @@
                                         <option value="">Select Product</option>
                                         @foreach($microproducts as $microproduct)
                                        <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
-                                        {{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}
-                                        {{ucfirst($microproduct->name)}} 
+                                        {{$microproduct->code}} 
                                       </option>
                                         @endforeach
                                     </select>

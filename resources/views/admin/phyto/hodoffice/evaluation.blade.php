@@ -40,7 +40,6 @@
                                             <h6>Report(s) Withheld</h6>
                                             @foreach ($withhelds->groupBy('phyto_hod_evaluation') as $result_evaluation) 
                                            <h2>{{count($result_evaluation)}}</h2>
-                                         
                                             @endforeach
                                         </div>
                                         <div class="icon">
@@ -167,12 +166,9 @@
                                                     </div>
                                                 </td>
                                                 <td class="font">
-                                                    <span style="color: #0e9059">
-                                                    {{$product_evaluation->productType->code}}|{{$product_evaluation->id}}|{{$product_evaluation->created_at->format('y')}} 
-                                                   </span>
-                                                   <sup style="font-size: 1px">
-                                                    {{$product_evaluation->productType->code}}{{$product_evaluation->id}}{{$product_evaluation->created_at->format('y')}} 
-                                                 </sup> 
+                                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                        {{$product_evaluation->code}}
+                                                    </span>  
                                                 </td>
                                                 <td class="font">
                                                 @foreach ($product_evaluation->organolipticReport->groupBy('id')->first() as $item)

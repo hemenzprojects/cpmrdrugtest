@@ -66,12 +66,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-10 col-md-12">
                                         <p>
-                                        <span href="" class="badge  pull-right" style="background-color:red; color:#fff">
-                                        {{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}
-                                        <sup style="font-size: 1px">
-                                            {{$sample_prep->productType->code}}{{$sample_prep->id}}{{$sample_prep->created_at->format('y')}}
-                                           </sup>
-                                        </span>
+                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                {{$sample_prep->code}}
+                                            </span>
                                           {{-- <span>{{ucfirst($sample_prep->name)}}</span> --}}
                                         </p>
                                         <span href="" class="badge pull-right">
@@ -102,7 +99,11 @@
                                               <div class="col-sm-6">
                                                   
                                             <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$sample_prep->productType->code}}|{{$sample_prep->id}}|{{$sample_prep->created_at->format('y')}}</small>
+                                            <small class="text-muted ">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$sample_prep->code}}
+                                                </span>
+                                            </small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($sample_prep->productType->name)}}</small>
                                             <h6>Quantity</h6>                                         
@@ -224,12 +225,9 @@
                                     <div class="col-lg-10 col-md-12" >
                                         <p  style="margin-bottom: 10px">
                                        <a data-toggle="modal"  data-placement="auto" data-target="#demoModal{{$inprogress->id}}" title="View Experiment" href=""></i>  
-                                        <span href="" class="badge  pull-right" style="background-color: #ffc107 ">
-                                        {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
-                                        <sup style="font-size: 1px">
-                                            {{$inprogress->productType->code}}{{$inprogress->id}}{{$inprogress->created_at->format('y')}}
-                                         </sup>    
-                                       </span>
+                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                            {{$inprogress->code}}
+                                        </span>
                                         </a> 
                                          <span></span>
                                         </p>
@@ -458,12 +456,9 @@
                                     <div class="col-lg-10 col-md-12" >
                                         <p  style="margin-bottom: 10px">
                                        <a data-toggle="modal"  data-placement="auto" data-target="#demoModal{{$exp_completed->id}}" title="View Experiment" href=""></i>  
-                                        <span href="" class="badge  pull-right" style="background-color: #26c281 ">
-                                        {{$exp_completed->productType->code}}|{{$exp_completed->id}}|{{$exp_completed->created_at->format('y')}}
-                                        <sup style="font-size: 1px">
-                                            {{$exp_completed->productType->code}}{{$exp_completed->id}}{{$exp_completed->created_at->format('y')}}
-                                         </sup> 
-                                      </span>
+                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                            {{$exp_completed->code}}
+                                        </span>
                                         </a> 
                                          <span>{{ucfirst($exp_completed->name)}}</span>
                                         </p>
@@ -720,14 +715,11 @@
                                 <td class="font">
 
                                 <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$pharmproduct->id}}" title="View Product" href="">
-                                 <span href="" class="badge badge-danger pull-right">
-                                     
-                                        {{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}
-                                </span>
+                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                        {{$pharmproduct->code}}
+                                    </span>
                                 </a> 
-                                 <sup style="font-size: 1px">
-                                    {{$pharmproduct->productType->code}}{{$pharmproduct->id}}{{$pharmproduct->created_at->format('y')}}
-                                 </sup> 
+                              
                                 </td>
                                 <td class="font">
                                     <input type="text" class="form-control" name="measurement_{{$pharmproduct->id}}"  placeholder="Volume/Mass/Weight" >
@@ -764,7 +756,10 @@
                                         <div class="card-body"> 
                                     
                                             <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}} |   {{ucfirst($pharmproduct->name)}}</small>
+                                            <small class="text-muted ">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$pharmproduct->code}}
+                                                </span>                                            </small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($pharmproduct->productType->name)}}</small>
                                             <h6>Quantity</h6>                                         

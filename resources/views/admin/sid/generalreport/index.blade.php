@@ -64,21 +64,26 @@
                 <h3>{{$product_type->name}} Reports</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                      
+                    
+
+                     <div class="col-md-6">
+                        <form action="{{route('admin.sid.pending_reports.index',['id' => $product_type->id])}}" method="POST">
+                            {{ csrf_field() }}
                             <div class="card-block text-center">
                                 <div class="state">
                                     <h5 style="font-size: 15px">Pending </h5><hr>
-        
-                                    {{-- @foreach ($pending_reports->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item) --}}
+                                    @foreach ($product_type['pending'] as $item)
+                                    <input type="hidden" name="pending_report_ids[]" value="{{$item->id}}">
+                                    @endforeach
+                                    <button type="submit" class="btn btn-outline-light btn-rounded" style="height:23%">
                                     <h2 style="color: red"> {{count($product_type['pending'])}}</h2>
-                                    {{-- @endforeach  --}}
-                                            
+                                    </button>       
                                 </div>
                                 <small class="text-small mt-10 d-block">Total number of pending reports</small>
                             </div>
-                      
-                    </div>
+                        </form>
+                      </div>
+                  
                     <div class="col-md-6">
               
                         <a href="{{route('admin.sid.final_reports.index',['id' => $product_type->id])}}">
@@ -125,6 +130,7 @@
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
              <td class="font"> 
+
                 {{count($product_type['pending'])}}
              </td>
              <td class="font"> 

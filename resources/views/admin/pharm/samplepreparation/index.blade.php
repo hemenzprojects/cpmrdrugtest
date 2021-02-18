@@ -73,11 +73,9 @@
                             <td class="font">
                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$recordbook->id}}" title="View Product" href="">
                              <span href="" class="badge badge-danger pull-right">
-                                {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
+                                {{ucfirst(\App\Product::findOrFail($recordbook->product_id)->code)}}
                             </span>
-                            <sup style="font-size: 1px">
-                                {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}{{$recordbook->product_id}}{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
-                             </sup> 
+
                             </a> 
                             
                             </td>

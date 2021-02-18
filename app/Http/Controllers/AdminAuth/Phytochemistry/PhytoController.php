@@ -496,6 +496,26 @@ class PhytoController extends Controller
                    return view('admin.phyto.hodoffice.showreport',$data);
                  }
 
+                 public function hod_complete_report($id){
+
+                  $data['report_id'] = $id; 
+              
+                  $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 3)->where("status",3);
+                  if(count($productdepts->get()) < 1){     
+                      return redirect()->back();
+                  }
+                  $productdept = $productdepts->first();
+                  $productdept->status = 4;
+                  $productdept->update();
+      
+                  $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+                    return $q->where("dept_id", 3)->where("status",4);
+                  })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+                  ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
+
+                   return view('admin.phyto.completedreport',$data);
+                  }
+
                  public function evaluate(Request $r){
 
                     // dd($r->all());
@@ -598,11 +618,12 @@ class PhytoController extends Controller
                return redirect()->back(); 
                }
           
-             $data['report_id'] = $id; 
+              $data['report_id'] = $id; 
 
-              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation', 2)->orwhere('phyto_hod_evaluation',Null)->with('departments')->whereHas("departments", function($q){
-               return $q->where("dept_id", 3)->where("status",4);
+              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation','!=',2)->orWhereNull('phyto_hod_evaluation')->with('departments')->whereHas("departments", function($q){
+               return $q->where("dept_id", 3)->where("status",'>',2);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+
              ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
 
              return view('admin.phyto.completedreport',$data);
@@ -611,17 +632,25 @@ class PhytoController extends Controller
 
           
            public function generalreport_index(){
-           
-            $data['product_types'] = \App\ProductType::all();
-
-            $data['from_date'] = "2020-01-01";
+    
+              $data['from_date'] = "2020-01-01";
             $data['to_date'] = now();
-            
-           $data['pending_products'] = Product::where('phyto_hod_evaluation', '<', 2)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",3)->where('status','>',1)->where('status','<',4);
-            })->get();
-           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",3)->where('status','>',1)->where('status','>',2);
+
+            $data['product_types'] = \App\ProductType::all();
+            $data['year'] = \Carbon\Carbon::now('y');
+   
+              $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
+               return $q->where("dept_id",3)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+             })->where('phyto_hod_evaluation','<>',2)->get();
+             
+             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
+               return $q->where("dept_id",3)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+             })->WhereNull("phyto_hod_evaluation")->get();
+   
+            $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+          $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
+              return $q->where("dept_id",3)->where('status','>',2);
             })->get();
 
             return view('admin.phyto.generalreport.index',$data);
@@ -631,13 +660,25 @@ class PhytoController extends Controller
            public function completedreports_index($id){
 
            $data['ptype_id'] = $id;
-           $data['completed_products'] =Product::where('phyto_hod_evaluation', 2)->where('product_type_id',$id)->with("departments")->whereHas("departments", function($q){
+           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->where('product_type_id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id",3)->where('status','>',2);
             })->get();
 
             return view('admin.phyto.generalreport.completedreport',$data);
            }
            
+           public function pendingreports_index(Request $r, $id){
+             
+            $data['ptype_id'] = $id;
+            $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
+               return $q->where("dept_id",3);
+             })->pluck('id')->toArray();
+            
+            $data['dept3'] = Department::find(3)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
+         
+             return view('admin.phyto.generalreport.pendingreports',$data);
+            }
+
            public function between_months(Request $r){
 
 
@@ -658,15 +699,21 @@ class PhytoController extends Controller
              $data = $r->all();
              $data['product_types'] = \App\ProductType::all();
 
-              $data['pending_products'] = Product::where('phyto_hod_evaluation', '<', 2)->with("departments")
-              ->whereHas("departments", function($q)use($r){
-               return $q->where("dept_id",3)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get();
+
+             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->where('phyto_hod_evaluation','<>',2)->get();
+            
+            $data['pending_products2'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
+            })->WhereNull("phyto_hod_evaluation")->get();
+  
+           $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+
+            $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->where('status','>',2)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+             })->get();
               
-               $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")
-              ->whereHas("departments", function($q)use($r){
-                return $q->where("dept_id",3)->whereDate('received_at', '>=', $r->from_date)->whereDate('received_at','<=',$r->to_date);
-              })->get();
 
             return view('admin.phyto.generalreport.index',$data);
            }

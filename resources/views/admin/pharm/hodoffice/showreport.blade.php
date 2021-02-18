@@ -1,6 +1,9 @@
 @extends('admin.layout.main')
 
 @section('content')
+@php
+    $product = \App\Product::find($report_id);
+@endphp
 <div class="container-fluid">
     <div class="card" style="padding: 15px">
          <div class="text-center"> 
@@ -18,7 +21,7 @@
                                 <tr>
                                     <td class="font"> <strong>Product:</strong></td>
                                     <td class="font">
-                                        {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} 
+                                        {{$pharmreports->code}} 
                                     </td>
                                 </tr>
                                 <tr>
@@ -231,14 +234,8 @@
                                         <tr>
                                             <td class="font"><strong>No. of Death Recorded</strong></td> 
                                             <td  class="font">
-                                                @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                            
-                                                    Nill
-                                                @endif
-
-                                                @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                                {{count($item)}}
-                                                @endforeach  
+                                                {{$pharmreports->experimental_deaths}} Deaths <br>
+                                                {{$pharmreports->experimental_Lives}} Lives 
                                             </td>
                                         </tr>
                                         <tr>
@@ -359,14 +356,8 @@
                                                 <tr>
                                                     <td class="font"><strong>No. of Death Recorded</strong></td> 
                                                     <td  class="font">
-                                                        @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                                    
-                                                            Nill
-                                                        @endif
-
-                                                        @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                                        {{count($item)}}
-                                                        @endforeach  
+                                                        {{$pharmreports->experimental_deaths}} Deaths <br>
+                                                        {{$pharmreports->experimental_Lives}} Lives 
                                                     </td>
                                                 </tr>
                                             
@@ -407,9 +398,9 @@
                 </div>
                 <div class="col-sm-4">
                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Report Grade</strong></h4>
-                    <p>{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!} </p>
+                    <p>{!! $product->pharm_grade_report !!} </p>
                         <select name="pharm_grade" required class="form-control" >
-                        <option value="{{\App\Product::find($pharmreports->id)->pharm_grade}}">{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!}</option>
+                        <option value="{{$product->pharm_grade}}">{!! $product->pharm_grade_report !!}</option>
                             <option value="1">Failed</option>
                             <option value="2">Passed</option>
                         </select> 
@@ -432,12 +423,12 @@
         <div class="row" style="margin: 35px">
             <div class="col-sm-4 invoice-col">
                 <?php
-                $pharm_appoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_appoved_by:'');
+                $pharm_appoved_by = ($product? $product->pharm_appoved_by:'');
                 $hod_user_type = (\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->user_type_id:'');
 
                 ?>
                 <p>Analysed by</p><br>
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                @if ($product->pharm_hod_evaluation ==2)
                 <img src="{{asset(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
 
@@ -453,12 +444,12 @@
          </div>
            <div class="col-sm-4 invoice-col">
             <?php
-            $pharm_finalappoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_finalappoved_by:'');
+            $pharm_finalappoved_by = ($product? $product->pharm_finalappoved_by:'');
             $hod_user_type = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
 
             ?>
             <p>Approved by</p><br>
-            @if (\App\Product::find($pharmreports->id)->pharm_finalappoved_by !== Null)
+            @if ($product->pharm_finalappoved_by !== Null)
             <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
             @endif
 
@@ -475,23 +466,23 @@
           
             <div class="row" style="margin-top: 110px">
                 <div class="col-md-4">
-                    @if (\App\Product::find($report_id)->pharm_hod_evaluation <2)
+                    @if ($product->pharm_hod_evaluation <2)
                     <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>
                     @endif
                 </div>
                 <div class="col-md-8">
-                    @if (\App\Product::find($report_id)->pharm_hod_evaluation ===1) 
+                    @if ($product->pharm_hod_evaluation ===1) 
                     <div class="alert alert-danger" role="alert">
-                        Report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  has been rejected.
+                        Report of {{$product->code}}  has been rejected.
                     </div>       
                    @endif
                 </div>
                   <div class="col-md-7" style="margin-right: 1%">
                       
-                      @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2) 
+                      @if ($product->pharm_hod_evaluation ===2) 
                      <a href="{{ old('redirect_to', URL::previous())}}">
                       <div class="alert alert-success" role="alert">
-                          Report succesfully analysed. Final report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  will be approved by the Hod. 
+                          Report succesfully analysed. Final report of {{$product->code}}  will be approved by the Hod. 
                       </div>
                      </a>
                      @endif
@@ -548,7 +539,7 @@
                       </div>
                     </div>
                 <div class="col-md-4">  
-                     @if (\App\Product::find($report_id)->pharm_hod_evaluation ===2 && \App\Product::find($report_id)->pharm_process_status ===5 || \App\Product::find($report_id)->pharm_process_status ===7 ) 
+                     @if ($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===5 || $product->pharm_process_status ===7 ) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
 

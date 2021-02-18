@@ -49,7 +49,7 @@
                                     @foreach($products as $product)
                                                 
                                     <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}>
-                                         {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} - {{ucfirst($product->name)}} 
+                                         {{$product->code}} - {{ucfirst($product->name)}} 
                                          {{-- @if ($product->failed_tag)
                                          - <p style="color: red">(submit for review. <strong>Micro:</strong> {!! $product->micro_grade_report !!}, <strong>Pharm:</strong> {!! $product->pharm_grade_report !!}, <strong>Phyto:</strong> {!! $product->phyto_grade_report !!})</p> 
                                          @endif --}}
@@ -252,10 +252,8 @@
                                             <tr>
                                                     <td class="font">
                                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                            {{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}
+                                                            {{$product->code}}
                                                         </span>
-                                                      <sup style="font-size: 1px" >{{$product->productType->code}}{{$product->id}}{{$product->created_at->format('y')}}</sup>
-
                                                     </td>
                                                     <td class="font">{{ucfirst($product->name)}}</td>
                                                     
@@ -291,7 +289,7 @@
                                                         <div class="card-body"> 
                                                             
                                                             <h6> Product Name </h6>
-                                                            <small class="text-muted ">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} |   {{ucfirst($product->name)}}</small>
+                                                            <small class="text-muted ">{{$product->code}} |   {{ucfirst($product->name)}}</small>
                                                             <h6>Product Type </h6>
                                                             <small class="text-muted ">{{ucfirst($product->productType->name)}}</small>
                                                             <h6>Quantity</h6>

@@ -1,7 +1,10 @@
 @extends('admin.layout.main')
 
 @section('content')
+@php
 
+    $product = \App\Product::find($phytoshowreport->id);
+@endphp
 
 <div class="container-fluid">
   
@@ -20,7 +23,7 @@
                             <tr>
                                 <td class="font"> <strong>Name of Product:</strong></td>
                                 <td class="font">
-                                    {{$phytoshowreport->productType->code}}|{{$phytoshowreport->id}}|{{$phytoshowreport->created_at->format('y')}} |   {{ucfirst($phytoshowreport->name)}}
+                                {{$phytoshowreport->code}}
                                 </td>
                             </tr>
                             <tr>
@@ -49,7 +52,7 @@
                     <div class="row">
                         
                         <div class="col-lg-10 col-md-10"><h6>A. {{\App\PhytoTestConducted::find(1)->name}}</h6></div> 
-                            @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                            @if ($product->phyto_hod_evaluation <2)
                             <div class="col-lg-1 col-md-10" style="margin: 1%"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#demoModal">Add</button></div>
                             @endif
                             <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
@@ -103,7 +106,7 @@
                     
                             <tr>
                             
-                                @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                                @if ($product->phyto_hod_evaluation <2)
                                 {{-- <th>
                                 <label class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input select_all_child" id="" name="organoleptics_id[]" value="" checked>
@@ -116,7 +119,7 @@
                                 <input type="hidden" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
 
                                 <td class="font"><input class="form-control" type="text" name="organolepticsfeature_ {{$organo_item->pivot->id}} " value="{{$organo_item->pivot->feature}}"></td>
-                                @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                                @if ($product->phyto_hod_evaluation <2)
                                     <td > 
                                     <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/organoleptics/delete',['p_id' => $phytoshowreport->id, 'organo_id' => $organo_item->pivot->phyto_organoleptics_id ])}}">
                                     <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>
@@ -131,7 +134,7 @@
 
                         <div class="row">
                             <div class="col-lg-10 col-md-10"><h6>B. {{\App\PhytoTestConducted::find(2)->name}}</h6></div> 
-                            @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                            @if ($product->phyto_hod_evaluation <2)
                             <div class="col-lg-1 col-md-10" style="margin: 1%"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalLong">Add</button></div>  
                             @endif
                             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" style="display: none;" aria-hidden="true">
@@ -183,7 +186,7 @@
                         <tbody>
                                 @foreach ($phytoshowreport->pchemdataReport as $physicochem_item)
                                 <tr>
-                                    @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                                    @if ($product->phyto_hod_evaluation <2)
                                   {{-- <th>
                                     <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$physicochem_item->pivot->id}}" checked>
@@ -195,7 +198,7 @@
                                 <input type="hidden" name="physicochemname_{{$physicochem_item->pivot->id}}" value="{{$physicochem_item->name}}">
                                 <td style="color: #fff" class="font"><input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->pivot->id}}" value="{{$physicochem_item->pivot->result}}"></td>
                                 
-                                @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                                @if ($product->phyto_hod_evaluation <2)
                                 
                                 </a> 
                                 <td >
@@ -254,7 +257,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
                         <select name="phyto_grade" required class="form-control" id="exampleSelectGender">
-                        <option value="{{\App\Product::find($phytoshowreport->id)->phyto_grade}}">{!! \App\Product::find($phytoshowreport->id)->phyto_grade_report !!}</option>
+                        <option value="{{$product->phyto_grade}}">{!! $product->phyto_grade_report !!}</option>
                             <option value="1">Failed</option>
                             <option value="2">Passed</option>
                         </select>                                
@@ -304,23 +307,23 @@
 
                  <div class="row" style="margin-top: 5%">
                      <div class="col-9">
-                         @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation <2)
+                         @if ($product->phyto_hod_evaluation <2)
                          <button type="submit" onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" class="btn btn-success pull-right">
                              <i class="fa fa-credit-card"></i> 
                              Submit for Approval
                          </button>
                              @endif
-                             @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation ==2)
+                             @if ($product->phyto_hod_evaluation ==2)
                          <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
                          <i class="fa fa-view"></i> Complete Report</button>
                              @endif
                          <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $phytoshowreport->id])}}">
                      </div>
                      <div class="col-3">                        
-                         @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation ==1)
+                         @if ($product->phyto_hod_evaluation ==1)
                          <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                          @endif
-                         @if (\App\Product::find($phytoshowreport->id)->phyto_hod_evaluation ==2)
+                         @if ($product->phyto_hod_evaluation ==2)
                          <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                         @endif
                      </div>

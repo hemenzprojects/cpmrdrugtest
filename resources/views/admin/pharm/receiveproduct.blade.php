@@ -80,10 +80,10 @@
                                     </div>
                                 </td> 
                                 <td class="font">B{{$pharmproduct->pivot->updated_at->format('dym')}}</td>
-                                <td class="font">{{$pharmproduct->productType->code}}|{{$pharmproduct->id}}|{{$pharmproduct->created_at->format('y')}}
-                                   <sup style="font-size: 1px">
-                                    {{$pharmproduct->productType->code}}{{$pharmproduct->id}}{{$pharmproduct->created_at->format('y')}}
-                                   </sup>
+                                <td class="font">
+                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                        {{$pharmproduct->code}}
+                                    </span>                                 
                                     @if ($pharmproduct->isReviewedByDept(2))
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif

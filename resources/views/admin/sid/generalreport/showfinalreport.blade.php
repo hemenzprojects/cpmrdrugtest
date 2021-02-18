@@ -25,7 +25,8 @@
                             <tbody>
                               @foreach($micro_withcompletedproducts as $completedproduct)
                                 <tr>
-                                     <td class="font">  {{$completedproduct->productType->code}}|{{$completedproduct->id}}|{{$completedproduct->created_at->format('y')}}</td>
+                                     <td class="font">  
+                                         {{$completedproduct->productType->code}}|{{$completedproduct->id}}|{{$completedproduct->created_at->format('y')}}</td>
                                     <td class="font">  {{$completedproduct->productType->name}}</td>
                                     <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
                                     @foreach($completedproduct->departments->groupBy('id')->first() as $dept)

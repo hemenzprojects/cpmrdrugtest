@@ -1,3 +1,4 @@
+<?php $product = \App\Product::find($report_id); ?>
 @extends('admin.layout.main')
 
 @section('content')
@@ -24,14 +25,10 @@
                             <tbody>
                                @foreach ($show_productdept as $showproduct)
                                   <tr>
-                                      <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->code}}|{{\App\Product::find($showproduct->product_id)->id}}|{{\App\Product::find($showproduct->product_id)->created_at->format('y')}}</td>
+                                      <td class="font"> {{\App\Product::find($showproduct->product_id)->code}}</td>
                                       <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
-                                      <td class="font">
-                                      
-                                        @foreach (\App\ProductDept::where('product_id',$report_id)->where('dept_id',1)->get() as $item)
-                                        {{$item->updated_at->format('d/m/Y')}}
-                                        @endforeach
-                                        
+                                      <td class="font">                                   
+                                        {{ \App\Product::find($showproduct->product_id)->departmentById(1)->pivot->updated_at->format('d/m/Y') }}                                        
                                       </td>
                                       <td class="font">
                                         <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
@@ -143,7 +140,7 @@
                         <strong><span>General Conclusion</span></strong><br><br>
                         <div class="input-group">
                             <select name="micro_la_conclution" class="form-control" id="exampleSelectGender">
-                                <option value="{{\App\Product::find($report_id)->micro_la_conclution}}">{!! \App\Product::find($report_id)->micro_load_conc !!}</option>
+                                <option value="{{$product->micro_la_conclution}}">{!! $product->micro_load_conc !!}</option>
                                 <option value="1">The sample meets with the requirements as per BP specifications</option>
                                 <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
                             </select>
@@ -251,7 +248,7 @@
                         <strong><span>General Conclusion</span></strong><br><br>
                         <div class="input-group">
                             <select name="micro_ea_conclution" required class="form-control">
-                                <option value="{{\App\Product::find($report_id)->micro_ea_conclution}}">{!! \App\Product::find($report_id)->micro_efficacy_conc !!}</option>
+                                <option value="{{$product->micro_ea_conclution}}">{!! $product->micro_efficacy_conc !!}</option>
                                 <option value="1">The product did not show antimicrobial activity</option>
                                 <option value="2">The product showed antimicrobial activity</option>
                             </select>
@@ -260,7 +257,7 @@
                        @endif
 
      
-                   {{\App\Product::find($report_id)->micro_text_grade}}
+                   {{$product->micro_text_grade}}
                      {{-- 
                       @foreach ($show_productdept as $showproduct) --}}
  
@@ -280,7 +277,7 @@
                         <div class="form-group">
                             <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
                             <select name="micro_grade" required class="form-control" id="exampleSelectGender">
-                            <option value="{{\App\Product::find($report_id)->micro_grade}}">{!! \App\Product::find($report_id)->micro_grade_report !!}</option>
+                            <option value="{{$product->micro_grade}}">{!! $product->micro_grade_report !!}</option>
                                 <option value="1">Failed</option>
                                 <option value="2">Passed</option>
                             </select>                                
@@ -289,12 +286,12 @@
 
                     <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                         <?php
-                        $micro_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_analysed_by:'');
+                        $micro_analysed_by = ($product? $product->micro_analysed_by:'');
                         $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
                       ?>
                         <div class="col-sm-4 invoice-col">
                             <p>Analyzed By</p><br>
-                            @if (\App\Product::find($report_id)->micro_hod_evaluation >null)
+                            @if ($product->micro_hod_evaluation > null)
                             <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
                             -----------------------------<br>
@@ -308,12 +305,12 @@
                         </div>
                         <div class="col-sm-4 invoice-col">
                             <?php
-                            $micro_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_appoved_by:'');
+                            $micro_appoved_by = ($product? $product->micro_appoved_by:'');
                             $hod_user_type = (\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->user_type_id:'');
 
                             ?>
                             <p>Supervisor</p><br>
-                            @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
+                            @if ($product->micro_hod_evaluation ==2)
                             <img src="{{asset(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
 
@@ -330,14 +327,14 @@
 
             <div class="row">
                 <div class="col-9">
-                    @if (\App\Product::find($report_id)->micro_hod_evaluation <2)
+                    @if ($product->micro_hod_evaluation <2)
                     <button type="submit" class="btn btn-success pull-right" id="submit_report" >
                      <i class="fa fa-credit-card"></i> 
                      Submit for Approval
                     </button>
                     @endif
 
-                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
+                    @if ($product->micro_hod_evaluation ==2)
                     <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
                     <i class="fa fa-view"></i>Print report</button>
                     @endif
@@ -346,10 +343,10 @@
                 </div>
                 
                 <div class="col-3">
-                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==1)
+                    @if ($product->micro_hod_evaluation ==1)
                     <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                     @endif
-                    @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
+                    @if ($product->micro_hod_evaluation ==2)
                     <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                    @endif
     

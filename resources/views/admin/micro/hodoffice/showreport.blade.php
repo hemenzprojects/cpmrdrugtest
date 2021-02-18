@@ -25,7 +25,7 @@
                             <tbody>
                               @foreach($micro_withcompletedproducts as $completedproduct)
                                 <tr>
-                                     <td class="font">  {{$completedproduct->productType->code}}|{{$completedproduct->id}}|{{$completedproduct->created_at->format('y')}}</td>
+                                     <td class="font">  {{$completedproduct->code}}</td>
                                     <td class="font">  {{$completedproduct->productType->name}}</td>
                                     <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
                                        <td class="font">
@@ -241,7 +241,7 @@
                     @if (\App\Product::find($report_id)->micro_hod_evaluation ==2) 
                    <a href="{{ old('redirect_to', URL::previous())}}">
                     <div class="alert alert-success" role="alert">
-                        Report succesfully completed. Final report of {{\App\Product::find($report_id)->productType->code}}|{{\App\Product::find($report_id)->id}}|{{\App\Product::find($report_id)->productType->created_at->format('y')}}  will be printed by SID 
+                    Report succesfully completed. Final report of {{\App\Product::find($report_id)->code}} will be printed by SID 
                     </div>
                    </a>
                    
@@ -302,7 +302,7 @@
                        @if (\App\Product::find($report_id)->micro_hod_evaluation ==2) 
                       
                     <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                   <a target="_blank" href="{{url('admin/micro/completedreport/show',['id' => $report_id])}}">
+                   <a target="_blank" href="{{url('admin/micro/report/hod_office/complete_report',['id' => $report_id])}}">
                     <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
                    </a>
                     @endif

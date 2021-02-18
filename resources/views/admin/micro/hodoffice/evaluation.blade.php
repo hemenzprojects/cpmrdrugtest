@@ -167,11 +167,9 @@
                                                     </div>
                                                 </td>
                                                 <td class="font">
-                                                    <span style="color: #0e9059">
-                                                    {{$product_evaluation->productType->code}}|{{$product_evaluation->id}}|{{$product_evaluation->created_at->format('y')}} 
+                                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                        {{$product_evaluation->code}}
                                                    </span>
-                                                <sup style="font-size: 1px" >{{$product_evaluation->productType->code}}{{$product_evaluation->id}}{{$product_evaluation->created_at->format('y')}}</sup>
-
                                                 </td>
                                                 <td class="font">
                                                     <li ><small class="">{{count($product_evaluation->loadAnalyses)}} Microbial Load Analysis</li>

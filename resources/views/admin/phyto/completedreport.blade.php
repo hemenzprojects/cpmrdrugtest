@@ -32,7 +32,9 @@
                     </tr>
                     <tr>
                     <td class="font"><strong>Date Recievied:</strong></td>
-                        <td class="font">{{$phytoshowreport->name}}</td>
+                        <td class="font">
+                            {{ $phytoshowreport->departmentById(3)->pivot->updated_at->format('d/m/Y') }}
+                        </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Date of Report:</strong></td> 

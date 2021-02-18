@@ -64,9 +64,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-12 col-md-12">
                                         <p>
-                                        <span href="" class="badge  pull-right" style="background-color: red; color:#fff">
-                                        {{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}}
-                                        </span>
+                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                {{$animalexp->code}}
+                                            </span>
                                         <sup style="font-size: 1px">
                                             {{$animalexp->productType->code}}{{$animalexp->id}}{{$animalexp->created_at->format('y')}}
                                          </sup> 
@@ -95,7 +95,10 @@
                                         <div class="card-body"> 
                                     
                                             <h6> Product Name </h6>
-                                            <small class="text-muted ">{{$animalexp->productType->code}}|{{$animalexp->id}}|{{$animalexp->created_at->format('y')}} </small>
+                                            <small class="text-muted ">
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$animalexp->code}}
+                                                </span> </small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($animalexp->productType->name)}}</small> 
                                             <small class="text-muted "></small>
@@ -196,12 +199,9 @@
                                     <div class="row">
                                         <div class="col-lg-10 col-md-12">
                                             <p>
-                                                <span href="" class="badge  pull-right" style="background-color: #ffc107">
-                                                {{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}}
-                                                </span>
-                                                <sup style="font-size: 1px">
-                                                    {{$inprogress->productType->code}}{{$inprogress->id}}{{$inprogress->created_at->format('y')}}
-                                                </sup> 
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$inprogress->code}}
+                                                </span> 
                                                 </p> 
                                                 <span class="badge  pull-right"> 
                                                 <strong>Test :</strong> 
@@ -294,15 +294,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-lg-10 col-md-12">
                                         <p>
-                                        <span href="" class="badge  pull-right" style="background-color: #26c281">
-                                        {{$completed->productType->code}}|{{$completed->id}}|{{$completed->created_at->format('y')}}
-                                       
-                                       </span>
-                                          <span> 
-                                              <sup style="font-size: 1px">
-                                                {{$completed->productType->code}}{{$completed->id}}{{$completed->created_at->format('y')}}
-                                         </sup> 
-                                        </span>
+                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                {{$completed->code}}
+                                            </span> 
                                         </p>
                                         <span> <strong>Test :</strong> 
                                             {{\App\PharmTestConducted::find($completed->pharm_testconducted)->name}}
@@ -357,7 +351,7 @@
                             <option value="">Select Product</option>
                             @foreach($animalexps as $animalexp)
                             @foreach($animalexp->pharmsamplePreparation as $item)  
-                            <option spvolume="{{$item->pivot->measurement}}"   product_ma="{{\App\Product::find($item->pivot->product_id)->productType->method_applied}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->productType->code}}|{{\App\Product::find($item->pivot->product_id)->id}}|{{\App\Product::find($item->pivot->product_id)->created_at->format('y')}}</option>
+                            <option spvolume="{{$item->pivot->measurement}}"   product_ma="{{\App\Product::find($item->pivot->product_id)->productType->method_applied}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->code}}</option>
                             @endforeach
                             @endforeach
                          </select>

@@ -94,10 +94,9 @@
                                                 </div>
                                             </td>
                                             <td class="font">
-                                                <span style="color: #0e9059">
-                                                {{$completed_product->productType->code}}|{{$completed_product->id}}|{{$completed_product->created_at->format('y')}} 
-                                                <sup style="font-size: 1px" >{{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}} </sup>
-
+                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                    {{$completed_product->code}}
+                                               </span>
                                             <td class="font">
                                                 <li ><small class="">{{count($completed_product->loadAnalyses)}} Microbial Load Analysis</li>
                                                     @foreach ($completed_product->loadAnalyses->groupBy('id')->first() as $loadnalyses)

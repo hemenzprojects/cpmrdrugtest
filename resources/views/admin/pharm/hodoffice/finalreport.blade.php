@@ -18,7 +18,7 @@
                                 <tr>
                                     <td class="font"> <strong>Product:</strong></td>
                                     <td class="font">
-                                        {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} 
+                                        {{$pharmreports->code}} 
                                     </td>
                                 </tr>
                                 <tr>
@@ -231,14 +231,8 @@
                                         <tr>
                                             <td class="font"><strong>No. of Death Recorded</strong></td> 
                                             <td  class="font">
-                                                @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                            
-                                                    Nill
-                                                @endif
-
-                                                @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                                {{count($item)}}
-                                                @endforeach  
+                                                {{$pharmreports->experimental_deaths}} Deaths <br>
+                                                {{$pharmreports->experimental_Lives}} Lives  
                                             </td>
                                         </tr>
                                         <tr>
@@ -359,14 +353,8 @@
                                                 <tr>
                                                     <td class="font"><strong>No. of Death Recorded</strong></td> 
                                                     <td  class="font">
-                                                        @if (count($pharmreports->animalExperiment->where('death',1)->groupBy('group')) ==0)
-                                                    
-                                                            Nill
-                                                        @endif
-
-                                                        @foreach ($pharmreports->animalExperiment->where('death',1)->groupBy('death') as $item)
-                                                        {{count($item)}}
-                                                        @endforeach  
+                                                        {{$pharmreports->experimental_deaths}} Deaths <br>
+                                                       {{$pharmreports->experimental_Lives}} Lives 
                                                     </td>
                                                 </tr>
                                             

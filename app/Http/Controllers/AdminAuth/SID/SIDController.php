@@ -216,23 +216,26 @@ class SIDController extends Controller
        
        if ($request->check_singlelab) {
 
-        if ($request->micro_hod_evaluation) {
-            $micro_grade =2;
-            $micro_hod_evaluation =2;
-           }
-           if ($request->pharm_hod_evaluation) {
-            $pharm_grade =2;
-            $pharm_hod_evaluation =2;
-           }
-           if ($request->phyto_hod_evaluation) {
-            $phyto_grade =2;
-            $phyto_hod_evaluation =2;
-           }
-           if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
-            Session::flash('message_title', 'error');
-            Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
-            return redirect()->back();
-           }
+            if ($request->micro_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+            }
+
+            if ($request->pharm_hod_evaluation) {
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
+            }
+
+            if ($request->phyto_hod_evaluation) {
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+
+            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
+                return redirect()->back();
+            }
         
        }
 
@@ -257,7 +260,10 @@ class SIDController extends Controller
             'added_by_id' => Auth::guard('admin')->id(),
         ]);
         //   return $data;
-         Product::create($data);
+        
+        $product_type = ProductType::findOrFail($data['product_type_id']);
+        $data["code"] = Product::generateCode($product_type);
+        Product::create($data);
 
         Session::flash("message", "Product Successfully Created.");
         Session::flash("message_title", "success");
@@ -806,8 +812,8 @@ class SIDController extends Controller
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
-
         } 
+
         $data['from_date'] = "2020-01-01";
         $data['to_date'] = now();
 
@@ -870,10 +876,10 @@ class SIDController extends Controller
         $data = $r->all();
 
         $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($r){
-                $query->whereHas("departments",function ($q) use ($r) {
-                            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
-                        });
-        },
+            $query->whereHas("departments",function ($q) use ($r) {
+            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+             });
+         },
         'completed'=>function($query) use ($r){
             $query->whereHas("departments",function ($q) use ($r) {
                         return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
@@ -900,23 +906,46 @@ class SIDController extends Controller
     }
 
 
-    public function finalreports_index($id)
+    public function completedreports_index($id)
     {
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
-
         } 
 
         $data['ptype_id'] = $id;
         $data['final_reports'] = Product::where('product_type_id', $id)
             ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->with('departments')->wherehas('departments')->get();
-           dd($data);
+
         return view('admin.sid.generalreport.finalreports', $data);
     }
 
-    public function finalreports_show($id)
+    public function pendingreports_index(Request $r, $id)
+    {
+        // dd($r->all());
+
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            return redirect()->route('admin.general.dashboard');
+        } 
+
+        $data['ptype_id'] = $id;
+      return  $data['final_reports'] = Product::where('product_type_id', $id)
+            ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->with('departments')->wherehas('departments')->get();
+
+            $data['ptype_id'] = $id;
+            $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
+               return $q->where("dept_id",2)->where('status','>',1)->where('status','<', 8);
+             })->pluck('id')->toArray();
+            
+            $data['dept2'] = Department::find(2)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
+         
+        return view('admin.sid.generalreport.finalreports', $data);
+    }
+
+    public function completedreports_show($id)
     {
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(28)) {
             Session::flash('messagetitle', 'warning');
@@ -946,6 +975,7 @@ class SIDController extends Controller
             return $q->where("dept_id", 3)->where("status", '>', 2);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
             ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
+
 
         return view('admin.sid.generalreport.showfinalreport', $data);
     }
@@ -987,7 +1017,7 @@ class SIDController extends Controller
         
       $data['micro_pendingproduct'] = Product::  
       whereHas("departments", function ($q) use ($data) {
-          return $q->where("dept_id", 1)->where("status", '<',4);
+          return $q->where("dept_id", 1)->where("status", '>',1)->where("status", '<',4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
 
       $data['micro_completedproduct'] = Product::where('micro_hod_evaluation', 2)    
@@ -1008,7 +1038,7 @@ class SIDController extends Controller
           })->get();
 
           $data['pharm_pendingproduct'] = Product::whereHas("departments", function ($q) use ($data) {
-              return $q->where("dept_id", 2)->where("status", '<',8)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+              return $q->where("dept_id", 2)->where("status", '>',1)->where("status", '<',8)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
 
           $data['pharm_completedproduct'] = Product::where('pharm_hod_evaluation', 2)    
@@ -1051,7 +1081,7 @@ class SIDController extends Controller
         
       $data['phyto_pendingproduct'] = Product::  
       whereHas("departments", function ($q) use ($data) {
-          return $q->where("dept_id", 3)->where("status", '<',4);
+          return $q->where("dept_id", 3)->where("status", '>',1)->where("status", '<',4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
 
       $data['phyto_completedproduct'] = Product::where('phyto_hod_evaluation', 2)    

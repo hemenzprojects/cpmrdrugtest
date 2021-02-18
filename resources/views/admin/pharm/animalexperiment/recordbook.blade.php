@@ -49,7 +49,7 @@
             
             <div class="dt-responsive">
                
-                    <table id="#order-table1" class="table table-striped table-bordered nowrap">
+                    <table id="lang-dt" class="table table-striped table-bordered nowrap">
                     
                       
                     <thead>
@@ -72,14 +72,11 @@
                            
                             <td class="font">
                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$recordbook->id}}" title="View Product" href="">
-                             <span href="" class="badge badge-danger pull-right">
-                                {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
+                           
+                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                {{App\Product::find($recordbook->product_id)->code}}
                             </span>
                             </a> 
-                            <sup style="font-size: 1px">
-                                {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}{{$recordbook->product_id}}{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
-                             </sup> 
-                            </td>
                             <td class="font">
                                 {{$recordbook->measurement}}
                             </td>

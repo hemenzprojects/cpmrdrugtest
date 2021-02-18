@@ -26,7 +26,7 @@
                     <tr>
                         <td style="border-top: 1px solid #fff;"> <strong>Name of Product:</strong></td>
                         <td style="border-top: 1px solid #fff;">
-                            {{$completed_report->productType->code}}|{{$completed_report->id}}|{{$completed_report->created_at->format('y')}} |   {{ucfirst($completed_report->name)}}
+                            {{$completed_report->code}} 
                         </td>
                     </tr>
                     <tr>
@@ -185,7 +185,7 @@
     
                 ?>
                 <p>Approved by</p><br>
-                @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
+            @if (\App\Product::find($completed_report->id)->pharm_finalappoved_by !== Null)
                 <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
     

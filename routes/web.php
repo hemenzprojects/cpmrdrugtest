@@ -89,8 +89,10 @@
    Route::get('sid/report/index','AdminAuth\SID\SIDController@report_index')->name('admin.sid.general_report.index');
    Route::post('sid/general_report/yearly','AdminAuth\SID\SIDController@generalyearly_report')->name('sid.generalyearlyreport');
    Route::post('sid/general_report/between_month','AdminAuth\SID\SIDController@between_months')->name('admin.sid.general_report.between_months');
-   Route::get('sid/final_reports/index/{id}','AdminAuth\SID\SIDController@finalreports_index')->name('admin.sid.final_reports.index');
-   Route::get('sid/final_reports/show/{id}','AdminAuth\SID\SIDController@finalreports_show')->name('admin.sid.final_reports.show');
+   Route::get('sid/final_reports/index/{id}','AdminAuth\SID\SIDController@completedreports_index')->name('admin.sid.final_reports.index');
+   Route::get('sid/final_reports/show/{id}','AdminAuth\SID\SIDController@completedreports_show')->name('admin.sid.final_reports.show');
+
+   Route::post('sid/pending_reports/index/{id}','AdminAuth\SID\SIDController@pendingreports_index')->name('admin.sid.pending_reports.index');
 
    //Final Report for 3 labs Section
    Route::get('sid/print_microreport/{id}','AdminAuth\Microbiology\MicroController@printreport')->name('admin.sid.print_microreport');
@@ -137,8 +139,9 @@
    //* General Report Section */
    Route::get('micro/general_report/index','AdminAuth\Microbiology\MicroController@generalreport_index')->name('admin.micro.general_report.index');
    Route::post('micro/general_report/yearly','AdminAuth\Microbiology\MicroController@generalyearly_report')->name('generalyearlyreport');
-   Route::get('micro/completed_reports/index/{id}','AdminAuth\Microbiology\MicroController@completedreports_index')->name('admin.micro.completed_reports.index');
-   
+  Route::get('micro/completed_reports/index/{id}','AdminAuth\Microbiology\MicroController@completedreports_index')->name('admin.micro.completed_reports.index');
+   Route::post('micro/pending_reports/index/{id}','AdminAuth\Microbiology\MicroController@pendingreports_index')->name('admin.micro.pending_reports.index');
+
    Route::post('micro/general_report/between_month','AdminAuth\Microbiology\MicroController@between_months')->name('admin.micro.general_report.between_months');
    Route::post('micro/yearly','AdminAuth\Microbiology\MicroController@yearly_report')->name('yearly');
    Route::post('micro/montlly','AdminAuth\Microbiology\MicroController@monthly_report')->name('monthly');
@@ -154,6 +157,8 @@
   Route::get('micro/hod_office/evaluate_one/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_index');
   // Route::get('micro/hod_office/evaluate_one/{id}/{evaluate}', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit');
   
+  Route::get('micro/report/hod_office/complete_report/{id}','AdminAuth\Microbiology\MicroController@hod_complete_report')->name('admin.micro.hod_office.complete_report');
+
   //Microbiology Hod Sign to Approve */
   Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign');
   Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport');
@@ -191,6 +196,7 @@
 
      //* General Report Section */
      Route::get('pharm/general_report/index','AdminAuth\Pharmacology\PharmController@generalreport_index')->name('admin.pharm.general_report.index');
+     Route::post('pharm/pending_reports/index/{id}','AdminAuth\Pharmacology\PharmController@pendingreports_index')->name('admin.pharm.pending_reports.index');
      Route::get('pharm/completed_reports/index/{id}','AdminAuth\Pharmacology\PharmController@completedreports_index')->name('admin.pharm.completed_reports.index');
      Route::post('pharm/general_report/yearly','AdminAuth\Pharmacology\PharmController@generalyearly_report')->name('admin.pharm.generalyearlyreport');
      Route::get('pharm/completedreports','AdminAuth\Pharmacology\PharmController@completedreports_all')->name('admin.pharm.completedreports.index');
@@ -279,6 +285,7 @@
 
    Route::get('phyto/general_report/index','AdminAuth\Phytochemistry\PhytoController@generalreport_index')->name('admin.phyto.general_report.index');
    Route::get('phyto/completed_reports/index/{id}','AdminAuth\Phytochemistry\PhytoController@completedreports_index')->name('admin.phyto.completed_reports.index');
+   Route::post('phyto/pending_reports/index/{id}','AdminAuth\Phytochemistry\PhytoController@pendingreports_index')->name('admin.phyto.pending_reports.index');
    Route::post('phyto/general_report/between_months','AdminAuth\Phytochemistry\PhytoController@between_months')->name('admin.phyto.general_report.between_months');
 
  });
@@ -291,7 +298,8 @@
     Route::get('phyto/hod_office/evaluate_one/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_index');
     Route::post('phyto/hod_office/evaluate', 'AdminAuth\Phytochemistry\PhytoController@evaluate')->name('admin.phyto.hod_office.evaluate');
 
-    
+    Route::get('phyto/report/hod_office/complete_report/{id}','AdminAuth\Phytochemistry\PhytoController@hod_complete_report')->name('admin.phyto.hod_office.complete_report');
+
      //Phytochemistry Hod Sign to Approve */
      Route::post('/phyto/hod_office/checkhodsign', 'AdminAuth\Phytochemistry\PhytoController@checkhodsign')->name('admin.phyto.hod_office.checkhodsign');
      Route::post('/phyto/hod_office/evaluatereport/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_edit')->name('admin.phyto.hod_office.evaluatereport');

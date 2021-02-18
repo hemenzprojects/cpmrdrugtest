@@ -72,20 +72,28 @@
         <div class="col-lg-6 col-xl-4">
             <div class="card">
                 <div class="card-header">
-                <h3>{{$product_type->name}} Completed</h3>
+                <h3>{{$product_type->name}} Overview</h3>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="">
+                        <form action="{{route('admin.pharm.pending_reports.index',['id' => $product_type->id])}}" method="POST">
+                            {{ csrf_field() }}
+
                             <div class="card-block text-center">
                                 <div class="state">
                                     @foreach ($pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-                                    <h2 style="color: red"> {{count($item)}}</h2>
-                                    @endforeach                                  
+                                     @foreach ($item as $product)
+                                     <input type="hidden" value="{{$product->id}}" name="pending_product_ids[]">
+                                     @endforeach
+                                    <button type="submit" class="btn btn-outline-light btn-rounded" style="height:33%">
+                                        <h2 style="color: red"> {{count($item)}}</h2>
+                                    </button> 
+                                    @endforeach      
+                              
                                 </div>
                                 <small class="text-small mt-10 d-block">Total number of pending product</small>
                             </div>
-                        </a>
+                        </form>
                     </div>
                    
                     <div class="col-md-6">
@@ -96,7 +104,7 @@
                                     <h2 style="color: green"> {{count($item)}}</h2>
                                     @endforeach                                  
                                 </div>
-                                <small class="text-small mt-10 d-block">Total number of completed product </small>
+                                <small class="text-small mt-10 d-block">Total number of Approved /completed product </small>
                             </div>
                         </a>
                     </div>
