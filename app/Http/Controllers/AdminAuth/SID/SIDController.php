@@ -918,6 +918,7 @@ class SIDController extends Controller
 
     public function completedreports_index($id)
     {
+       
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -925,8 +926,7 @@ class SIDController extends Controller
         } 
 
         $data['ptype_id'] = $id;
-        $data['final_reports'] = Product::where('product_type_id', $id)
-            ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->with('departments')->wherehas('departments')->get();
+        $data['final_reports'] = \App\ProductType::where('id',$id)->first();
 
         return view('admin.sid.generalreport.finalreports', $data);
     }

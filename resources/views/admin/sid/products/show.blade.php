@@ -87,7 +87,7 @@
                              <div class="row"> 
                                 <div class="col-md-3 col-6"> <strong>Poduct code</strong>
                                     <br>
-                                    <p class="text-muted">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}}</p>
+                                    <p class="text-muted">{{$product->code}}</p>
                                 </div>
                             
                              </div>
@@ -169,13 +169,37 @@
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
                             </div>
                             @endif
-                            @if($item->status ==3)
+
+                            @if(($item->status ===3) && ($product->micro_hod_evaluation === Null))
+                            <h6 class="mt-30">Microbiology <span class="pull-right">65%</span></h6><span>Report preparation in progress</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:65%;"> <span class="sr-only">35% Complete</span> </div>
+                            </div>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->micro_hod_evaluation === 0))
                             <h6 class="mt-30">Microbiology <span class="pull-right">70%</span></h6><span>Report preparation in progress</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
                             </div>
-                            @endif @if($item->status ==4)
-                            <h6 class="mt-30">Microbiology <span class="pull-right">100% </span></h6><span>Product report completed, Test {!! $product->micro_grade_report !!}</span>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->micro_hod_evaluation === 1))
+                            <h6 class="mt-30">Microbiology <span class="pull-right">75%</span></h6><span>Report preparation in progress. <strong>Grade</strong> {!! $product->micro_grade_report !!}</span></span></span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:75%;"> <span class="sr-only">25% Complete</span> </div>
+                            </div>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->micro_hod_evaluation > 1))
+                            <h6 class="mt-30">Microbiology <span class="pull-right">90%</span></h6><span>Product Report Evaluation. <strong>Grade</strong> {!! $product->micro_grade_report !!}</span></span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:90%;"> <span class="sr-only">30% Complete</span> </div>
+                            </div>
+
+                            @endif 
+                            @if($item->status ==4)
+                            <h6 class="mt-30">Microbiology <span class="pull-right">100% </span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->micro_grade_report !!}</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
@@ -200,21 +224,28 @@
                             </div>
                             @endif
                             @if($item->status ==3)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">40%</span></h6><span>Product Test in progress</span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">60%</span></h6><span>Product Test in progress</span>
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:60%;"> <span class="sr-only">40% Complete</span> </div>
                             </div>
                             @endif
 
-                            @if($item->status ==7)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">70%</span></h6><span>Product under Experimentation {!! $product->pharm_grade_report !!}</span>
+                            @if($item->status ===7)
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">75%</span></h6><span>Product under Experimentation. <strong>Grade</strong> {!! $product->pharm_grade_report !!}</span>
                             <div class="progress progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:75%;"> <span class="sr-only">25% Complete</span> </div>
+                            </div>
+                            @endif
+
+                            @if(($item->pharm_hod_evaluation > 1))
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">90%</span></h6><span>Report Evaluation. <strong>Grade</strong> {!! $product->pharm_grade_report !!}</span>
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:90%;"> <span class="sr-only">10% Complete</span> </div>
                             </div>
                             @endif
 
                             @if($item->status ==8)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed. Test  {!! $product->pharm_grade_report !!}</span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong>  {!! $product->pharm_grade_report !!}</span>
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
@@ -227,25 +258,46 @@
                             
 
                             @if($item->status ==1)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distributed to department </span>
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">10%</span></h6><span>Product is yet to be distributed to department </span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%;"> <span class="sr-only">70% Complete</span> </div>
                             </div>   
                             @endif
                             @if($item->status ==2)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">40%</span></h6><span> Product about to begin report process</span>
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">40%</span></h6><span> Product about to begin report process</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%;"> <span class="sr-only">60% Complete</span> </div>
                             </div>   
                             @endif
-                            @if($item->status ==3)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">70%</span></h6> <span>Report preparation in progress {!! $product->phyto_grade_report !!}</span>
+                            @if(($item->status ===3) && ($product->phyto_hod_evaluation === Null))
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">65%</span></h6><span>Report preparation in progress</span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">70% Complete</span> </div>
-                            </div>   
-                            @endif
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:65%;"> <span class="sr-only">35% Complete</span> </div>
+                            </div>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->phyto_hod_evaluation === 0))
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">70%</span></h6><span>Report preparation in progress</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:70%;"> <span class="sr-only">30% Complete</span> </div>
+                            </div>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->phyto_hod_evaluation === 1))
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">75%</span></h6><span>Product Report Evaluation.  <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:75%;"> <span class="sr-only">25% Complete</span> </div>
+                            </div>
+                            @endif 
+
+                            @if(($item->status ===3) && ($product->phyto_hod_evaluation > 1))
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">90%</span></h6><span>Product Report Evaluation. <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span></span>
+                            <div class="progress  progress-sm">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:90%;"> <span class="sr-only">30% Complete</span> </div>
+                            </div>
+                            @endif 
                             @if($item->status ==4)
-                            <h6 class="mt-30">phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. Test {!! $product->phyto_grade_report !!}</span>
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span>
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>   
@@ -296,7 +348,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- @if ($product->overall_status == 2)
+                @if ($product->overall_status == 2)
                 @if ($product->failed_final_grade)
                 <div class="card-body template-demo">
                     <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
@@ -304,13 +356,13 @@
                     </a>
                 </div>  
                 @endif
-                @endif --}}
+                @endif
               
-                <div class="card-body template-demo">
+                {{-- <div class="card-body template-demo">
                     <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
                     <button type="button" onclick="return confirm('Note: All levels of lab preparations must be completed or 100%. Before reviewing product, Check product report status.')" class="btn btn-info btn-block">PRODUCT ASSESSMENT</button>
                     </a>
-                </div> 
+                </div>  --}}
             </div>
         </div>
  

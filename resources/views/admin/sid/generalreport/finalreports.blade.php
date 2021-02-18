@@ -21,15 +21,15 @@
          </tr>
          </thead>
          <tbody>
-            @foreach ($final_reports as $final_report) 
+            @foreach ($final_reports['completed'] as $final_report) 
              <tr>
                                          
              <td class="font">
-                <sup style="font-size: 1px" >{{$final_report->productType->code}}{{$final_report->id}}{{$final_report->created_at->format('y')}} </sup>
+                <sup style="font-size: 1px" >{{$final_report->code}} </sup>
             </td>
              <td class="font"> 
                  <span style="color: #0e9059">
-                {{$final_report->productType->code}}|{{$final_report->id}}|{{$final_report->created_at->format('y')}} 
+                {{$final_report->code}} 
                </span> 
                
 
@@ -58,7 +58,6 @@
                      <button type="button" class="btn btn-info"><i class="ik ik-share"></i>Print All</button>
                  </a>
                  
-                 {{$final_report}} 
                     
             </td>
 
