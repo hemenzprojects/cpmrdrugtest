@@ -27,9 +27,9 @@
                     </div>
                 </div>
             </div>
-        {{-- @foreach( $errors->all() as $error)
+        @foreach( $errors->all() as $error)
         <li>{{$error}}</li>
-    @endforeach --}}
+    @endforeach
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -169,7 +169,7 @@
                                     <td class="font">{{$product_type->microbial_form}}</td>
                                     <td class="font">{{$product_type->microbial_state}}</td>
                                     <td class="font">{{$product_type->pharm_method_applied}}</td>
-                                    <td class="font">{{App\Admin::find($product_type->added_by_id)->full_name}}</td>
+                                    <td class="font">{{App\Admin::find($product_type->added_by_id)?App\Admin::find($product_type->added_by_id)->full_name:'Null'}}</td>
                                     <td class="font">{{$product_type->created_at->format('Y / m / d')}}</td>
                                     <td class="font">
                                         <div class="table-actions">

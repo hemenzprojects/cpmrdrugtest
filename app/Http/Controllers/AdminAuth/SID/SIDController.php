@@ -395,26 +395,37 @@ class SIDController extends Controller
 
     }
 
-    public function product_category_update(Request $r, ProductType $id){
-
+    public function product_category_update(Request $request, $id){
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(6)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
 
         } 
-        $data = $r->validate([
+        $data = $request->validate([
             'code' => 'required', 
             'name' => 'required|min:3|Alpha', 
             'form' => 'required|numeric', 
             'state' => 'required|numeric', 
-            'method-applied' => 'required|numeric', 
+            'method_applied' => 'required|numeric', 
             'pharm_standard_id' => 'required|numeric', 
         ]);
 
+        $data = ([
+            'code' => $request->code,
+            'name' => $request->name,
+            'form' => $request->form,
+            'state' => $request->state,
+            'method_applied' => $request->method_applied,
+            'pharm_standard_id' => $request->pharm_standard_id,
+            'description' => $request->description,
+            'added_by_id' => Auth::guard('admin')->id(),
+        ]);
+
+        ProductType::where('id', $id)->update($data);
         Session::flash("message", "Product Category Successfully Created.");
         Session::flash("message_title", "success");
-        return redirect()->route('admin.sid.product.category.edit');
+        return redirect()->back();
 
     }
 
@@ -445,7 +456,6 @@ class SIDController extends Controller
             'method_applied' => $request->method_applied,
             'pharm_standard_id' => $request->pharm_standard_id,
             'description' => $request->description,
-            'created_at' => $request->created_at,
             'added_by_id' => Auth::guard('admin')->id(),
         ]);
 

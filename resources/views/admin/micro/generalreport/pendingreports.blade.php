@@ -31,7 +31,7 @@
                                                 <th>Product Type</th>
                                                 <th>Quantity</th>
                                                 <th>status</th>
-                                                <th style="display: none">status id</th>
+                                                <th></th>
                                                 <th>Delivered by</th>
                                                 <th>Received by</th>
                                                 <th>Actions</th>                        
@@ -54,7 +54,7 @@
                                                     <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                                     <td class="font">{{$microproduct->pivot->quantity}}</td>
                                                     {!! $microproduct->product_status !!}
-                                                    <td style="display: none">{{$microproduct->pivot->status}}</td>
+                                                    <td > <p style="display: none">{{$microproduct->pivot->status}}</p> </td>
                                                     <td class="font">
                                                         {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
                                                     </td>

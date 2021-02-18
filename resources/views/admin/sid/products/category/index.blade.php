@@ -21,7 +21,7 @@
                                     <a href="#"><i class="ik ik-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">All Products Categor</li>
+                                <li class="breadcrumb-item active" aria-current="page">All Products Category</li>
                             </ol>
                         </nav>
                     </div>
