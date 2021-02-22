@@ -449,7 +449,7 @@ class SIDController extends Controller
   
         $data = $request->validate([
             'code' => 'required', 
-            'name' => 'required|min:3|Alpha', 
+            'name' => 'required|min:3', 
             'form' => 'required|numeric', 
             'state' => 'required|numeric', 
             'method_applied' => 'required', 
