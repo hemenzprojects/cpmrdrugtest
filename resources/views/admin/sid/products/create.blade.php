@@ -224,22 +224,22 @@
                                                 <div class="col-md-5">
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="check_singlelab" id="check_singlelab" class="custom-control-input">
-                                                        <span class="custom-control-label">&nbsp; Single Labs</span>
+                                                        <span class="custom-control-label">&nbsp; Single/ MultipleLabs</span>
                                                     </label>
                                                 </div>
                                                 <div class="col-md-7 singlelab" style="display: none">
                                                     <p>Please check approved lab(s)</p>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
-                                                        <span class="custom-control-label">&nbsp;Microbiology</span>
+                                                        <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
                                                     </label>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
-                                                        <span class="custom-control-label">&nbsp; Pharmacology</span>
+                                                        <span class="custom-control-label"style=""> Pharmacology</span>
                                                     </label>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
-                                                        <span class="custom-control-label">&nbsp; Phytochemistry</span>
+                                                        <span class="custom-control-label"style="">Phytochemistry</span>
                                                     </label>
                                                 </div>
                                                </div>                                              

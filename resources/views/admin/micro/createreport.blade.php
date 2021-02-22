@@ -207,9 +207,6 @@
                                                    <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_withtest->loadAnalyses)}}mla
                                                     @foreach ($microproduct_withtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
                                                     @endforeach
-                                                    @if ($loadnalyses->pivot->load_analyses_id ===3)
-                                                             /tm count
-                                                    @endif
                                                     @if (count($microproduct_withtest->efficacyAnalyses)>0)
                                                     & {{count($microproduct_withtest->efficacyAnalyses)}}ea
                                                     @endif
@@ -221,27 +218,30 @@
                                         
                                             <span>
                                                
-                                            <small class="float-right font"><strong>Assigned: </strong>{{\App\Admin::find($microproduct_withtest->micro_analysed_by)? \App\Admin::find($microproduct_withtest->micro_analysed_by)->full_name:'null'}}</small><br>
+                                            <small class="float-right font"><strong>Assigned: </strong>
+                                                {{\App\Admin::find($microproduct_withtest->micro_analysed_by)? \App\Admin::find($microproduct_withtest->micro_analysed_by)->full_name:'null'}}
+                                            </small><br>
                                             </span>
                                         
                                               <span>
-                                              <small class="float-right font" > <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
-                                              <span>
+                                              <small class="float-right font" style="margin-left: 5px"> 
+                                                  <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
+                                              </span>
                                                   @if ($microproduct_withtest->micro_grade != null )
                                                   <span>
                                                     <small class="float-right font" style="margin: 0.5px"> <strong>Grade: </strong> {!! $microproduct_withtest->micro_grade_report !!}</small>
-                                                 <span>  
+                                                  </span>  
                                                   @endif 
 
                                         </div>
                                     </a>
-                                    <span class="float-right font">
+                                    <span class="float-right font" style="margin-top:10px">
                                         <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.delete',['id' =>$microproduct_withtest->id ])}}">
                                           <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
                                         </a>
                                          
                                     </span>
-                                    <span style="font-size:10px">
+                                    <span style="font-size:10px" style="margin-top:10px">
                                         @foreach($microproduct_withtest->loadAnalyses as $temp)
                                         @if($microproduct_withtest->loadAnalyses->first() == $temp)
                                         {{$temp->created_at->format('d/m/y')}}

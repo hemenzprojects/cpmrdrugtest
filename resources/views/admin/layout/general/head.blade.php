@@ -42,9 +42,16 @@
     background-color: #0c2702;
     }
 
+    .physicochem_1{
+        display: none;
+    }
+    .physicochem_2{
+        display: none;
+    }
     .physicochem_4{
         display: none;
     }
+
     .showstatus0{
         display: none;
     }
@@ -55,5 +62,7 @@
         display: none;
     }
  
+
+}
    </style>
 </head>

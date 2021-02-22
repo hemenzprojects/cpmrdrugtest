@@ -8,10 +8,10 @@ use App\ProductType;
 
 class Product extends Model
 {
-    protected $fillable = ['code','name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','dosage',
-    'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by',
+    protected $fillable = ['code','name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','single_multiple_lab','dosage',
+    'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_process_status','micro_hod_evaluation','micro_hod_remarks','micro_appoved_by','micro_analysed_by','micro_finalappoved_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_appoved_by','pharm_finalappoved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
-    'phyto_overall_status','phyto_hod_evaluation','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','failed_tag','added_by_id'];
+    'phyto_overall_status','phyto_hod_evaluation','phyto_process_status','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_appoved_by','phyto_analysed_by','micro_finalappoved_by'.'failed_tag','added_by_id'];
 
     protected $appends = [
         "experimental_deaths", "experimental_lives"
@@ -147,7 +147,6 @@ class Product extends Model
             return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
         }
 
-        
 
         elseif (($this->pharm_hod_evaluation < 1) && ($this->pivot->status ===7)) {
             return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>Under Experiment</button></td>';
@@ -346,11 +345,29 @@ class Product extends Model
 
     public function getReportEvaluationAttribute()
     {
+        
+       if($this->micro_hod_evaluation === 0){
+        return '<span style="color:#ff0000; font-size:11.5px">pending</span>';
+       }
        if($this->micro_hod_evaluation === 1){
         return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
       }elseif ($this->micro_hod_evaluation === 2) {
         return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
      }
+
+    }
+
+    public function getFinalHodMicroEvaluationAttribute()
+    {
+           if ($this->micro_hod_evaluation === 2 && $this->micro_process_status === 1) {
+            return '<span style="color:#ff0000; font-size:11.5px">  Pending</span>';
+         }
+         if ($this->micro_hod_evaluation === 2 && $this->micro_process_status === 2) {
+            return '<span style="color:#ff0000; font-size:11.5px">  Withheld</span>';
+         }
+         if ($this->micro_hod_evaluation === 2 && $this->micro_process_status === 3) {
+            return '<span style="color:#0d8205; font-size:11.5px">  Approved</span>';
+         }
 
     }
     // Pharm Report Evaluations

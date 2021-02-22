@@ -155,13 +155,21 @@
   Route::get('micro/hod_office/approval','AdminAuth\Microbiology\MicroController@hodoffice_evaluation')->name('admin.micro.hod_office.approval');
   Route::post('micro/hod_office/evaluate', 'AdminAuth\Microbiology\MicroController@evaluate')->name('admin.micro.hod_office.evaluate');
   Route::get('micro/hod_office/evaluate_one/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_index');
+
+  Route::get('micro/hod_office/showreport/{id}','AdminAuth\Microbiology\MicroController@hodoffice_showreport')->name('admin.hod_office.showreport');
+
   // Route::get('micro/hod_office/evaluate_one/{id}/{evaluate}', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit');
   
   Route::get('micro/report/hod_office/complete_report/{id}','AdminAuth\Microbiology\MicroController@hod_complete_report')->name('admin.micro.hod_office.complete_report');
+  Route::get('micro/report/hod_office/finalreport_send/{id}','AdminAuth\Microbiology\MicroController@hod_finalreport_send')->name('admin.micro.hod_office.finalreport.send');
 
   //Microbiology Hod Sign to Approve */
   Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign');
   Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport');
+
+  //Pharmacology Final Hod Sign to Approve */
+  Route::post('/micro/hod_office/finalapproval/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodfinalapprovalsign')->name('admin.micro.hod_office.finalapproval.checkhodsign');
+  Route::post('/micro/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@finalhodevaluate_one_edit')->name('admin.micro.hod_office.finalapproval.evaluatereport');
 
   //Microbiology configurations */
   Route::get('micro/hod_office/config','AdminAuth\Microbiology\MicroController@hodoffice_config')->name('admin.micro.hod_office.config');

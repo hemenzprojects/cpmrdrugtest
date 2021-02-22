@@ -1,4 +1,7 @@
-<?php $product = \App\Product::find($report_id); ?>
+<?php 
+$product = \App\Product::find($report_id); 
+
+?>
 @extends('admin.layout.main')
 
 @section('content')
@@ -11,7 +14,7 @@
                 <h5 class="font" style="font-size:16px"> Microbiology Department Centre for Plant Medicine Research </h5>
                 <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
                </div>
-                <form action=""> 
+            
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered nowrap dataTable" >
                             <thead>
@@ -25,254 +28,46 @@
                             <tbody>
                                @foreach ($show_productdept as $showproduct)
                                   <tr>
-                                      <td class="font"> {{\App\Product::find($showproduct->product_id)->code}}</td>
+                                      <td class="font"> {{$product->code}}</td>
                                       <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
                                       <td class="font">                                   
-                                        {{ \App\Product::find($showproduct->product_id)->departmentById(1)->pivot->updated_at->format('d/m/Y') }}                                        
+                                        {{ $product->departmentById(1)->pivot->updated_at->format('d/m/Y') }}                                        
                                       </td>
                                       <td class="font">
                                         <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
+                                        
                                        </td>
-                                       <input type="hidden" name="micro_product_id" value="{{\App\Product::find($showproduct->product_id)->id}}">
-                                       <input type="hidden" id="product_typestate" value="7777{{\App\Product::find($showproduct->product_id)->productType->state}}">
+                                       <input type="hidden" name="micro_product_id" value="{{$product->id}}">
+                                       <input type="hidden" id="product_typestate" value="7777{{$product->productType->state}}">
                                        <input class="form-control" type="hidden" id="product_status" value="811920012{{$showproduct->status}}">
                                   </tr>
                                @endforeach
                             </tbody>
                         </table>
                     </div>
+
                 @foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
                 <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
                 @endforeach
 
-                    <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
+                   
 
-                    <div class="table-responsive ">
-                        <table class="table table-striped table-bordered nowrap dataTable">
-                            <thead>
-                                <tr  class="table-info">
-                                    
-                                    <th>Test Conducted</th>
-                                    <th class="77772" style="display: none">Result (CFU/ml)</th>
-                                    <th class="77771" style="display: none">Result (CFU/g)</th>
-                                    <th>Accepted Criterion BP
-                                   (@foreach($show_microbial_loadanalyses as $temp)
-                                    @if($show_microbial_loadanalyses->first() == $temp)
-                                    {{$temp->date_template}})
-                                    @endif
-                                    @endforeach
-                                    </th>
-                                    <th>Compliance Statement</th>
-                                  
-                                </tr>
-                            </thead>
-                            {{-- Load analyses table without many count --}}
-                            <tbody class="1">
-                           
-                              @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+       
+                    @include('admin.micro.temp.mlreportformat')                  
 
-                              <tr>
-                                <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
-                        
-                                <td class="font">
-                                    {{$show_microbial_loadanalyses[$i]->test_conducted}}
-                                    <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">     
-                                </td> 
-                                <td class="font">
-                                    @if ($i<2)
-                                    <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 12px">
-                                        <?php 
-                                        if ($i<2) {
-                                          $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
-                                          $rs_part1 =$results[0];
-                                          $rs_part2 = explode('^',$results[2]);
-                                     
-                                          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                                           
-                                        }
-                                      ?>
-                                    <p>
-                                    <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
-                                    @endif
-                                 <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
-                              
-                                <input type="hidden" class="form-control" id="rs_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
+                    @include('admin.micro.temp.mereportform')
+                    @include('admin.micro.temp.mereportformat')
 
-                                </td>
-                                <td class="font">
-                                    @if ($i<2)
-                                    <p class="" style="font-size: 12px"> 
-                                        <?php 
-                                        if ($i<2) {
-                                          $acceptance_criterion= explode(' ',$show_microbial_loadanalyses[$i]->acceptance_criterion);
-                                          $rs_part1 =$acceptance_criterion[0];
-                                          $rs_part2 = explode('^',$acceptance_criterion[2]);
-                                     
-                                          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                                           
-                                        }
-                                       ?>
-                                    </p>
-                                <input type="hidden" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
-                                @endif
-                                <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="criterion_disabled{{$i}}" name="acceptance_criterion[]"  placeholder="{{$i>1?'Acceptance Criterion':''}}"  value="{{$show_microbial_loadanalyses[$i]->acceptance_criterion}}">
-                                <input type="hidden" class="form-control" id="ac_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->ac_total}}">
-                                </td>
-                                  <td>
-                                    <select name="mlcompliance[]" class="form-control" required>
-                                        <option value="{{$show_microbial_loadanalyses[$i]->compliance}}">{!! $show_microbial_loadanalyses[$i]->micro_compliance !!}</option>
-                                        <option value="1">Failed</option>
-                                        <option value="2">Passed</option>
-                                    </select>
-                                  
-   
-                                  </td>
-                                <input type="hidden"  class="form-control" id="load_analyses{{$i}}" name="loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
-                                
-                             </tr>
-                            @endfor
-                        </tbody>
-                       </table>
 
-                    </div>
-                
-                    <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                        <strong><span>General Conclusion</span></strong><br><br>
-                        <div class="input-group">
-                            <select name="micro_la_conclution" class="form-control" id="exampleSelectGender">
-                                <option value="{{$product->micro_la_conclution}}">{!! $product->micro_load_conc !!}</option>
-                                <option value="1">The sample meets with the requirements as per BP specifications</option>
-                                <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
-                            </select>
-                        </div> 
-                   </div>
-                    <div class="checkefficacy1 col-sm-3">
-                        <label class="custom-control custom-checkbox" >
-                            <input type="checkbox" class=" custom-control-input" name="efficacyanalyses_form" id="check_efficacy2" value="243123">
-                            <span class="custom-control-label">&nbsp;Microbial Efficacy Analysis Form</span>
-                        </label>
-                    </div>
-
-                    <div class="243123" style="display: none">
-                        <div class="card">
-                            <div class="card-header d-block">
-                            </div>
-                            <div class="card-body p-0 table-border-style">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead class="table-warning">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Pathogen</th>
-                                                <th>Product IZone</th>
-                                                <th>Ciprofloxacin IZone</th>
-                                                <th>Fluconazole IZone</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($MicrobialEfficacyform as $metest)
-                                            <tr>
-                                                <td class="font">
-                                                    
-                                                    <label class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="metestform_id[]" value="{{$metest->id}}" class="custom-control-input" checked="true">
-                        
-                                                        <span class="custom-control-label">&nbsp;</span>
-                                                    </label> 
-                                                    
-                                                </td>
-                                                <td class="font">{{$metest->pathogen}}</td>
-                                                <input type="hidden" class="form-control" name="pathogen_form[]" value="{{$metest->pathogen}}">
-
-                                                <td class="font">
-                                                    <input type="number" class="form-control" required name="pi_zoneform[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
-                                                </td>
-                                                <td class="font" class="form-control">                                                    
-                                                    <input type="number" class="form-control" name="ci_zoneform[]"  value="{{$metest->ci_zone}}">
-                                                </td>
-                                                <td class="font">
-                                                    <input type="text" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
-                                                </td>
-
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                    @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0) 
-                       <div class="table-responsive">  
-                            <div class="card-heade" style="margin: 2%">
-                            <h6>Microbial Efficacy Analysis</h6>
-                            </div>
-                            
-                             <table class="table table-striped table-bordered nowrap dataTable">
-                                <thead class="meatablehead 768992334039322" style="display: none">
-                                    <tr class="table-info">
-                                        <th>Pathogen</th>
-                                        <th>PI Zone</th>
-                                        <th>CI Zone</th>
-                                        <th>FI Zone</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="">
-                                    @foreach($show_microbial_efficacyanalyses as $efficacyanalyses)
-                                    
-                                        <tr>
-                                            <input type="hidden" name="metest_id[]" value="{{$efficacyanalyses->id}}" class="custom-control-input" checked="">
-
-                                            <td class="font ">{{$efficacyanalyses->pathogen}}</td>
-                                            <td class="font">
-                                                <input type="text" required class="form-control" required name="pi_zone_update[]" placeholder="PI Zone" value="{{$efficacyanalyses->pi_zone}}">
-                                                <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}">
-                                                <input type="hidden" class="form-control" name="efficacyanalyses_update" value="{{$efficacyanalyses->efficacy_analyses_id}}">
-
-                                            </td>
-                                            <td class="font">
-                                            <input type="text" class="form-control" required name="ci_zone_update[]"  value="{{$efficacyanalyses->ci_zone}}">
-                                            </td>
-                                            <td class="font">
-                                                <input type="text" class="form-control" required name="fi_zone_update[]" value="{{$efficacyanalyses->fi_zone}}">
-                                            </td>
-                                        </tr>
-                                    
-                                    
-                                    @endforeach
-                               </tbody>
-                            </table> 
-                       </div>
-
-                       <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                        <strong><span>General Conclusion</span></strong><br><br>
-                        <div class="input-group">
-                            <select name="micro_ea_conclution" required class="form-control">
-                                <option value="{{$product->micro_ea_conclution}}">{!! $product->micro_efficacy_conc !!}</option>
-                                <option value="1">The product did not show antimicrobial activity</option>
-                                <option value="2">The product showed antimicrobial activity</option>
-                            </select>
-                        </div> 
-                   </div>
-                       @endif
-
-     
-                   {{$product->micro_text_grade}}
-                     {{-- 
-                      @foreach ($show_productdept as $showproduct) --}}
- 
-                    
-                    {{-- <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                        <strong><span>General Comment</span></strong><br><br>
-                       
-                       <textarea class="form-control" required="" id="micro_product_comment" name="micro_comment" placeholder="General Comment" rows="4">{{\App\Product::find($report_id)->micro_comment}}</textarea>
-                        <strong><span>Conclusion</span></strong><br><br>
-                        <div class="input-group">
-                        <input type="text" required class="form-control" id="micro_product_conclution" placeholder="Concution" name="micro_conclution" value="{{\App\Product::find($report_id)->micro_conclution}}">
-                        </div> 
-                   </div> --}}
-
-                    {{-- @endforeach --}}
+                   <div class="row">
+                     @if ( $product->micro_hod_evaluation > 0)
+                     <div class="col-sm-8">
+                         <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD REMARKS: </strong></h4>
+                         <div class="alert alert-info" role="alert">
+                             {{$product->micro_hod_remarks}}
+                           </div>
+                     </div>
+                     @endif
                     <div class="col-sm-3" style="margin-top:30px">
                         <div class="form-group">
                             <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
@@ -283,7 +78,7 @@
                             </select>                                
                             </div>
                     </div>
-
+                </div>
                     <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                         <?php
                         $micro_analysed_by = ($product? $product->micro_analysed_by:'');
@@ -327,29 +122,47 @@
 
             <div class="row">
                 <div class="col-9">
-                    @if ($product->micro_hod_evaluation <2)
-                    <button type="submit" class="btn btn-success pull-right" id="submit_report" >
-                     <i class="fa fa-credit-card"></i> 
-                     Submit for Approval
-                    </button>
-                    @endif
-
-                    @if ($product->micro_hod_evaluation ==2)
-                    <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="complete_report" style="margin-right: 5px;">
-                    <i class="fa fa-view"></i>Print report</button>
-                    @endif
-                    {{-- <input type="hidden" id="report_url" value="{{url('admin/micro/completedreport/show',['id' => $report_id])}}"> --}}
-                    
+                    <div class="row">
+                   
+                        <div class="col-sm-3">
+                            @if ( $product->micro_hod_evaluation ===Null ||  $product->micro_hod_evaluation ===1 )
+                            <button  type="submit" class="btn btn-success pull-right pharmsubmitreport1" id="pharm_submit_report" >
+                            <i class="fa fa-credit-card "></i> 
+                            Save Report
+                            </button>
+                            <button style="display: none" onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-info pull-right pharmsubmitreport2" id="pharm_submit_report" >
+                                <i class="fa fa-credit-card " ></i> 
+                                Submit Report
+                            </button>
+                            @endif
+                            @if ( $product->micro_hod_evaluation ==2)
+                            <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
+                            <i class="fa fa-view"></i> Print Report</button>
+                            @endif
+                        </div>
+                        <div class="col-sm-9">
+                            @if ( $product->micro_hod_evaluation ===Null ||  $product->micro_hod_evaluation ===1 )
+                            <div class="form-check mx-sm-2">
+                                <label class="custom-control custom-checkbox">
+                                    <input id="pharmsubmitreport" type="checkbox" name="complete_report" value="1" class="custom-control-input">
+                                    <span class="custom-control-label">&nbsp;Check to complete report </span>
+                                </label>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="col-3">
-                    @if ($product->micro_hod_evaluation ==1)
+                    @if ( $product->micro_hod_evaluation ===0)
                     <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                     @endif
-                    @if ($product->micro_hod_evaluation ==2)
+                    @if ( $product->micro_hod_evaluation ===1)
+                    <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i> Report Withheld</button>
+                    @endif
+                    @if ( $product->micro_hod_evaluation ===2)
                     <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                    @endif
-    
                 </div>
             </div>
         </form>

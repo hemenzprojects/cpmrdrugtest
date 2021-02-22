@@ -417,7 +417,7 @@
                 
                 </div>
 
-     </form>
+       </form>
 
 
         <div class="row" style="margin: 35px">
@@ -539,11 +539,11 @@
                       </div>
                     </div>
                 <div class="col-md-4">  
-                     @if ($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===5 || $product->pharm_process_status ===7 ) 
+                     @if ($product->pharm_hod_evaluation ===2 && ($product->pharm_process_status ===5 || $product->pharm_process_status ===7) ) 
                     
                   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
 
-                   <a onclick="return confirm('Consider the following before submitting report : 1.All report fields must be appropriately checked 2.submited Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" href="{{route('admin.pharm.hod_office.finalreport.send',['id' => $report_id])}}">
+                   <a onclick="return confirm('Consider the following before submitting report : 1.All report fields must be appropriately checked 2.submited Reports can be edited only after Hod evaluation. Thank you')" href="{{route('admin.pharm.hod_office.finalreport.send',['id' => $report_id])}}">
                   <button type="button" class="btn btn-success pull-right"> Submit for final approval</button>
                   </a>
                   @endif

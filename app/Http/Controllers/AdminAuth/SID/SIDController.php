@@ -34,6 +34,7 @@ class SIDController extends Controller
 
     public function customer_index()
     {
+      
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -215,6 +216,7 @@ class SIDController extends Controller
         $phyto_hod_evaluation =Null;
        
        if ($request->check_singlelab) {
+            $check_singlelab =1;
 
             if ($request->micro_hod_evaluation) {
                 $micro_grade =2;
@@ -238,7 +240,7 @@ class SIDController extends Controller
             }
         
        }
-
+          
         $data = ([
             'name' => $request->name,
             'product_type_id' => $request->product_type_id,
@@ -250,6 +252,7 @@ class SIDController extends Controller
             'exp_date' => $request->exp_date,
             'dosage' => $request->dosage,
             'indication' => $request->indication,
+            'single_multiple_lab' => $check_singlelab,
             'micro_hod_evaluation' => $micro_hod_evaluation,
             'pharm_hod_evaluation' => $pharm_hod_evaluation,
             'phyto_hod_evaluation' => $phyto_hod_evaluation,
@@ -291,7 +294,10 @@ class SIDController extends Controller
 
     public function product_show(Product $id)
     {
-        $data['product'] = $id; if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
+        $data['checkperm'] = Admin::find(Auth::guard('admin')->id())->hasPermission(1);
+
+        $data['product'] = $id; 
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');

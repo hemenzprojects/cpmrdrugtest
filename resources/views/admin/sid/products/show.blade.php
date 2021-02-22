@@ -31,6 +31,7 @@
     </div>
 
     <div class="row">
+     
         <div class="col-lg-4 col-md-5">
             <div class="card">
                 <div class="card-body">
@@ -44,6 +45,7 @@
                 </div>
                 <hr class="mb-0"> 
                 <div class="card-body"> 
+                    @if ($checkperm)
                     <div class="card-body"> 
                         <h6>Name</h6> 
                         <small class="text-muted d-block">{{$product->customer->name}}</small>
@@ -63,11 +65,19 @@
                         <br>
                        
                     </div>
+                    @endif
+                    @if (!$checkperm)
+                    <div class="alert alert-warning" role="alert">
+                        Sorry customer records cant be displayed 
+                      </div>
+                    @endif
                     <br>
                    
                 </div>
             </div>
         </div>
+  
+      
         <div class="col-lg-8 col-md-7">
             <div class="card">
                 <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
@@ -134,13 +144,28 @@
                             </div>
                             <hr>
                           <div class="row">
-                            <div class="col-md-6 col-6"> <strong>Dosage</strong>
+                            <div class="col-md-3 col-6"> <strong>Dosage</strong>
                                 <br>
                                 <p class="text-muted">{{ucfirst($product->dosage)}}</p>
                             </div>
-                            <div class="col-md-6 col-6"> <strong>Indication</strong>
+                            <div class="col-md-3 col-6"> <strong>Indication</strong>
                                 <br>
                                 <p class="text-muted">{{ucfirst($product->indication)}}</p>
+                            </div>
+                            <div class="col-md-6 col-6"> <strong>Single or multiple Labs</strong>
+
+                                <br>
+                               @if ($product->single_multiple_lab ==1)
+                               Test completed in various labs before registration:
+                                    @if ($product->micro_hod_evaluation == 2)
+                                    <li> Microbiology Lab</li>
+                                    @endif
+                                    @if ($product->pharm_hod_evaluation == 2)
+                                    <li> Pharmachology Lab</li>
+                                    @endif @if ($product->phyto_hod_evaluation == 2)
+                                    <li> Phytochemistry Lab<li>
+                                    @endif
+                               @endif
                             </div>
                           </div>
                             

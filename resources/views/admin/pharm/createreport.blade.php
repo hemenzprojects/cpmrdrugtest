@@ -1,7 +1,9 @@
 @extends('admin.layout.main')
 
 @section('content')
-
+@php
+   $product = \App\Product::find($pharmreports->id);
+@endphp
 <div class="container-fluid">
      <div class="card" style="padding: 15px">
           <div class="text-center"> 
@@ -157,11 +159,11 @@
                         <div class="" style="padding: 2%">
    
                             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                            @if (\App\Product::find($pharmreports->id)->pharm_comment !== Null)
+                            @if ( $product->pharm_comment !== Null)
                             <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
                             </textarea>
                             @endif
-                            @if (\App\Product::find($pharmreports->id)->pharm_comment === Null)
+                            @if ( $product->pharm_comment === Null)
                             <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, (P-CODE)  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
                             </textarea> 
                             @endif
@@ -288,12 +290,12 @@
      <div class="row">
          <div class="col-md-8">
           <div class="card" style="padding: 2%">
-            @if (\App\Product::find($pharmreports->id)->pharm_standard !== Null )
+            @if ( $product->pharm_standard !== Null )
                 <textarea style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" >{{$pharmreports->pharm_standard}}
                 </textarea> 
             @endif
 
-            @if (\App\Product::find($pharmreports->id)->pharm_standard === Null)
+            @if ( $product->pharm_standard === Null)
             <textarea name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6">{{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </textarea>
             @endif
 
@@ -309,11 +311,11 @@
                 <div class="card" style="padding: 2%">
                     
                         <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                        @if (\App\Product::find($pharmreports->id)->pharm_comment !== Null)
+                        @if ( $product->pharm_comment !== Null)
                         <textarea  style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" >{{$pharmreports->pharm_comment}}
                         </textarea> 
                         @endif
-                        @if (\App\Product::find($pharmreports->id)->pharm_comment === Null)
+                        @if ( $product->pharm_comment === Null)
                         <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" > {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} appears to be safe / not safe when applied to the skin.
                         </textarea> 
                         @endif
@@ -418,7 +420,7 @@
       </div> 
        @endif
         <div class="row">
-            @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation > 0)
+            @if ( $product->pharm_hod_evaluation > 0)
             <div class="col-sm-8">
                 <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD REMARKS: </strong></h4>
                 <div class="alert alert-info" role="alert">
@@ -430,7 +432,7 @@
              <div class="form-group">
                  <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
                  <select name="pharm_grade" required class="form-control" id="exampleSelectGender">
-                 <option value="{{\App\Product::find($pharmreports->id)->pharm_grade}}">{!! \App\Product::find($pharmreports->id)->pharm_grade_report !!}</option>
+                 <option value="{{ $product->pharm_grade}}">{!!  $product->pharm_grade_report !!}</option>
                      <option value="1">Failed</option>
                      <option value="2">Passed</option>
                  </select>                                
@@ -442,11 +444,11 @@
        <div class="row" style="margin: 35px">
                 <div class="col-sm-4 invoice-col">
                 <?php
-                 $pharm_appoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_appoved_by:'');
+                 $pharm_appoved_by = ( $product?  $product->pharm_appoved_by:'');
                 $hod_user_type = (\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->user_type_id:'');
                 ?>
                 <p>Analysed by</p><br>
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                @if ( $product->pharm_hod_evaluation ==2)
                 <img src="{{asset(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
 
@@ -461,11 +463,11 @@
             </div>
             <div class="col-sm-4 invoice-col">
                 <?php
-             $pharm_finalappoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_finalappoved_by:'');
+             $pharm_finalappoved_by = ( $product?  $product->pharm_finalappoved_by:'');
             $user_type         = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
             ?>
             <p>Approved By</p><br>
-            @if (\App\Product::find($pharmreports->id)->pharm_finalappoved_by !== null)
+            @if ( $product->pharm_finalappoved_by !== null)
             <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
             @endif
             -----------------------------<br>
@@ -481,7 +483,7 @@
                 <div class="row">
                    
                     <div class="col-sm-3">
-                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
+                        @if ( $product->pharm_hod_evaluation ===Null ||  $product->pharm_hod_evaluation ===1 )
                         <button  type="submit" class="btn btn-success pull-right pharmsubmitreport1" id="pharm_submit_report" >
                         <i class="fa fa-credit-card "></i> 
                         Save Report
@@ -491,13 +493,13 @@
                             Submit Report
                         </button>
                         @endif
-                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
+                        @if ( $product->pharm_hod_evaluation ==2)
                         <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
                         <i class="fa fa-view"></i> Print Report</button>
                         @endif
                     </div>
                     <div class="col-sm-9">
-                        @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===Null || \App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1 )
+                        @if ( $product->pharm_hod_evaluation ===Null ||  $product->pharm_hod_evaluation ===1 )
                         <div class="form-check mx-sm-2">
                             <label class="custom-control custom-checkbox">
                                 <input id="pharmsubmitreport" type="checkbox" name="complete_report" value="1" class="custom-control-input">
@@ -514,16 +516,16 @@
           </div>
 
             <div class="col-3">
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===0)
+                @if ( $product->pharm_hod_evaluation ===0)
                 <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                 @endif
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===1)
+                @if ( $product->pharm_hod_evaluation ===1)
                 <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i> Report Withheld</button>
                 @endif
-                @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ===2)
+                @if ( $product->pharm_hod_evaluation ===2)
                 <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                @endif
-                {{-- <input type="hidden" id="pharm_hod_evaluation" value="{{\App\Product::find($pharmreports->id)->pharm_hod_evaluation}}"> --}}
+                {{-- <input type="hidden" id="pharm_hod_evaluation" value="{{ $product->pharm_hod_evaluation}}"> --}}
 
             </div>
       </form>

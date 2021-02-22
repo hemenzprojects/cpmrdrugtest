@@ -785,9 +785,46 @@ console.log(animalmodel);
   </script>
 
   {{-- Micro hop signin --}}
- 
   <script>
-    $('#hodapproveform').submit(function(e){
+    $('#microhodfinalapproveform').submit(function(e){
+      
+        e.preventDefault();
+        console.log('attempted to submit form')
+        
+        var _token = $('#_token').val()
+        var useremail = $('#useremail').val()
+        var userpassword = $('#userpassword').val()
+    
+      var data = {
+      'email' : useremail,
+      'password' : userpassword,
+      '_token': _token
+      }
+      
+      var form = $(this);
+      var url = form.attr('sign-user-url');
+      var url2 = form.attr('action')
+      $.post(url, data, function(result){
+      console.log(result)
+    
+      if (result.status === true)
+      {
+        $('#adminid').val(result.admin);
+        
+        e.currentTarget.submit();
+      }
+    
+        // display the error message some where on the page with result.message
+      $('#error-div').html(result.message)
+      })
+      
+        // Continue the form submit
+    // e.currentTarget.submit();
+    })
+   </script>
+  
+  <script>
+    $('#microhodapproveform').submit(function(e){
       
         e.preventDefault();
         console.log('attempted to submit form')
@@ -944,6 +981,8 @@ console.log(animalmodel);
  </script>
 
 <script>
+
+
   $("#pharmproduct_id").change(function() {
     var product_ma = $('option:selected', this).attr('product_ma');
    

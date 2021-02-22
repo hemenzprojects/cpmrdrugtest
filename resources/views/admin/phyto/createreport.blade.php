@@ -311,7 +311,7 @@
                                </th>
                                 <td class="font"> 
                                 <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p>
-                                    <input class="form-control" type="{{$physicochem_item->id != 4?'hidden':''}}" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                    <input class="form-control" type="{{$physicochem_item->id != 1 && $physicochem_item->id != 2 &&  $physicochem_item->id != 4 ?'hidden':''}}" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
                                 </td>
                                 {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
                                 <td class="font"><input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}"></td>

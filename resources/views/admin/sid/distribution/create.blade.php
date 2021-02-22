@@ -281,7 +281,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="demoModalLabel">{{App\Department::find($product->pivot->dept_id)->name}} Product Details of <span style="color: red">{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} </span></h5>
+                                                        <h5 class="modal-title" id="demoModalLabel">{{App\Department::find($product->pivot->dept_id)->name}} Product Details of <span style="color: red">{{$product->code}} </span></h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                     </div>
                                                     <div class="modal-body">

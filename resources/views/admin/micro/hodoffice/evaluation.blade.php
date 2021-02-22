@@ -27,9 +27,16 @@
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+        <div class="card">
+            @php
+            $hod_anex = App\Admin::where('id',Auth::guard('admin')->id())->where('dept_office_id',1)->first()
+           @endphp
+    
+          @if ($hod_anex->user_type_id ==2)
+
             <div class="card-body">
                     <div class="row clearfix">
                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -39,8 +46,8 @@
                                         <div class="state">
                                             <h6>Report(s) Withheld</h6>
                                             @foreach ($withhelds->groupBy('micro_hod_evaluation') as $result_evaluation) 
-                                           <h2>{{count($result_evaluation)}}</h2>
-                                         
+                                        <h2>{{count($result_evaluation)}}</h2>
+                                        
                                             @endforeach
                                         </div>
                                         <div class="icon">
@@ -62,7 +69,7 @@
                                             <h6> Approved Report(s)</h6>
                                             @foreach ($approvals->groupBy('micro_hod_evaluation') as $result_approved) 
                                             <h2>{{count($result_approved)}}</h2>
-                                             @endforeach
+                                            @endforeach
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-thumbs-up"></i>
@@ -83,7 +90,7 @@
                                             <h6>Completed Report(s) </h6>
                                             @foreach ($completeds->groupBy('micro_hod_evaluation') as $result_completed) 
                                             <h2>{{count($result_completed)}}</h2>
-                                             @endforeach
+                                            @endforeach
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-calendar"></i>
@@ -97,137 +104,360 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                  <div class="card">
-                            <div class="card-header row">
-                                <div class="col col-sm-3">
-                                    <div class="card-options d-inline-block">
-                                        <a href="#"><i class="ik ik-inbox"></i></a>
-                                        <a href="#"><i class="ik ik-plus"></i></a>
-                                        <a href="#"><i class="ik ik-rotate-cw"></i></a>
-                                        <div class="dropdown d-inline-block">
-                                            <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-more-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="moreDropdown">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">More Action</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col col-sm-6">
-                                    <div class="card-search with-adv-search dropdown">
-                                        <form action="">
-                                            <input type="text" class="form-control global_filter" id="global_filter" placeholder="Search.." required>
-                                            <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
-                                            <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                            <div class="adv-search-wrap dropdown-menu dropdown-menu-right" aria-labelledby="adv_wrap_toggler">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control column_filter" id="col0_filter" placeholder="Name" data-column="0">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control column_filter" id="col1_filter" placeholder="Position" data-column="1">
-                                                        </div>
-                                                    </div>
-                                               
-                                                </div>
-                                                <button class="btn btn-theme">Search</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                
-                                    <div class="card-body">
-                                        <form action="{{route('admin.micro.hod_office.evaluate')}}" method="post">
-                                            {{ csrf_field() }}
-                                        <table id="order-table" class="table table-striped table-bordered table dataTable" style="overflow-x:scroll">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Product</th>
-                                                    <th>Test conducted</th>
-                                                    <th>Assigned To</th>
-                                                    <th>Evaluation</th>
-                                                    <th>Date Analysed</th>  
-                                                    <th>Action</th>                  
-                                                </tr>
-                                            </thead> 
-                                            <tbody> 
-                                                @foreach ($evaluations as $product_evaluation)                                      
-                                                <tr>
-                                                <td> 
-                                                    <div class="">
-                                                        <label class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="evaluated_product[]" class="custom-control-input" value="{{$product_evaluation->id}}">
-                                                            <span class="custom-control-label"></span>
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td class="font">
-                                                    <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                        {{$product_evaluation->code}}
-                                                   </span>
-                                                </td>
-                                                <td class="font">
-                                                    <li ><small class="">{{count($product_evaluation->loadAnalyses)}} Microbial Load Analysis</li>
-                                                        @foreach ($product_evaluation->loadAnalyses->groupBy('id')->first() as $loadnalyses)
-                                                        @endforeach
-                                                        @if ($loadnalyses->pivot->load_analyses_id ===3)
-                                                                <span class="float-right" style="color: red">/ tm count</span> 
-                                                        @endif<br>
-                                                        @if (count($product_evaluation->efficacyAnalyses)>0)
-                                                        <li>{{count($product_evaluation->efficacyAnalyses)}} Efficacy Analysis</li>
-                                                        @endif
-                                                </td>
-                                                @foreach($product_evaluation->microbialloadReports->groupBy('id')->first() as $report)
-                                                <td class="font">{{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</td>
-                                                @endforeach 
-                                                <td class="font">{!! $product_evaluation->hod_evaluation !!}</td>
-                                                <td class="font">
-                                                {{$product_evaluation->micro_dateanalysed}}
-                                                </td>
-                                                <td class="font">
-                                                <a href="{{url('admin/micro/hod_office/evaluate_one',['id' => $product_evaluation->id])}}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
 
-                                                </td>
-                                                </tr>
-                                            @endforeach 
-                                            </tbody>
-                                        </table>
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select  name="evaluation" class="form-control" id="exampleSelectGender">                                      
-                                                        <option  value="1" >Complete Report</option>
-                                                        {{-- <option  value="2" >Approve</option> --}}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                @error('status')
-                                                <small style="" class="form-text text-danger" role="alert">
-                                                    <strong>{{$message}}</strong>
-                                                </small>
-                                                @enderror
-                                            </div>
-                                            <div class="col-md-7">   
-                                                <button  type="submit" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-primary mb-2">Complete Selected Report(s)</button>
-                                            </div>
-                                        </div>
-                                        </form>
-                                    </div> 
-                                
-                                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="card" style="height: 500px">
+                        <div class="card-header" style="border-color: #ffc107;" >
+                            @foreach($evaluations->groupBy('product_id') as $evaluation)
+                            <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
+                               {{count($evaluation)}} 
+                            </label>
+                            @endforeach
+                            <h3>Pending Report</h3>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="ik ik-chevron-left action-toggle"></i></li>
+                                    <li><i class="ik ik-rotate-cw reload-card" data-loading-effect="pulse"></i></li>
+                                    <li><i class="ik ik-minus minimize-card"></i></li>
+                                    <li><i class="ik ik-x close-card"></i></li>
+                                </ul>
+                            </div>
                         </div>
-                
+                           <span class="" style="padding:5px">
+                            <input class="form-control" id="listSearch" type="text" placeholder="Type something to search list items">
+                            </span>
+                       
+                          <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
+                                
+                                <ul class="list-group" id="myList">
+                                    @foreach($evaluations->sortBy('micro_hod_evaluation') as $evaluation)
+                                  <li class="list-group-item" style="padding: 1px;border:1px">
+                                    <div class="dd-handle">
+                                            
+                                        <div class="card-body feeds-widget">
+                                        <div class="feed-item">
+                                            <a href="{{ route('admin.hod_office.showreport',['id' => $evaluation->id]) }}">
+                                                <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
+                                                <div class="feeds-body">
+                                                    <h4 class="">
+                                                          
+                                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                                {{$evaluation->code}}
+                                                           </span>
+                                                       
+                                                          <span href="" class="badge pull-right">
+                                                          <p style="font-size: 10px;margin: 2px"></p>
+                                                          </span><br>
+                                                      
+                                                           <span><small class="float-right ">  <strong>Test:</strong> {{count($evaluation->loadAnalyses)}}mla
+                                                            @foreach ($evaluation->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                            @endforeach
+                                                            @if (count($evaluation->efficacyAnalyses)>0)
+                                                            & {{count($evaluation->efficacyAnalyses)}}ea
+                                                            @endif
+                                                            
+                                                          </small>
+                                                         </span><br>   
+                       
+                                                    </h4>
+                                                
+                                                    <span>
+                                                       
+                                                    <small class="float-right font"><strong>Assigned: </strong>
+                                                        {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
+                                                    </small><br>
+                                                    </span>
+                                                
+                                                      <span>
+                                                      <small class="float-right font" style="margin-left: 5px"> 
+                                                          <strong>Evaluation: </strong> {!! $evaluation->report_evaluation !!}</small>
+                                                      </span>
+                                                          @if ($evaluation->micro_grade != null )
+                                                          <span>
+                                                            <small class="float-right font" style="margin: 0.5px"> <strong>Grade: </strong> {!! $evaluation->micro_grade_report !!}</small>
+                                                          </span>  
+                                                          @endif 
+        
+                                                </div>
+                                            </a>
+                                            <span class="float-right font" style="margin-top:10px">
+                                                
+                                                 
+                                            </span>
+                                            <span style="font-size:10px" style="margin-top:10px">
+                                                @foreach($evaluation->loadAnalyses as $temp)
+                                                @if($evaluation->loadAnalyses->first() == $temp)
+                                                {{$temp->created_at->format('d/m/y')}}
+                                                @endif
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                        </div>
+                     
+                                    </div>
+                                      
+                                  </li>
+        
+                                  @endforeach
+                                </ul>
+                          </div>
+                    </div>
+
+                    <div class="card" style="height: 500px">
+                        <div class="card-header" style="border-color: #ffc107;" >
+                            @foreach($final_reports->groupBy('product_id') as $evaluation)
+                            <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
+                               {{count($evaluation)}} 
+                            </label>
+                            @endforeach
+                            <h3>Reports to Hod</h3>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="ik ik-chevron-left action-toggle"></i></li>
+                                    <li><i class="ik ik-rotate-cw reload-card" data-loading-effect="pulse"></i></li>
+                                    <li><i class="ik ik-minus minimize-card"></i></li>
+                                    <li><i class="ik ik-x close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                           <span class="" style="padding:5px">
+                            <input class="form-control" id="listSearch2" type="text" placeholder="Type something to search list items">
+                            </span>
+                       
+                          <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
+                                
+                                <ul class="list-group" id="myList2">
+                                    @foreach($final_reports->sortBy('micro_hod_evaluation') as $evaluation)
+                                  <li class="list-group-item" style="padding: 1px;border:1px">
+                                    <div class="dd-handle">
+                                            
+                                        <div class="card-body feeds-widget">
+                                        <div class="feed-item">
+                                            <a href="{{ route('admin.hod_office.showreport',['id' => $evaluation->id]) }}">
+                                                <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
+                                                <div class="feeds-body">
+                                                    <h4 class="">
+                                                          
+                                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                                {{$evaluation->code}}
+                                                           </span>
+                                                       
+                                                          <span href="" class="badge pull-right">
+                                                          <p style="font-size: 10px;margin: 2px"></p>
+                                                          </span><br>
+                                                      
+                                                           <span><small class="float-right ">  <strong>Test:</strong> {{count($evaluation->loadAnalyses)}}mla
+                                                            @foreach ($evaluation->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                            @endforeach
+                                                            @if (count($evaluation->efficacyAnalyses)>0)
+                                                            & {{count($evaluation->efficacyAnalyses)}}ea
+                                                            @endif
+                                                            
+                                                          </small>
+                                                         </span><br>   
+                       
+                                                    </h4>
+                                                
+                                                    <span>
+                                                       
+                                                    <small class="float-right font"><strong>Assigned: </strong>
+                                                        {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
+                                                    </small><br>
+                                                    </span>
+                                                
+                                                      <span>
+                                                      <small class="float-right font" style="margin-left: 5px"> 
+                                                          <strong>Evaluation: </strong> {!! $evaluation->final_hod_micro_evaluation !!}</small>
+                                                      </span>
+                                                          @if ($evaluation->micro_grade != null )
+                                                          <span>
+                                                            <small class="float-right font" style="margin: 0.5px"> <strong>Grade: </strong> {!! $evaluation->micro_grade_report !!}</small>
+                                                          </span>  
+                                                          @endif 
+        
+                                                </div>
+                                            </a>
+                                            <span class="float-right font" style="margin-top:10px">
+                                                
+                                                 
+                                            </span>
+                                            <span style="font-size:10px" style="margin-top:10px">
+                                                @foreach($evaluation->loadAnalyses as $temp)
+                                                @if($evaluation->loadAnalyses->first() == $temp)
+                                                {{$temp->created_at->format('d/m/y')}}
+                                                @endif
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                        </div>
+                     
+                                    </div>
+                                      
+                                  </li>
+        
+                                  @endforeach
+                                </ul>
+                          </div>
                     </div>
                 </div>
-                
+                <div class="col-md-8">
+                    <div class="card">
+                        
+                          
+                    </div>
+                </div>
+               
+                </div>
+            </div>
+            @endif
 
-        
+            @php
+            $hod_anex = App\Admin::where('id',Auth::guard('admin')->id())->where('dept_office_id',1)->first()
+           @endphp
+
+          @if ($hod_anex->user_type_id ==1)
+           
+            <div class="card">
+                <div class="card-header row">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <form action="{{route('admin.micro.hod_office.evaluate')}}" method="post">
+                                        {{ csrf_field() }} 
+                                    <div class="card-header" style="border-color: #ffc107;" >
+                                        @foreach($final_reports->groupBy('product_id') as $evaluation)
+                                        <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
+                                           {{count($evaluation)}} 
+                                        </label>
+                                        @endforeach
+                                        <h3>Pending Reports</h3>
+                                        <div class="card-header-right">
+                                            <ul class="list-unstyled card-option">
+                                                <li><i class="ik ik-chevron-left action-toggle"></i></li>
+                                                <li><i class="ik ik-rotate-cw reload-card" data-loading-effect="pulse"></i></li>
+                                                <li><i class="ik ik-minus minimize-card"></i></li>
+                                                <li><i class="ik ik-x close-card"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                       <span class="" style="padding:5px">
+                                        <input class="form-control" id="listSearch3" type="text" placeholder="Type something to search list items">
+                                        </span>
+                                   
+                                      <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:800px; margin-bottom: 30px">
+                                        
+                                            <ul class="list-group" id="myList3">
+                                                @foreach($final_reports->sortBy('micro_process_status') as $evaluation)
+                                              <li class="list-group-item" style="padding: 1px;border:1px">
+                                                <div class="dd-handle">
+                                                        
+                                                    <div class="card-body feeds-widget">
+                                                    <div class="feed-item">
+                                                        <a href="{{url('admin/micro/hod_office/evaluate_one',['id' => $evaluation->id])}}">
+                                                            <div class="feeds-left">
+                                                                <div class="">
+                                                                    <label class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" name="evaluated_product[]" class="custom-control-input" value="{{$evaluation->id}}">
+                                                                        <span class="custom-control-label"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="feeds-body">
+                                                                <h4 class="">
+                                                                      
+                                                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                                            {{$evaluation->code}}
+                                                                       </span>
+                                                                   
+                                                                      <span href="" class="badge pull-right">
+                                                                      <p style="font-size: 10px;margin: 2px"></p>
+                                                                      </span><br>
+                                                                  
+                                                                       <span><small class="float-right ">  <strong>Test:</strong> {{count($evaluation->loadAnalyses)}}mla
+                                                                        @foreach ($evaluation->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                                        @endforeach
+                                                                        @if (count($evaluation->efficacyAnalyses)>0)
+                                                                        & {{count($evaluation->efficacyAnalyses)}}ea
+                                                                        @endif
+                                                                        
+                                                                      </small>
+                                                                     </span><br>   
+                                   
+                                                                </h4>
+                                                            
+                                                                <span>
+                                                                   
+                                                                <small class="float-right font"><strong>Assigned: </strong>
+                                                                    {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
+                                                                </small><br>
+                                                                </span>
+                                                            
+                                                                  <span>
+                                                                  <small class="float-right font" style="margin-left: 5px"> 
+                                                                      <strong>Evaluation: </strong> {!! $evaluation->final_hod_micro_evaluation !!}</small>
+                                                                  </span>
+                                                                      @if ($evaluation->micro_grade != null )
+                                                                      <span>
+                                                                        <small class="float-right font" style="margin: 0.5px"> <strong>Grade: </strong> {!! $evaluation->micro_grade_report !!}</small>
+                                                                      </span>  
+                                                                      @endif 
+                    
+                                                            </div>
+                                                        </a>
+                                                        <span class="float-right font" style="margin-top:10px">
+                                                            
+                                                             
+                                                        </span>
+                                                        <span style="font-size:10px" style="margin-top:10px">
+                                                            @foreach($evaluation->loadAnalyses as $temp)
+                                                            @if($evaluation->loadAnalyses->first() == $temp)
+                                                            {{$temp->created_at->format('d/m/y')}}
+                                                            @endif
+                                                            @endforeach
+                                                        </span>
+                                                    </div>
+                                                    </div>
+                                 
+                                                </div>
+                                                  
+                                              </li>
+                    
+                                              @endforeach
+                                            </ul>
+                                         
+                                      </div>
+                                      <span style="padding: 10px;color:#007bff">
+                                        <button type="submit" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.completed Reports can not be edited. Thank you')" class="badge badge-success">Complete</button>
+                                        <a href="" class="text-dark" style="float: right; "></a>
+                                     </span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card">
+                                    
+                                      
+                                </div>
+                            </div>
+                           
+                            </div>
+                
+                    </div> 
+                    </div>
+            </div> 
+         @endif
+               
+         </div>
+
+         
+     </div>
     </div>
+
+    
 </div>
 @endsection

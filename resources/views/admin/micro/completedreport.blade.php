@@ -1,9 +1,18 @@
 @include('admin.layout.general.head')
+<style>
 
-<div class="row">
 
-        <div class="container">
-            <div class="card" style="padding: 15px">
+.watermarked{
+    background-image: url(http://localhost/druganalysis/public/admin/img/logo.jpg);
+    background-size: 50% 40%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+</style>
+<div class="row ">
+
+        <div class="container watermarked"  >
+            <div class="card" style="padding: 15px;     background-color: #ffffffe6;">
                <form action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
                     {{ csrf_field() }} 
                 <div class="text-center"> 

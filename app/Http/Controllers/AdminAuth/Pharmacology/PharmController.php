@@ -812,10 +812,10 @@ class PharmController extends Controller
             }
              $evaluate = [];
             if ($r->evaluate ==1) {
-               $evaluate = 7;
+               $evaluate = 7;//*** 7 means withheld */
             }
             if ($r->evaluate ==2) {
-              $evaluate = 8;
+              $evaluate = 8;//*** 8 means Approved */
             }  
          
            $p = Product::find($id);

@@ -31,7 +31,7 @@
                         <h4>PHYTOCHEMISTRY</h4>
                         @endif
                         @if (Auth::guard('admin')->user()->dept_id ==4)
-                        <h4>ADMNISTRATION</h4>
+                        <h4>SCIENTIFIC INFO DEPT.</h4>
                         @endif
                         <div class="top-menu d-flex align-items-center">
                             {{-- <div class="dropdown">
