@@ -45,7 +45,7 @@ class CreateProductsTable extends Migration
             $table->date('micro_datecompleted')->nullable();
             $table->integer('micro_overall_status')->default(1)->nullable();
             $table->integer('micro_process_status')->nullable()->default(0)->comment('begins from (when assistant head or lab technologist approves report)');
-            $table->integer('micro_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->integer('micro_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved.');
             $table->text('micro_hod_remarks')->nullable();
             $table->integer('micro_appoved_by')->nullable();
             $table->integer('micro_finalappoved_by')->nullable();
