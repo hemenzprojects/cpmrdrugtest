@@ -402,6 +402,7 @@ class SIDController extends Controller
     }
 
     public function product_category_update(Request $request, $id){
+
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(6)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -416,7 +417,7 @@ class SIDController extends Controller
             'method_applied' => 'required|numeric', 
             'pharm_standard_id' => 'required|numeric', 
         ]);
-
+      
         $data = ([
             'code' => $request->code,
             'name' => $request->name,
@@ -445,12 +446,13 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+  
         $data = $request->validate([
             'code' => 'required', 
             'name' => 'required|min:3|Alpha', 
-            'form' => 'required|min:3|numeric', 
+            'form' => 'required|numeric', 
             'state' => 'required|numeric', 
-            'method-applied' => 'required', 
+            'method_applied' => 'required', 
             'pharm_standard_id' => 'required|numeric', 
         ]);
 

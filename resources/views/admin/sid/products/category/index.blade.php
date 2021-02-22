@@ -27,9 +27,9 @@
                     </div>
                 </div>
             </div>
-        {{-- @foreach( $errors->all() as $error)
+        @foreach( $errors->all() as $error)
         <li>{{$error}}</li>
-    @endforeach --}}
+    @endforeach
     <div class="row">
         <div class="col-md-12">
             <div class="card">
