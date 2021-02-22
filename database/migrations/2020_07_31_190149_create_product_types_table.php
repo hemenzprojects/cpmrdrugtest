@@ -23,6 +23,8 @@ class CreateProductTypesTable extends Migration
             $table->integer('pharm_standard_id')->nullable()->comment('This contains default standard for a particular product type');
             $table->text('description')->nullable();
             $table->integer('added_by_id')->nullable();
+            $table->integer('updated_by_id')->nullable();
+
         
             $table->foreign('pharm_standard_id')
                 ->references('id')->on('pharm_standards')

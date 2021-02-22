@@ -69,8 +69,8 @@ class SIDController extends Controller
         
         $data = $request->validate([
             'title' => 'required',
-            'first_name' => 'required|min:3|Alpha',
-            'last_name' => 'required|min:3|Alpha',
+            'first_name' => 'required|min:3',
+            'last_name' => 'required|min:3',
             'email' => 'required|email|max:128|unique:customers',
             'tell' => 'required|numeric',
             'company_name' => 'required',
@@ -129,8 +129,8 @@ class SIDController extends Controller
         } 
         $data = $request->validate([
             'title' => 'required',
-            'first_name' => 'required|min:3|Alpha',
-            'last_name' => 'required|min:3|Alpha',
+            'first_name' => 'required|min:3',
+            'last_name' => 'required|min:3',
             'tell' => 'required|numeric',
             'company_name' => 'required',
             'company_address' => 'required',
@@ -149,7 +149,7 @@ class SIDController extends Controller
             'company_address' => $request->company_address,
             'company_phone' => $request->company_phone,
             'company_location' => $request->company_location,
-            'added_by_id' => Auth::guard('admin')->id(),
+            'updated_by_id' => Auth::guard('admin')->id(),
         ]);
 
         Customer::where('id', $id)->update($data);
@@ -357,7 +357,7 @@ class SIDController extends Controller
             'micro_grade' => $micro_grade,
             'pharm_grade' => $pharm_grade,
             'phyto_grade' => $phyto_grade,
-            'added_by_id' => Auth::guard('admin')->id(),
+            'updated_by_id' => Auth::guard('admin')->id(),
         ]);
 
         Product::where('id', $id)->update($data);
@@ -426,7 +426,7 @@ class SIDController extends Controller
             'method_applied' => $request->method_applied,
             'pharm_standard_id' => $request->pharm_standard_id,
             'description' => $request->description,
-            'added_by_id' => Auth::guard('admin')->id(),
+            'updated_by_id' => Auth::guard('admin')->id(),
         ]);
 
         ProductType::where('id', $id)->update($data);
@@ -541,6 +541,8 @@ class SIDController extends Controller
                 'customer' => $r->customer,
                 'receipt_num' => $product->receipt_num,
                 'price' => $r->initial_amt,
+                'added_by_id' => Auth::guard('admin')->id(),
+
             ]);
             Account::create($data);
         }
@@ -550,6 +552,8 @@ class SIDController extends Controller
                 'customer' => $r->customer,
                 'receipt_num' => $r->receipt_num,
                 'price' => $r->amt_paid,
+                'added_by_id' => Auth::guard('admin')->id(),
+
             ]);
             Account::create($data);
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductType extends Model
 {
     
-    protected $fillable = ['code','name','form','state','method_applied','pharm_standard_id','description','added_by_id','created_at'];
+    protected $fillable = ['code','name','form','state','method_applied','pharm_standard_id','description','added_by_id','updated_by_id','created_at'];
 
     public function admin(){
         return $this->belongsTo('App\Admin','added_by_id');

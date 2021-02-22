@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    protected $fillable = ['product_id','price','receipt_num','customer','created_at','updated_at'];
+    protected $fillable = ['product_id','price','receipt_num','customer','added_by_id','updated_by_id','created_at','updated_at'];
 
     public function product()
     {

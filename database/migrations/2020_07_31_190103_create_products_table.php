@@ -85,6 +85,7 @@ class CreateProductsTable extends Migration
             $table->string('failed_tag')->nullable();
        
             $table->integer('added_by_id')->nullable();
+            $table->integer('updated_by_id')->nullable();
 
             $table->foreign('product_type_id')
                 ->references('id')->on('product_types')

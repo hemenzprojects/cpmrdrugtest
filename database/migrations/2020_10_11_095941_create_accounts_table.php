@@ -20,6 +20,8 @@ class CreateAccountsTable extends Migration
             $table->string('receipt_num');
             $table->double('price');
 
+            $table->integer('added_by_id')->nullable();
+            $table->integer('updated_by_id')->nullable();
             $table->foreign('product_id')
             ->references('id')->on('products')
             ->onDelete('cascade')
