@@ -25,6 +25,7 @@ class CreateMicrobialLoadReportsTable extends Migration
             $table->integer('compliance')->nullable();
             $table->string('date_template')->nullable();
             $table->integer('added_by_id')->nullable();
+            $table->string('definition')->nullable();
             $table->integer('approved_by_id')->nullable();
 
             $table->timestamps();

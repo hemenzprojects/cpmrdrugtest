@@ -47,8 +47,8 @@ class CreateProductsTable extends Migration
             $table->integer('micro_process_status')->nullable()->default(0)->comment('begins from (when assistant head or lab technologist approves report)');
             $table->integer('micro_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved.');
             $table->text('micro_hod_remarks')->nullable();
-            $table->integer('micro_appoved_by')->nullable();
-            $table->integer('micro_finalappoved_by')->nullable();
+            $table->integer('micro_approved_by')->nullable();
+            $table->integer('micro_finalapproved_by')->nullable();
             $table->integer('micro_analysed_by')->nullable();
             $table->integer('micro_reference')->nullable();
 
@@ -64,8 +64,8 @@ class CreateProductsTable extends Migration
             $table->date('pharm_dateapproved')->nullable();
             $table->date('pharm_finaldateapproved')->nullable();
             $table->date('pharm_datecompleted')->nullable();
-            $table->integer('pharm_appoved_by')->nullable();
-            $table->integer('pharm_finalappoved_by')->nullable();
+            $table->integer('pharm_approved_by')->nullable();
+            $table->integer('pharm_finalapproved_by')->nullable();
             $table->integer('pharm_analysed_by')->nullable();
             $table->integer('pharm_experiment_by')->nullable();
 
@@ -78,8 +78,8 @@ class CreateProductsTable extends Migration
             $table->integer('phyto_process_status')->nullable()->default(0)->comment('begins from (when assistant head or lab technologist approves report)');
             $table->integer('phyto_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
             $table->text('phyto_hod_remarks')->nullable();
-            $table->integer('phyto_appoved_by')->nullable();
-            $table->integer('phyto_finalappoved_by')->nullable();
+            $table->integer('phyto_approved_by')->nullable();
+            $table->integer('phyto_finalapproved_by')->nullable();
             $table->integer('phyto_analysed_by')->nullable();
 
             $table->string('failed_tag')->nullable();

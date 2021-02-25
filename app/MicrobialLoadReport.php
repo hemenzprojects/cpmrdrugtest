@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MicrobialLoadReport extends Model
 {
-    protected $fillable = ['product_id','load_analyses_id','test_conducted','result','rs_total','acceptance_criterion','ac_total','date_template','compliance','added_by_id'];
+    protected $fillable = ['product_id','load_analyses_id','test_conducted','result','rs_total','definition','acceptance_criterion','ac_total','date_template','compliance','added_by_id'];
 
    
 

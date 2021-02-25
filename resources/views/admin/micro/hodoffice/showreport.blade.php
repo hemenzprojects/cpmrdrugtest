@@ -5,7 +5,7 @@
 $product = \App\Product::find($report_id); 
 
 ?>
-<div class="container-fluid">
+
     <div class="page-header">
         <div class="row align-items-end">
             <div class="col-lg-8">
@@ -31,9 +31,8 @@ $product = \App\Product::find($report_id);
         </div>
     </div>
     
-    <div class="row">
-        <div class="col-md-12">
-        <div class="card">
+    
+       
             <div class="card-body">
                     <div class="row clearfix">
                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -105,10 +104,6 @@ $product = \App\Product::find($report_id);
             </div>
 
 
-
-
-
-
             <div class="row">
                 <div class="col-md-4">
                     <div class="card" style="height: 500px">
@@ -170,6 +165,12 @@ $product = \App\Product::find($report_id);
                                                        
                                                     <small class="float-right font"><strong>Assigned: </strong>
                                                         {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
+                                                    </small><br>
+                                                    <small class="float-right font"><strong>Approval 1: </strong>
+                                                        {{\App\Admin::find($evaluation->micro_approved_by)? \App\Admin::find($evaluation->micro_approved_by)->full_name:'null'}}
+                                                    </small><br>
+                                                    <small class="float-right font"><strong>Approval 2: </strong>
+                                                        {{\App\Admin::find($evaluation->micro_finalapproved_by)? \App\Admin::find($evaluation->micro_finalapproved_by)->full_name:'null'}}
                                                     </small><br>
                                                     </span>
                                                 
@@ -316,51 +317,13 @@ $product = \App\Product::find($report_id);
                             <h5 class="font" style="font-size:16px"> Microbiology Department Centre for Plant Medicine Research </h5>
                             <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
                            </div>
-                            <form action=""> 
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered nowrap dataTable" >
-                                        <thead>
-                                            <tr  class="table-warning">
-                                                <th>Product Code</th>
-                                                <th>Product Form</th>
-                                                <th>Date Received</th>
-                                                <th>Date Analysed</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           @foreach ($show_productdept as $showproduct)
-                                              <tr>
-                                                  <td class="font"> {{$product->code}}</td>
-                                                  <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
-                                                  <td class="font">                                   
-                                                    {{ $product->departmentById(1)->pivot->updated_at->format('d/m/Y') }}                                        
-                                                  </td>
-                                                  <td class="font">
-                                                    <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
-                                                   </td>
-                                                   <input type="hidden" name="micro_product_id" value="{{$product->id}}">
-                                                   <input type="hidden" id="product_typestate" value="7777{{$product->productType->state}}">
-                                                   <input class="form-control" type="hidden" id="product_status" value="811920012{{$showproduct->status}}">
-                                              </tr>
-                                           @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
-                            <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
-                            @endforeach
-            
-            
-                             
-                                 @include('admin.micro.temp.mlreportformat')
-                            
                         
-                             
+                               
+                                @include('admin.micro.temp.productformat') 
+                                @include('admin.micro.temp.mlreportformat')                  
+            
                                 @include('admin.micro.temp.mereportform')
-
-
-                            
-                               @include('admin.micro.temp.mereportformat')
+                                @include('admin.micro.temp.mereportformat')
                  
 
                                 <div class="row"  style="margin:10px; margin-top:5%">
@@ -448,7 +411,7 @@ $product = \App\Product::find($report_id);
                                 </div>       
                                @endif
                             </div>
-                              <div class="col-md-7" style="margin-right: 1%">
+                              <div class="col-md-6" style="margin-right: 1%">
                                   
                                   @if ($product->micro_hod_evaluation ===2 &&  ($product->micro_process_status ===0 || $product->micro_process_status ===3) ) 
                                  <a href="{{ old('redirect_to', URL::previous())}}">
@@ -517,10 +480,10 @@ $product = \App\Product::find($report_id);
                                       </div>
                                   </div>
                                 </div>
-                            <div class="col-md-4">  
+                            <div class="col-md-5">  
                                  @if ($product->micro_hod_evaluation ===2 && ($product->micro_process_status ===0 || $product->micro_process_status ===2) ) 
                                 
-                              <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject </button>
+                              <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">Reject </button>
             
                                <a onclick="return confirm('Consider the following before submitting report : 1.All report fields must be appropriately checked 2.submited Reports can be edited after Hod evaluation.  Thank you')" href="{{route('admin.micro.hod_office.finalreport.send',['id' => $report_id])}}">
                               <button type="button" class="btn btn-success pull-right"> Send for approval</button>
@@ -537,14 +500,8 @@ $product = \App\Product::find($report_id);
                 </div>
             </div>
                
-         </div>
-
-         
-     </div>
-    </div>
-
+        
     
-</div>
 @endsection
 @section('bottom-scripts')
 <script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   

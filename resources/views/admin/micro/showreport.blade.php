@@ -15,44 +15,9 @@ $product = \App\Product::find($report_id);
                 <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
                </div>
             
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap dataTable" >
-                            <thead>
-                                <tr  class="table-warning">
-                                    <th>Product Code</th>
-                                    <th>Product Form</th>
-                                    <th>Date Received</th>
-                                    <th>Date Analysed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               @foreach ($show_productdept as $showproduct)
-                                  <tr>
-                                      <td class="font"> {{$product->code}}</td>
-                                      <td class="font"> {{\App\Product::find($showproduct->product_id)->productType->name}}</td>
-                                      <td class="font">                                   
-                                        {{ $product->departmentById(1)->pivot->updated_at->format('d/m/Y') }}                                        
-                                      </td>
-                                      <td class="font">
-                                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{\App\Product::find($showproduct->product_id)->micro_dateanalysed}}">
-                                        
-                                       </td>
-                                       <input type="hidden" name="micro_product_id" value="{{$product->id}}">
-                                       <input type="hidden" id="product_typestate" value="7777{{$product->productType->state}}">
-                                       <input class="form-control" type="hidden" id="product_status" value="811920012{{$showproduct->status}}">
-                                  </tr>
-                               @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                @foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
-                <input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
-                @endforeach
-
-                   
-
-       
+                    
+               
+                    @include('admin.micro.temp.productformat') 
                     @include('admin.micro.temp.mlreportformat')                  
 
                     @include('admin.micro.temp.mereportform')

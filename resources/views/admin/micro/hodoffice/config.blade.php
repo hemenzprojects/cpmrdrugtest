@@ -54,6 +54,7 @@
                                                    @endforeach )
                                                </span>
                                             </th>
+                                            <th>Definition</th>
                                             <th>Hide/show</th>
                                         </tr>
                                         @foreach ($microbial_loadanalyses as $microbial_loadanalyse)
@@ -64,9 +65,13 @@
                                         <td class="font"><input class="form-control" type="text" name="result[]" value="{{$microbial_loadanalyse->result}} "></td>
                                        
                                         <td class="font"><input class="form-control" type="text" name="acceptance_criterion[]" value="{{$microbial_loadanalyse->acceptance_criterion}} "></td>
+                                        <td class="font" style="font-size: 10px">{{$microbial_loadanalyse->definition}} 
+                                           @if ($microbial_loadanalyse->definition ==Null)
+                                                <p style="font-size: 10px">None</p>
+                                           @endif
+                                        </td>
                                         <td > 
-                                
-                                            <div class="form-check mx-sm-2">
+                                                <div class="form-check mx-sm-2">
                                                 <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" name="microbial_loadanalyse_id[]" value="{{$microbial_loadanalyse->id}}" class="custom-control-input"{{$microbial_loadanalyse->action == 1 ?'checked':''}}>
                                                     <span class="custom-control-label">&nbsp;</span>
@@ -187,6 +192,14 @@
                                      </tbody>
                                 </table>
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            @foreach ($microbial_efficacys->groupBy('id')->first()  as $item)
+                                            {!! $item->ref !!}
+                                               @endforeach 
+                                            </div>
+
+                                    </div>
                                     <div class="col-md-3">
                                             <div class="form-group">
                                                 <select required name="action" class="form-control" id="exampleSelectGender">

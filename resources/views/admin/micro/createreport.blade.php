@@ -192,17 +192,24 @@
                                 <div class="card-body feeds-widget">
                                 <div class="feed-item">
                                     <a href="{{ route('admin.microbial_report.show',['id' => $microproduct_withtest->id]) }}">
-                                        <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
+                                        @if ($microproduct_withtest->micro_process_status === 3)
+                                        <div class="feeds-left">
+                                            <i class="ik ik-check-square text-success"></i>
+                                        </div>
+                                        @endif
                                         <div class="feeds-body">
                                             <h4 class="">
                                                   
                                                     <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                         {{$microproduct_withtest->code}}
                                                    </span>
-                                               
+                                                </h4> 
+                                                
                                                   <span href="" class="badge pull-right">
-                                                  <p style="font-size: 10px;margin: 2px"></p>
+                                                          <p style="font-size: 10px;margin: 2px"></p>
                                                   </span><br>
+                                            
+                                                  
                                               
                                                    <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_withtest->loadAnalyses)}}mla
                                                     @foreach ($microproduct_withtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
@@ -213,16 +220,19 @@
                                                     
                                                   </small>
                                                  </span><br>   
-               
-                                            </h4>
-                                        
+
                                             <span>
-                                               
-                                            <small class="float-right font"><strong>Assigned: </strong>
-                                                {{\App\Admin::find($microproduct_withtest->micro_analysed_by)? \App\Admin::find($microproduct_withtest->micro_analysed_by)->full_name:'null'}}
-                                            </small><br>
-                                            </span>
-                                        
+                                                       
+                                                <small class="float-right font"><strong>Assigned: </strong>
+                                                    {{\App\Admin::find($microproduct_withtest->micro_analysed_by)? \App\Admin::find($microproduct_withtest->micro_analysed_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 1: </strong>
+                                                    {{\App\Admin::find($microproduct_withtest->micro_approved_by)? \App\Admin::find($microproduct_withtest->micro_approved_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 2: </strong>
+                                                    {{\App\Admin::find($microproduct_withtest->micro_finalapproved_by)? \App\Admin::find($microproduct_withtest->micro_finalapproved_by)->full_name:'null'}}
+                                                </small><br>
+                                                </span>
                                               <span>
                                               <small class="float-right font" style="margin-left: 5px"> 
                                                   <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
@@ -298,23 +308,41 @@
                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                     {{$microproduct_completedtest->code}}
                                                </span>        
-                                                <small class="float-right text-muted">{{count($microproduct_completedtest->loadAnalyses)}} MLA Tests</small><br>
-                                                @if (count($microproduct_completedtest->efficacyAnalyses)>0)
-                                                <small class="float-right text-muted">{{count($microproduct_completedtest->efficacyAnalyses)}} MEA Tests</small><br>
-                                            @endif
+                                                
   
                                               </h4>
-                                               @foreach($microproduct_completedtest->microbialloadReports->groupBy('id')->first() as $completedreport)
-                                             <span>
-                                              <small class="float-right font">Assigned {{\App\Admin::find($completedreport->added_by_id)? \App\Admin::find($completedreport->added_by_id)->full_name:'null'}}</small>
-  
-                                              </span>
-                                                @endforeach 
+                                              
+                                              <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_completedtest->loadAnalyses)}}mla
+                                                @foreach ($microproduct_completedtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                @endforeach
+                                                @if (count($microproduct_completedtest->efficacyAnalyses)>0)
+                                                & {{count($microproduct_completedtest->efficacyAnalyses)}}ea
+                                                @endif
+                                                
+                                              </small>
+                                             </span><br> 
+                                              <span>
+                                                       
+                                                <small class="float-right font"><strong>Assigned: </strong>
+                                                    {{\App\Admin::find($microproduct_completedtest->micro_analysed_by)? \App\Admin::find($microproduct_completedtest->micro_analysed_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 1: </strong>
+                                                    {{\App\Admin::find($microproduct_completedtest->micro_approved_by)? \App\Admin::find($microproduct_completedtest->micro_approved_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 2: </strong>
+                                                    {{\App\Admin::find($microproduct_completedtest->micro_finalapproved_by)? \App\Admin::find($microproduct_completedtest->micro_finalapproved_by)->full_name:'null'}}
+                                                </small><br>
+                                                </span>
                                           </div>
                                       </a>
                                   </div>
                                   </div>
-               
+                                  <span class="float-right font" style="margin-top:10px">
+                                  <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.pdf',['id' => $microproduct_completedtest->id])}}">
+                                      <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                                    </a>
+                                     
+                                </span>
                               </div>
                                 
                             </li>
@@ -337,11 +365,11 @@
                     <div class="row align-items-center">
                                                    
                        <div class="col-lg-12 col-md-12">
-                        <div class="col-lg-6 col-md-12">
-                            <h3 class="card-title"></h3>
-                            <div class="col-sm-12">
+                           <div class="row">
+                        <div class="col-lg-4">
+                          
                                 <div class="form-group">
-                                    <div class="card-header"><h3>Select required product to begin report</h3></div>
+                                    <div class="card-header"><h3>Select product to begin report</h3></div>
                                    
                                      <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select2">
                                         <option value="">Select Product</option>
@@ -357,8 +385,14 @@
                                 <strong>{{$message}}</strong>
                                 </small>
                                 @enderror
-                            </div>  
-                        </div>  
+                             
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card-header"><h3>Input date analysed</h3></div>
+
+                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="">
+                        </div>
+                    </div>
                     </div>
                 
                         <div class="col-sm-12 1 box" style="display: none">
@@ -407,17 +441,32 @@
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
                                                     <td class="font">
-                                                        <select name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control" id="exampleSelectGender">
+                                                        <select required name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control" id="exampleSelectGender">
                                                             <option value="">None</option>
                                                             <option value="1">Failed</option>
                                                             <option value="2">Passed</option>
                                                         </select>
+                                                      </td>
+                                                      <td style="display: none">
+                                                        <input type="hidden" name="definition_{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->definition}}">
+
                                                       </td>
                                                 </tr>
                                                 @endfor
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+
+                                <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
+                                    <strong><span>General Conclusion</span></strong><br><br>
+                                    <div class="input-group">
+                                        <select required name="micro_la_conclution" class="form-control" id="exampleSelectGender">
+                                            <option value="">None</option>
+                                            <option value="1">The sample meets with the requirements as per BP specifications</option>
+                                            <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
+                                        </select>
+                                    </div> 
                                 </div>
                             </div>
                             <p></p>
@@ -459,8 +508,10 @@
                                                     <td class="font">
                                                         <input type="text" class="form-control" name="ci_zone_{{$metest->id}}" value="{{$metest->ci_zone}}">
                                                     </td>
-
+                                                  
                                                     <td class="font">
+                                                        <input type="hidden" class="form-control" name="reference_{{$metest->id}}"  value="{{$metest->reference}}">
+
                                                         <input type="text" class="form-control" name="fi_zone_{{$metest->id}}"  value="{{$metest->fi_zone}}">
                                                     </td>
 
@@ -470,6 +521,16 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
+                                    <strong><span>General Conclusion</span></strong><br><br>
+                                    <div class="input-group">
+                                        <select name="micro_ea_conclution" class="form-control">
+                                            <option value="">None</option>
+                                            <option value="1">The product did not show antimicrobial activity</option>
+                                            <option value="2">The product showed antimicrobial activity</option>
+                                        </select>
+                                    </div> 
+                                   </div>
                             </div>
                         </div> 
                        </div>

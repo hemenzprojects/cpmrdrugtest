@@ -214,6 +214,7 @@ class SIDController extends Controller
         $micro_hod_evaluation =Null;
         $pharm_hod_evaluation =Null;
         $phyto_hod_evaluation =Null;
+        $check_singlelab =Null;
        
        if ($request->check_singlelab) {
             $check_singlelab =1;

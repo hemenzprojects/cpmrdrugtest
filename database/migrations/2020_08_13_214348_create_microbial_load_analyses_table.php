@@ -22,6 +22,7 @@ class CreateMicrobialLoadAnalysesTable extends Migration
             $table->integer('compliance')->nullable();
             $table->integer('action')->default(1)->comment('this is to hide/show featuer');
             $table->double('ac_total')->nullable();
+            $table->string('definition')->nullable();
             $table->date('date')->nullable()->comment('the date fda introduced new features ');
             $table->integer('added_by_id')->nullable();
             $table->timestamps();

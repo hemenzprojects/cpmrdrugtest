@@ -146,7 +146,10 @@
    Route::post('micro/yearly','AdminAuth\Microbiology\MicroController@yearly_report')->name('yearly');
    Route::post('micro/montlly','AdminAuth\Microbiology\MicroController@monthly_report')->name('monthly');
    Route::post('micro/daily','AdminAuth\Microbiology\MicroController@daily_report')->name('daily');
-  
+
+   //*download or generate pdf */
+   Route::get('micro/report/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.micro.report.pdf');
+
   });
   
   Route::group(['middleware'=>['deptonehod']],function(){

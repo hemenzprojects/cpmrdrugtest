@@ -19,6 +19,7 @@ class MicrobialLoadSeeder extends Seeder
             'rs_total'   =>  8900,
             'acceptance_criterion'=>  '5.0 X 10^4',
             'ac_total'   =>  50000,
+            'definition'   =>  '1 TAMC = Total Aerobic Microbial Count',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
 
@@ -31,6 +32,7 @@ class MicrobialLoadSeeder extends Seeder
             'rs_total'   =>  3500,
             'acceptance_criterion'=>  '5.0 X 10^2',
             'ac_total'   =>  500,
+            'definition'   =>  '2 TYMC = Total Yeast and Molds Counts',
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
 
@@ -42,6 +44,7 @@ class MicrobialLoadSeeder extends Seeder
             'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absent',
             'ac_total'   =>  0,
+            'definition'   =>  Null,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
 
@@ -53,6 +56,7 @@ class MicrobialLoadSeeder extends Seeder
             'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absence',
             'ac_total'   =>  0,
+            'definition'   =>  Null,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
 
@@ -64,6 +68,7 @@ class MicrobialLoadSeeder extends Seeder
             'rs_total'   =>  0,
             'acceptance_criterion'=>  'Absence',
             'ac_total'   =>  0,
+            'definition'   =>  Null,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
 

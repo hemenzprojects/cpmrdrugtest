@@ -1,3 +1,6 @@
+@foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
+<input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
+@endforeach
 <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
 <div class="table-responsive ">
     <table class="table table-striped table-bordered nowrap dataTable">
@@ -97,11 +100,31 @@
         @endfor
     </tbody>
    </table>
+   @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+ 
+   @if ($i<1)
+   <p style="font-style: italic; margin:5px"> 
+       <?php
+       if ($i<2) {
+   $definition= explode(' ',$show_microbial_loadanalyses[0]->definition);
 
+       echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
+       
+
+       $definition= explode(' ',$show_microbial_loadanalyses[1]->definition);
+
+           echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+           }
+       ?>
+
+   </p>
+   @endif
+@endfor
+ 
    <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
     <strong><span>General Conclusion</span></strong><br><br>
     <div class="input-group">
-        <select name="micro_la_conclution" class="form-control" id="exampleSelectGender">
+        <select required name="micro_la_conclution" class="form-control" id="exampleSelectGender">
             <option value="{{$product->micro_la_conclution}}">{!! $product->micro_load_conc !!}</option>
             <option value="1">The sample meets with the requirements as per BP specifications</option>
             <option value="2">The sample doest not meets with the requirements as per BP specifications</option>

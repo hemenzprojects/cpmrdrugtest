@@ -1,10 +1,11 @@
+@if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)<1) 
 <div class="checkefficacy1 col-sm-3">
     <label class="custom-control custom-checkbox" >
         <input type="checkbox" class=" custom-control-input" name="efficacyanalyses_form" id="check_efficacy2" value="243123">
         <span class="custom-control-label">&nbsp;Microbial Efficacy Analysis Form</span>
     </label>
 </div>
-
+@endif
 @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0) 
 <div class="table-responsive">  
      <div class="card-heade" style="margin: 2%">
@@ -45,6 +46,13 @@
              @endforeach
         </tbody>
      </table> 
+
+     @for ($i = 0; $i < count($show_microbial_efficacyanalyses); $i++)
+ 
+     @if ($i<1)
+    {!! $show_microbial_efficacyanalyses[0]->ref !!}
+     @endif
+     @endfor
 </div>
 
 <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">

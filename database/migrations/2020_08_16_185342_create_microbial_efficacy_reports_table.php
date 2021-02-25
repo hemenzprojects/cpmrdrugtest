@@ -21,6 +21,7 @@ class CreateMicrobialEfficacyReportsTable extends Migration
             $table->string('pi_zone')->nullable()->comment('Product Inhibition Zone');
             $table->string('ci_zone')->nullable()->comment('Ciprofloxacine Inhibition Zone');
             $table->string('fi_zone')->nullable()->comment('Fluconazole Inhibition Zone');
+            $table->integer('reference')->nullable()->default(1)->comment('efficacy reference');
             $table->integer('added_by_id')->nullable();
             $table->integer('approved_by_id')->nullable();
 

@@ -21,6 +21,7 @@ class CreateMicrobialEfficacyAnlysesTable extends Migration
             $table->string('ci_zone')->nullable()->comment('Ciprofloxacine Inhibition Zone');
             $table->string('fi_zone')->nullable()->comment('Fluconazole Inhibition Zone');
             $table->integer('action')->default(1)->comment('this is to hide/show feature');
+            $table->integer('reference')->nullable()->default(1)->comment('efficacy reference');
             $table->date('date')->nullable()->comment('the date fda introduced new features ');
 
             $table->integer('added_by_id')->nullable();

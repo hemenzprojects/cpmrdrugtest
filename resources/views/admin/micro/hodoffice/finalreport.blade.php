@@ -5,6 +5,30 @@
 $product = \App\Product::find($report_id);
 ?>
 
+<div class="page-header">
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                {{-- <i class="ik ik-edit bg-blue"></i> --}}
+                <div class="d-inline">
+                    <h5>Office of the HOD</h5>
+                    <span>Below shows evaluated, approved and completed product</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="../index.html"><i class="ik ik-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Evaluation</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
 <div class="card-body">
     <div class="row clearfix">
         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -73,7 +97,7 @@ $product = \App\Product::find($report_id);
         </div>
     </div>
 
-  </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         
@@ -143,10 +167,17 @@ $product = \App\Product::find($report_id);
                                     
                                         <span>
                                            
-                                        <small class="float-right font"><strong>Assigned: </strong>
-                                            {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
-                                        </small><br>
-                                        </span>
+                                            <span>
+                                                <small class="float-right font"><strong>Assigned: </strong>
+                                                    {{\App\Admin::find($evaluation->micro_analysed_by)? \App\Admin::find($evaluation->micro_analysed_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 1: </strong>
+                                                    {{\App\Admin::find($evaluation->micro_approved_by)? \App\Admin::find($evaluation->micro_approved_by)->full_name:'null'}}
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 2: </strong>
+                                                    {{\App\Admin::find($evaluation->micro_finalapproved_by)? \App\Admin::find($evaluation->micro_finalapproved_by)->full_name:'null'}}
+                                                </small><br>
+                                                </span>
                                     
                                           <span>
                                           <small class="float-right font" style="margin-left: 5px"> 
@@ -200,175 +231,12 @@ $product = \App\Product::find($report_id);
                 <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
                </div>
                
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap dataTable">
-                            <thead>
-                                <tr  class="table-warning">
-                                    <th>Product Code</th>
-                                    <th>Product Form</th>
-                                    <th>Date Received</th>
-                                    <th>Date Analysed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($micro_withcompletedproducts as $completedproduct)
-                                <tr>
-                                     <td class="font">  {{$completedproduct->code}}</td>
-                                    <td class="font">  {{$completedproduct->productType->name}}</td>
-                                    <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
-                                       <td class="font">
-                                        @foreach (\App\ProductDept::where('product_id',$completedproduct->id)->where('dept_id',1)->get() as $item)
-                                        {{$item->updated_at->format('d/m/Y')}}
-                                        @endforeach
-                                        </td>
-                                    <td class="font"> {{$completedproduct->micro_dateanalysed}}</td>
-                                </tr>
-                               {{-- {{ $dept->pivot}} --}}
-                               @endforeach 
-                            </tbody>
-                        </table>
-                    </div>
+                
 
-                    <div class="card-heade" style="margin-top: 5%">
-                        <h6>Microbial Load Analysis</h6>
-                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap dataTable">
-                            <thead>
-                                <tr  class="table-warning">
-                                    <th>Test Conducted</th>
-                                    @if ($completedproduct->productType->state ==2)
-                                    <th>Result (CFU/ml)</th>
-                                    @endif
-                                    @if ($completedproduct->productType->state ==1)
-                                    <th >Result (CFU/g)</th>
-                                    @endif
-                                    <th>Accepted Criterion BP 
-                                      (  @foreach($microbial_loadanalyses as $temp)
-                                        @if($microbial_loadanalyses->first() == $temp)
-                                        {{$temp->date_template}}
-                                        @endif
-                                        @endforeach)
-                                    </th>
-                                    <th>Compliance</th>
+               @include('admin.micro.temp.productformat') 
+               @include('admin.micro.temp.mlreportformat')                  
 
-                                  
-                                </tr>
-                            </thead>
-                        <tbody>
-                            @if ($check_load->load_analyses_id ==1)
-                            {{-- @foreach ($microbial_loadanalyses as $item) --}}
-                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-                            <tr>
-                                <td class="font">
-                                    <?php
-                                     if ($i<2) {
-                                    $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
-
-                                    echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                                     }else {
-                                        $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
-                                        print_r($test_conducted); 
-                                     }   
-                                   ?>
-                                    
-                                    {{-- {{$microbial_loadanalyses[$i]->test_conducted}} --}}
-                                    <input type="hidden" class="form-control" name="loadanalyses" placeholder="Result" value="{{$microbial_loadanalyses[$i]->test_conducted}}">
-                                </td>
-                                <td class="font">
-                                       
-                                <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 13.4px">
-                                    <?php 
-                                    if ($i<2) {
-                                        $results= explode(' ',$microbial_loadanalyses[$i]->result);
-                                        $rs_part1 =$results[0];
-                                        $rs_part2 = explode('^',$results[2]);
-                                    
-                                        print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                                        
-                                    }
-                                    else {
-                                $results =  $microbial_loadanalyses[$i]->result;
-                                print_r($results); 
-                                }
-                                    ?>
-                                <p>
-                                <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
-                                
-
-                                    {{-- <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}"> --}}
-
-                                </td>
-                                <td class="font">
-                                    <?php 
-                                    if ($i<2) {
-                                      $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
-                                      $rs_part1 =$acceptance_criterion[0];
-                                      $rs_part2 = explode('^',$acceptance_criterion[2]);
-                                 
-                                      print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                                       
-                                    }else {
-                                      $acceptance_criterion =  $microbial_loadanalyses[$i]->acceptance_criterion;
-                                      print_r($acceptance_criterion); 
-                                    }
-                                  ?>
-                                    {{-- {{($item->acceptance_criterion)}} --}}
-                                </td> 
-                                <td>
-                                    {!! $microbial_loadanalyses[$i]->micro_compliance !!}
-                                </td>                                                         
-                            </tr>
-                            @endfor
-                            @endif
-                        </tbody>
-                       </table> 
-                       
-                       <div class="col-md-12" style="margin-top: 30px">
-                        <strong><h6>General Conclusion:</h6></strong>
-                        <p class="text-muted mb-0" style="margin-top: 15px">{!! $product->micro_load_conc !!} </p>
-                     </div>
-                    </div>
-
-                    @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
-                      <div class="card-heade" style="margin-top: 5%">
-                        <h6>Microbial Efficacy Analysis</h6>
-                     </div> 
-                  
-                     
-                    <div class="table-responsive">
-                        
-                        <table class="table table-striped table-bordered nowrap dataTable">
-                            <thead class="meatablehead">
-                                <tr class="table-warning">
-                                    <th>Pathogen</th>
-                                    <th>PI Zone</th>
-                                    <th>CI Zone</th>
-                                    <th>FI Zone</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($microbial_efficacyanalyses as $efficacyanalyses)
-                            
-                                <tr>
-                                    <td class="font ">{{$efficacyanalyses->pathogen}}</td>
-                                    <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}">
-                                    <td class="font">
-                                       {{$efficacyanalyses->pi_zone}}
-                                    </td>
-                                    <td class="font">{{$efficacyanalyses->ci_zone}}</td>
-                                    <td class="font">{{$efficacyanalyses->fi_zone}}</td>
-                                </tr>
-                             
-                            @endforeach
-                           </tbody>
-                       </table>  
-                    </div>
-                    <div class="col-md-12" style="margin-top: 30px">
-                        <strong><h6>General Conclusion:</h6></strong>
-                        <p class="text-muted mb-0" style="margin-top: 15px">{!! $product->micro_efficacy_conc !!}</p><br>
-                    </div>
-                    @endif
+               @include('admin.micro.temp.mereportformat')
 
                      <div class="row" style="margin: 0.5%; margin-top: 7%">
                         
@@ -492,7 +360,7 @@ $product = \App\Product::find($report_id);
                         @if ($product->micro_hod_evaluation ===2 && $product->micro_process_status ===3) 
                         
                       <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject </button>
-                      <a onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" target="_blank" href="{{url('admin/pharm/report/hod_office/complete_report',['id' => $report_id])}}">
+                      <a onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" target="_blank" href="{{url('admin/micro/report/hod_office/complete_report',['id' => $report_id])}}">
                       <button type="button" class="btn btn-success pull-right"> Complete </button>
                      </a>
                       @endif
@@ -507,4 +375,21 @@ $product = \App\Product::find($report_id);
     </div>
 </div>
 @endsection
+@section('bottom-scripts')
+<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   
+<script src="{{asset('js/microbialcomments.js')}}"></script>
 
+{{-- <script>
+function myFunction() {
+  var url = $('input[id="report_url"]').attr("value");
+  var r = confirm("Be aware of the following before you complete report : 1.Completed Reports can not be edited after submision, system require you to see HoD for unavoidable complains or changes.  Thank you");
+  if (r == true) {
+  var  myWindow = window.open(url, "_blank", "width=500, height=500");
+  } else {
+   
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
+</script> --}}
+
+@endsection

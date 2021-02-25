@@ -1,4 +1,9 @@
 @include('admin.layout.general.head')
+
+<?php 
+$product = \App\Product::find($report_id); 
+
+?>
 <style>
 
 
@@ -37,12 +42,10 @@
                                      <td class="font">  {{$completedproduct->code}}</td>
                                     <td class="font">  {{$completedproduct->productType->name}}</td>
                                     <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
-                                    @foreach($completedproduct->departments->groupBy('id')->first() as $dept)
+                                     <td class="font"> {{ $product->departmentById(1)->pivot->updated_at->format('jS \\, F Y') }}                                        
+                                    </td>
 
-                                    <td class="font">{{($dept->pivot->updated_at->format('d/m/Y'))}}</td>
-                                    @endforeach 
-
-                                    <td class="font"> {{$completedproduct->micro_dateanalysed}}   </td>
+                                    <td class="font"> {{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>
                                     
                                 </tr>
                                {{-- {{ $dept->pivot}} --}}
@@ -74,7 +77,6 @@
                                         @endforeach)
                                     </th>
                                     <th>Compliance</th>
-
                                   
                                 </tr>
                             </thead>
@@ -144,9 +146,41 @@
 
                         </tbody>
                        </table>
+                       @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+ 
+                            @if ($i<1)
+                            <p style="font-style: italic; margin:5px"> 
+                                <?php
+                                if ($i<2) {
+                            $definition= explode(' ',$microbial_loadanalyses[0]->definition);
+
+                                echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
+                                
+
+                                $definition= explode(' ',$microbial_loadanalyses[1]->definition);
+
+                                    echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+                                    }
+                                ?>
+
+                            </p>
+                            @endif
+                       @endfor
+
                        <div class="col-md-12" style="margin-top: 30px">
-                        <strong><h6>General Conclusion:</h6></strong>
-                        <p class="text-muted mb-0" style="margin-top: 15px">{!! \App\Product::find($report_id)->micro_load_conc !!} </p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card-heade" style="margin-top: 5%">
+                                    <h6>General Conclusion:</h6>
+                                 </div>
+                            </div>
+                            <div class="col-md-9">
+                                <p style="font-size: 16px">{!! $product->micro_load_conc !!}</p>
+
+                            </div>
+
+                        </div>
+                        
                      </div>
                        @endif  
                     </div>
@@ -188,24 +222,42 @@
                            </tbody>
                        </table>  
                     </div>
+                    @for ($i = 0; $i < count($microbial_efficacyanalyses); $i++)
+ 
+                    @if ($i<1)
+                   {!! $microbial_efficacyanalyses[0]->ref !!}
+                    @endif
+                    @endfor
                     <div class="col-md-12" style="margin-top: 30px">
-                        <strong><h6>General Conclusion:</h6></strong>
-                        <p class="text-muted mb-0" style="margin-top: 15px">{!! \App\Product::find($report_id)->micro_efficacy_conc !!}</p><br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card-heade" style="margin-top: 5%">
+                                    <h6>General Conclusion:</h6>
+                                 </div>
+                            </div>
+                            <div class="col-md-9">
+                                <p style="font-size: 16px">{!! $product->micro_efficacy_conc !!}</p>
+                            </div>
+
+                        </div>
                     </div>
+                   
+
+                    
                     @endif
                    
                      
                  </div>
-                    <div class="row invoice-info" style="margin: 15px">
+                    <div class="row invoice-info" style="margin: 15px;margin-bottom:10px">
 
 
                         <div class="col-sm-4 invoice-col">
                             <?php
-                            $micro_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_analysed_by:'');
+                            $micro_analysed_by = ($product? $product->micro_analysed_by:'');
                             $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
                           ?>
                             <p>Analyzed By</p><br>
-                            @if (\App\Product::find($report_id)->micro_hod_evaluation >1)
+                            @if ($product->micro_hod_evaluation >1)
                             <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
                             -----------------------------<br>
@@ -219,19 +271,19 @@
                         </div>
                         <div class="col-sm-4 invoice-col">
                             <?php
-                            $micro_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->micro_appoved_by:'');
-                            $hod_user_type = (\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->user_type_id:'');
+                            $micro_approved_by = ($product? $product->micro_approved_by:'');
+                            $hod_user_type = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
 
                             ?>
                             <p>Supervisor</p><br>
-                            @if (\App\Product::find($report_id)->micro_hod_evaluation ==2)
-                            <img src="{{asset(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                            @if ($product->micro_hod_evaluation ==2)
+                            <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
 
                             ------------------------------<br> 
                          
-                          <span>{{ucfirst(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->full_name:'')}}</span>
-                          <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
+                          <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
+                          <p>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</p>
              
                         </div>
 

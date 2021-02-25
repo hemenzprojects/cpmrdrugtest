@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MicrobialLoadAnalyses extends Model
 {
-    protected $fillable = ['test_conducted','result','acceptance_criterion','compliance','date','added_by_id'];
+    protected $fillable = ['test_conducted','result','acceptance_criterion','compliance','definition','date','added_by_id'];
    
     
     public function getExpiredAtAttribute( $value ) {
