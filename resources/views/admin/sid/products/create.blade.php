@@ -228,7 +228,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-7 singlelab" style="display: none">
-                                                    <p>Please check approved lab(s)</p>
+                                                    <p>Please check required lab(s)</p>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
