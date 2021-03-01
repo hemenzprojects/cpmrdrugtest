@@ -338,7 +338,7 @@
                                   </div>
                                   </div>
                                   <span class="float-right font" style="margin-top:10px">
-                                  <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.pdf',['id' => $microproduct_completedtest->id])}}">
+                                  <a href="{{route('admin.micro.report.pdf',['id' => $microproduct_completedtest->id])}}">
                                       <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
                                     </a>
                                      

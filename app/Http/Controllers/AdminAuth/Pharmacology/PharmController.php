@@ -114,17 +114,26 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 2);
               })->with('samplePreparation')->whereDoesntHave("samplePreparation")->get();
 
+              $data['samples_to_animalhouses'] = Product::with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 2);
+              })->with('samplePreparation')->whereHas("samplePreparation", function($q){
+                return $q->where("created_by", Auth::guard('admin')->id());
+              })->get();
+
               $data['sample_preps'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 3);
               })->with('samplePreparation')->whereHas("samplePreparation")->get();
 
+
               $data['exp_inprogress'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
-              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+              })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
+                return $q->where("created_by", Auth::guard('admin')->id()); })->get();
 
               $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 8);
-              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+              })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
+                return $q->where("created_by", Auth::guard('admin')->id()); })->get();
 
               return View('admin.pharm.samplepreparation.createsample', $data); 
             }
@@ -132,7 +141,7 @@ class PharmController extends Controller
             
               public function samplepreparation_store(Request $r){
                   // dd(($r->all()));
-                   $measurement = [];
+                   $weight = [];
                    $dosage = [];
                    $yield = [];
                    $remarks = [];
@@ -143,27 +152,27 @@ class PharmController extends Controller
                     return redirect()->back();
                   }
                   foreach ($r->product_id as $key => $value) {
-                    if(!isset($r->{'measurement_'.$value}) or $r->{'measurement_'.$value}==null){
+                    if(!isset($r->{'weight_'.$value}) or $r->{'weight_'.$value}==null){
                       Session::flash('message_title', 'error');
-                      Session::flash('message', 'Measurement field is required.');
+                      Session::flash('message', 'weight field is required.');
                       return redirect()->back();
                     }
-                    // if(!isset($r->{'dosage_'.$value}) or $r->{'dosage_'.$value}==null){
-                    //   Session::flash('message_title', 'error');
-                    //   Session::flash('message', 'Dosage field is required.');
-                    //   return redirect()->back();
-                    // }
-                    // if(!isset($r->{'yield_'.$value}) or $r->{'yield_'.$value}==null){
-                    //   Session::flash('message_title', 'error');
-                    //   Session::flash('message', 'Yield field is required.');
-                    //   return redirect()->back();
-                    // }
+                    if(!isset($r->{'dosage_'.$value}) or $r->{'dosage_'.$value}==null){
+                      Session::flash('message_title', 'error');
+                      Session::flash('message', 'Dosage field is required.');
+                      return redirect()->back();
+                    }
+                    if(!isset($r->{'yield_'.$value}) or $r->{'yield_'.$value}==null){
+                      Session::flash('message_title', 'error');
+                      Session::flash('message', 'Yield field is required.');
+                      return redirect()->back();
+                    }
                     if(!isset($r->{'pharm_testconducted_'.$value}) or $r->{'pharm_testconducted_'.$value}==null){
                       Session::flash('message_title', 'error');
                       Session::flash('message', 'Pharm testconducted field is required.');
                       return redirect()->back();
                     }
-                    array_push($measurement,$r->{'measurement_'.$value});
+                    array_push($weight,$r->{'weight_'.$value});
                     array_push($dosage,$r->{'dosage_'.$value});
                     array_push($yield,$r->{'yield_'.$value});
                     array_push($pharm_testconducted,$r->{'pharm_testconducted_'.$value});
@@ -175,31 +184,118 @@ class PharmController extends Controller
                   
                     PharmSamplePreparation::create([
                     'product_id'=>$r->product_id[$i],
-                    'measurement'=>$measurement[$i],
+                    'weight'=>$weight[$i],
                     'dosage'=>$dosage[$i],
                     'yield'=>$yield[$i], 
                     'pharm_testconducted_id'=>$pharm_testconducted[$i], 
                     'remarks'=>$remarks[$i],
-                    'distributed_by'=> Auth::guard('admin')->id(),
+                    'created_by'=>Auth::guard('admin')->id(),
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                     ]);
                     
                 }
 
-                $data = [ 
-                'pharm_process_status' => 3,
-                ];
-                Product::whereIN('id',$r->product_id)->where("pharm_process_status", 1)->update($data);
-                $productdepts = ProductDept::whereIn('product_id',$r->product_id)->where("dept_id", 2)->where("status",2)->update(['status' => 3]);
+                // $data = [ 
+                // 'pharm_process_status' => 3,
+                // ];
+                // Product::whereIN('id',$r->product_id)->where("pharm_process_status", 1)->update($data);
+                // $productdepts = ProductDept::whereIn('product_id',$r->product_id)->where("dept_id", 2)->where("status",2)->update(['status' => 3]);
                            
-                Session::flash("message", "Sample preparation completed. Product(s) is/are yet to be receieved for experimentation at the animal house");
+                Session::flash("message", "Sample preparation completed and stored successfully");
                 Session::flash("message_title", "success");
                 return redirect()->route('admin.pharm.samplepreparation.create');
              }
 
+             public function sampleprep_animalhouse(Request $r){
+              // dd(($r->all()));
+
+               $measurement = [];
+               $weight = [];
+               $dosage = [];
+               $yield = [];
+               $remarks = [];
+               $created_by = [];
+               $created_at = [];
+               $pharm_testconducted = [];
+
+               if ($r->product_id == null) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select required product or wait to recieve product from the SID Unit.');
+                return redirect()->back();
+              }
+              foreach ($r->product_id as $key => $value) {
+
+                if(!isset($r->{'measurement_'.$value}) or $r->{'measurement_'.$value}==null){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'measurement field is required.');
+                  return redirect()->back();
+                }
+                    array_push($measurement,$r->{'measurement_'.$value});
+                    array_push($weight,$r->{'weight_'.$value});
+                    array_push($dosage,$r->{'dosage_'.$value});
+                    array_push($yield,$r->{'yield_'.$value});
+                    array_push($pharm_testconducted,$r->{'pharm_testconducted_'.$value});
+                    array_push($remarks,$r->{'remarks_'.$value});
+                    array_push($created_by,$r->{'created_by_'.$value});
+                    array_push($created_at,(\Carbon\Carbon::parse($r->{'created_at_'.$value})));
+              }
+              
+              DB::table('pharm_sample_preparations')->whereIn('product_id',$r->product_id)->delete();
+             
+                for ($i=0; $i < count($r->product_id); $i++) { 
+              
+                  $data = ([
+                  'product_id'=>$r->product_id[$i],
+                  'measurement'=>$measurement[$i],
+                  'weight'=>$weight[$i],
+                  'dosage'=>$dosage[$i],
+                  'yield'=>$yield[$i], 
+                  'pharm_testconducted_id'=>$pharm_testconducted[$i], 
+                  'remarks'=>$remarks[$i],
+                  'distributed_by'=>Auth::guard('admin')->id(),
+                  'created_by'=>$created_by[$i],
+                  'created_at' =>$created_at[$i],
+                  'updated_at' => \Carbon\Carbon::now(),
+                  ]);
+
+                 PharmSamplePreparation::create($data);
+                
+             }
+
+            $data = [ 
+            'pharm_process_status' => 3,
+            ];
+            Product::whereIN('id',$r->product_id)->where("pharm_process_status", 1)->update($data);
+            $productdepts = ProductDept::whereIn('product_id',$r->product_id)->where("dept_id", 2)->where("status",2)->update(['status' => 3]);
+                       
+            Session::flash("message", "Sample preparation completed. Product(s) is/are yet to be receieved for experimentation at the animal house");
+            Session::flash("message_title", "success");
+            return redirect()->route('admin.pharm.samplepreparation.create');
+         }
+
+              public function sampleprep_animalhouse_delete($id){
+
+                $product = Product::where('id',$id)->where("pharm_process_status",3)->first();
+                if ($product == null)
+                {
+                 Session::flash('message_title', 'error');
+                 Session::flash('message', 'Sorry Product cant be deleted! Animal experimention in progress with sample details');
+                 return redirect()->back();
+                }
+                $data = [ 
+                  'pharm_process_status' => 1,
+                  ];
+                  Product::where('id',$id)->where("pharm_process_status", 3)->update($data);
+                  $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",3)->update(['status' => 2]);
+                             
+                  Session::flash("message", "Sample Preparation to animal house successfully deleted");
+                  Session::flash("message_title", "success");
+                  return redirect()->back();
+              }
+
              public function samplepreparation_delete($id){
-               $product = Product::where('id',$id)->where("pharm_process_status", 3)->first();
+               $product = Product::where('id',$id)->where("pharm_process_status", '<',3)->first();
               if ($product == null)
               {
                Session::flash('message_title', 'error');
@@ -209,7 +305,7 @@ class PharmController extends Controller
                 $data = [ 
                 'pharm_process_status' => 1,
                 ];
-                Product::where('id',$id)->where("pharm_process_status", 3)->update($data);
+                Product::where('id',$id)->where("pharm_process_status", '<',3)->update($data);
                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",3)->update(['status' => 2]);
                 
                 $deleteData=PharmSamplePreparation::where('product_id',$id); 
@@ -222,18 +318,27 @@ class PharmController extends Controller
  
               public function samplepreparation_index(){
 
-               $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
+                $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
+               $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->orderBy('created_at', 'Desc')->limit(400)->get();
 
                 return View('admin.pharm.samplepreparation.index',$data); 
               }
 
+
               public function samplepreparation_report(Request $r){
 
-              $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
-              return View('admin.pharm.samplepreparation.index',$data);
+                $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
+                $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->orderBy('created_at', 'Desc')->limit(400)->get();
+                return View('admin.pharm.samplepreparation.index',$data);
                 
               }
+              public function samplepreparation_animalhouse_report(Request $r){
 
+                $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
+                $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->whereDate('updated_at', '>=', $r->from_date)->whereDate('updated_at','<=',$r->to_date)->get();
+                return View('admin.pharm.samplepreparation.index',$data);
+                
+              }
 
 //************************************************************************************Animal Experimentation********************************************* */
                public function animalexperimentation_create(){
@@ -257,7 +362,7 @@ class PharmController extends Controller
               [ 
               'received_by' => Auth::guard('admin')->id(),
               'delivered_by' => $r->officer,
-              'updated_at' => \Carbon\Carbon::now(),
+              'delivered_at' => \Carbon\Carbon::now(),
               ];
         
                PharmSamplePreparation::whereIN('product_id', $r->product_id)->update($data);
@@ -771,11 +876,11 @@ class PharmController extends Controller
             $p = Product::find($id);
             $p->update([
               'pharm_hod_evaluation'=> $r->evaluate,
-              'pharm_appoved_by'=>$r->adminid,
+              'pharm_approved_by'=>$r->adminid,
             ]); 
 
             if ($r->evaluate ==1) {
-              $p->update(['pharm_process_status'=> 5, 'pharm_appoved_by'=> Null]);
+              $p->update(['pharm_process_status'=> 5, 'pharm_approved_by'=> Null]);
             }
 
             // if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
@@ -821,11 +926,11 @@ class PharmController extends Controller
            $p = Product::find($id);
             $p->update([
               'pharm_process_status'=> $evaluate,
-              'pharm_finalappoved_by'=>$r->adminid,
+              'pharm_finalapproved_by'=>$r->adminid,
             ]); 
             
             if ($r->evaluate ==1) {
-              $p->update(['pharm_finalappoved_by'=> Null]);
+              $p->update(['pharm_finalapproved_by'=> Null]);
             }
 
             if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
@@ -1011,15 +1116,15 @@ class PharmController extends Controller
 
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
-            })->where('pharm_hod_evaluation','<>',2)->get();
+            })->where('pharm_process_status','<>',2)->get();
             
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
-            })->WhereNull("pharm_hod_evaluation")->get();
+            })->WhereNull("pharm_process_status")->get();
 
             $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
-              $data['completed_products'] = Product::where('pharm_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($data){
+              $data['completed_products'] = Product::where('pharm_process_status', 8)->with("departments")->whereHas("departments", function($q)use ($data){
                 return $q->where("dept_id",2)->where('status','>', 6)->whereRaw('YEAR(received_at)= ?', array($data['year']));
               })->get();
 

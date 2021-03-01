@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PharmSamplePreparation extends Model
 {
-    protected $fillable = ['product_id','pharm_testconducted_id','measurement','dosage','yield','remarks','distributed_by','received_by','delivered_by','created_at','updated_at'];
+    protected $fillable = ['product_id','pharm_testconducted_id','measurement','weight','dosage','yield','remarks','created_by','distributed_by','received_by','delivered_by','delivered_at','received_at','created_at','updated_at'];
 
     public function getAnimalMeasurementAttribute(){
         return $this->measuerment;

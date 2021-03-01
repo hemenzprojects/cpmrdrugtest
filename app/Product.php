@@ -69,7 +69,7 @@ class Product extends Model
         
         do {
             $products_count++;
-            $code = $product_type->code."/".str_pad($products_count,  4, "0", STR_PAD_LEFT) . "/" . date("y");
+            $code = $product_type->code."/".str_pad($products_count,  3, "0", STR_PAD_LEFT) . "/" . date("y");
             $already_existing = count(self::where("code", $code)->get());
         } while($already_existing);
 

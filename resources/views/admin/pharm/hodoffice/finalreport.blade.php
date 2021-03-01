@@ -420,19 +420,19 @@
         <div class="row" style="margin: 35px">
             <div class="col-sm-4 invoice-col">
                 <?php
-                $pharm_appoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_appoved_by:'');
-                $hod_user_type = (\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->user_type_id:'');
+                $pharm_approved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_approved_by:'');
+                $hod_user_type = (\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->user_type_id:'');
 
                 ?>
                 <p>Analyzed by</p><br>
                 @if (\App\Product::find($pharmreports->id)->pharm_hod_evaluation ==2)
-                <img src="{{asset(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="42%"><br>
                 @endif
 
                 ------------------------------<br> 
             
-            <span>{{ucfirst(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->full_name:'')}}</span>
-            <p>{{ucfirst(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->position:'')}}</p>
+            <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->full_name:'')}}</span>
+            <p>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->position:'')}}</p>
 
             </div>
          
@@ -441,17 +441,17 @@
          </div>
          <div class="col-sm-4 invoice-col">
             <?php
-            $pharm_finalappoved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_finalappoved_by:'');
-            $user_type         = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
+            $pharm_finalapproved_by = (\App\Product::find($pharmreports->id)? \App\Product::find($pharmreports->id)->pharm_finalapproved_by:'');
+            $user_type         = (\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->user_type_id:'');
             ?>
             <p>Approveed by</p><br>
-            @if (\App\Product::find($pharmreports->id)->pharm_finalappoved_by >null)
-            <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
+            @if (\App\Product::find($pharmreports->id)->pharm_finalapproved_by >null)
+            <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
             @endif
             -----------------------------<br>
         
-            <span>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->full_name:'')}}</span>
-            <p>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->position:'')}}</p>
+            <span>{{ucfirst(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->full_name:'')}}</span>
+            <p>{{ucfirst(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->position:'')}}</p>
 
         </div> 
         </div>

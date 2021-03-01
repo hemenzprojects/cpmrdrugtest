@@ -62,7 +62,9 @@
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
-                        <th>Date received</th>
+                        <th>Date Distributed</th>
+                        <th>Date Delivered</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -96,7 +98,12 @@
                             {{\App\Admin::find($recordbook->received_by)? \App\Admin::find($recordbook->received_by)->full_name:'null'}}
                             </td> 
                             <td class="font">
-                                {{$recordbook->updated_at->format('Y / m / d')}}
+                                {{ Carbon\Carbon::parse($recordbook->updated_at)->format('jS \\, F Y')}}
+
+                            </td> 
+                            <td class="font">
+                                {{Carbon\Carbon::parse($recordbook->delivered_at)->format('jS \\, F Y')? $recordbook->delivered_at:'null'}}
+
                             </td> 
                         </tr>
                         <div class="modal fade" id="demoModal{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">

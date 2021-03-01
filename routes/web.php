@@ -200,10 +200,15 @@
 
       //**Pharmacology samplepreparation */
    Route::get('pharm/samplepreparation/create','AdminAuth\Pharmacology\PharmController@samplepreparation_create')->name('admin.pharm.samplepreparation.create');
+  
    Route::post('pharm/samplepreparation/store','AdminAuth\Pharmacology\PharmController@samplepreparation_store')->name('admin.pharm.samplepreparation.store');
+   Route::post('pharm/sampleprepanimalhouse/store','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse')->name('admin.pharm.sampleprep_animalhouse.store');
+  
    Route::get('pharm/samplepreparation/delete/{id}','AdminAuth\Pharmacology\PharmController@samplepreparation_delete')->name('admin.pharm.samplepreparation.delete');
+   Route::get('pharm/samplepreparation/animalhouse/delete/{id}','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse_delete')->name('admin.pharm.samplepreparation.animalhouse.delete');
    Route::get('pharm/samplepreparation/index','AdminAuth\Pharmacology\PharmController@samplepreparation_index')->name('admin.pharm.samplepreparation.index');
    Route::post('pharm/samplepreparation/report','AdminAuth\Pharmacology\PharmController@samplepreparation_report')->name('admin.pharm.samplepreparation.report');
+   Route::post('pharm/samplepreparation/animalhouse/report','AdminAuth\Pharmacology\PharmController@samplepreparation_animalhouse_report')->name('admin.pharm.samplepreparation.animalhouse.report');
 
      //* General Report Section */
      Route::get('pharm/general_report/index','AdminAuth\Pharmacology\PharmController@generalreport_index')->name('admin.pharm.general_report.index');

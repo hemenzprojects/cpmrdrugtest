@@ -30,7 +30,8 @@
                     <th>Test Conducted</th>
                     <th>Delivery Officer</th>
                     <th>Received By</th>
-                    <th>Date received</th>
+                    <th>Date Distributed</th>
+                    <th>Date Delivered</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,8 +72,13 @@
                         {{\App\Admin::find($product->received_by)? \App\Admin::find($product->received_by)->full_name:'null'}}
                         </td> 
                         <td class="font">
-                            {{$product->updated_at->format('Y / m / d')}}
+                            {{ Carbon\Carbon::parse($product->updated_at)->format('jS \\, F Y')}}
+
                         </td> 
+                        <td class="font">
+                            {{Carbon\Carbon::parse($product->delivered_at)->format('jS \\, F Y')? $product->delivered_at:'null'}}
+                        </td> 
+
                     </tr>
                     <div class="modal fade" id="demoModal{{$sample_prep->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -164,7 +170,7 @@
             <div class="col-md-4">   
                 <select required name="officer" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
                     <option value="">Select Staff</option>
-                    @foreach(\App\Admin::where('dept_id',2)->get() as $officer)
+                    @foreach(\App\Admin::where('dept_id',2)->where('dept_office_id',2)->get() as $officer)
                                     
                     <option  value="{{$officer->id}}" {{$officer->id == old('admin')? "selected":""}}>{{$officer->full_name}}</option>
 

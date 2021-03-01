@@ -65,19 +65,19 @@ $product = \App\Product::find($report_id);
                         </div>
                         <div class="col-sm-4 invoice-col">
                             <?php
-                            $micro_appoved_by = ($product? $product->micro_appoved_by:'');
-                            $hod_user_type = (\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->user_type_id:'');
-
+                            $micro_finalapproved_by = ($product? $product->micro_finalapproved_by:'');
+                            $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
+    
                             ?>
-                            <p>Supervisor</p><br>
-                            @if ($product->micro_hod_evaluation ==2)
-                            <img src="{{asset(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                            <p>Approved by</p><br>
+                            @if ($product->micro_finalapproved_by !== Null)
+                            <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
                             @endif
-
+    
                             ------------------------------<br> 
-                         
-                          <span>{{ucfirst(\App\Admin::find($micro_appoved_by)? \App\Admin::find($micro_appoved_by)->full_name:'')}}</span>
-                          <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
+    
+                            <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->full_name:'')}}</span>
+                            <p>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->position:'')}}</p>
              
                         </div>
 

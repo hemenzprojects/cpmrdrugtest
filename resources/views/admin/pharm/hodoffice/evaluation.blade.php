@@ -136,9 +136,7 @@
                                        </span>
    
                                        </a>
-                                       <sup style="font-size: 1px">
-                                           {{$evaluation->productType->code}}{{$evaluation->id}}{{$evaluation->created_at->format('y')}}
-                                        </sup> 
+                                      
                                    </td>
                                    <td class="font">
                                        {{\App\PharmTestConducted::find($evaluation->pharm_testconducted)->name}}
@@ -147,10 +145,11 @@
                                      <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($evaluation->animalExperiment->groupBy('id')->first() as $item)
                                        <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                                        @endforeach</li>
-                                       <strong>Report Analyst:</strong>  <li> @foreach ($evaluation->animalExperiment->groupBy('id')->first() as $item)
-                                           <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}
-                                           </span>
-                                          @endforeach
+                                       <strong>Report Analyst:</strong>
+                                         <li>
+                                        <span style="color: #023504">{{\App\Admin::find($evaluation->pharm_analysed_by)->full_name}}
+
+                                        </span>
                                        </li>
                                        <strong>Aproved By</strong>
                                        <li>
@@ -218,11 +217,12 @@
                                   <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($approval->animalExperiment->groupBy('id')->first() as $item)
                                     <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                                     @endforeach</li>
-                                    <strong>Report Analyst:</strong>  <li> @foreach ($approval->animalExperiment->groupBy('id')->first() as $item)
-                                        <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}
-                                        </span>
-                                       @endforeach
-                                    </li>
+                                    <strong>Report Analyst:</strong>
+                                    <li>
+                                   <span style="color: #023504">{{\App\Admin::find($approval->pharm_analysed_by)->full_name}}
+
+                                   </span>
+                                  </li>
                                     <strong>Aproved By</strong>
                                     <li>
                                         {{ucfirst(\App\Admin::find($approval->pharm_appoved_by)? \App\Admin::find($approval->pharm_appoved_by)->full_name:'Null')}}
@@ -330,11 +330,12 @@
                                      <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($approval->animalExperiment->groupBy('id')->first() as $item)
                                        <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                                        @endforeach</li>
-                                       <strong>Report Analyst:</strong>  <li> @foreach ($approval->animalExperiment->groupBy('id')->first() as $item)
-                                           <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}
-                                           </span>
-                                          @endforeach
-                                       </li>
+                                       <strong>Report Analyst:</strong>
+                                       <li>
+                                      <span style="color: #023504">{{\App\Admin::find($approval->pharm_analysed_by)->full_name}}
+   
+                                      </span>
+                                     </li>
                                        <strong>Aproved By</strong>
                                        <li>
                                            {{ucfirst(\App\Admin::find($approval->pharm_appoved_by)? \App\Admin::find($approval->pharm_appoved_by)->full_name:'Null')}}

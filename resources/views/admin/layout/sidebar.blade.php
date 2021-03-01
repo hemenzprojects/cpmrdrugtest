@@ -91,17 +91,27 @@
                                          <a href="#"><i class="ik ik-git-branch"></i><span>Lab Technologist</span></a>
                                          <div class="submenu-content">
                                              <a href="{{route('admin.pharm.receiveproduct')}}" class="menu-item">Receive Product</a>
-                                             <a href="#" class="menu-item">Reports Taskboard </a> 
+                                             <a href="#" class="menu-item">Sample Preparation</a> 
                                          </div>
                                      </div>
                                      <div class="nav-item has-sub">
                                          <a href="#"><i class="ik ik-filter"></i><span>Report Preparation</span></a>
                                          <div class="submenu-content" style="">
-                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Sample preparation </a>
-                                             <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Record Book</a>
+                                             <a href="{{route('admin.pharm.samplepreparation.create')}}" class="menu-item">Reports Taskboard</a>
+                                             {{-- <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Record Book</a> --}}
                                          </div>
                                      </div>
+                                     <div class="nav-item has-sub">
+                                        <a href="#"><i class="ik ik-file-text"></i><span>Record Books</span></a>
+                                        <div class="submenu-content" style="">
+                                            <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Prepared Samples</a>
+                                            <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Animal House Samples </a>
+                                       
+                                        </div>
+                                    </div>
+                                   
                                      @endif
+                                     
 
                                      @if (Auth::guard('admin')->user()->dept_office_id == 3 ||Auth::guard('admin')->user()->dept_office_id == 1)
                                      <div class="nav-item has-sub">

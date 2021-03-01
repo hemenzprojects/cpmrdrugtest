@@ -39,9 +39,15 @@ tr:nth-child(even) {
     margin-top: -25px;
 }
 
-.watermarked{
+.watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 70% 50%;
+    background-size: 60% 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.watermarked2{
+    background-image: url('{{ asset('admin/img/logo.jpg')}}');
+    background-size: 68% 50%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -59,7 +65,7 @@ tr:nth-child(even) {
 <h5 class="title"> Microbiology Department Centre for Plant Medicine Research </h5>
 <p style="font-size: 16px">Microbial Analysis Report on Herbal Product</p>
 </div> --}}
-<div class="watermarked" >
+<div class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'watermarked2':'watermarked1'}}">
     <div style=" background-color: #ffffffeb;">
 <table>
     <tr style="border: #fff">
@@ -96,7 +102,7 @@ tr:nth-child(even) {
 <table >
     <tr>
         <th class="font">Product Code</th>
-        <th class="font">Form</th>
+        <th class="font">Product Form</th>
         <th class="font">Date Received</th>
         <th class="font">Date Analysed</th>
     </tr>
