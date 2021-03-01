@@ -27,7 +27,7 @@
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-menu"></i><span>Products</span> 
                                         <div class="submenu-content">
-                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">Product View</a>
+                                       <a href="{{url('admin/sid/product/create')}}" class="menu-item">Product Registration</a>
                                        <a href="{{url('admin/sid/product/category/create')}}" class="menu-item">Product Categories</a>
                                        <a href="{{url('admin/sid/distribution/create')}}" class="menu-item">Product Distribution</a>
 
