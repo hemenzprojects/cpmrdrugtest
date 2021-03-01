@@ -204,7 +204,7 @@ class SIDController extends Controller
         // dd($request->all());
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
             Session::flash('messagetitle', 'warning');
-            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+            Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance..');
             return redirect()->route('admin.general.dashboard');
 
         } 
