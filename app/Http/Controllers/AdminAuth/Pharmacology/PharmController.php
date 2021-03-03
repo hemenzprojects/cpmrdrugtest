@@ -612,7 +612,9 @@ class PharmController extends Controller
 
               public function animalexperiment_recordbook_report(Request $r){
               
-              $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
+               
+              $data['recordbooks'] = PharmSamplePreparation::whereDate('delivered_at', '>=', $r->from_date)->whereDate('delivered_at','<=',$r->to_date)->get();
+           
               return View('admin.pharm.animalexperiment.recordbook',$data); 
               }
 
@@ -1105,7 +1107,6 @@ class PharmController extends Controller
              
              }
 
-
              public function generalreport_index(){
            
              $data['from_date'] = "2020-01-01";
@@ -1116,7 +1117,7 @@ class PharmController extends Controller
 
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
-            })->where('pharm_process_status','<>',2)->get();
+            })->where('pharm_process_status','<>',8)->get();
             
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -1213,8 +1214,6 @@ class PharmController extends Controller
 
              }
 
-
-
              public function yearly_report(Request $r){
               $data = $r->all();
               $data['ptype_id'] = $r->product_type;
@@ -1237,7 +1236,34 @@ class PharmController extends Controller
   
              }
 
+             public function pharmreport_pdf ($id){
+
             
+           
+              $productdepts = ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status",'>',6);
+              if(count($productdepts->get()) < 1){     
+               return redirect()->back(); 
+               }
+
+              $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+             return $q->where("dept_id", 2)->where("status", '>',6);
+             })->with('animalExperiment')->whereHas("animalExperiment")->first();
+
+              $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+
+             
+              // Send data to the view using loadView function of PDF facade
+  
+              $pdf = \PDF::loadView('admin.pharm.downloads.report',$data);
+  
+              $pdf->save(storage_path().'_filename.pdf');
+  
+              return $pdf->download('pharmreport.pdf');
+  
+              // return view('admin.micro.downloads.report',$data);
+  
+  
+             }
 
   
 }

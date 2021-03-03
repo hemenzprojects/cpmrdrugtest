@@ -105,6 +105,8 @@
                                 {{Carbon\Carbon::parse($recordbook->delivered_at)->format('jS \\, F Y')? $recordbook->delivered_at:'null'}}
 
                             </td> 
+
+                            
                         </tr>
                         <div class="modal fade" id="demoModal{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

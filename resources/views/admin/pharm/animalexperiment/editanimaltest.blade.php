@@ -354,7 +354,7 @@
                          <div class="row">
                                    
                             <div class="col-sm-4">
-                              <label for="exampleSelectGender">Product</label>
+                              <label for="exampleSelectGender">Edit Experiment result</label>
                               <div class="input-group mb-2 mr-sm-2">
                                   <div class="input-group-prepend">
                                       <div class="input-group-text"></div>
@@ -363,7 +363,7 @@
                                  
                                     <select required name="product_id" id="pharmproduct_id"  style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                       <option value="">Select Product</option>
-                                      <option value="{{$editexperiment->id}}" {{$editexperiment->id == $editexperiment->id? "selected":""}}>{{$editexperiment->productType->code}}|{{$editexperiment->id}}|{{$editexperiment->created_at->format('y')}}</option>
+                                      <option value="{{$editexperiment->id}}" {{$editexperiment->id == $editexperiment->id? "selected":""}}>{{$editexperiment->code}}</option>
                                    </select>
           
                                 </div>
@@ -379,7 +379,7 @@
                             </div>            
                          
                           <div class="col-sm-4">
-                              <div class="form-group">
+                              <div class="form-group" style="display: none">
                                   <label for="exampleSelectGender">Testconducted</label>
                                   <select class="form-control" id="pharmtest" name="pharm_testconducted">
                                       <option  value="1">Acute Toxicity Test</option>

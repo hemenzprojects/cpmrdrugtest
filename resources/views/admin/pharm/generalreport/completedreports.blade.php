@@ -114,10 +114,9 @@
                                        <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($completed_product->animalExperiment->groupBy('id')->first() as $item)
                                          <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                                          @endforeach</li>
-                                         <strong>Report Analyst:</strong>  <li> @foreach ($completed_product->animalExperiment->groupBy('id')->first() as $item)
-                                             <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}
-                                             </span>
-                                            @endforeach
+                                         <strong>Report Analyst:</strong>
+                                           <li>
+                                            <span style="color: #023504">{{\App\Admin::find($completed_product->pharm_analysed_by)->full_name}}
                                          </li>
                                      </td>
                                      <td class="font">{!! $completed_product->hod_pharm_evaluation !!}</td>

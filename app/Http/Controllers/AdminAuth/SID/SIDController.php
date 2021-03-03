@@ -318,6 +318,12 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+         $p = Product::find($id);
+        if ($p->product_type_id == $request->product_type_id) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! Product Category cant be edited due to  code generation');
+            return redirect()->back();
+        }
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
@@ -362,6 +368,7 @@ class SIDController extends Controller
         ]);
 
         Product::where('id', $id)->update($data);
+
         Session::flash('message_title', 'success');
         Session::flash('message', 'Product successsfully updated.');
         return redirect()->back();

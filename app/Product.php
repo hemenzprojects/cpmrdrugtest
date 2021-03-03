@@ -148,8 +148,11 @@ class Product extends Model
         }
 
 
+        elseif (($this->pharm_hod_evaluation === Null) && ($this->pivot->status ===7)) {
+            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>UNDER EXPERIMENT</button></td>';
+        }
         elseif (($this->pharm_hod_evaluation < 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>Under Experiment</button></td>';
+            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>REPORT PREPARATION</button></td>';
         }
         elseif (($this->pharm_hod_evaluation === 1) && ($this->pivot->status ===7)) {
             return '<td><button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button></td>';
@@ -211,11 +214,11 @@ class Product extends Model
         }
 
         if ($this->micro_la_conclution === 1) {
-            return  '<span  font-size:18.5px">The sample meets with the requirements as per BP specifications</span>';
+            return  '<span  font-size:18.5px">The sample complies with the requirements as per BP specifications</span>';
          }
 
         if ($this->micro_la_conclution === 2) {
-            return '<span  font-size:18.5px">The sample doest not meets with the requirements as per BP specifications</span>';
+            return '<span  font-size:18.5px">The sample does not comply with the requirements as per BP specifications</span>';
         }
 
     }
@@ -269,6 +272,10 @@ class Product extends Model
         }
         elseif ($this->pharm_process_status === 5) {
             return '<span style="color:#007bff; font-size:11.5px">Inprogress</span>';
+
+        }
+        elseif ($this->pharm_process_status > 5) {
+            return '<span style="color:#0d8205; font-size:11.5px">Completed</span>';
 
         }
     }

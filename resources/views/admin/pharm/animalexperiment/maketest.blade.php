@@ -67,9 +67,7 @@
                                             <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                 {{$animalexp->code}}
                                             </span>
-                                        <sup style="font-size: 1px">
-                                            {{$animalexp->productType->code}}{{$animalexp->id}}{{$animalexp->created_at->format('y')}}
-                                         </sup> 
+                                      
                 
                                         </p>
                                        
@@ -341,7 +339,7 @@
             <div class="row">
                                    
                   <div class="col-sm-4">
-                    <label for="exampleSelectGender">Product</label>
+                    <label for="exampleSelectGender"> Product at the lab</label>
                     <div class="input-group mb-2 mr-sm-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"></div>
@@ -351,7 +349,7 @@
                             <option value="">Select Product</option>
                             @foreach($animalexps as $animalexp)
                             @foreach($animalexp->pharmsamplePreparation as $item)  
-                            <option spvolume="{{$item->pivot->measurement}}"   product_ma="{{\App\Product::find($item->pivot->product_id)->productType->method_applied}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->code}}</option>
+                            <option spvolume="{{$item->pivot->measurement}}"   product_ma="{{$item->pivot->pharm_testconducted_id}}"  value="{{$item->pivot->product_id}}" {{$item->pivot->product_id== old('product')? "selected":""}}>{{\App\Product::find($item->pivot->product_id)->code}}</option>
                             @endforeach
                             @endforeach
                          </select>
@@ -368,8 +366,9 @@
                     </div>
                   </div>            
                
-                <div class="col-sm-4">
-                    <div class="form-group">
+                   <div class="col-sm-4">
+                 
+                    <div class="form-group" style="display: none">
                         <label for="exampleSelectGender">Testconducted</label>
                         <select class="form-control" id="pharmtest" name="pharm_testconducted">
                             <option  value="1">Acute Toxicity Test</option>
@@ -377,7 +376,7 @@
                         </select>
                     </div>
                
-               </div>
+                   </div>
                <div class="col-sm-4">
                     @foreach( $errors->all() as $error)
                     <li style="color: red">{{$error}}</li>

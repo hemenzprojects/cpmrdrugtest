@@ -62,7 +62,7 @@
                                                 @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4" >
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Select Product Type</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">

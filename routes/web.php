@@ -195,7 +195,6 @@
    Route::post('/pharmacology/acceptproduct','AdminAuth\Pharmacology\PharmController@acceptproduct')->name('admin.pharm.acceptproduct');
    Route::get('pharm/report/show/{id}','AdminAuth\Pharmacology\PharmController@report_show')->name('admin.pharm.report.show');
    Route::post('/pharm/report/create/{id}', 'AdminAuth\Pharmacology\PharmController@pharmreport_create')->name('admin.pharm.report.create');
-   Route::get('pharm/completedexperiment/show/{id}','AdminAuth\Pharmacology\PharmController@completedexperiment_show')->name('admin.pharm.completedexperiment.show');
    Route::get('pharm/completedreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.pharm.completedreport.show');
 
       //**Pharmacology samplepreparation */
@@ -222,6 +221,8 @@
      Route::post('pharm/montlly','AdminAuth\Pharmacology\PharmController@monthly_report')->name('monthly');
      Route::post('pharm/daily','AdminAuth\Pharmacology\PharmController@daily_report')->name('daily');
 
+     Route::get('pharm/report/pdf/{id}','AdminAuth\Pharmacology\PharmController@pharmreport_pdf')->name('admin.pharm.report.pdf');
+
   });
 
 
@@ -234,6 +235,7 @@
    Route::get('pharm/animalexperiment/reject/{id}','AdminAuth\Pharmacology\PharmController@animalexperimentation_reject')->name('admin.pharm.animalexperiment.reject');
    Route::post('pharm/animalexperiment_recordbook/report','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook_report')->name('admin.pharm.animalexperiment_recordbook.report');
    Route::post('pharm/completed_animalexperiment/report','AdminAuth\Pharmacology\PharmController@completed_animalexperiment_report')->name('admin.pharm.completed_animalexperiment.report');
+   Route::get('pharm/completedexperiment/show/{id}','AdminAuth\Pharmacology\PharmController@completedexperiment_show')->name('admin.pharm.completedexperiment.show');
 
    Route::get('pharm/animalexperimentation/maketest','AdminAuth\Pharmacology\PharmController@maketest')->name('admin.pharm.animalexperimentation.maketest');
    Route::post('pharm/animalexperiment/store','AdminAuth\Pharmacology\PharmController@animalexperiment_store')->name('admin.pharm.animalexperiment.store');

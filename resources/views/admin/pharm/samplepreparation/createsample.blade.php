@@ -267,7 +267,7 @@
                                         <div class="row">
                                             <div class="col-md-4 col-12">
                                                 <h6> Product Name </h6>
-                                                <small class="text-muted ">{{$inprogress->productType->code}}|{{$inprogress->id}}|{{$inprogress->created_at->format('y')}} |   {{ucfirst($inprogress->name)}}</small>
+                                                <small class="text-muted ">{{$inprogress->code}}</small>
                                                 <h6>Product Type </h6>
                                                 <small class="text-muted ">{{ucfirst($inprogress->productType->name)}}</small> 
                                                 <small class="text-muted "></small>
@@ -460,7 +460,6 @@
                                             {{$exp_completed->code}}
                                         </span>
                                         </a> 
-                                         <span>{{ucfirst($exp_completed->name)}}</span>
                                         </p>
                                           <span> <strong>Test :</strong> 
                                           {{\App\PharmTestConducted::find($exp_completed->pharm_testconducted)->name}}
@@ -477,9 +476,15 @@
                                     <div class="col-lg-2 col-md-12">
                                         <i class="ik ik-eye"></i>
                                     </div>
-                                   </a>                                               
+                                   </a> 
+                                                                             
                                 </div>  
-                              
+                                <span class="float-right font" style="margin-top:10px">
+                                    <a href="{{route('admin.pharm.report.pdf',['id' => $exp_completed->id])}}">
+                                        <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                                      </a>
+                                       
+                                  </span>  
                             </div>
                             </li>
                         
