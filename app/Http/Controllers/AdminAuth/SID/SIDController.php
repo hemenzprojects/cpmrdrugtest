@@ -319,7 +319,7 @@ class SIDController extends Controller
 
         } 
          $p = Product::find($id);
-        if ($p->product_type_id == $request->product_type_id) {
+        if ($p->product_type_id != $request->product_type_id) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Sorry! Product Category cant be edited due to  code generation');
             return redirect()->back();
