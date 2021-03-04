@@ -272,10 +272,10 @@
                                 <div class="col-lg-8 col-md-12">
                                     <h3 class="card-title">All products Received</h3>
                                   </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="overflow-x: scroll" >
                                   
 
-									 <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable">
+									 <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable" >
 									    <thead>
 									        <tr>
                                                 <th></th>
@@ -284,13 +284,13 @@
 									            <th>Product Type</th>
 									            <th>Customer</th>
                                                 <th>Amt Paid</th>
-                                                <th>Created By</th>
+                                                {{-- <th>Created By</th> --}}
                                                 <th>Date</th>
                                                 <th>Actions</th>
 									            
 									       </tr>
 									    </thead>
-									    <tbody>                                                
+									    <tbody >                                                
                                             @foreach($products->sortBy('id') as $product)
                                             <tr>
                                             <td><p  style="display: none">{{$product->id}}</p></td>
@@ -299,15 +299,15 @@
                                                     {{$product->code}}
                                                 </span>
                                            </td>
-                                               <td class="font">{{ucfirst($product->name)}}
+                                               <td class="font" style="width:15%" >{{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
                                                 <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                                 @endif
                                             </td>
-                                            <td class="font">{{$product->productType->name}}</td>
+                                            <td class="font" >{{$product->productType->name}}</td>
                                             <td class="font">{{$product->customer_name}}</td>
                                             <td class="font">{{$product->price}}</td>
-                                            <td class="font">{{ucfirst($product->created_by)}}</td>
+                                            {{-- <td class="font">{{ucfirst($product->created_by)}}</td> --}}
                                             <td class="font">{{$product->created_at->format('Y / m / d')}}</td>
                                             <td>
                                                 <div class="table-actions">

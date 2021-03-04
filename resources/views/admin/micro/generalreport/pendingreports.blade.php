@@ -53,7 +53,7 @@
                                                     </td>
                                                     <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                                     <td class="font">{{$microproduct->pivot->quantity}}</td>
-                                                    {!! $microproduct->product_status !!}
+                                                    <td>{!! $microproduct->product_status !!}</td>
                                                     <td > <p style="display: none">{{$microproduct->pivot->status}}</p> </td>
                                                     <td class="font">
                                                         {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
