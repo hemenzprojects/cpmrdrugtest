@@ -954,6 +954,11 @@ class SIDController extends Controller
     public function pendingreports_index(Request $r, $id)
     {
         // dd($r->all());
+        if ($r->pending_report_ids == Null) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'Sorry there are no record to view');
+            return redirect()->back();
+        }
 
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
