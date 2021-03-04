@@ -133,7 +133,24 @@ class PhytoController extends Controller
             }
 
             public function makereport_create(Request $r){
-              
+
+              $checkifexist = PhytoOrganolepticsReport::where('product_id',$r->product_id)->get();
+              if (count( $checkifexist) >0) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Multiple test entry error');
+              }
+              $checkifexist = PhytoPhysicochemDataReport::where('product_id',$r->product_id)->get();
+              if (count( $checkifexist) >0) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Multiple test entry error');
+              }
+              $checkifexist = PhytoChemicalConstituentsReport::where('product_id',$r->product_id)->get();
+              if (count( $checkifexist) >0) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Multiple test entry error');
+              }
+
+
               $date_analysed = (\Carbon\Carbon::parse($r->date_analysed));
   
               if ($r->date_analysed > \Carbon\Carbon::now()) {

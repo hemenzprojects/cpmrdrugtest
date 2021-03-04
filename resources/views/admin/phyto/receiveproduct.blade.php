@@ -92,7 +92,7 @@
                                 </td>
                                <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
                                 <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
-                                {!! $Phytochemistry->product_status !!}
+                                <td>{!! $Phytochemistry->product_status !!}</td>
                                 <td style="display: none">{{$Phytochemistry->pivot->status}}</td>
                                 @foreach ($Phytochemistry->productDept->groupBy('id')->first() as $distribution)
                                 <td class="font">{{$distribution->distributed_by_admin}}</td>

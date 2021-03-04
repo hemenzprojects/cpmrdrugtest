@@ -91,7 +91,7 @@
                                 
                                 <td class="font">{{ucfirst($pharmproduct->productType->name)}}</td>
                                 <td class="font">{{$pharmproduct->pivot->quantity}}</td>
-                                {!! $pharmproduct->product_status !!}
+                                 <td> {!! $pharmproduct->product_status !!}</td>
                                 <td style="display: none">{{$pharmproduct->pivot->status}}</td>
                                 <td class="font">
                                     {{ucfirst(\App\Admin::find($pharmproduct->pivot->delivered_by)? \App\Admin::find($pharmproduct->pivot->delivered_by)->full_name:'null')}}

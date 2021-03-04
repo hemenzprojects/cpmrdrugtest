@@ -61,114 +61,24 @@
         @if ($pharmreports->pharm_testconducted ==1)
         <div class="card">
         <div class="row">
-                <div class="col-md-7">
-                        <div class=""> 
-                            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
+            <div class="col-md-7">
+ 
+       @include('admin.pharm.temp.finalreportform')
+    
+        <div class="" style="padding: 2%">
 
-                            <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} |   {{ucfirst($pharmreports->name)}} in 
-                                {{$pharm_finalreports->pharm_animal_model}}
-                            </p>
-                        </div>
+        <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+        @if ( $product->pharm_comment !== Null)
+        <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
+        </textarea>
+        @endif
+        @if ( $product->pharm_comment === Null)
+        <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, (P-CODE)  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+        </textarea> 
+        @endif
+        </div> 
+        </div>
 
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <input type="hidden" class="" name="pharm_testconducted" value="1">
-
-                                    <td class="font"><strong>Animal Model</strong></td>
-                                    <td class="font">
-                                    <input type="text" required class="" name="animal_model" value="{{$pharm_finalreports->pharm_animal_model}}" placeholder="None">
-                                    </td>
-                                </tr>
-                                <tr>
-                                <td class="font"><strong>No. of Animals</strong></td>
-                                    <td class="font">
-                                        <input type="text" required class="" name="num_of_animals" value="{{$pharm_finalreports->num_of_animals}}" placeholder="None">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Sex</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required class="" name="animal_sex" value="{{$pharm_finalreports->animal_sex}}" placeholder="None">
-
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>No. of Groups</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required class="" name="no_group" value="{{$pharm_finalreports->no_group}}" placeholder="None">
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Route of Administration</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required class="" name="method_of_admin" value="{{$pharm_finalreports->method_of_admin}}" placeholder="None">
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Formulation</strong></td> 
-                                    <td  class="font"><input type="text" required name="formulation" value="{{$pharm_finalreports->formulation}}" placeholder="None"></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Preparation</strong></td> 
-                                <td  class="font">
-                                    <textarea name="preparation" id="" cols="30" rows="2"  placeholder="None">{{$pharm_finalreports->preparation}}</textarea>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required name="dosage" value="{{$pharm_finalreports->dosage}}" placeholder="None">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Period of Observation</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required name="no_days" value="{{$pharm_finalreports->no_days}}" placeholder="None">
-                                   </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>No. of Death Recorded</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required name="no_death" value="{{$pharm_finalreports->no_death}}" placeholder="None">
-  
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Estimated Median Lethal Dose (LD<sub>50</sub>)</strong></td> 
-                                    <td  class="font">
-                                        <input type="text" required name="estimated_dose" value="{{$pharm_finalreports->estimated_dose}}" placeholder="None">
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
-                                    <td  class="font">
-                                       
-                                         <textarea name="signs_toxicity" id="" cols="30"   placeholder="None" rows="3">{{$pharm_finalreports->signs_toxicity}}</textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>  
-                        <div class="" style="padding: 2%">
-   
-                            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                            @if ( $product->pharm_comment !== Null)
-                            <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
-                            </textarea>
-                            @endif
-                            @if ( $product->pharm_comment === Null)
-                            <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, (P-CODE)  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
-                            </textarea> 
-                            @endif
-                        </div> 
-                </div> 
                 <div class="col-md-5" style="background-color:">
                     <div class="card-body">
                         @include('admin.pharm.temp.acuteanimalexpreport') 

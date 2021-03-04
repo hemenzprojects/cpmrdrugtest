@@ -84,7 +84,7 @@
                                         <tbody>
                                             @foreach ($customer->product as $p)
                                             <tr>
-                                                <td class="font">{{$p->productType->code}}|{{$p->id}}|{{$p->created_at->format('y')}}</td>
+                                                <td class="font">{{$p->code}}</td>
                                                 <td class="font">{{$p->name}}</td>
                                                 <td class="font">{{$p->productType->name}}</td>
                                                 <td class="font">{{$p->price}}</td>

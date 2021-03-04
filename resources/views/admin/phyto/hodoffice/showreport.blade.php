@@ -28,7 +28,7 @@
                             <tr>
                             <td class="font"><strong>Date Recievied:</strong></td>
                                 <td class="font">
-                                    {{ $phytoshowreport->departmentById(2)->pivot->updated_at->format('d/m/Y') }}
+                                    {{ $phytoshowreport->departmentById(3)->pivot->updated_at->format('d/m/Y') }}
 
                                 </td>
                             </tr>

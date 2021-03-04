@@ -44,14 +44,7 @@ $(document).on("click", "a.deleteText", function() {
  
 
 </script>
-<script>
-  $(document).ready(function() {
-    $('input, textarea, select').click(function(event) {
-    event.preventDefault();
- });
-  });
-  
-  </script>
+
 <script>
   $('#pharmsubmitreport').change(function(){
     if($(this).is(':checked')){

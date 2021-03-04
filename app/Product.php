@@ -136,33 +136,33 @@ class Product extends Model
     public function getProductStatusAttribute()
     {
         if ($this->pivot->status === 1) {
-           return '<td><label class="badge badge-danger">Pending</label></td>';
+           return '<label class="badge badge-danger">Pending</label>';
         }elseif ($this->pivot->status === 2) {
-            return '<td><label class="badge badge-success">Received</label></td>';
+            return '<label class="badge badge-success">Received</label>';
         }
         elseif ($this->pivot->status === 3) {
-            return '<td><button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button></td>';
+            return '<button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button>';
         }
         elseif ($this->pivot->status === 4) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
+            return '<button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button>';
         }
 
 
         elseif (($this->pharm_hod_evaluation === Null) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>UNDER EXPERIMENT</button></td>';
+            return '<button type="button" class="btn btn-outline-info btn-rounded"></i>UNDER EXPERIMENT</button>';
         }
         elseif (($this->pharm_hod_evaluation < 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-info btn-rounded"></i>REPORT PREPARATION</button></td>';
+            return '<button type="button" class="btn btn-outline-info btn-rounded"></i>REPORT PREPARATION</button>';
         }
         elseif (($this->pharm_hod_evaluation === 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button></td>';
+            return '<button type="button" class="btn btn-outline-danger btn-rounded"></i>Hod Evaluation</button>';
         }
         elseif (($this->pharm_hod_evaluation > 1) && ($this->pivot->status ===7)) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>APPROVED </button></td>';
+            return '<button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>APPROVED </button>';
         }
         
         elseif ($this->pivot->status === 8) {
-            return '<td><button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button></td>';
+            return '<button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button>';
         }
 
       

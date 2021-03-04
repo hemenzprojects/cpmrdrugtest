@@ -3,7 +3,7 @@
 <head>
 <style>
 .font{
-      font-size: 12px;
+      font-size: 13.1px;
     }
 table {
   font-family: arial, sans-serif;
@@ -56,33 +56,33 @@ tr:nth-child(even) {
 
 <body >
 
-<div class="watermarked1">
+<div class="{{$completed_report->pharm_testconducted == 1 ?'watermarked2':'watermarked1'}}">
     <div style=" background-color: #ffffffeb;">
 <table>
     <tr style="border: #fff">
-        <td style="width:50%;border: #fff"></td>
+        <td style="width:45%;border: #fff"></td>
         <td style="width:50%; border: #fff" >
-            <img src="{{asset('admin/img/logo.jpg')}}" width="20%">
+            <img src="{{asset('admin/img/logo.jpg')}}" width="22%">
         </td>
         <td style="width:10%; border: #fff"></td>
 
     </tr>
 
 </table>
-<table style="margin-top: -0.1%" >
-    <tr style="border: #fff">
-        <td style="width:16%;border: #fff"></td>
-        <td style="width:60%; border: #fff" >
-        <span style="font-size: 15px;"> Centre for Plant Medicine Research </span>
+<table style="">
+    <tr style="border:#fff; padding:4%">
+        <td style="width:30.5%;border: #fff" ></td>
+        <td style="border: #fff" >
+        <span class="font" style="font-size: 16px;"> Centre for Plant Medicine Research </span>
         </td>
-        <td style="width:10%; border: #fff"></td>
-
-    </tr>
-</table>
-<table style="margin-top:-2.0%" >
-    <tr style="border: #fff">
         <td style="width:30%;border: #fff"></td>
-        <td style="width:60%; border: #fff" >
+
+    </tr>
+</table>
+<table style="margin-top:-2.0%; padding:1%">
+    <tr style="border: #fff">
+        <td style="width:31%;border: #fff"></td>
+        <td style="width:59%; border: #fff" >
         <span style="font-size: 13px;">Pharmacology & Toxicology Department</span>
         </td>
         <td style="width:10%; border: #fff"></td>
@@ -90,7 +90,7 @@ tr:nth-child(even) {
     </tr>
 </table>
 
-<table>
+<table style="margin-bottom: 3%;margin-top:1%">
     <tr>
         <th class="font">Product Code</th>
         <th class="font">Product Form</th>
@@ -111,16 +111,18 @@ tr:nth-child(even) {
 
 @if ($completed_report->pharm_testconducted == 1)
 
-<table style="margin-bottom:15px">
+<table style="margin-bottom:5%">
+    
     <tr>
-        <th class="font" style="border: #fff">RESULTS: </th>
+        <th class="font" style="border: #fff"><span style="font-size:15px">RESULTS: </span><br>
+          <span style="font-size:13px">Table showing Result of Acute Toxicity on {{$completed_report->code}} in  {{$pharm_finalreports->pharm_animal_model}}</span>  
+         </th>
     </tr>
     <tr>
-      <span class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$completed_report->code}} in 
-          {{$pharm_finalreports->pharm_animal_model}}
-      </span>
-  </tr>
-  
+        <th></th>
+        <th></th>
+    </tr>
+
     <tbody>   
       <tr>
           <td class="font"><strong>Animal Model</strong></td>
@@ -189,13 +191,12 @@ tr:nth-child(even) {
           </td>
       </tr>
       <tr>
-          <td></td>
-          <td></td>
+    
       </tr>
   </tbody>                        
 </table>
 
- <p style="font-size: 15px"><span style="font-size:16px">  REMARKS:</span>{{$completed_report->pharm_comment}}   </p>
+ <p style="font-size: 15px"><span style="font-size:16px">  <span style="font-size:15px">REMARKS:  </span><br></span>{{$completed_report->pharm_comment}}   </p>
 
  @endif
 
@@ -227,12 +228,12 @@ tr:nth-child(even) {
       ?>
       <span>Analysed by</span><br>
       @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
-      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="42%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="15%"><br>
       @endif
 
       ------------------------------<br> 
   
-    <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->full_name:'')}}</span>
+    <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->full_name:'')}}</span><br>
      <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->position:'')}}</span>
       </td>
     <td class="font" style="width: 150%;border: #fff"> </td>
@@ -245,12 +246,12 @@ tr:nth-child(even) {
       ?>
       <span>Approved by</span><br>
     @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
-      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="15%"><br>
       @endif
 
       ------------------------------<br> 
   
-  <span>{{ucfirst(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->full_name:'')}}</span>
+  <span>{{ucfirst(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->full_name:'')}}</span><br>
   <span>{{ucfirst(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->position:'')}}</span>
 
     </td>

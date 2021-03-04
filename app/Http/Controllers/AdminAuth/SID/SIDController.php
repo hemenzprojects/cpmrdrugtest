@@ -961,18 +961,19 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
         } 
 
-        $data['ptype_id'] = $id;
-      return  $data['final_reports'] = Product::where('product_type_id', $id)
+             $data['ptype_id'] = $id;
+             $data['final_reports'] = Product::where('product_type_id', $id)
             ->where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)->with('departments')->wherehas('departments')->get();
 
-            $data['ptype_id'] = $id;
-            $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
-               return $q->where("dept_id",2)->where('status','>',1)->where('status','<', 8);
-             })->pluck('id')->toArray();
             
-            $data['dept2'] = Department::find(2)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
+           $data['pending'] = Product::whereIn('id',$r->pending_report_ids)->with('departments')->pluck('id')->toArray();
+           $data['dept'] = Department::where('dept_type_id', 1)->get();
+           $data['pending_overview'] = Product::whereIn('id',$r->pending_report_ids)->with('departments')->get();
+
+
+        //    $data['dept1'] = Department::find(1)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
          
-        return view('admin.sid.generalreport.finalreports', $data);
+        return view('admin.sid.generalreport.pending', $data);
     }
 
     public function completedreports_show($id)
