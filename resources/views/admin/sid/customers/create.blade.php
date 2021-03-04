@@ -154,7 +154,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputPassword1">Company Tell No.</label> <span style="color:red">*</span>
-                        <input type="text" required class="form-control" placeholder="Compnay Phone" name="company_phone" value="{{old('company_phone')? old('company_phone'): ''}}">
+                        <input type="text" required class="form-control" placeholder="Company Phone" name="company_phone" value="{{old('company_phone')? old('company_phone'): ''}}">
                         @error('company_phone')
                         <small style="margin:15px" class="form-text text-danger" role="alert">
                             <strong>{{$message}}</strong>
