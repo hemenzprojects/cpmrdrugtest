@@ -111,7 +111,7 @@ tr:nth-child(even) {
 
 @if ($completed_report->pharm_testconducted == 1)
 
-<table style="margin-bottom:5%">
+<table style="margin-bottom:1%">
     
     <tr>
         <th class="font" style="border: #fff"><span style="font-size:15px">RESULTS: </span><br>

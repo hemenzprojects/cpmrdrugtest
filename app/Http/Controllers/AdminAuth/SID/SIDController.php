@@ -330,7 +330,32 @@ class SIDController extends Controller
         $micro_hod_evaluation =Null;
         $pharm_hod_evaluation =Null;
         $phyto_hod_evaluation =Null;
-       
+        
+        if ($request->check_singlelab) {
+            $check_singlelab =1;
+
+            if ($request->micro_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+            }
+
+            if ($request->pharm_hod_evaluation) {
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
+            }
+
+            if ($request->phyto_hod_evaluation) {
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+
+            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
+                return redirect()->back();
+            }
+        
+       }
           if ($request->micro_hod_evaluation) {
             $micro_grade =2;
             $micro_hod_evaluation =2;
@@ -1150,11 +1175,11 @@ class SIDController extends Controller
           return redirect()->back();
         } 
        
-        if ($p_last->pending_review_product) {
-            Session::flash('message_title', 'error');
-            Session::flash('message', 'Sorry Product cant be reviewed. Process Pending');
-            return redirect()->back();
-        }
+        // if ($p_last->pending_review_product) {
+        //     Session::flash('message_title', 'error');
+        //     Session::flash('message', 'Sorry Product cant be reviewed. Process Pending');
+        //     return redirect()->back();
+        // }
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
@@ -1173,6 +1198,7 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+        // dd($request->all());
        $failed_tag = $request->failed_tag;
         $micro_grade =Null;
         $pharm_grade =Null;
@@ -1181,13 +1207,13 @@ class SIDController extends Controller
         $pharm_hod_evaluation =Null;
         $phyto_hod_evaluation =Null;
 
-       $p = Product::find($id);
-       if ($p->failed_tag ) {
-          $failed_tag= $p->failed_tag;
+        $p = Product::find($id);
+       if ($p->failed_tag) {
+           $failed_tag= $p->failed_tag;
        }else{
-        $p->update(['failed_tag' => $request->failed_tag]);
+        $data = (['failed_tag' => $request->failed_tag]);
+        Product::where('id', $id)->update($data);
        }
-       
        if ($p->micro_grade == 2) {
         $micro_grade = 2;
         $micro_hod_evaluation = 2;
@@ -1201,7 +1227,7 @@ class SIDController extends Controller
         $phyto_hod_evaluation = 2;
        }
   
-
+   
        $data = ([
         'name' => $request->name,
         'product_type_id' => $request->product_type_id,
@@ -1224,6 +1250,8 @@ class SIDController extends Controller
 
        ]);
   
+    $product_type = ProductType::findOrFail($data['product_type_id']);
+    $data["code"] = Product::generateCode($product_type);
     Product::create($data);
     Session::flash("message", "Product Successfully Created.");
     Session::flash("message_title", "success");

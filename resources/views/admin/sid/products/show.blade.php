@@ -355,7 +355,7 @@
                                             <tr>
                                                 <td class="font">
                                                <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                    {{$product->code}}
+                                                    {{$p->code}}
                                                 </span></td>
                                                 <td class="font">{{$p->name}}</td>
                                                 <td class="font">{{$p->productType->name}}</td>

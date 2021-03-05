@@ -10,7 +10,7 @@
                             <i class="ik ik-edit bg-blue"></i>
                             <div class="d-inline">
                                 <h5>Product Review of {{$p->name}}  <span  class="badge  pull-right" style="background-color: #de1024; color:#fff ">
-                                    {{$product->code}}
+                                    {{$p->code}}
                                 </span></h5>
                                 <span>Please input required data in the field requested and submit for review</span>
                             </div>
@@ -49,6 +49,7 @@
                      
                                 <input type="hidden" name="failed_tag" value="{{rand(0,1000)}}{{\Carbon\Carbon::now()->format('His')}}{{$p->id}}">
                                 <input type="hidden" name="id" value="{{$p->id}}">
+
                                     <div class="col-sm-4">
                                         <label class="sr-only" for="inlineFormInputGroupUsername2"></label>
                                         <div class="input-group mb-2 mr-sm-2">
@@ -67,12 +68,15 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="sr-only" for="inlineFormInputGroupUsername2">Select Product Type</label>
                                         <div class="input-group mb-2 mr-sm-2">
+                                        <input type="text" class="form-control" placeholder="{{$p->productType->name}}" value="{{$p->productType->name}}" onkeypress="return false;">
+                                        </div>
+                                        <label class="sr-only" for="inlineFormInputGroupUsername2">Select Product Type</label>
+                                        <div class="input-group mb-2 mr-sm-2" style="display: none">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">Product Type</div>
                                             </div>
-                                            <select name="product_type_id" style="" class="form-control select2">
+                                            <select  name="product_type_id" style="" class="form-control select2">
                                                 <option value="">Select Product Type</option>
                                                 <?php $ptype = old('product_type_id')? old('product_type_id'):($p->productType? $p->productType->id: ""); ?>
                                                 @foreach($product_types as $product_type)

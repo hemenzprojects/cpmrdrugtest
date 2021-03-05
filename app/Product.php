@@ -11,7 +11,7 @@ class Product extends Model
     protected $fillable = ['code','name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','single_multiple_lab','dosage',
     'micro_comment','micro_conclution','micro_la_conclution','micro_ea_conclution','micro_dateanalysed','micro_overall_status','micro_process_status','micro_hod_evaluation','micro_hod_remarks','micro_approved_by','micro_analysed_by','micro_finalapproved_by',
     'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_approved_by','pharm_finalapproved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
-    'phyto_overall_status','phyto_hod_evaluation','phyto_process_status','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_approved_by','phyto_analysed_by','phyto_finalapproved_by'.'failed_tag','added_by_id','updated_by_id'];
+    'phyto_overall_status','phyto_hod_evaluation','phyto_process_status','phyto_hod_remarks','phtyo_comment','phyto_dateanalysed','phyto_approved_by','phyto_analysed_by','phyto_finalapproved_by','failed_tag','added_by_id','updated_by_id'];
 
     protected $appends = [
         "experimental_deaths", "experimental_lives"

@@ -232,10 +232,33 @@
                                                          <span class="custom-control-label">&nbsp; Phytochemistry</span>
                                                      </label>
                                                  </div>
-                                                  @endif
-                                            
+                                                  @endif 
                                                 </div>                                              
- 
+                                                @if ($p->micro_hod_evaluation == Null && $p->pharm_hod_evaluation == Null  && $p->phyto_hod_evaluation == Null)
+                                                <div class="row">
+                                                  <div class="col-md-5">
+                                                      <label class="custom-control custom-checkbox">
+                                                          <input type="checkbox" name="check_singlelab" id="check_singlelab" class="custom-control-input">
+                                                          <span class="custom-control-label">&nbsp; Single/ MultipleLabs</span>
+                                                      </label>
+                                                  </div>
+                                                  <div class="col-md-7 singlelab" style="display: none">
+                                                      <p>Please check approved lab(s)</p>
+                                                      <label class="custom-control custom-checkbox">
+                                                          <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
+                                                          <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
+                                                      </label>
+                                                      <label class="custom-control custom-checkbox">
+                                                          <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
+                                                          <span class="custom-control-label"style=""> Pharmacology</span>
+                                                      </label>
+                                                      <label class="custom-control custom-checkbox">
+                                                          <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
+                                                          <span class="custom-control-label"style="">Phytochemistry</span>
+                                                      </label>
+                                                  </div>
+                                                 </div>  
+                                                 @endif
                                              </div>
                                             <div class="col-sm-3">
                                                 <button type="submit" class="btn btn-primary mb-2">Update Product</button>
@@ -258,50 +281,50 @@
                 </div>
             </div>
 
-             <div class="row">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-lg-8 col-md-12">
-                                    <h3 class="card-title">All products Recieved</h3>
+                                    <h3 class="card-title">All products Received</h3>
                                   </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="overflow-x: scroll" >
                                   
 
-                                    <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable">
+									 <table id="order-table_product" class="table table-striped table-bordered nowrap dataTable" >
 									    <thead>
 									        <tr>
-                                                <th style="display: none">Code</th>
+                                                <th></th>
 									            <th>Code</th>
 									            <th>Product Name</th>
 									            <th>Product Type</th>
 									            <th>Customer</th>
                                                 <th>Amt Paid</th>
-                                                <th>Created By</th>
-                                                <th>Date/Time Created</th>
+                                                {{-- <th>Created By</th> --}}
+                                                <th>Date</th>
                                                 <th>Actions</th>
 									            
 									       </tr>
 									    </thead>
-                                        <tbody>                                                
+									    <tbody >                                                
                                             @foreach($products->sortBy('id') as $product)
                                             <tr>
-                                            <td style="display: none">{{$product->id}}</td>
+                                            <td><p  style="display: none">{{$product->id}}</p></td>
                                             <td class="font">
                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                     {{$product->code}}
                                                 </span>
                                            </td>
-                                               <td class="font">{{ucfirst($product->name)}}
+                                               <td class="font" style="width:15%" >{{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
                                                 <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                                 @endif
                                             </td>
-                                            <td class="font">{{$product->productType->name}}</td>
+                                            <td class="font" >{{$product->productType->name}}</td>
                                             <td class="font">{{$product->customer_name}}</td>
                                             <td class="font">{{$product->price}}</td>
-                                            <td class="font">{{ucfirst($product->created_by)}}</td>
+                                            {{-- <td class="font">{{ucfirst($product->created_by)}}</td> --}}
                                             <td class="font">{{$product->created_at->format('Y / m / d')}}</td>
                                             <td>
                                                 <div class="table-actions">

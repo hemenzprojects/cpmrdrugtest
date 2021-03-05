@@ -35,16 +35,76 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header"><h3> Microbial Load Data Template</h3></div>
+                    
                     <div class="card-body">
                         <div class="row">
-                            
-                            <div class="col-md-8">
+                            <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="demoModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <form  class="forms-sample" action="{{url('admin/micro/config/microbialanalysis/create')}}" method="post">
+                                            {{ csrf_field() }}
+                                        <div class="modal-body">
+                                                                  
+                                                <div class="card-header"><h3>Create New feature</h3></div>
+            
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Test Name</label>
+                                                    <input type="text" required name="test_conducted" class="form-control"  placeholder="Name">
+                                                    @error('test_conducted')
+                                                    <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                        <strong>{{$message}}</strong>
+                                                    </small>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Definition</label>
+                                                    <input type="text" required name="definition" class="form-control"  placeholder="Definition">
+                                                    @error('test_conducted')
+                                                    <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                        <strong>{{$message}}</strong>
+                                                    </small>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Result</label>
+                                                    <input type="text" required name="result" class="form-control" placeholder="Feature">
+                                                    @error('result')
+                                                    <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                        <strong>{{$message}}</strong>
+                                                    </small>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Acceptance Criterion</label>
+                                                    <input type="text" required name="acceptance_criterion" class="form-control" placeholder="Feature">
+                                                    @error('acceptance_criterion')
+                                                    <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                        <strong>{{$message}}</strong>
+                                                    </small>
+                                                    @enderror
+                                                </div>
+                                                
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Create feature</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
                                 <form  action="{{url('admin/micro/config/microbialanalysis/update')}}" method="post">
                                     {{ csrf_field() }}
                                 <table class="table table-inverse">                      
                                     <tbody>
                                         <tr>
-                                            
+                                            <th>show</th>
                                             <th>Test</th>
                                             <th>Result</th>
                                             <th>Acceptance Criterion 
@@ -55,11 +115,19 @@
                                                </span>
                                             </th>
                                             <th>Definition</th>
-                                            <th>Hide/show</th>
+                                            <th>position</th>
+                                            <th> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#demoModal">Add New</button>
+                                            </th>
+                                              
                                         </tr>
                                         @foreach ($microbial_loadanalyses as $microbial_loadanalyse)
                                         <tr>
-                                    
+                                            <td> 
+                                                    <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="microbial_loadanalyse_id[]" value="{{$microbial_loadanalyse->id}}" class="custom-control-input"{{$microbial_loadanalyse->action == 1 ?'checked':''}}>
+                                                        <span class="custom-control-label">&nbsp;</span>
+                                                    </label>
+                                            </td>
                                         <td class="font"><input class="form-control" style="width:220px" type="text" name="name[]" value="{{$microbial_loadanalyse->test_conducted}} :"></td>
             
                                         <td class="font"><input class="form-control" type="text" name="result[]" value="{{$microbial_loadanalyse->result}} "></td>
@@ -70,15 +138,17 @@
                                                 <p style="font-size: 10px">None</p>
                                            @endif
                                         </td>
-                                        <td > 
-                                                <div class="form-check mx-sm-2">
-                                                <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="microbial_loadanalyse_id[]" value="{{$microbial_loadanalyse->id}}" class="custom-control-input"{{$microbial_loadanalyse->action == 1 ?'checked':''}}>
-                                                    <span class="custom-control-label">&nbsp;</span>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        </tr>        
+                                        <td><select name="" id="">
+
+                                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+                                            <option value="{{$microbial_loadanalyse[$i]}}"> row {{$i}}</option> 
+ 
+                                            @endfor
+                                        </select></td>
+                                          <td> <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>
+                                          </td>
+                                        </tr>  
+                                              
                                         @endforeach
     
                                      </tbody>
@@ -103,43 +173,6 @@
                             </form>
                             </div>
                            
-                            <div class="col-md-4">
-                                
-                                <form  class="forms-sample" action="{{url('admin/micro/config/microbialanalysis/create')}}" method="post">
-                                    {{ csrf_field() }}
-    
-                                    <div class="card-header"><h3>Create New feature</h3></div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">Test</label>
-                                        <input type="text" required name="test" class="form-control"  placeholder="Name">
-                                        @error('test')
-                                        <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                            <strong>{{$message}}</strong>
-                                        </small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">Result</label>
-                                        <input type="text" required name="result" class="form-control" placeholder="Feature">
-                                        @error('result')
-                                        <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                            <strong>{{$message}}</strong>
-                                        </small>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">Acceptance Criterion</label>
-                                        <input type="text" required name="acceptance_criterion" class="form-control" placeholder="Feature">
-                                        @error('acceptance_criterion')
-                                        <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                            <strong>{{$message}}</strong>
-                                        </small>
-                                        @enderror
-                                    </div>
-                                    <button type="submit" class="btn btn-success mr-2">Create feature</button>
-                                </form>
-                            </div>
                         </div>
                      </div>
                 </div>

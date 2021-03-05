@@ -896,6 +896,7 @@ class MicroController extends Controller
             }
 
             public function microbialanalysis_create(request $r){
+              // dd($r->all());
               $data = $r->validate([
                 'test_conducted' => 'required', 
                 'result' => 'required', 
@@ -903,7 +904,8 @@ class MicroController extends Controller
               ]);
 
                $data = ([
-                'test' => $r->test,
+                'test_conducted' => $r->test_conducted,
+                'definition' => $r->definition,
                 'result' => $r->result,
                 'acceptance_criterion' => $r->acceptance_criterion,
                 'added_by_id' => Auth::guard('admin')->id(),
@@ -937,6 +939,8 @@ class MicroController extends Controller
 
 
             public function microbialanalysis_update(request $r){
+
+              dd($r->all());
               $data = $r->validate([
                 'date' => 'required',          
               ]);
