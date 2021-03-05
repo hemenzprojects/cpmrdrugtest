@@ -37,7 +37,7 @@
                         <div class="col-md-4">
                             <p style="margin-bottom: 2%"><strong>Product :</strong></p></div>
                         <div class="col-md-6">
-                         <div>{{$product->productType->code}}|{{$product->id}}|{{$product->created_at->format('y')}} - {{$product->name}}</div>
+                         <div>{{$product->code}} - {{$product->name}}</div>
                          
                         </div>
                        
