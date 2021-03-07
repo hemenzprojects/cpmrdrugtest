@@ -152,17 +152,31 @@
                                 <br>
                                 <p class="text-muted">{{ucfirst($product->indication)}}</p>
                             </div>
-                            <div class="col-md-6 col-6"> <strong>Single or multiple Labs</strong>
+                            <div class="col-md-6 col-6"> 
 
-                                <br>
+                               
                                @if ($product->single_multiple_lab ==1)
-                               Test completed in various labs before registration:
-                                    @if ($product->micro_hod_evaluation == 2)
+                               <strong>Single Lab</strong> <br>
+                               Test to be conducted if various Labs:
+                                    @if ($product->micro_hod_evaluation == Null)
                                     <li> Microbiology Lab</li>
                                     @endif
-                                    @if ($product->pharm_hod_evaluation == 2)
+                                    @if ($product->pharm_hod_evaluation == Null)
                                     <li> Pharmachology Lab</li>
-                                    @endif @if ($product->phyto_hod_evaluation == 2)
+                                    @endif @if ($product->phyto_hod_evaluation == Null)
+                                    <li> Phytochemistry Lab<li>
+                                    @endif
+                               @endif
+                               @if ($product->single_multiple_lab ==2)
+                               <strong>Multiple Labs</strong> <br>
+
+                               Test to be conducted if various Labs:
+                                    @if ($product->micro_hod_evaluation == Null)
+                                    <li> Microbiology Lab</li>
+                                    @endif
+                                    @if ($product->pharm_hod_evaluation == Null)
+                                    <li> Pharmachology Lab</li>
+                                    @endif @if ($product->phyto_hod_evaluation == Null)
                                     <li> Phytochemistry Lab<li>
                                     @endif
                                @endif

@@ -222,12 +222,31 @@
                                             <div class="col-sm-5">
                                                <div class="row">
                                                 <div class="col-md-5">
-                                                    <label class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="check_singlelab" id="check_singlelab" class="custom-control-input">
-                                                        <span class="custom-control-label">&nbsp; Single/ MultipleLabs</span>
+                                                    <label class="custom-control custom-checkbox singlelabcheck">
+                                                        <input type="checkbox" name="single_multiple_lab" id="check_singlelab" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Single Lab</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox multilabcheck">
+                                                        <input type="checkbox" name="single_multiple_lab" id="check_multilab" value="2" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Multiple Lab</span>
                                                     </label>
                                                 </div>
                                                 <div class="col-md-7 singlelab" style="display: none">
+                                                    <p>Please check approved lab(s)</p>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style=""> Pharmacology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style="">Phytochemistry</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-7 multilab" style="display: none">
                                                     <p>Please check approved lab(s)</p>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
@@ -280,7 +299,7 @@
 									        <tr>
                                                 <th></th>
 									            <th>Code</th>
-									            <th>Product Name</th>
+									            <th  style="width:50px">Product Name</th>
 									            <th>Product Type</th>
 									            <th>Customer</th>
                                                 <th>Amt Paid</th>
@@ -299,9 +318,16 @@
                                                     {{$product->code}}
                                                 </span>
                                            </td>
-                                               <td class="font" style="width:15%" >{{ucfirst($product->name)}}
+                                            <td class="font" style="width:15%">
+                                                {{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
                                                 <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                                @endif
+                                                @if($product->single_multiple_lab ==1)
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">S</span></sup>
+                                                @endif
+                                                @if($product->single_multiple_lab ==2)
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">M</span></sup>
                                                 @endif
                                             </td>
                                             <td class="font" >{{$product->productType->name}}</td>

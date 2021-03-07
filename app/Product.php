@@ -49,6 +49,8 @@ class Product extends Model
     //     return 1;
     // }
 
+ 
+
     public function getExperimentalDeathsAttribute()
     {
         return count($this->animalExperiment->where("death",2));

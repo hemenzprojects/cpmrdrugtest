@@ -35,17 +35,29 @@
                             <div class="card" style="padding: 1%">
                          <div class="row" style="margin: %">
                         <div class="col-md-4">
-                            <p style="margin-bottom: 2%"><strong>Product :</strong></p></div>
-                        <div class="col-md-6">
+                            <p style="margin-bottom: 2%"><strong>Product :</strong></p>
+                        </div>
+                        <div class="col-md-4">
                          <div>{{$product->code}} - {{$product->name}}</div>
-                         
+                            
+                        </div>
+                       
+                        <div class="col-md-4">
+                            @if ($product->single_multiple_lab ==1)
+                            <p style="margin-bottom: 2%"><strong>Single Lab </strong></p>
+
+                            @endif
+                            @if ($product->single_multiple_lab ==2)
+                            <p style="margin-bottom: 2%"><strong>Multiple Labs </strong></p>
+
+                            @endif
                         </div>
                        
                      </div> 
                      <div class="row" style="margin: %">
                          <div class="col-md-4">
                              <p style="margin-bottom: 2%"><strong>Customer :</strong></p></div>
-                         <div class="col-md-6">
+                         <div class="col-md-4">
                           <div>{{$product->customer_name}}</div>
                          </div>
                          
@@ -54,11 +66,30 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card">
-                            <div class="text-center" style="margin: "> 
-                                  <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
-                                  <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{460 - $product->price }}.00</span></h5> 
+                                @if ($product->single_multiple_lab ==0)
+                                <div class="text-center" style="margin: "> 
+                                    <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
+                                    <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{460 - $product->price }}.00</span></h5> 
+  
+                              </div> 
+                                @endif
 
-                               </div>
+                            @if ($product->single_multiple_lab ==1)
+                            <div class="text-center" style="margin: "> 
+                                <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
+                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{252 - $product->price }}.00</span></h5> 
+
+                           </div>
+                            @endif
+     
+                            @if ($product->single_multiple_lab ==2)
+                           
+                            <div class="text-center" style="margin:3px "> 
+                                <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
+                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{504 - $product->price }}.00</span></h5> 
+
+                           </div>
+                            @endif
                             </div>
                         </div>
                     </div>

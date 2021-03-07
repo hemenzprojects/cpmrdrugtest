@@ -108,7 +108,7 @@ class MicroController extends Controller
 
               public function report_create(){
                
-                $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::all();
+                $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::orderBy('location', 'ASC')->get();
                 $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::all();
 
                 $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
@@ -890,7 +890,7 @@ class MicroController extends Controller
             public function hodoffice_config(){
    
               $data['microbial_efficacys'] = MicrobialEfficacyAnalyses::all();
-              $data['microbial_loadanalyses'] = MicrobialLoadAnalyses::all();
+              $data['microbial_loadanalyses'] = MicrobialLoadAnalyses::orderBy('location', 'ASC')->get();
 
               return view('admin.micro.hodoffice.config',$data);
             }
@@ -907,6 +907,7 @@ class MicroController extends Controller
                 'test_conducted' => $r->test_conducted,
                 'definition' => $r->definition,
                 'result' => $r->result,
+                'location' => $r->location,
                 'acceptance_criterion' => $r->acceptance_criterion,
                 'added_by_id' => Auth::guard('admin')->id(),
                ]);
@@ -940,33 +941,52 @@ class MicroController extends Controller
 
             public function microbialanalysis_update(request $r){
 
-              dd($r->all());
-              $data = $r->validate([
-                'date' => 'required',          
-              ]);
+              // dd($r->all());
+              // $data = $r->validate([
+              //   'date' => 'required',          
+              // ]);
 
-              
            if ($r->action > 2 ) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
             return redirect()->back();
-          } 
+             } 
               if ($r->action == 0 && $r->action == null) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required product and submit.');
               return redirect()->back();
-          } 
-              
-          $data = 
-          [ 
-          'action' => $r->action,
-          'date' => $r->date,
-          'added_by_id' => Auth::guard('admin')->id(),
-          'created_at' => \Carbon\Carbon::now(),
-          ];
-         
-          MicrobialLoadAnalyses::whereIN('id', $r->microbial_loadanalyse_id)->update($data);
-          MicrobialLoadAnalyses::whereNotin('id',$r->microbial_loadanalyse_id)->update(['action' =>0]);
+            } 
+          if ($r->action ==1) {
+            $data = ([ 
+              'action' => $r->action,
+              'date' => $r->date,
+              'added_by_id' => Auth::guard('admin')->id(),
+              'created_at' => \Carbon\Carbon::now(),
+              ]);
+    
+              MicrobialLoadAnalyses::whereIN('id', $r->microbial_loadanalyse_id)->update($data);
+              MicrobialLoadAnalyses::whereNotin('id',$r->microbial_loadanalyse_id)->update(['action' =>0]);
+           } 
+
+          if($r->action ==2) {
+            MicrobialLoadAnalyses::whereIN('id', $r->mloadanalyse_id)->delete();
+              for ($i=0; $i < count($r->mloadanalyse_id); $i++) { 
+                MicrobialLoadAnalyses::create([
+                'test_conducted'=>$r->name[$i],
+                'result'=>$r->result[$i],
+                'acceptance_criterion'=>$r->acceptance_criterion[$i],
+                'definition'=>$r->definition[$i],
+                'date'=>$r->loadanalysisdate[$i],
+                'location'=>$r->location[$i],
+                'action'=> 1,
+                'added_by_id'=> Auth::guard('admin')->id(),
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+                ]);
+                 
+              }
+          }
+
           Session::flash("message", "Template updated successfully");
           Session::flash("message_title", "success");  
           return redirect()->back();

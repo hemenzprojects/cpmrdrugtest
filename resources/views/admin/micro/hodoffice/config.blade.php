@@ -87,6 +87,8 @@
                                                     </small>
                                                     @enderror
                                                 </div>
+                                                 
+                                                <input type="text" name="location" value="{{count($microbial_loadanalyses)}}">
                                                 
                                             
                                         </div>
@@ -104,52 +106,61 @@
                                 <table class="table table-inverse">                      
                                     <tbody>
                                         <tr>
-                                            <th>show</th>
+                                            <th></th>
+                                            <th>Activate</th>
                                             <th>Test</th>
                                             <th>Result</th>
                                             <th>Acceptance Criterion 
                                                <span class="font">
                                                 (BP @foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
-                                                {{$item->expired_at}}
+                                               {{Carbon\Carbon::parse($item->date)->format('Y')}}
                                                    @endforeach )
                                                </span>
                                             </th>
                                             <th>Definition</th>
-                                            <th>position</th>
                                             <th> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#demoModal">Add New</button>
                                             </th>
                                               
                                         </tr>
-                                        @foreach ($microbial_loadanalyses as $microbial_loadanalyse)
+                                        @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
                                         <tr>
-                                            <td> 
-                                                    <label class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="microbial_loadanalyse_id[]" value="{{$microbial_loadanalyse->id}}" class="custom-control-input"{{$microbial_loadanalyse->action == 1 ?'checked':''}}>
-                                                        <span class="custom-control-label">&nbsp;</span>
-                                                    </label>
-                                            </td>
-                                        <td class="font"><input class="form-control" style="width:220px" type="text" name="name[]" value="{{$microbial_loadanalyse->test_conducted}} :"></td>
-            
-                                        <td class="font"><input class="form-control" type="text" name="result[]" value="{{$microbial_loadanalyse->result}} "></td>
-                                       
-                                        <td class="font"><input class="form-control" type="text" name="acceptance_criterion[]" value="{{$microbial_loadanalyse->acceptance_criterion}} "></td>
-                                        <td class="font" style="font-size: 10px">{{$microbial_loadanalyse->definition}} 
-                                           @if ($microbial_loadanalyse->definition ==Null)
-                                                <p style="font-size: 10px">None</p>
-                                           @endif
-                                        </td>
-                                        <td><select name="" id="">
+                                        <td>{{$microbial_loadanalyses[$i]->location}}</td>
+                                        <td> 
+                                                <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="microbial_loadanalyse_id[]" value="{{$microbial_loadanalyses[$i]->id}}" class="custom-control-input"{{$microbial_loadanalyses[$i]->action == 1 ?'checked':''}}>
+                                                    <span class="custom-control-label">&nbsp;</span>
+                                                </label>
+                                                <input type="hidden" name="location[]" value="{{$i}}">
 
-                                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-                                            <option value="{{$microbial_loadanalyse[$i]}}"> row {{$i}}</option> 
- 
-                                            @endfor
-                                        </select></td>
+                                        </td>
+
+                                        <td style="display: none"> 
+                                            <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="mloadanalyse_id[]" value="{{$microbial_loadanalyses[$i]->id}}" class="custom-control-input"{{$microbial_loadanalyses[$i]->action == 1 ?'checked':''}}>
+                                                <span class="custom-control-label">&nbsp;</span>
+                                            </label>
+                                       </td>
+                                        <td class="font"><input class="form-control" style="width:220px" type="text" name="name[]" value="{{$microbial_loadanalyses[$i]->test_conducted}}"></td>
+            
+                                        <td class="font"><input class="form-control" type="text" name="result[]" value="{{$microbial_loadanalyses[$i]->result}}"></td>
+                                       
+                                        <td class="font"><input class="form-control" type="text" name="acceptance_criterion[]" value="{{$microbial_loadanalyses[$i]->acceptance_criterion}} "></td>
+                                        <td class="font" style="font-size: 10px">{{$microbial_loadanalyses[$i]->definition}} 
+                                            <input class="form-control" type="hidden" name="definition[]" value="{{$microbial_loadanalyses[$i]->definition}}">
+
+                                           @if ($microbial_loadanalyses[$i]->definition ==Null)
+                                                <p style="font-size: 10px">None</p>
+
+                                           @endif
+                                           
+                                         <input class="form-control" type="hidden" name="loadanalysisdate[]" value="{{$microbial_loadanalyses[$i]->date}}">
+                                        </td>
+                                       
                                           <td> <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>
                                           </td>
                                         </tr>  
-                                              
-                                        @endforeach
+                                        @endfor   
+                                       
     
                                      </tbody>
                                 </table>
@@ -158,8 +169,8 @@
                                             <div class="form-group">
                                                 <select required name="action" class="form-control" id="exampleSelectGender">
                                             <option value=""> Select Action</option>                                        
-                                                <option  value="0" >Hide</option>
-                                                <option  value="1" >Show</option>
+                                                <option  value="1" >Activate</option>
+                                                <option  value="2" >Update Template</option>
                                                 </select>
                                             </div>    
                                     </div>
@@ -167,7 +178,7 @@
                                         <input class="form-control" type="date" name="date">
                                     </div>
                                     <div class="col-md-5">
-                                        <button type="submit" class="btn btn-primary mr-2">Update Template</button>
+                                        <button type="submit" class="btn btn-primary mr-2">Save</button>
                                     </div>
                                 </div>
                             </form>

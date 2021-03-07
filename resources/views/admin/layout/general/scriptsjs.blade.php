@@ -60,11 +60,26 @@ $(document).on("click", "a.deleteText", function() {
  <script>
   $('#check_singlelab').change(function(){
     if($(this).is(':checked')){
+      $(".multilabcheck").hide(); 
     $(".singlelab").hide(); 
     $(".singlelab").toggle();
     }else{
       $(".singlelab").toggle(); 
       $(".singlelab").hide();
+      $(".multilabcheck").toggle(); 
+
+    }
+  })
+
+  $('#check_multilab').change(function(){
+    if($(this).is(':checked')){
+      $(".singlelabcheck").hide(); 
+    $(".multilab").hide(); 
+    $(".multilab").toggle();
+    }else{
+      $(".singlelabcheck").toggle(); 
+      $(".multilab").toggle(); 
+      $(".multilab").hide();
     }
   })
 

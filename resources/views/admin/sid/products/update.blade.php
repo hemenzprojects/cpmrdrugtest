@@ -212,51 +212,101 @@
                                              </div>
                                              <div class="col-sm-5">
                                                 <div class="row">
-                                                    @if ($p->micro_hod_evaluation == 2 || $p->pharm_hod_evaluation == 2|| $p->phyto_hod_evaluation == 2)
-
+                                                    @if ($p->single_multiple_lab ==1)
+                                                         
                                                     <div class="col-md-6">
-                                                        <p>Please check approved lab(s)</p>
+                     
+                                                            <label class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="single_multiple_lab" id="check_singlelab" value="1" class="custom-control-input" {{$p->single_multiple_lab == 1 ?'checked':''}}>
+                                                                <span class="custom-control-label">&nbsp; Single Lab</span>
+                                                            </label>
+                                                   
                                                     </div>
                                                      <div class="col-md-6" >
                                                     
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == 2 ?'checked':''}}>
+                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == NULL ?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp;Microbiology</span>
                                                      </label>
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == 2 ?'checked':''}}>
+                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == NULL ?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp; Pharmacology</span>
                                                      </label>
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == 2 ?'checked':''}}>
+                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == NULL?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp; Phytochemistry</span>
                                                      </label>
                                                  </div>
                                                   @endif 
+                                                  @if ($p->single_multiple_lab ==2)
+                                                         
+                                                  <div class="col-md-6">
+                                                      
+                                                          <label class="custom-control custom-checkbox">
+                                                              <input type="checkbox" name="single_multiple_lab" id="check_multilab" value="2" class="custom-control-input" {{$p->single_multiple_lab == 2 ?'checked':''}}>
+                                                              <span class="custom-control-label">&nbsp; Multiple Lab</span>
+                                                          </label>
+                                                      
+                                                  </div>
+                                                   <div class="col-md-6" >
+                                                  
+                                                   <label class="custom-control custom-checkbox">
+                                                       <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == NULL ?'checked':''}}>
+                                                       <span class="custom-control-label">&nbsp;Microbiology</span>
+                                                   </label>
+                                                   <label class="custom-control custom-checkbox">
+                                                       <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == NULL ?'checked':''}}>
+                                                       <span class="custom-control-label">&nbsp; Pharmacology</span>
+                                                   </label>
+                                                   <label class="custom-control custom-checkbox">
+                                                       <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == NULL?'checked':''}}>
+                                                       <span class="custom-control-label">&nbsp; Phytochemistry</span>
+                                                   </label>
+                                               </div>
+                                                @endif
                                                 </div>                                              
                                                 @if ($p->micro_hod_evaluation == Null && $p->pharm_hod_evaluation == Null  && $p->phyto_hod_evaluation == Null)
                                                 <div class="row">
                                                   <div class="col-md-5">
-                                                      <label class="custom-control custom-checkbox">
-                                                          <input type="checkbox" name="check_singlelab" id="check_singlelab" class="custom-control-input">
-                                                          <span class="custom-control-label">&nbsp; Single/ MultipleLabs</span>
-                                                      </label>
+                                                    <label class="custom-control custom-checkbox singlelabcheck">
+                                                        <input type="checkbox" name="single_multiple_lab" id="check_singlelab" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Single Lab</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox multilabcheck">
+                                                        <input type="checkbox" name="single_multiple_lab" id="check_multilab" value="2" class="custom-control-input">
+                                                        <span class="custom-control-label">&nbsp; Multiple Lab</span>
+                                                    </label>
                                                   </div>
                                                   <div class="col-md-7 singlelab" style="display: none">
-                                                      <p>Please check approved lab(s)</p>
-                                                      <label class="custom-control custom-checkbox">
-                                                          <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
-                                                          <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
-                                                      </label>
-                                                      <label class="custom-control custom-checkbox">
-                                                          <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
-                                                          <span class="custom-control-label"style=""> Pharmacology</span>
-                                                      </label>
-                                                      <label class="custom-control custom-checkbox">
-                                                          <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
-                                                          <span class="custom-control-label"style="">Phytochemistry</span>
-                                                      </label>
-                                                  </div>
+                                                    <p>Please check approved lab(s)</p>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style=""> Pharmacology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style="">Phytochemistry</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-7 multilab" style="display: none">
+                                                    <p>Please check approved lab(s)</p>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style=""> Pharmacology</span>
+                                                    </label>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
+                                                        <span class="custom-control-label"style="">Phytochemistry</span>
+                                                    </label>
+                                                </div>
                                                  </div>  
                                                  @endif
                                              </div>
@@ -319,6 +369,12 @@
                                                <td class="font" style="width:15%" >{{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
                                                 <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                                @endif
+                                                @if($product->single_multiple_lab ==1)
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">S</span></sup>
+                                                @endif
+                                                @if($product->single_multiple_lab ==2)
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">M</span></sup>
                                                 @endif
                                             </td>
                                             <td class="font" >{{$product->productType->name}}</td>

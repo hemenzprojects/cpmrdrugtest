@@ -208,38 +208,102 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+        
+        if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
+            return redirect()->back();
+        }
+
+        $check_lab = $request->micro_hod_evaluation + $request->pharm_hod_evaluation + $request->phyto_hod_evaluation;
+        
+        if ($check_lab ==1) {
+            $singleprice = 252;
+          if ($request->price > $singleprice) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Total price of single Lad test must not be above Gh252.00');
+            return redirect()->back();
+
+          }
+        }
+        if ($check_lab ==2) {
+            $multiprice = 504;
+            if ($request->price > $multiprice) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Total price of single Lad test must not be above Gh504.00');
+                return redirect()->back();
+
+              }
+        }
+        
+
+        $single_multiple_lab =Null;
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
         $micro_hod_evaluation =Null;
         $pharm_hod_evaluation =Null;
         $phyto_hod_evaluation =Null;
-        $check_singlelab =Null;
        
-       if ($request->check_singlelab) {
-            $check_singlelab =1;
-
-            if ($request->micro_hod_evaluation) {
-                $micro_grade =2;
-                $micro_hod_evaluation =2;
+        if ($request->single_multiple_lab ==1) {
+            if ($check_lab <1) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select single lab');
+                return redirect()->back();
             }
-
-            if ($request->pharm_hod_evaluation) {
+            if ($check_lab >1) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select only one lab');
+                return redirect()->back();
+            }
+            $single_multiple_lab =1;
+                
+            if ($request->micro_hod_evaluation) {
+            
                 $pharm_grade =2;
                 $pharm_hod_evaluation =2;
-            }
-
-            if ($request->phyto_hod_evaluation) {
                 $phyto_grade =2;
                 $phyto_hod_evaluation =2;
             }
 
-            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
-                Session::flash('message_title', 'error');
-                Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
-                return redirect()->back();
+            if ($request->pharm_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+
+            if ($request->phyto_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
             }
         
+       }
+
+       if ($request->single_multiple_lab ==2) {
+        
+        if ($check_lab <2) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Please select multiple labs');
+            return redirect()->back();
+          }
+          $single_multiple_lab =2;
+
+            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation) {
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+            if ($request->micro_hod_evaluation && $request->phyto_hod_evaluation) {
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
+            }
+            if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+            }
+         
        }
           
         $data = ([
@@ -253,7 +317,7 @@ class SIDController extends Controller
             'exp_date' => $request->exp_date,
             'dosage' => $request->dosage,
             'indication' => $request->indication,
-            'single_multiple_lab' => $check_singlelab,
+            'single_multiple_lab' => $single_multiple_lab,
             'micro_hod_evaluation' => $micro_hod_evaluation,
             'pharm_hod_evaluation' => $pharm_hod_evaluation,
             'phyto_hod_evaluation' => $phyto_hod_evaluation,
@@ -312,6 +376,7 @@ class SIDController extends Controller
 
     public function product_update(UpdateProductRequest $request, $id)
     {
+        // dd($request->all());
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -324,6 +389,15 @@ class SIDController extends Controller
             Session::flash('message', 'Sorry! Product Category cant be edited due to  code generation');
             return redirect()->back();
         }
+
+        if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
+            return redirect()->back();
+        }
+        $check_lab = $request->micro_hod_evaluation + $request->pharm_hod_evaluation + $request->phyto_hod_evaluation;
+
+        $single_multiple_lab =Null;
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
@@ -331,48 +405,66 @@ class SIDController extends Controller
         $pharm_hod_evaluation =Null;
         $phyto_hod_evaluation =Null;
         
-        if ($request->check_singlelab) {
-            $check_singlelab =1;
-
-            if ($request->micro_hod_evaluation) {
-                $micro_grade =2;
-                $micro_hod_evaluation =2;
+        if ($request->single_multiple_lab ==1) {
+            if ($check_lab <1) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'No lab selected. Please check lab before submission');
+                return redirect()->back();
             }
-
-            if ($request->pharm_hod_evaluation) {
+            if ($check_lab >1) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Please select only one lab');
+                return redirect()->back();
+            }
+            $single_multiple_lab =1;
+                
+            if ($request->micro_hod_evaluation) {
+            
                 $pharm_grade =2;
                 $pharm_hod_evaluation =2;
-            }
-
-            if ($request->phyto_hod_evaluation) {
                 $phyto_grade =2;
                 $phyto_hod_evaluation =2;
             }
 
-            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
-                Session::flash('message_title', 'error');
-                Session::flash('message', 'Sorry! Product cant be registerd. PLease check single lab appropriately');
-                return redirect()->back();
+            if ($request->pharm_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+
+            if ($request->phyto_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
             }
         
        }
-          if ($request->micro_hod_evaluation) {
-            $micro_grade =2;
-            $micro_hod_evaluation =2;
-           }
-           if ($request->pharm_hod_evaluation) {
-            $pharm_grade =2;
-            $pharm_hod_evaluation =2;
-           }
-           if ($request->phyto_hod_evaluation) {
-            $phyto_grade =2;
-            $phyto_hod_evaluation =2;
-           }
-           if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
+
+       if ($request->single_multiple_lab ==2) {
+        
+        if ($check_lab <2) {
             Session::flash('message_title', 'error');
-            Session::flash('message', 'Sorry! Product cant be updated. PLease check single lab appropriately');
+            Session::flash('message', 'Please select multiple labs');
             return redirect()->back();
-           }
+          }
+          $single_multiple_lab =2;
+
+            if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation) {
+                $phyto_grade =2;
+                $phyto_hod_evaluation =2;
+            }
+            if ($request->micro_hod_evaluation && $request->phyto_hod_evaluation) {
+                $pharm_grade =2;
+                $pharm_hod_evaluation =2;
+            }
+            if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
+                $micro_grade =2;
+                $micro_hod_evaluation =2;
+            }
+         
+       }
         $data = ([
             'name' => $request->name,
             'product_type_id' => $request->product_type_id,
@@ -383,6 +475,7 @@ class SIDController extends Controller
             'receipt_num' => $request->receipt_num,
             'dosage' => $request->dosage,
             'indication' => $request->indication,
+            'single_multiple_lab' => $single_multiple_lab,
             'micro_hod_evaluation' => $micro_hod_evaluation,
             'pharm_hod_evaluation' => $pharm_hod_evaluation,
             'phyto_hod_evaluation' => $phyto_hod_evaluation,
