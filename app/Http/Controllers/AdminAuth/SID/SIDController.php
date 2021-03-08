@@ -11,6 +11,8 @@ use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
+use App\MicrobialEfficacyAnalyses;
+use App\MicrobialLoadAnalyses;
 use App\Admin;
 use App\Customer;
 use App\Department;
@@ -191,6 +193,8 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+
+    //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
 
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
         $data['product_types'] = ProductType::all();
@@ -1395,7 +1399,19 @@ class SIDController extends Controller
             $image->move(public_path('admin\img'), $new_name); 
             $r->sign_url = $filePath;
         }
-         
+
+        $efficacy_analysis_option = Null;
+        $load_analysis_option = Null;
+
+        if ($r->dept_id == 1) {
+            $efficacy_analysis_options = MicrobialEfficacyAnalyses::pluck("id")->toArray();
+            $efficacy_analysis_option = json_encode($efficacy_analysis_options);
+    
+            $load_analysis_options = MicrobialLoadAnalyses::pluck("id")->toArray();
+            $load_analysis_option = json_encode($load_analysis_options);
+        }
+      
+
         $data = ([
             'title' => $r->title,
             'first_name' => $r->first_name,
@@ -1407,11 +1423,12 @@ class SIDController extends Controller
             'sign_url' => $r->sign_url,
             'tell' => $r->tell,
             'email' => $r->email,
+            'efficacy_analysis_options' => $efficacy_analysis_option, 
+            'load_analysis_options' => $load_analysis_option,   
             'password' => bcrypt($r->password),
         ]);
-
-
         Admin::create($data);
+
         Session::flash("message", "User Successfully Created.");
         Session::flash("message_title", "success");
         return redirect()->back();
@@ -1510,24 +1527,35 @@ class SIDController extends Controller
                 
                 $image->move(public_path('admin\img'), $new_name); 
                 $r->sign_url = $filePath;
-        
-        
-                  $data = ([
-                'title' => $r->title,
-                'first_name' => $r->first_name,
-                'last_name' => $r->last_name,
-                'position' => $r->position,
-                'dept_id' => $r->dept_id,
-                'user_type_id' => $r->user_type_id,
-                'sign_url' => $r->sign_url,
-                'dept_office_id' => $r->dept_office_id,
-                'tell' => $r->tell,
-             
-            ]);
             }
-             
-            Admin::where('id',$id)->update($data);
 
+            $efficacy_analysis_option = Null;
+            $load_analysis_option = Null;
+    
+            if ($r->dept_id == 1) {
+                $efficacy_analysis_options = MicrobialEfficacyAnalyses::pluck("id")->toArray();
+                $efficacy_analysis_option = json_encode($efficacy_analysis_options);
+        
+                $load_analysis_options = MicrobialLoadAnalyses::pluck("id")->toArray();
+                $load_analysis_option = json_encode($load_analysis_options);
+            }
+          
+             $data = ([
+            'title' => $r->title,
+            'first_name' => $r->first_name,
+            'last_name' => $r->last_name,
+            'position' => $r->position,
+            'dept_id' => $r->dept_id,
+            'user_type_id' => $r->user_type_id,
+            'sign_url' => $r->sign_url,
+            'dept_office_id' => $r->dept_office_id,
+            'efficacy_analysis_options' => $efficacy_analysis_option, 
+            'load_analysis_options' => $load_analysis_option,                
+            'tell' => $r->tell,
+             
+        ]);
+             
+         Admin::where('id',$id)->update($data);
 
         Session::flash("message", "User Successfully updated.");
         Session::flash("message_title", "success");

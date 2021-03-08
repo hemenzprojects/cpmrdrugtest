@@ -321,13 +321,13 @@
                                             <td class="font" style="width:15%">
                                                 {{ucfirst($product->name)}}
                                                 @if ($product->failed_tag)
-                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">#R</span></sup>
                                                 @endif
                                                 @if($product->single_multiple_lab ==1)
-                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">S</span></sup>
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
                                                 @endif
                                                 @if($product->single_multiple_lab ==2)
-                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">M</span></sup>
+                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
                                                 @endif
                                             </td>
                                             <td class="font" >{{$product->productType->name}}</td>
