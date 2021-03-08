@@ -410,17 +410,18 @@
                                                     <th id="stateresult" class="77772">Result/Unit (CFU/g)</th>
                                                     <th>Acceptance Criterion
                                                          <span class="font">
-                                                        (BP @foreach ($MicrobialLoadAnalysis->groupBy('id')->first()  as $item)
-                                                        {{$item->expired_at}}
-                                                        <input type="hidden" name="date_template" value="{{$item->date}}">
+                                                            (BP @foreach ($MicrobialLoadAnalysis->groupBy('id')->first()  as $item)
+                                                            {{Carbon\Carbon::parse($item->date)->format('Y')}}
+                                                            <input type="hidden" name="date_template" value="{{$item->date}}">
                                                            @endforeach )
+                                                          
                                                        </span></th>
                                                        
                                                     <th>Compliance Statement</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis->where('action',1)); $i++)
+                                                @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
                                                 <tr>
                                                     <td class="font" style="">
                                                         <label class="custom-control custom-checkbox">
@@ -429,9 +430,18 @@
                                                             <span class="custom-control-label">&nbsp;</span>
                                                         </label> 
                                                     </td>
-                                                    <td class="font">
-                                                        {{$MicrobialLoadAnalysis[$i]->test_conducted}}
-                                                        <input type="hidden" class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
+                                                    <td class="font" style="font-style: italic; margin:5px">
+                                                        <?php
+                                                        if ($i<2) {
+                                                       $test_conducted= explode(' ',$MicrobialLoadAnalysis[$i]->test_conducted);
+                                        
+                                                       echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
+                                                        }else {
+                                                           $test_conducted =  $MicrobialLoadAnalysis[$i]->test_conducted;
+                                                           print_r($test_conducted); 
+                                                        }   
+                                                      ?>
+                                                      <input type="hidden" class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                     </td>
                                                     <td class="font">
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
@@ -456,6 +466,26 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    @for ($i = 0; $i < count($MicrobialLoadAnalysis); $i++)
+ 
+                                    @if ($i<1)
+                                    <p style="font-style: italic; margin:5px; font-size:12px"> 
+                                        <?php
+                                        if ($i<2) {
+                                    $definition= explode(' ',$MicrobialLoadAnalysis[0]->definition);
+                                 
+                                        echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
+                                        
+                                 
+                                        $definition= explode(' ',$MicrobialLoadAnalysis[1]->definition);
+                                 
+                                            echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+                                            }
+                                        ?>
+                                 
+                                    </p>
+                                    @endif
+                                 @endfor
                                 </div>
 
                                 <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
@@ -490,7 +520,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($MicrobialEfficacyAnalysis->where('action',1) as $metest)
+                                                @foreach($MicrobialEfficacyAnalysis as $metest) 
                                                 <tr>
                                                     <td class="font" style="">      
                                                         <label class="custom-control custom-checkbox">
@@ -499,7 +529,7 @@
                                                             <span class="custom-control-label">&nbsp;</span>
                                                         </label> 
                                                     </td>
-                                                    <td class="font">{{$metest->pathogen}}</td>
+                                                    <td class="font" style="font-style: italic; margin:5px;">{{$metest->pathogen}}</td>
                                                     <input type="hidden" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
 
                                                     <td class="font">
@@ -520,6 +550,12 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    @for ($i = 0; $i < count($MicrobialEfficacyAnalysis); $i++)
+ 
+                                    @if ($i<1)
+                                   {!! $MicrobialEfficacyAnalysis[0]->ref !!}
+                                    @endif
+                                    @endfor
                                 </div>
                                 <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
                                     <strong><span>General Conclusion</span></strong><br><br>
@@ -542,10 +578,10 @@
                         <div class="row" style="margin-top: 10px">
                         <div class="col-sm-3" id="fadeout" >
                             <label class="custom-control custom-checkbox" >
-                                <input type="checkbox" required class="custom-control-input" name="loadanalyses" id="inlineCheckbox1" value="1">
+                                <input type="checkbox" required class="custom-control-input" name="test_conducted_id" id="inlineCheckbox1" value="1">
                                 <span class="custom-control-label">&nbsp;Microbial Load Analysis</span>
                             </label>
-                            @error('loadanalyses')
+                            @error('test_conducted_id')
                             <small style="margin:15px" class="form-text text-danger" role="alert">
                                 <strong>{{$message}}</strong>
                             </small>
@@ -557,18 +593,7 @@
                             </small>
                             @enderror
                         </div>
-                        {{--                       
-                        <div class="col-sm-3"  id="fadeout2"  >
-                            <label class="custom-control custom-checkbox" >
-                                <input type="checkbox"  class="custom-control-input microcount" name="microbialcount" id="microbial_count" value="3">
-                                <span class="custom-control-label">&nbsp;Too Many Microbial Count</span>
-                            </label>
-                            @error('microbialcount')
-                            <small style="margin:15px" class="form-text text-danger" role="alert">
-                                <strong>{{$message}}</strong>
-                            </small>
-                            @enderror
-                        </div> --}}
+            
                         <div class="col-sm-3" style="background:#d49f0a;">
                             <label class="custom-control custom-checkbox" style="margin-top:5px">
                                 <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox2" value="2">

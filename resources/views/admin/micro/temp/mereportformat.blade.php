@@ -13,7 +13,7 @@
      </div>
      
       <table class="table table-striped table-bordered nowrap dataTable">
-         <thead class="meatablehead 768992334039322" style="display: none">
+         <thead class="meatablehead">
              <tr class="table-info">
                  <th>Pathogen</th>
                  <th>PI Zone</th>
@@ -30,8 +30,8 @@
                      <td class="font ">{{$efficacyanalyses->pathogen}}</td>
                      <td class="font">
                          <input type="text" required class="form-control" required name="pi_zone_update[]" placeholder="PI Zone" value="{{$efficacyanalyses->pi_zone}}">
-                         <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}">
-                         <input type="hidden" class="form-control" name="efficacyanalyses_update" value="{{$efficacyanalyses->efficacy_analyses_id}}">
+                         {{-- <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}"> --}}
+                         <input type="hidden" class="form-control" name="efficacy_analyses_id[]" value="{{$efficacyanalyses->efficacy_analyses_id}}">
 
                      </td>
                      <td class="font">
@@ -44,6 +44,13 @@
              
              
              @endforeach
+
+             <div class="checkefficacy1 col-sm-3">
+                <label class="custom-control custom-checkbox" >
+                    <input type="checkbox" class=" custom-control-input" name="efficacyanalyses_update" value="1" checked>
+                </label>
+            </div>
+
         </tbody>
      </table> 
 

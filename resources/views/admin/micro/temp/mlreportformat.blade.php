@@ -1,6 +1,3 @@
-@foreach ($show_microbial_loadanalyses->groupBy('id')->first() as $load_analyses_state)
-<input type="hidden" class="form-control" id="load_analyses_id" name="load_analyses_id" value="{{($load_analyses_state)->load_analyses_id? ($load_analyses_state)->load_analyses_id:'null'}}">
-@endforeach
 <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
 <div class="table-responsive ">
     <table class="table table-striped table-bordered nowrap dataTable">
@@ -11,25 +8,23 @@
                 <th class="77772" style="display: none">Result (CFU/ml)</th>
                 <th class="77771" style="display: none">Result (CFU/g)</th>
                 <th>Accepted Criterion BP
-               (@foreach($show_microbial_loadanalyses as $temp)
-                @if($show_microbial_loadanalyses->first() == $temp)
-                {{$temp->date_template}})
-                @endif
-                @endforeach
+                  (BP @foreach ($show_microbial_loadanalyses->groupBy('id')->first()  as $item)
+                  {{Carbon\Carbon::parse($item->date)->format('Y')}}
+                  <input type="hidden" name="date_template" value="{{$item->date}}">
+                 @endforeach )
                 </th>
                 <th>Compliance Statement</th>
               
             </tr>
         </thead>
-        {{-- Load analyses table without many count --}}
-        <tbody class="1">
+        <tbody class="">
        
           @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
 
           <tr>
             <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
     
-            <td class="font">
+            <td class="font" style="font-style: italic; margin:5px">
                 <?php
                 if ($i<2) {
                $test_conducted= explode(' ',$show_microbial_loadanalyses[$i]->test_conducted);
@@ -64,6 +59,7 @@
              <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
           
             <input type="hidden" class="form-control" id="rs_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
+            <input type="hidden"  class="form-control"  name="test_conducted_id" value="{{$show_microbial_loadanalyses[$i]->test_conducted_id}}">
 
             </td>
             <td class="font">
@@ -94,16 +90,20 @@
               
 
               </td>
-            <input type="hidden"  class="form-control" id="load_analyses{{$i}}" name="loadanalyses" value="{{$show_microbial_loadanalyses[$i]->load_analyses_id}}">
-            
+
          </tr>
         @endfor
+        <div class="col-sm-3" style="display: none">
+          <label class="custom-control custom-checkbox" >
+              <input type="checkbox" class=" custom-control-input" name="test_conducted_update" value="1" checked>
+          </label>
+      </div>
     </tbody>
    </table>
    @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
  
    @if ($i<1)
-   <p style="font-style: italic; margin:5px"> 
+   <p style="font-style: italic; margin:5px; font-size:12px"> 
        <?php
        if ($i<2) {
    $definition= explode(' ',$show_microbial_loadanalyses[0]->definition);

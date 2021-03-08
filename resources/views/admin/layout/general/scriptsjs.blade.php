@@ -131,31 +131,31 @@ $(document).ready(function(){
     $(".checkefficacy1").hide();
   }
 
-  var mannycount_la = $('input[id="load_analyses_id"]').attr("value");
-  if (mannycount_la === '3') {
-    $("." + mannycount_la).toggle();
-    $('input[id="result_disabled0"]').val('5.0 x 10^4');
-    $('input[id="result_disabled1"]').val('5.0 x 10^4');
+  // var mannycount_la = $('input[id="load_analyses_id"]').attr("value");
+  // if (mannycount_la === '3') {
+  //   $("." + mannycount_la).toggle();
+  //   $('input[id="result_disabled0"]').val('5.0 x 10^4');
+  //   $('input[id="result_disabled1"]').val('5.0 x 10^4');
 
-    $('input[id="criterion_disabled0"]').val('5.0 x 10^4');
-    $('input[id="criterion_disabled1"]').val('5.0 x 10^4');
+  //   $('input[id="criterion_disabled0"]').val('5.0 x 10^4');
+  //   $('input[id="criterion_disabled1"]').val('5.0 x 10^4');
 
-    $(".1").hide();
+  //   $(".1").hide();
 
-    $('input[id="load_analyses0"]').prop("disabled", true);
-    $('input[id="load_analyses1"]').prop("disabled", true);
-    $('input[id="load_analyses2"]').prop("disabled", true);
-    $('input[id="load_analyses3"]').prop("disabled", true);
-    $('input[id="load_analyses4"]').prop("disabled", true);
+  //   $('input[id="load_analyses0"]').prop("disabled", true);
+  //   $('input[id="load_analyses1"]').prop("disabled", true);
+  //   $('input[id="load_analyses2"]').prop("disabled", true);
+  //   $('input[id="load_analyses3"]').prop("disabled", true);
+  //   $('input[id="load_analyses4"]').prop("disabled", true);
 
-  }if ((mannycount_la === '1')) {
-    $('input[id="mannycount_loadanalyses0"]').prop("disabled", true);
-    $('input[id="mannycount_loadanalyses1"]').prop("disabled", true);
-    $('input[id="mannycount_loadanalyses2"]').prop("disabled", true);
-    $('input[id="mannycount_loadanalyses3"]').prop("disabled", true);
-    $('input[id="mannycount_loadanalyses4"]').prop("disabled", true);
+  // }if ((mannycount_la === '1')) {
+  //   $('input[id="mannycount_loadanalyses0"]').prop("disabled", true);
+  //   $('input[id="mannycount_loadanalyses1"]').prop("disabled", true);
+  //   $('input[id="mannycount_loadanalyses2"]').prop("disabled", true);
+  //   $('input[id="mannycount_loadanalyses3"]').prop("disabled", true);
+  //   $('input[id="mannycount_loadanalyses4"]').prop("disabled", true);
 
-  }
+  // }
   var product_showtypestate = $('input[id="product_typestate"]').attr("value");
   console.log(product_showtypestate)
   if (product_showtypestate === '77772') {

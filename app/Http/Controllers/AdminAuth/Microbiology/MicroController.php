@@ -107,9 +107,12 @@ class MicroController extends Controller
            //********************* Micro Report Processes ****************** */
 
               public function report_create(){
-               
-                $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::orderBy('location', 'ASC')->get();
-                $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::all();
+                $load_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
+                $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
+
+                $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::whereIn("id", $load_analysis_options)->orderBy('location', 'ASC')->get();
+
+                $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
 
                 $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 2);
@@ -142,6 +145,7 @@ class MicroController extends Controller
                     return redirect()->back();
                 }
 
+                
                 $test_conducted = [];
                 $result = [];
                 $acceptance_criterion = [];
@@ -217,7 +221,7 @@ class MicroController extends Controller
               }
     
             
-                if($r->loadanalyses){
+                if($r->test_conducted_id){
                     for ($i=0; $i < count($result); $i++) { 
                     if ($i<2) {
                       $results= explode(' ',$result[$i]);
@@ -233,6 +237,7 @@ class MicroController extends Controller
                      
                          MicrobialLoadReport::create([
                           'test_conducted'=>$test_conducted[$i],
+                          'load_analyses_id'=>$r->mltest_id[$i],
                           'product_id'=>$r->micro_product_id,
                           'rs_total'=>$rs_total,
                           'result'=>$result[$i],
@@ -242,26 +247,26 @@ class MicroController extends Controller
                           'date_template'=>$r->date_template,
                           'definition'=>$definition[$i],
                           'added_by_id' => Auth::guard('admin')->id(),
-                          'load_analyses_id'=>$r->loadanalyses,
                           'created_at' => \Carbon\Carbon::now(),
                           'updated_at' => \Carbon\Carbon::now(),
                       ]);
              
                     }else{
                         MicrobialLoadReport::create([
-                          'test_conducted'=>$test_conducted[$i],
-                          'product_id'=>$r->micro_product_id,
-                          'result'=>$result[$i],
-                          'acceptance_criterion'=>$acceptance_criterion[$i],
-                          'compliance'=>$mlcompliance[$i],
-                          'ac_total'=>$ac_total,
-                          'date_template'=>$r->date_template,
-                          'definition'=>$definition[$i],
-                          'added_by_id' => Auth::guard('admin')->id(),
-                          'load_analyses_id'=>$r->loadanalyses,
-                          'created_at' => \Carbon\Carbon::now(),
-                          'updated_at' => \Carbon\Carbon::now(),
-                          ]);
+                        'test_conducted'=>$test_conducted[$i],
+                        'load_analyses_id'=>$r->mltest_id[$i],
+                        'product_id'=>$r->micro_product_id,
+                        'rs_total'=>$rs_total,
+                        'result'=>$result[$i],
+                        'acceptance_criterion'=>$acceptance_criterion[$i],
+                        'compliance'=>$mlcompliance[$i],
+                        'ac_total'=>$ac_total,
+                        'date_template'=>$r->date_template,
+                        'definition'=>$definition[$i],
+                        'added_by_id' => Auth::guard('admin')->id(),
+                        'created_at' => \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                    ]);
                         }
 
                      }
@@ -274,7 +279,7 @@ class MicroController extends Controller
                   if($r->efficacyanalyses){
                   for ($j=0; $j < count($pi_zone); $j++) { 
                           MicrobialEfficacyReport::create([
-                          'efficacy_analyses_id'=>$r->efficacyanalyses,
+                          'efficacy_analyses_id'=>$r->metest_id[$j],
                           'product_id'=>$r->micro_product_id,
                           'pathogen'=>$pathogen[$j],
                           'pi_zone'=>$pi_zone[$j],
@@ -321,8 +326,9 @@ class MicroController extends Controller
                   return redirect()->route('admin.micro.report.create');
                 }
 
-                $data['report_id'] = $id;              
-                $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::all();
+                $data['report_id'] = $id;     
+                $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);         
+                $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
                 $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
           
                 $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
@@ -353,7 +359,7 @@ class MicroController extends Controller
                 $productdept->status = 3;
                 $productdept->update();
               
-                   if($r->loadanalyses){
+                   if($r->test_conducted_update){
                     for ($i =0; $i < count($r->result); $i++){ 
                           if ($i<2) {
                             $results= explode(' ',$r->result[$i]);
@@ -407,7 +413,7 @@ class MicroController extends Controller
                         if($r->efficacyanalyses_form){
                          for ($k=0; $k < count($r->metestform_id); $k++) { 
                          $data1 = ([
-                          'efficacy_analyses_id'=>2,
+                          'efficacy_analyses_id'=>$r->metestform_id[$k],
                           'product_id'=>$r->micro_product_id,
                           'pathogen'=>$r->pathogen_form[$k],
                           'pi_zone'=>$r->pi_zoneform[$k],
@@ -426,7 +432,7 @@ class MicroController extends Controller
                         while($l < $count1){
                         DB::table('microbial_efficacy_reports')->where('id', $mer_ids[$l])
                               ->update([
-                                'efficacy_analyses_id'=>2,
+                                'efficacy_analyses_id'=> $r->efficacy_analyses_id[$l],
                                 'product_id'=>$r->micro_product_id,
                                 'pi_zone'=>$r->pi_zone_update[$l],
                                 'ci_zone'=>$r->ci_zone_update[$l],
@@ -889,8 +895,16 @@ class MicroController extends Controller
   
             public function hodoffice_config(){
    
+             $admin_loadselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
+              $admin_efficacyselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
+
               $data['microbial_efficacys'] = MicrobialEfficacyAnalyses::all();
+             $data['microbial_efficacyanalyses_admin'] = MicrobialEfficacyAnalyses::whereIn('id',$admin_efficacyselection)->get();
+
+
               $data['microbial_loadanalyses'] = MicrobialLoadAnalyses::orderBy('location', 'ASC')->get();
+             $data['microbial_loadanalyses_admin'] = MicrobialLoadAnalyses::whereIn('id',$admin_loadselection)->orderBy('location', 'ASC')->get();
+
 
               return view('admin.micro.hodoffice.config',$data);
             }
@@ -940,12 +954,13 @@ class MicroController extends Controller
 
 
             public function microbialanalysis_update(request $r){
-
+              // return $r->get("microbial_loadanalyse_id");
               // dd($r->all());
               // $data = $r->validate([
               //   'date' => 'required',          
               // ]);
-
+           
+         
            if ($r->action > 2 ) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
@@ -957,43 +972,51 @@ class MicroController extends Controller
               return redirect()->back();
             } 
           if ($r->action ==1) {
+
+            $admin = Admin::findOrFail(Auth::guard('admin')->id());
+            $admin->load_analysis_options = json_encode($r->get("microbial_loadanalyse_id"));
+            $admin->save();
+ 
             $data = ([ 
               'action' => $r->action,
               'date' => $r->date,
               'added_by_id' => Auth::guard('admin')->id(),
-              'created_at' => \Carbon\Carbon::now(),
+              'updated_at' => \Carbon\Carbon::now(),
               ]);
     
               MicrobialLoadAnalyses::whereIN('id', $r->microbial_loadanalyse_id)->update($data);
               MicrobialLoadAnalyses::whereNotin('id',$r->microbial_loadanalyse_id)->update(['action' =>0]);
            } 
 
-          if($r->action ==2) {
-            MicrobialLoadAnalyses::whereIN('id', $r->mloadanalyse_id)->delete();
-              for ($i=0; $i < count($r->mloadanalyse_id); $i++) { 
-                MicrobialLoadAnalyses::create([
-                'test_conducted'=>$r->name[$i],
-                'result'=>$r->result[$i],
-                'acceptance_criterion'=>$r->acceptance_criterion[$i],
-                'definition'=>$r->definition[$i],
-                'date'=>$r->loadanalysisdate[$i],
-                'location'=>$r->location[$i],
-                'action'=> 1,
-                'added_by_id'=> Auth::guard('admin')->id(),
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
-                ]);
-                 
-              }
+          if($r->action ==2){
+            $l = 0;
+            $count1 = count($r->mloadanalyse_id);
+            while($l < $count1){
+            DB::table('microbial_load_analyses')->where('id', $r->mloadanalyse_id[$l])
+                  ->update([
+                    'test_conducted'=>$r->name[$l],
+                    'result'=>$r->result[$l],
+                    'acceptance_criterion'=>$r->acceptance_criterion[$l],
+                    'definition'=>$r->definition[$l],
+                    'date'=>$r->loadanalysisdate[$l],
+                    'location'=>$r->location[$l],
+                    'action'=> 1,
+                    'added_by_id'=> Auth::guard('admin')->id(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                  ]  
+                  );
+              $l++;
+            }
           }
 
+         
           Session::flash("message", "Template updated successfully");
           Session::flash("message_title", "success");  
           return redirect()->back();
            }
 
            public function microbialefficacy_update(request $r){
-     
+              // dd($r->all());
             if ($r->action > 2 ) {
              Session::flash('message_title', 'error');
              Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
@@ -1005,15 +1028,42 @@ class MicroController extends Controller
                return redirect()->back();
            } 
                
-           $data = 
-           [ 
-           'action' => $r->action,
-           'added_by_id' => Auth::guard('admin')->id(),
-           'created_at' => \Carbon\Carbon::now(),
-           ];
+       
           
-           MicrobialEfficacyAnalyses::whereIN('id', $r->microbial_efficacy_id)->update($data);
-           MicrobialEfficacyAnalyses::whereNotin('id',$r->microbial_efficacy_id)->update(['action' =>0]);
+           if ($r->action ==1) {
+
+            $admin = Admin::findOrFail(Auth::guard('admin')->id());
+            $admin->efficacy_analysis_options = json_encode($r->get("microbial_efficacy_id"));
+            $admin->save();
+            $data = 
+            [ 
+            'action' => $r->action,
+            'added_by_id' => Auth::guard('admin')->id(),
+            'updated_at' => \Carbon\Carbon::now(),
+            ];
+            MicrobialEfficacyAnalyses::whereIN('id', $r->microbial_efficacy_id)->update($data);
+            MicrobialEfficacyAnalyses::whereNotin('id',$r->microbial_efficacy_id)->update(['action' =>0]);
+           } 
+
+          if($r->action ==2){
+            $l = 0;
+            $count1 = count($r->microbialefficacy_id);
+            while($l < $count1){
+            DB::table('microbial_efficacy_analyses')->where('id', $r->microbialefficacy_id[$l])
+                  ->update([
+                    'pathogen' => $r->pathogen[$l],
+                    'pi_zone' => $r->pi_zone[$l],
+                    'ci_zone' => $r->pi_zone[$l],
+                    'fi_zone' => $r->pi_zone[$l],
+                    'action'=> 1,
+                    'added_by_id'=> Auth::guard('admin')->id(),
+                    'updated_at' => \Carbon\Carbon::now(), 'added_by_id' => Auth::guard('admin')->id(),
+                  ]  
+                  );
+              $l++;
+            }
+          }
+          
            Session::flash("message", "Template updated successfully");
            Session::flash("message_title", "success");  
            return redirect()->back();

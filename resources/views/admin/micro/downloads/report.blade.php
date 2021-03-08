@@ -132,18 +132,17 @@ tr:nth-child(even) {
         <th class="font">Result (CFU/g)</th>
         @endif
         <th class="font">Accepted Criterion BP
-           (@foreach($microbial_loadanalyses as $temp)
-            @if($microbial_loadanalyses->first() == $temp)
-            {{$temp->date_template}}
-            @endif
-            @endforeach)
+          (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
+          {{Carbon\Carbon::parse($item->date)->format('Y')}}
+          <input type="hidden" name="date_template" value="{{$item->date}}">
+         @endforeach)
         </th class="font">
         <th class="font">Compliance</th>
     </tr>
 
     @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
   <tr>
-    <td style="" class="font">
+    <td style="font-style: italic;" class="font" >
         <?php
          if ($i<2) {
         $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
@@ -202,7 +201,7 @@ tr:nth-child(even) {
 @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
  
 @if ($i<1)
-<p style="font-style: italic; margin:5px"> 
+<span style="font-style: italic; margin:5px; font-size:12px"> 
     <?php
     if ($i<2) {
 $definition= explode(' ',$microbial_loadanalyses[0]->definition);
@@ -216,12 +215,12 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
         }
     ?>
 
-</p>
+  </span>
 @endif
 @endfor
 @endif
 
- <p style="font-size: 15px"><span style="font-size:16px"> General Conclusion:</span> {!! $product->micro_load_conc !!}</p>
+ <p style="font-size: 14px"><span style="font-size:14px"> <strong> General Conclusion:</strong></span> {!! $product->micro_load_conc !!}</p>
 
 
  @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
@@ -240,7 +239,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     @foreach($microbial_efficacyanalyses as $efficacyanalyses)
 
     <tr>
-    <td class="font ">{{$efficacyanalyses->pathogen}}</td>
+    <td class="font " style="font-style: italic;">{{$efficacyanalyses->pathogen}}</td>
     <input type="hidden" class="form-control" id="pi_zone" value="76899233403932{{$efficacyanalyses->efficacy_analyses_id}}">
     <td class="font">
     {{$efficacyanalyses->pi_zone}}
@@ -258,7 +257,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 {!! $microbial_efficacyanalyses[0]->ref !!}
 @endif
 @endfor
-<p style="font-size: 15px"><span style="font-size:16px"> General Conclusion:</span> {!! $product->micro_efficacy_conc !!}</p>
+<p style="font-size: 14px"><span style="font-size:14px"><strong>General Conclusion:</strong> </span> {!! $product->micro_efficacy_conc !!}</p>
 
 @endif
 
@@ -268,7 +267,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     </table>
     @endif --}}
 
-  <table style="margin-top:1%">
+  <table style="margin-top:-0.1%">
   
   <tr>
     <td class="font" style="border: #fff" >

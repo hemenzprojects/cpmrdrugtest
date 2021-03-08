@@ -33,14 +33,14 @@ class MicroTestCreateRequest extends FormRequest
         $this->session()->flash('message', 'Please check error(s) indicated and retry.');
         $rule = [
             'micro_product_id' => 'required|numeric',
-            'loadanalyses' =>['required','numeric',new MicroTestCreateLoadRule],
+            'test_conducted_id' =>['required','numeric',new MicroTestCreateLoadRule],
             'microbialcount' => ['numeric',new MicroTestCreateCountRule],
             'efficacyanalyses' => ['numeric',new MicroTestCreateEfficacyRule], 
            
         ];
          
         if ($this->get('microbialcount') == 3) {
-            unset($rule['loadanalyses']);
+        unset($rule['test_conducted_id']);
         }
         // if (($this->get('microbialcount') == 3) && ($this->get('loadanalyses') == 1)) {
         //     $rule['doublecheck'];
