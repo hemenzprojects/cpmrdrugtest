@@ -18,7 +18,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color:#dddddd6b;
 }
 .center {
   display: block;
@@ -50,6 +50,13 @@ tr:nth-child(even) {
     background-size: 68% 50%;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.footer{
+  margin-top: 0.1%;
+}
+.footer1{
+  margin-top: 10%;
 }
 </style>
 </head>
@@ -153,26 +160,40 @@ tr:nth-child(even) {
             print_r($test_conducted); 
          }   
        ?>
+           <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
+
     </td>
+  
+
     <td class="font">
-     
-    <span class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 13.4px">
-        <?php 
-        if ($i<2) {
-            $results= explode(' ',$microbial_loadanalyses[$i]->result);
-            $rs_part1 =$results[0];
-            $rs_part2 = explode('^',$results[2]);
-        
-            print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-            
-        }
-        else {
-        $results =  $microbial_loadanalyses[$i]->result;
-        print_r($results); 
-        }
-        ?>
-    </span>
-       
+      @if ($microbial_loadanalyses[$i]->rs_total ==0)
+      <span>0</span>
+      @else
+      @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
+      <span>3 TNTC</span>
+      @endif
+      @endif
+
+     @if ($microbial_loadanalyses[$i]->rs_total >0 && $microbial_loadanalyses[$i]->rs_total < 9900000000)
+     <span>
+      <?php 
+      if ($i<2) {
+          $results= explode(' ',$microbial_loadanalyses[$i]->result);
+          $rs_part1 =$results[0];
+          $rs_part2 = explode('^',$results[2]);
+      
+          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+          
+      }
+      else {
+      $results =  $microbial_loadanalyses[$i]->result;
+      print_r($results); 
+      }
+      ?>
+    </span> 
+     @endif
+
+
     </td>
     <td class="font">
         <?php 
@@ -267,7 +288,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     </table>
     @endif --}}
 
-  <table style="margin-top:-0.1%">
+  <table class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'footer':'footer1'}}">
   
   <tr>
     <td class="font" style="border: #fff" >
@@ -311,3 +332,24 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 </div>
 </body>
 </html>
+<script>
+
+$(document).ready(function() {
+  var rstotal1 = $('input[id="rstotal0"]').attr("value");
+ if (rstotal1 == 0) {
+  $('#manycount0').text('0');
+  }
+  if (rstotal1 == 9900000000) {
+    $('#manycount0').text('3 TNTC');
+  }
+
+  var rstotal2 = $('input[id="rstotal1"]').attr("value");
+  if (rstotal2 == 0) {
+  $('#manycount1').text('0');
+  }
+  if (rstotal2 == 9900000000) {
+    $('#manycount1').text('3 TNTC');
+  }
+  });
+  
+</script>

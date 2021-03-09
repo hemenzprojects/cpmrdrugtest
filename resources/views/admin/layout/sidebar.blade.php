@@ -212,7 +212,7 @@
 
                                 {{-- MICRO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==1)
-                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
+                                {{-- @if (Auth::guard('admin')->user()->dept_office_id ==1) --}}
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
@@ -222,7 +222,7 @@
                                    
                                     </div>
                                 </div> 
-                                @endif
+                                {{-- @endif --}}
                                 @endif
 
                                 {{-- PHARM CONFIG  --}}

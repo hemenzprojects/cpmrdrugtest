@@ -150,6 +150,14 @@
    //*download or generate pdf */
    Route::get('micro/report/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.micro.report.pdf');
 
+     //Microbiology configurations */
+  Route::get('micro/hod_office/config','AdminAuth\Microbiology\MicroController@hodoffice_config')->name('admin.micro.hod_office.config');
+  Route::post('micro/config/microbialanalysis/create','AdminAuth\Microbiology\MicroController@microbialanalysis_create')->name('admin.micro.config.microbialanalysis.create');
+  Route::post('micro/config/microbialanalysis/update','AdminAuth\Microbiology\MicroController@microbialanalysis_update')->name('admin.micro.config.microbialanalysis.update');
+  Route::post('micro/config/microbialefficacy/create','AdminAuth\Microbiology\MicroController@microbialefficacy_create')->name('admin.micro.config.microbialefficacy.create');
+  Route::post('micro/config/microbialefficacy/update','AdminAuth\Microbiology\MicroController@microbialefficacy_update')->name('admin.micro.config.microbialefficacy.update');
+
+
   });
   
   Route::group(['middleware'=>['deptonehod']],function(){
@@ -173,13 +181,6 @@
   //Pharmacology Final Hod Sign to Approve */
   Route::post('/micro/hod_office/finalapproval/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodfinalapprovalsign')->name('admin.micro.hod_office.finalapproval.checkhodsign');
   Route::post('/micro/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@finalhodevaluate_one_edit')->name('admin.micro.hod_office.finalapproval.evaluatereport');
-
-  //Microbiology configurations */
-  Route::get('micro/hod_office/config','AdminAuth\Microbiology\MicroController@hodoffice_config')->name('admin.micro.hod_office.config');
-  Route::post('micro/config/microbialanalysis/create','AdminAuth\Microbiology\MicroController@microbialanalysis_create')->name('admin.micro.config.microbialanalysis.create');
-  Route::post('micro/config/microbialanalysis/update','AdminAuth\Microbiology\MicroController@microbialanalysis_update')->name('admin.micro.config.microbialanalysis.update');
-  Route::post('micro/config/microbialefficacy/create','AdminAuth\Microbiology\MicroController@microbialefficacy_create')->name('admin.micro.config.microbialefficacy.create');
-  Route::post('micro/config/microbialefficacy/update','AdminAuth\Microbiology\MicroController@microbialefficacy_update')->name('admin.micro.config.microbialefficacy.update');
 
   });
 
