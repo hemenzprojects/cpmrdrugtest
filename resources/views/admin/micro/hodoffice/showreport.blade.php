@@ -357,11 +357,11 @@ $product = \App\Product::find($report_id);
                                         @if ($product->micro_hod_evaluation > null)
                                         <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
                                         @endif
-                                        
+
                                         -----------------------------<br>
                                       
                                         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
-                                        <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+                                        <p>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</p>
             
                                     </div> 
                                     <div class="col-sm-4 invoice-col">

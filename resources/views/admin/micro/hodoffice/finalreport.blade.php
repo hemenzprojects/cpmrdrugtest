@@ -248,18 +248,18 @@ $product = \App\Product::find($report_id);
                    </div>
                    <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                     <?php
-                    $micro_analysed_by = ($product? $product->micro_analysed_by:'');
-                    $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
+                    $micro_approved_by = ($product? $product->micro_approved_by:'');
+                    $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
                   ?>
                     <div class="col-sm-4 invoice-col">
                         <p>Analyzed By</p><br>
                         @if ($product->micro_hod_evaluation > null)
-                        <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
                         @endif
                         -----------------------------<br>
                       
-                        <span>{{ucfirst(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->full_name:'')}}</span>
-                        <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+                        <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
+                        <p>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</p>
 
                     </div> 
                     <div class="col-sm-4 invoice-col">
