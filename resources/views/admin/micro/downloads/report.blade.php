@@ -292,7 +292,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
     {{-- @if ($check_load->load_analyses_id ==1)
     <table style="margin-top:10%">
-
+    kjhgj
     </table>
     @endif --}}
 
