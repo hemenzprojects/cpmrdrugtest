@@ -242,7 +242,7 @@ $product = \App\Product::find($report_id);
                         
                        
                         <div class="col-md-12">
-                            <strong><h6>Report Grade:</h6></strong><p>{!! $product->micro_grade_report !!} </p><br><br>
+                            <strong><h6>Produc Grade:</h6></strong><p>{!! $product->micro_grade_report !!} </p><br><br>
                         </div>
 
                    </div>

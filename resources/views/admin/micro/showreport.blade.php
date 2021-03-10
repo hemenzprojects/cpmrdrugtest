@@ -35,7 +35,7 @@ $product = \App\Product::find($report_id);
                      @endif
                     <div class="col-sm-3" style="margin-top:30px">
                         <div class="form-group">
-                            <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+                            <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
                             <select name="micro_grade" required class="form-control" id="exampleSelectGender">
                             <option value="{{$product->micro_grade}}">{!! $product->micro_grade_report !!}</option>
                                 <option value="1">Failed</option>

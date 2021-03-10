@@ -70,11 +70,10 @@ $product = \App\Product::find($report_id);
                                     <th >Result (CFU/g)</th>
                                     @endif
                                     <th>Accepted Criterion BP 
-                                       (@foreach($microbial_loadanalyses as $temp)
-                                        @if($microbial_loadanalyses->first() == $temp)
-                                        {{$temp->date_template}}
-                                        @endif
-                                        @endforeach)
+                                    (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
+                                    {{Carbon\Carbon::parse($item->date)->format('Y')}}
+                                    <input type="hidden" name="date_template" value="{{$item->date}}">
+                                    @endforeach)
                                     </th>
                                     <th>Compliance</th>
                                   
@@ -146,7 +145,9 @@ $product = \App\Product::find($report_id);
 
                         </tbody>
                        </table>
-                       @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+                       <div class="row">
+                           <div class="col-md=-6">
+                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
  
                             @if ($i<1)
                             <p style="font-style: italic; margin:5px"> 
@@ -166,7 +167,17 @@ $product = \App\Product::find($report_id);
                             </p>
                             @endif
                        @endfor
-
+                           </div>
+                           <div class="col-md=-6">
+                               
+                       @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+                       @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
+                       <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
+                       @endif 
+                      @endfor
+                           </div>
+                       </div>
+                  
                        <div class="col-md-12" style="margin-top: 30px">
                         <div class="row">
                             <div class="col-md-3">
@@ -199,10 +210,10 @@ $product = \App\Product::find($report_id);
                         <table class="table table-striped table-bordered nowrap dataTable">
                             <thead class="meatablehead">
                                 <tr class="table-warning">
-                                    <th>Pathogen</th>
-                                    <th>PI Zone</th>
-                                    <th>CI Zone</th>
-                                    <th>FI Zone</th>
+                                    <th class="font">Pathogen</th>
+                                    <th class="font">Product Inhibition Zone</th>
+                                    <th class="font">Ciprofloxacin Inhibition Zone</th>
+                                    <th class="font">Fluconazole Inhibition Zone</th>
                                 </tr>
                             </thead>
                             <tbody>

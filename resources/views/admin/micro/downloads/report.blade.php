@@ -239,7 +239,15 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
   </span>
 @endif
 @endfor
+
+@for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+@if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
+<p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup> TNTC = Too Numerous To Count</p>
+@endif 
+@endfor
+
 @endif
+
 
  <p style="font-size: 14px"><span style="font-size:14px"> <strong> General Conclusion:</strong></span> {!! $product->micro_load_conc !!}</p>
 
@@ -252,9 +260,9 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     </tr>
     <tr>
         <th class="font">Pathogen</th>
-        <th class="font">PI Zone</th>
-        <th class="font">CI Zone</th>
-        <th class="font">FI Zone</th>
+        <th class="font">Product Inhibition Zone</th>
+        <th class="font">Ciprofloxacin Inhibition Zone</th>
+        <th class="font">Fluconazole Inhibition Zone</th>
     </tr>
 
     @foreach($microbial_efficacyanalyses as $efficacyanalyses)

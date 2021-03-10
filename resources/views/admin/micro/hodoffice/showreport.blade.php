@@ -335,7 +335,7 @@ $product = \App\Product::find($report_id);
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
-                                        <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Report Grade</strong></h4>
+                                        <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Product Grade</strong></h4>
                                         <p>{!! $product->micro_grade_report !!} </p>
                                             <select name="micro_grade" required class="form-control" >
                                             <option value="{{$product->micro_grade}}">{!! $product->micro_grade_report !!}</option>
@@ -349,17 +349,18 @@ $product = \App\Product::find($report_id);
             
                                 <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                                     <?php
-                                    $micro_analysed_by = ($product? $product->micro_analysed_by:'');
-                                    $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
+                                    $micro_approved_by = ($product? $product->micro_approved_by:'');
+                                    $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
                                   ?>
                                     <div class="col-sm-4 invoice-col">
                                         <p>Analyzed By</p><br>
                                         @if ($product->micro_hod_evaluation > null)
-                                        <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                                        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
                                         @endif
+                                        
                                         -----------------------------<br>
                                       
-                                        <span>{{ucfirst(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->full_name:'')}}</span>
+                                        <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
                                         <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
             
                                     </div> 

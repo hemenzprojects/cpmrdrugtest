@@ -398,8 +398,7 @@
                     </div>
                 </div>
             </div>
-        
-        </div>
+          </div>
                 <div class="card-header row">
                     <div class="card-body">
                         <div class="row">
@@ -536,7 +535,7 @@
             
          @endif
                
-         </div>
+     
 
 
     

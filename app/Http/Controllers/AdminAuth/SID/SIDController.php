@@ -1540,21 +1540,22 @@ class SIDController extends Controller
                 $load_analysis_option = json_encode($load_analysis_options);
             }
           
-             $data = ([
-            'title' => $r->title,
-            'first_name' => $r->first_name,
-            'last_name' => $r->last_name,
-            'position' => $r->position,
-            'dept_id' => $r->dept_id,
-            'user_type_id' => $r->user_type_id,
-            'sign_url' => $r->sign_url,
-            'dept_office_id' => $r->dept_office_id,
-            'efficacy_analysis_options' => $efficacy_analysis_option, 
-            'load_analysis_options' => $load_analysis_option,                
-            'tell' => $r->tell,
-             
-        ]);
-             
+   
+            $data = ([
+                'title' => $r->title,
+                'first_name' => $r->first_name,
+                'last_name' => $r->last_name,
+                'position' => $r->position,
+                'dept_id' => $r->dept_id,
+                'user_type_id' => $r->user_type_id,
+                'sign_url' => $r->sign_url,
+                'email' => $r->email,
+                'dept_office_id' => $r->dept_office_id,
+                'efficacy_analysis_options' => $efficacy_analysis_option, 
+                'load_analysis_options' => $load_analysis_option,                
+                'tell' => $r->tell,
+                 
+            ]);
          Admin::where('id',$id)->update($data);
 
         Session::flash("message", "User Successfully updated.");

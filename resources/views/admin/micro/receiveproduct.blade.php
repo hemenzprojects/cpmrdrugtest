@@ -35,7 +35,7 @@
         <form  id="acceptmicroproductform" sign-user-url="{{route('admin.checkuser.microproduct')}}" action="{{route('admin.accept.microproduct')}}" class="" method="POST">
             {{ csrf_field() }}
             <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
-          <div class="card">
+          <div class="card"  style="overflow-x: scroll">
              <div class="card-body">
                  <div class="row align-items-center">
                     <div class="col-md-12">
