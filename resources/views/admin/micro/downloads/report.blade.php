@@ -53,7 +53,7 @@ tr:nth-child(even) {
 }
 
 .footer{
-  margin-top: 0.1%;
+  margin-top: 0%;
 }
 .footer1{
   margin-top: 10%;
@@ -211,6 +211,7 @@ tr:nth-child(even) {
       ?>
         {{-- {{($item->acceptance_criterion)}} --}}
     </td>
+
     <td class="font">
         {!! $microbial_loadanalyses[$i]->micro_compliance_report !!}
     </td>                        
@@ -219,10 +220,15 @@ tr:nth-child(even) {
 </table>
 
 
-@for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+
+
+<table style="border:#e8efec2b">
+  <tr style="border:#e8efec2b">
+  <td style="font-style: italic;font-size:11px;border:#e8efec2b ">
+    @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
  
 @if ($i<1)
-<span style="font-style: italic; margin:5px; font-size:12px"> 
+<span > 
     <?php
     if ($i<2) {
 $definition= explode(' ',$microbial_loadanalyses[0]->definition);
@@ -239,17 +245,26 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
   </span>
 @endif
 @endfor
-
+  </td>
+  <td style="font-style: italic; font-size:11px;border:#e8efec2b">
+    
 @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
 @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
-<p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup> TNTC = Too Numerous To Count</p>
+<span ><sup>3</sup> TNTC = Too Numerous To Count</span>
 @endif 
 @endfor
+
+  </td>
+</tr>
+</table>
+
 
 @endif
 
 
- <p style="font-size: 14px"><span style="font-size:14px"> <strong> General Conclusion:</strong></span> {!! $product->micro_load_conc !!}</p>
+  <span style="font-size:14px"> 
+    <strong> General Conclusion:</strong>
+    {!! $product->micro_load_conc !!}</span>
 
 
  @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
@@ -280,15 +295,18 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     @endforeach
 </table>
 
-@for ($i = 0; $i < count($microbial_efficacyanalyses); $i++)
- 
-@if ($i<1)
-{!! $microbial_efficacyanalyses[0]->ref !!}
-@endif
-@endfor
-<p style="font-size: 14px"><span style="font-size:14px"><strong>General Conclusion:</strong> </span> {!! $product->micro_efficacy_conc !!}</p>
+  @for ($i = 0; $i < count($microbial_efficacyanalyses); $i++)
 
-@endif
+  @if ($i<1)
+  {!! $microbial_efficacyanalyses[0]->ref !!}
+  @endif
+  @endfor
+
+  <span style="font-size: 14px" >
+    <span style="font-size:14px"><strong>General Conclusion:</strong> </span>
+     {!! $product->micro_efficacy_conc !!}</span>
+
+  @endif
 
     {{-- @if ($check_load->load_analyses_id ==1)
     <table style="margin-top:10%">
@@ -296,7 +314,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
     </table>
     @endif --}}
 
-  <table class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'footer':'footer1'}}">
+<table>
   
   <tr>
     <td class="font" style="border: #fff" >
@@ -340,24 +358,3 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 </div>
 </body>
 </html>
-<script>
-
-$(document).ready(function() {
-  var rstotal1 = $('input[id="rstotal0"]').attr("value");
- if (rstotal1 == 0) {
-  $('#manycount0').text('0');
-  }
-  if (rstotal1 == 9900000000) {
-    $('#manycount0').text('3 TNTC');
-  }
-
-  var rstotal2 = $('input[id="rstotal1"]').attr("value");
-  if (rstotal2 == 0) {
-  $('#manycount1').text('0');
-  }
-  if (rstotal2 == 9900000000) {
-    $('#manycount1').text('3 TNTC');
-  }
-  });
-  
-</script>
