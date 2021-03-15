@@ -1,3 +1,4 @@
+@if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0) 
 <div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
 <div class="table-responsive ">
     <table class="table table-striped table-bordered nowrap dataTable">
@@ -134,15 +135,8 @@
    </div>
   
  
-   <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-    <strong><span>General Conclusion</span></strong><br><br>
-    <div class="input-group">
-        <select required name="micro_la_conclution" class="form-control" id="exampleSelectGender">
-            <option value="{{$product->micro_la_conclution}}">{!! $product->micro_load_conc !!}</option>
-            <option value="1">The sample meets with the requirements as per BP specifications</option>
-            <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
-        </select>
-    </div> 
-</div>
+   @include('admin.micro.temp.mlconclusioninput') 
+
 
 </div>
+@endif

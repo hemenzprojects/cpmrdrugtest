@@ -98,19 +98,32 @@
                                                     {{$completed_product->code}}
                                                </span>
                                             <td class="font">
-                                                <li ><small class="">{{count($completed_product->loadAnalyses)}} Microbial Load Analysis</li>
-                                                    @foreach ($completed_product->loadAnalyses->groupBy('id')->first() as $loadnalyses)
-                                                    @endforeach
-                                                    @if ($loadnalyses->pivot->load_analyses_id ===3)
-                                                            <span class="float-right" style="color: red">/ tm count</span> 
-                                                    @endif<br>
-                                                    @if (count($completed_product->efficacyAnalyses)>0)
-                                                    <li>{{count($completed_product->efficacyAnalyses)}} Efficacy Analysis</li>
+                                                <li ><small class="">
+                                                    @if (count($completed_product->loadAnalyses)>0)
+                                                    {{count($completed_product->loadAnalyses)}} Microbial Load Analysis
                                                     @endif
+                                                </li>  
+                                                    {{-- @foreach ($microproduct_completedtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                    @endforeach --}}
+                                                    <li>
+                                                    @if (count($completed_product->efficacyAnalyses)>0)
+                                                    & {{count($completed_product->efficacyAnalyses)}} Efficacy Analysis
+                                                    @endif
+                                                    </li>
+                                                 
                                             </td>
-                                            @foreach($completed_product->microbialloadReports->groupBy('id')->first() as $report)
-                                            <td class="font">{{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}</td>
-                                            @endforeach 
+                                            <td class="font">
+                                                @if (count($completed_product->loadAnalyses)>0)
+                                                @foreach($completed_product->microbialloadReports->groupBy('id')->first() as $report)
+                                                {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}} 
+                                                @endforeach 
+                                                @endif <br>
+                                                @if (count($completed_product->efficacyAnalyses)>0)
+                                                @foreach($completed_product->microbialefficacyReports->groupBy('id')->first() as $report)
+                                                {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}
+                                                @endforeach 
+                                                @endif
+                                            </td>
                                             <td class="font">{!! $completed_product->hod_evaluation !!}</td>
                                              
                                             

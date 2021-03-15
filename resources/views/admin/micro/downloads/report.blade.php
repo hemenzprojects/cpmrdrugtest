@@ -123,7 +123,7 @@ tr:nth-child(even) {
  
 </table>
 
-@if ($check_load->load_analyses_id ==1)
+@if (($microbial_loadanalyses) && count($microbial_loadanalyses)>0)
 
 <table>
     <tr>
@@ -264,7 +264,8 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
   <span style="font-size:14px"> 
     <strong> General Conclusion:</strong>
-    {!! $product->micro_load_conc !!}</span>
+    {{$product->micro_la_conclution}}
+  </span>
 
 
  @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
@@ -304,7 +305,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
   <span style="font-size: 14px" >
     <span style="font-size:14px"><strong>General Conclusion:</strong> </span>
-     {!! $product->micro_efficacy_conc !!}</span>
+    {{$product->micro_la_conclution}}</span>
 
   @endif
 

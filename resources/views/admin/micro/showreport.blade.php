@@ -27,7 +27,7 @@ $product = \App\Product::find($report_id);
                    <div class="row">
                      @if ( $product->micro_hod_evaluation > 0)
                      <div class="col-sm-8">
-                         <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD REMARKS: </strong></h4>
+                         <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong> Report Evaluation </strong></h4>
                          <div class="alert alert-info" role="alert">
                              {{$product->micro_hod_remarks}}
                            </div>
@@ -46,18 +46,18 @@ $product = \App\Product::find($report_id);
                 </div>
                     <div class="row invoice-info" style="margin: 15px; margin-top:60px">
                         <?php
-                        $micro_analysed_by = ($product? $product->micro_analysed_by:'');
-                        $user_type         = (\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->user_type_id:'');
+                        $micro_approved_by = ($product? $product->micro_approved_by:'');
+                        $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
                       ?>
                         <div class="col-sm-4 invoice-col">
                             <p>Analyzed By</p><br>
-                            @if ($product->micro_hod_evaluation > null)
-                            <img src="{{asset(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                            @if ($product->micro_hod_evaluation == 2)
+                            <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="28%"><br>
                             @endif
                             -----------------------------<br>
                           
-                            <span>{{ucfirst(\App\Admin::find($micro_analysed_by)? \App\Admin::find($micro_analysed_by)->full_name:'')}}</span>
-                            <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+                            <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span><br>
+                            <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
 
                         </div> 
                         <div class="col-sm-4 invoice-col">
@@ -71,7 +71,7 @@ $product = \App\Product::find($report_id);
                             ?>
                             <p>Approved by</p><br>
                             @if ($product->micro_finalapproved_by !== Null)
-                            <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
+                            <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="28%"><br>
                             @endif
     
                             ------------------------------<br> 
@@ -95,10 +95,11 @@ $product = \App\Product::find($report_id);
                             <i class="fa fa-credit-card "></i> 
                             Save Report
                             </button>
-                            <button style="display: none" onclick="return confirm('NB: report will be submitted to the head of department. Click Ok to confirm report submission')" type="submit" class="btn btn-info pull-right pharmsubmitreport2" id="pharm_submit_report" >
+                            <button style="display: none"  type="button" class="btn btn-info pull-right pharmsubmitreport2" id="pharm_submit_report" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fa fa-credit-card " ></i> 
-                                Submit Report
+                              Submit Report
                             </button>
+
                             @endif
                             @if ( $product->micro_hod_evaluation ==2)
                             <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
@@ -132,7 +133,57 @@ $product = \App\Product::find($report_id);
             </div>
         </form>
         </div>
-        
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document"> 
+          
+                 <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to submit report</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form  id="microhodapproveform" sign-user-url="{{route('admin.micro.hod_office.checkhodsign')}}" action="{{url('admin/micro/report/update',['id' => $report_id])}}" class="" method="POST">
+                            {{ csrf_field() }}
+                        <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
+
+                        <div class="input-group input-group-default col-md-6">
+                            <select class="form-control" name="evaluate">
+                                <option value="2">Approve Report</option>
+                                <option value="1">Reject Report</option>
+                            </select>
+                            </div>
+                            <div id="error-div" style="margin: 5px; color:red;"></div>
+                            <input name="adminid" id="adminid"  type="hidden" >
+    
+                            <div class="input-group input-group-default">
+                                @error('email')
+                                <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                    <strong>{{$message}}</strong>
+                                </small>
+                                @enderror
+                                <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email">
+                            </div>
+                            <input  type="hidden" name="complete_report" value="1" class="custom-control-input">
+
+                            <div class="input-group input-group-default">
+                                @error('password')
+                                <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                    <strong>{{$password}}</strong>
+                                </small>
+                                @enderror
+                                <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                            </div>                         
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Sign Report</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
 @endsection
 
 @section('bottom-scripts')

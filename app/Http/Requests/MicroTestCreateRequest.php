@@ -39,8 +39,10 @@ class MicroTestCreateRequest extends FormRequest
            
         ];
          
-        if ($this->get('microbialcount') == 3) {
-        unset($rule['test_conducted_id']);
+        if ($this->get('efficacyanalyses') == 3) {
+            unset($rule['micro_product_id']);
+            unset($rule['test_conducted_id']);
+
         }
         // if (($this->get('microbialcount') == 3) && ($this->get('loadanalyses') == 1)) {
         //     $rule['doublecheck'];

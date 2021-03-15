@@ -231,15 +231,21 @@ $("#microproduct_id").change(function() {
     if($('input[id="inlineCheckbox1"]').prop('checked')){
       $("." + inputValue).toggle();
           $('.date-inputmask').inputmask("9.9 X 99^9");
+
       }
+
       $('input[id="inlineCheckbox1"]').click(function() {
           $("." + inputValue).toggle();
-          $('#fadeout2').fadeOut('slow');  
+          $('#fadeout2').fadeOut('slow');
+          $("." +'efficacyonly').fadeOut('slow');  
+
         if($(this).prop('checked')){
           $('.date-inputmask').inputmask("9.9 X 99^9");
         }
         if($('#inlineCheckbox1').not(':checked')){
-         $('#fadeout2').show();  
+         $('#fadeout2').show(); 
+         $("." +'efficacyonly').show();  
+ 
         } 
       });
   });
@@ -250,7 +256,7 @@ $("#microproduct_id").change(function() {
     if($('input[id="inlineCheckbox2"]').prop('checked')){
       $("." + inputValue).toggle();
           $('.date-inputmask').inputmask("9.9 X 99^9");
-    }
+      }
 
       $('input[id="inlineCheckbox2"]').click(function() {
           $("." + inputValue).toggle();
@@ -261,26 +267,39 @@ $("#microproduct_id").change(function() {
   });
 
   $(document).ready(function() {
-    var mcvalue = $('input[id="microbial_count"]').attr("value");
-    if($('input[id="microbial_count"]').prop('checked')){
-      $("." + mcvalue).toggle();
-    }
-    $('input[id="microbial_count"]').click(function() { 
-          $("." + mcvalue).toggle();
-          console.log(mcvalue);
-          $('#inlineCheckbox1').removeAttr('required');
-          $('#fadeout').fadeOut('slow');
-         
-        if($(this).prop('checked')){
-          $('input[id="mresult0"]').val('3^TMMC');
-          $('input[id="mresult1"]').val('3^TMMC');
-        }
-        if($('#microbial_count').not(':checked')){
-         $('#fadeout').show();  
-        } 
-      });
+    var inputValue = $('input[id="inlineCheckbox3"]').attr("value");
+    $('input[id="inlineCheckbox3"]').click(function() {
+      console.log(inputValue)
+      $("." + inputValue).toggle();
+
+      
+     });
+      
   });
 
+</script>
+<script>
+  
+  $(document).ready(function() {
+    // $('#micro_la_conclution_option').prop('required',true)
+    var inputValue = $('input[id="ml_general_conclusion"]').attr("value");
+    $('input[id="ml_general_conclusion"]').click(function() {
+      console.log(inputValue)
+      $("." + inputValue).toggle();
+     });
+      
+  });
+
+  $(document).ready(function() {
+    
+    // $('#micro_la_conclution_option').prop('required',true)
+    var inputValue = $('input[id="me_general_conclusion"]').attr("value");
+    $('input[id="me_general_conclusion"]').click(function() {
+      console.log(inputValue)
+      $("." + inputValue).toggle();
+     });
+      
+  });
 </script>
 <script>
 
@@ -423,8 +442,74 @@ $(document).ready(function(){
         showInputs: false
       })
     })
-  </script>
+</script>
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
 
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass   : 'iradio_minimal-blue'
+    })
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass   : 'iradio_minimal-red'
+    })
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass   : 'iradio_flat-green'
+    })
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    //Timepicker
+    $('.timepicker').timepicker({
+      showInputs: false
+    })
+  })
+</script>
 
 
   <!-- checkusermicro-->

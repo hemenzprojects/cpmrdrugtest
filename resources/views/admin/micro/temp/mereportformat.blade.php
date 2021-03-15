@@ -62,14 +62,6 @@
      @endfor
 </div>
 
-<div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
- <strong><span>General Conclusion</span></strong><br><br>
- <div class="input-group">
-     <select name="micro_ea_conclution" required class="form-control">
-         <option value="{{$product->micro_ea_conclution}}">{!! $product->micro_efficacy_conc !!}</option>
-         <option value="1">The product did not show antimicrobial activity</option>
-         <option value="2">The product showed antimicrobial activity</option>
-     </select>
- </div> 
-</div>
+@include('admin.micro.temp.meconclusioninput') 
+
 @endif

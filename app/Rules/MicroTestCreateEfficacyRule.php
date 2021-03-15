@@ -25,7 +25,7 @@ class MicroTestCreateEfficacyRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return  $value === '2';
+        return  $value === '2' || $value === '3';
     }
 
     /**

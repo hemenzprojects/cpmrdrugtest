@@ -1,6 +1,10 @@
 @extends('admin.layout.main')
 
 @section('content')
+<?php 
+$product = \App\Product::where('id',7)->first(); 
+
+?>
 <div class="">
     <div class="page-header">
         <div class="row align-items-end">
@@ -211,9 +215,11 @@
                                             
                                                   
                                               
-                                                   <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_withtest->loadAnalyses)}}mla
-                                                    @foreach ($microproduct_withtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
-                                                    @endforeach
+                                                   <span><small class="float-right ">  <strong>Test:</strong>
+                                                    @if (count($microproduct_withtest->loadAnalyses)>0)
+                                                     {{count($microproduct_withtest->loadAnalyses)}}mla
+                                                     @endif
+
                                                     @if (count($microproduct_withtest->efficacyAnalyses)>0)
                                                     & {{count($microproduct_withtest->efficacyAnalyses)}}ea
                                                     @endif
@@ -312,13 +318,16 @@
   
                                               </h4>
                                               
-                                              <span><small class="float-right ">  <strong>Test:</strong> {{count($microproduct_completedtest->loadAnalyses)}}mla
-                                                @foreach ($microproduct_completedtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
-                                                @endforeach
+                                              <span><small class="float-right ">  <strong>Test:</strong>
+                                                @if (count($microproduct_completedtest->loadAnalyses)>0)
+                                                {{count($microproduct_completedtest->loadAnalyses)}}mla
+                                                @endif
+                                                {{-- @foreach ($microproduct_completedtest->loadAnalyses->groupBy('id')->first() as $loadnalyses)
+                                                @endforeach --}}
                                                 @if (count($microproduct_completedtest->efficacyAnalyses)>0)
                                                 & {{count($microproduct_completedtest->efficacyAnalyses)}}ea
                                                 @endif
-                                                
+                                             
                                               </small>
                                              </span><br> 
                                               <span>
@@ -354,46 +363,47 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="card">
             <ul class="nav justify-content-center" style="margin-top: 10px"> 
               <h4>CREATE MICROBIAL REPORT</h4>
             </ul>
-            <div class="card-body">
+              <div class="card-body 3">
                 <form action="{{route('admin.micro.report.create_test')}}" method="POST">
                     {{ csrf_field() }}
                     <div class="row align-items-center">
                                                    
                        <div class="col-lg-12 col-md-12">
-                           <div class="row">
-                        <div class="col-lg-4">
-                          
-                                <div class="form-group">
-                                    <div class="card-header"><h3>Select product to begin report</h3></div>
-                                   
-                                     <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select2">
-                                        <option value="">Select Product</option>
-                                        @foreach($microproducts as $microproduct)
-                                       <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
-                                        {{$microproduct->code}} 
-                                      </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('micro_product_id')
-                                <small style="margin-left:15px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                <strong>{{$message}}</strong>
-                                </small>
-                                @enderror
-                             
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="card-header"><h3>Input date analysed</h3></div>
+                         <div class="row">
+                            <div class="col-lg-4">
+                            
+                                    <div class="form-group">
+                                        <div class="card-header"><h3>Select product to begin report</h3></div>
+                                    
+                                        <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select2">
+                                            <option value="">Select Product</option>
+                                            @foreach($microproducts as $microproduct)
+                                        <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
+                                            {{$microproduct->code}} 
+                                        </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('micro_product_id')
+                                    <small style="margin-left:15px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                    <strong>{{$message}}</strong>
+                                    </small>
+                                    @enderror
+                                
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="card-header"><h3>Input date analysed</h3></div>
 
-                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="">
+                            <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="">
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                        </div>
                 
                         <div class="col-sm-12 1 box" style="display: none">
                             <div class="card">
@@ -451,7 +461,7 @@
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">
                                                     </td>
                                                     <td class="font">
-                                                        <select required name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control" id="exampleSelectGender">
+                                                        <select required name="mlcompliance_{{$MicrobialLoadAnalysis[$i]->id}}" class="form-control">
                                                             <option value="">None</option>
                                                             <option value="1">Failed</option>
                                                             <option value="2">Passed</option>
@@ -487,17 +497,8 @@
                                     @endif
                                  @endfor
                                 </div>
+                                @include('admin.micro.temp.mlconclusioninput') 
 
-                                <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                                    <strong><span>General Conclusion</span></strong><br><br>
-                                    <div class="input-group">
-                                        <select required name="micro_la_conclution" class="form-control" id="exampleSelectGender">
-                                            <option value="">None</option>
-                                            <option value="1">The sample meets with the requirements as per BP specifications</option>
-                                            <option value="2">The sample doest not meets with the requirements as per BP specifications</option>
-                                        </select>
-                                    </div> 
-                                </div>
                             </div>
                             <p></p>
                         </div> 
@@ -557,16 +558,8 @@
                                     @endif
                                     @endfor
                                 </div>
-                                <div class="alert alert-secondary mt-20" style="margin-bottom: 10px">
-                                    <strong><span>General Conclusion</span></strong><br><br>
-                                    <div class="input-group">
-                                        <select name="micro_ea_conclution" class="form-control">
-                                            <option value="">None</option>
-                                            <option value="1">The product did not show antimicrobial activity</option>
-                                            <option value="2">The product showed antimicrobial activity</option>
-                                        </select>
-                                    </div> 
-                                   </div>
+                                @include('admin.micro.temp.meconclusioninput') 
+
                             </div>
                         </div> 
                        </div>
@@ -575,29 +568,29 @@
               
                      <div class="card-body"> 
                         <div class="card-header"><h3>Check to indicate test type</h3></div>
-                        <div class="row" style="margin-top: 10px">
-                        <div class="col-sm-3" id="fadeout" >
-                            <label class="custom-control custom-checkbox" >
-                                <input type="checkbox" required class="custom-control-input" name="test_conducted_id" id="inlineCheckbox1" value="1">
-                                <span class="custom-control-label">&nbsp;Microbial Load Analysis</span>
-                            </label>
-                            @error('test_conducted_id')
-                            <small style="margin:15px" class="form-text text-danger" role="alert">
-                                <strong>{{$message}}</strong>
-                            </small>
-                            @enderror
-                            {{-- <input type="hidden" name="doublecheck"> --}}
-                            @error('doublecheck')
-                            <small style="margin:15px;" class="form-text text-danger" role="alert">
-                                <strong style="color:#000">{{$message}}</strong>
-                            </small>
-                            @enderror
-                        </div>
+                        <div class="row " style="margin-top: 10px">
+                            <div class="col-sm-3" id="fadeout">
+                                <label class="custom-control custom-checkbox" >
+                                    <input type="checkbox" required class="custom-control-input" name="test_conducted_id" id="inlineCheckbox1" value="1">
+                                    <span class="custom-control-label">&nbsp;Microbial Load Analysis</span>
+                                </label>
+                                @error('test_conducted_id')
+                                <small style="margin:15px" class="form-text text-danger" role="alert">
+                                    <strong>{{$message}}</strong>
+                                </small>
+                                @enderror
+                                {{-- <input type="hidden" name="doublecheck"> --}}
+                                @error('doublecheck')
+                                <small style="margin:15px;" class="form-text text-danger" role="alert">
+                                    <strong style="color:#000">{{$message}}</strong>
+                                </small>
+                                @enderror
+                            </div>
             
-                        <div class="col-sm-3" style="background:#d49f0a;">
+                        <div class="col-sm-3" >
                             <label class="custom-control custom-checkbox" style="margin-top:5px">
                                 <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox2" value="2">
-                                <span class="custom-control-label" style="color:#fff">&nbsp;Microbial Efficacy Analysis</span>
+                                <span class="custom-control-label" style="color:#ff">&nbsp;Microbial Efficacy Analysis</span>
                             </label>
                             @error('efficacyanalyses')
                             <small style="margin:15px;" class="form-text text-danger" role="alert">
@@ -610,12 +603,138 @@
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
                         </div>
                     </div>
-                </form>
+                  </form>
+             
+                       
                 </div>
+
+
+             
             </div>
         </div>
+        
     </div>
+
+<div class="row">   
+<div class="card">
+    <div class="card-body">
+    <form action="{{route('admin.micro.report.create_test')}}" method="POST">
+        {{ csrf_field() }}
+    
+  
+    
+     <div class="row efficacyonly">
+     
+        <div class="col-sm-12 3 box" style="display: none">
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-4">
+                    
+                        <div class="form-group" style="width: 400px">
+                            <div class="card-header"><h3>Select product to begin report</h3></div>
+                        
+                            <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select3">
+                                <option value="">Select Product</option>
+                                @foreach($microproducts as $microproduct)
+                            <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
+                                {{$microproduct->code}} 
+                            </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('micro_product_id')
+                        <small style="margin-left:15px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                        <strong>{{$message}}</strong>
+                        </small>
+                        @enderror
+                        
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card-header"><h3>Input date analysed</h3></div>
+     
+                    <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="">
+                    </div>
+                </div>
+                <div class="card-header d-block">
+                    <div class="card-header"><h3>Microbial Efficacy Analysis Only</h3></div>
+                </div>
+                <div class="card-body p-0 table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="">#</th>
+                                    <th>Pathogen</th>
+                                    <th>Product Inhibition Zone</th>
+                                    <th>Ciprofloxacin Inhibition Zone</th>
+                                    <th>Fluconazole Inhibition Zone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($MicrobialEfficacyAnalysis as $metest) 
+                                <tr>
+                                    <td class="font" style="">      
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="metest_id[]" value="{{$metest->id}}" class="custom-control-input" checked="true">
+            
+                                            <span class="custom-control-label">&nbsp;</span>
+                                        </label> 
+                                    </td>
+                                    <td class="font" style="font-style: italic; margin:5px;">{{$metest->pathogen}}</td>
+                                    <input type="hidden" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
+
+                                    <td class="font">
+                                        <input type="text" class="form-control" required name="pi_zone_{{$metest->id}}" placeholder="PI Zone" value="{{$metest->pi_zone}}">
+                                    </td>
+                                    <td class="font">
+                                        <input type="text" class="form-control" name="ci_zone_{{$metest->id}}" value="{{$metest->ci_zone}}">
+                                    </td>
+                                  
+                                    <td class="font">
+                                        <input type="hidden" class="form-control" name="reference_{{$metest->id}}"  value="{{$metest->reference}}">
+
+                                        <input type="text" class="form-control" name="fi_zone_{{$metest->id}}"  value="{{$metest->fi_zone}}">
+                                    </td>
+
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @for ($i = 0; $i < count($MicrobialEfficacyAnalysis); $i++)
+
+                    @if ($i<1)
+                   {!! $MicrobialEfficacyAnalysis[0]->ref !!}
+                    @endif
+                    @endfor
+                </div>
+                @include('admin.micro.temp.meconclusioninput') 
+
+            </div>
+        </div> 
+
+        <div class="col-md-3" style="background:#d49f0a;">
+            <label class="custom-control custom-checkbox" style="margin-top:5px">
+                <input type="checkbox" class="custom-control-input" name="efficacyanalyses" id="inlineCheckbox3" value="3">
+                <span class="custom-control-label" style="color:#fff">&nbsp;Microbial Efficacy Analysis Only</span>
+            </label>
+            @error('efficacyanalyses')
+            <small style="margin:15px;" class="form-text text-danger" role="alert">
+                <strong style="color:#fff">{{$message}}</strong>
+            </small>
+            @enderror
+        </div>
+         
+        <div class="col-md-3 3" style="display: none">
+            <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
+        </div>
+  
+     </div>
+    </form>
 </div>
+</div>
+</div>
+</div>     
 {{-- {{$micro_report}} --}}
 @endsection
 

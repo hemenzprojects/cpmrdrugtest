@@ -16,7 +16,7 @@ $product = \App\Product::find($report_id);
 </style>
 <div class="row ">
 
-        <div class="container watermarked"  >
+        <div class="container watermarke">
             <div class="card" style="padding: 15px;     background-color: #ffffffe6;">
                <form action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
                     {{ csrf_field() }} 
@@ -54,7 +54,8 @@ $product = \App\Product::find($report_id);
                         </table>
                     </div>
 
-                    @if ($check_load->load_analyses_id ==1)
+                    
+                    @if (($microbial_loadanalyses) && count($microbial_loadanalyses)>0)
                     <div class="card-heade" style="margin-top: 5%">
                         <h6>Microbial Load Analysis</h6>
                      </div>
@@ -186,7 +187,7 @@ $product = \App\Product::find($report_id);
                                  </div>
                             </div>
                             <div class="col-md-9">
-                                <p style="font-size: 16px">{!! $product->micro_load_conc !!}</p>
+                            <p style="font-size: 16px"> {{$product->micro_la_conclution}}</p>
 
                             </div>
 
@@ -247,7 +248,7 @@ $product = \App\Product::find($report_id);
                                  </div>
                             </div>
                             <div class="col-md-9">
-                                <p style="font-size: 16px">{!! $product->micro_efficacy_conc !!}</p>
+                                <p style="font-size: 16px"> {{$product->micro_la_conclution}}</p>
                             </div>
 
                         </div>
@@ -258,7 +259,7 @@ $product = \App\Product::find($report_id);
                     @endif
                    
                      
-                 </div>
+                
                     <div class="row invoice-info" style="margin: 15px;margin-bottom:10px">
 
 
@@ -307,7 +308,7 @@ $product = \App\Product::find($report_id);
             </div> --}}
         </form>
         </div>
-
+    </div>
                
 
 </div>
