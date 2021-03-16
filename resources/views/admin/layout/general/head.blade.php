@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{asset('admin/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}">
 
     <link rel="stylesheet" href="{{asset('admin/assets/plugins/select2/dist/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/assets/plugins/select2/dist/css/select3.min.css')}}">
+
     <link rel="stylesheet" href="{{asset('admin/assets/dist/css/theme.min.css')}}">
     <script src="{{asset('admin/assets/src/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     

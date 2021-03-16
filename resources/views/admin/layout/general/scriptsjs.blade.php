@@ -684,7 +684,16 @@ $('#checkusertoacceptproduct').submit(function(e){
 
 {{-- pharmacology scripts --}}
 <!-- Animal Experimentation maketest -->
-
+<script>
+  $(document).ready(function() {
+    console.log('ajssssssssssssssssssssssssssd wede')
+    $(`select[tag= 35909090456]`).select2();
+    $(`select[tag= 359090904560]`).select2();
+    $(`select[tag= 359090904561]`).select2();
+    $(`select[tag= 359090904562]`).select2();
+    });
+  
+  </script>
 <script>
   var toxic = [];
   var animalmodel = [];

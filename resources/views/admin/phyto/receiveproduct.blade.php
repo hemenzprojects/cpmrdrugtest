@@ -69,45 +69,46 @@
                        </tr>
                     </thead>
                     <tbody>                                            
-                        @foreach($dept3 as $Phytochemistry)
+                        @foreach($dept3 as $phytochemistry)
                         <tr>
                                 <td>
                                     <div class="form-check mx-sm-2">
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="deptproduct_id[]" value="{{$Phytochemistry->id}}" >
+                                        <input type="checkbox" class="custom-control-input" name="deptproduct_id[]" value="{{$phytochemistry->id}}" >
                                             <span class="custom-control-label">&nbsp; </span>
                                         </label>
                                     </div>
                                 </td>
-                                <td class="font">B{{$Phytochemistry->pivot->updated_at->format('dym')}}</td>
+                                <td class="font">B{{$phytochemistry->pivot->updated_at->format('dym')}}</td>
                                 <td class="font">
 
                                     <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                        {{$Phytochemistry->code}}
+                                        {{$phytochemistry->code}}
                                     </span>   
 
-                                    @if ($Phytochemistry->isReviewedByDept(3))
+                                    @if ($phytochemistry->isReviewedByDept(3))
                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
                                     @endif
                                 </td>
-                               <td class="font">{{ucfirst($Phytochemistry->productType->name)}}</td>
-                                <td class="font">{{$Phytochemistry->pivot->quantity}}</td>
-                                <td>{!! $Phytochemistry->product_status !!}</td>
-                                <td style="display: none">{{$Phytochemistry->pivot->status}}</td>
-                                @foreach ($Phytochemistry->productDept->groupBy('id')->first() as $distribution)
-                                <td class="font">{{$distribution->distributed_by_admin}}</td>
-                                <td class="font">{{$distribution->received_by_admin}}</td>
-                                                                        
-                                @endforeach
+                               <td class="font">{{ucfirst($phytochemistry->productType->name)}}</td>
+                                <td class="font">{{$phytochemistry->pivot->quantity}}</td>
+                                <td>{!! $phytochemistry->product_status !!}</td>
+                                <td style="display: none">{{$phytochemistry->pivot->status}}</td>
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($phytochemistry->pivot->delivered_by)? \App\Admin::find($phytochemistry->pivot->delivered_by)->full_name:'null')}}
+                                </td>
+                                <td class="font">
+                                    {{ucfirst(\App\Admin::find($phytochemistry->pivot->received_by)? \App\Admin::find($phytochemistry->pivot->received_by)->full_name:'null')}}
+                                </td>
                                     
                                 <td>
                                 <div class="table-actions">
                                                                         
-                                <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$Phytochemistry->id}}" title="View" href=""><i class="ik ik-eye"></i></a>
+                                <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$phytochemistry->id}}" title="View" href=""><i class="ik ik-eye"></i></a>
                                 <a title="Edit" href=""><i class="ik ik-edit"></i></a>
 
                                 </div>
-                            <div class="modal fade" id="demoModal{{$Phytochemistry->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="demoModal{{$phytochemistry->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
 
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -119,16 +120,16 @@
                                                 <div class="card-body"> 
                                                     
                                                     <h6> Product Name </h6>
-                                                    <small class="text-muted ">{{$Phytochemistry->productType->code}}|{{$Phytochemistry->id}}|{{$Phytochemistry->created_at->format('y')}}</small>
+                                                    <small class="text-muted ">{{$phytochemistry->code}}</small>
                                                     <h6>Product Type </h6>
-                                                    <small class="text-muted ">{{ucfirst($Phytochemistry->productType->name)}}</small>
+                                                    <small class="text-muted ">{{ucfirst($phytochemistry->productType->name)}}</small>
                                                     <h6>Quantity</h6>
-                                                    <small class="text-muted "> {{$Phytochemistry->pivot->quantity}}</small>
+                                                    <small class="text-muted "> {{$phytochemistry->pivot->quantity}}</small>
                                                     <h6>Indication</h6>
-                                                    <p class="text-muted"> {{ ucfirst($Phytochemistry->indication)}}<br></p>
+                                                    <p class="text-muted"> {{ ucfirst($phytochemistry->indication)}}<br></p>
 
                                                     <hr><h5>Distribution Details</h5>
-                                                    @foreach ($Phytochemistry->productDept->groupBy('id')->first() as $distribution)
+                                                    @foreach ($phytochemistry->productDept->groupBy('id')->first() as $distribution)
                                                     <h6>Received By </h6>
                                                     <small class="text-muted ">{{ucfirst($distribution->received_by_admin)}}</small>
                                                     <h6>Distributed By </h6>
@@ -141,22 +142,22 @@
                                                     {{-- <hr><h5>Customer Details</h5>
                                                     
                                                     <h6>Name</h6>
-                                                    <small class="text-muted ">{{ucfirst($Phytochemistry->customer->name)}}</small>
+                                                    <small class="text-muted ">{{ucfirst($phytochemistry->customer->name)}}</small>
                                                     <h6>Tell</h6>
-                                                    <small class="text-muted ">{{ucfirst($Phytochemistry->customer->tell)}}</small> --}}
+                                                    <small class="text-muted ">{{ucfirst($phytochemistry->customer->tell)}}</small> --}}
                                                     
                                                     <hr><h5>Distribution Periods</h5>
                                                     <div  style="margin-bottom: 5px">
                                                     <h6 >product distribution period</h6>
                                                     <small class="text-muted">
-                                                    Date: {{$Phytochemistry->pivot->created_at->format('Y-m-d')}}
-                                                    Time: {{$Phytochemistry->pivot->created_at->format('H:i:s')}}
+                                                    Date: {{$phytochemistry->pivot->created_at->format('Y-m-d')}}
+                                                    Time: {{$phytochemistry->pivot->created_at->format('H:i:s')}}
                                                     </small>
                                                     </div>
                                                     <h6> product delivery period</h6>
                                                     <small class="text-muted ">
-                                                    Date: {{$Phytochemistry->pivot->updated_at->format('Y-m-d')}}
-                                                    Time: {{$Phytochemistry->pivot->updated_at->format('H:i:s')}}
+                                                    Date: {{$phytochemistry->pivot->updated_at->format('Y-m-d')}}
+                                                    Time: {{$phytochemistry->pivot->updated_at->format('H:i:s')}}
                                                     </small>
                                                 </div>
                                             </div>

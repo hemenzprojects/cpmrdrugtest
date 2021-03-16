@@ -26,7 +26,7 @@
         </div>
     </div>
 </div>
-{{-- @foreach( $errors->all() as $error)
+{{-- @foreach( $errors->all() as $error)p
 <li>{{$error}}</li>
 @endforeach --}}
 

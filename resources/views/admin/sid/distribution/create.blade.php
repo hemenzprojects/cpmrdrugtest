@@ -45,7 +45,7 @@
                                     <div class="input-group-text"></div>
                                 </div>
                                 
-                                <select name="product_id" style="" class="form-control select2">
+                                <select name="product_id" style="" class="form-control " tag= 35909090456>
                                     @foreach($products as $product)
                                                 
                                     <option  value="{{$product->id}}" {{$product->id == old('product_id')? "selected":""}}>
@@ -134,7 +134,7 @@
     </div>
 </div>
 
- <div class="card">
+ <div class="card" >
     <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
         <?php  $activetab = Session::get('activetab');
         if($activetab==null){
@@ -148,7 +148,7 @@
         @endfor
     </ul>
     @for ($n = 0; $n < count($dept); $n++)
-        <div class="modal fade" id="exampleModal{{$n}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal{{$n}}" >
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -159,17 +159,18 @@
             </div>
             <div class="modal-body">
             <div class="row">
+            
                 <form action="{{url('admin/sid/distribute_product')}}" class="form-inline" method="POST">
                         {{ csrf_field() }}
                         <div class="col-md-12" style="margin:5px">
                             <div class="form-group">
                                 <label for="exampleSelectGender">{{$dept[$n]->name}}</label><br>
-                                <select required name="product_id" style="width:100%;" class="form-control select2">
+                                <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
                                    @foreach (\App\Product::all() as $p)
                                        @if (count($p->productDept()->where('dept_id',$dept[$n]->id)->get())>0)
                                           @php continue; @endphp
                                        @endif
-                                   <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{$p->productType->code}}|{{$p->id}}|{{$p->created_at->format('y')}} - {{ucfirst($p->name)}}</option>
+                                   <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
                                 
                                    @endforeach
                                 </select>
@@ -208,11 +209,11 @@
                 @for ($j = 0; $j < count($dept); $j++)
 
                 <div class="tab-pane fade {{$activetab==$j ? 'active show' : ''}}" id="tab{{$j}}" role="tabpanel" aria-labelledby="pills-timeline-tab">
-                        <div class="card-body">
+                        <div class="card-body" >
                             {{-- Lad Dept --}}
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
+                                    <div class="card" style="overflow-x: scroll">
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col-md-12">
@@ -228,7 +229,9 @@
                                                                         <span>Click here to ditribute product only to this department</span>
                                                                     </div>
                                                                 </div>
-                                                        </a>                                           
+                                                        </a>     
+                                                        
+                                                        
                                                     </div> 
                                         {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$j}}" data-whatever="@mdo">Open modal for @mdo</button> --}}
                                             </div>  
