@@ -202,7 +202,7 @@ $product = \App\Product::where('id',7)->first();
                   <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                         @if (count($auth) >0)
                           @if ($auth_id->dept_office_id == 1)
-                         .
+                         
                           <ul class="list-group" id="myList">
                             @foreach($microproduct_withtests->sortBy('micro_hod_evaluation') as $microproduct_withtest)
                           <li class="list-group-item" style="padding: 1px;border:1px">
@@ -293,7 +293,7 @@ $product = \App\Product::where('id',7)->first();
                      
                         @if (count($auth) >0)
                          @if ($auth_id->dept_office_id == 2)
-                      ..
+                      
                        <ul class="list-group" id="myList">
                            @foreach($auth_microproduct_withtests->sortBy('micro_hod_evaluation') as $auth_microproduct_withtest)
                          <li class="list-group-item" style="padding: 1px;border:1px">
