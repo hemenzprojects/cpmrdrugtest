@@ -127,6 +127,9 @@ class MicroController extends Controller
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
                 } 
+                 $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
+                 $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
+
 
                 $load_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
                 $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
@@ -135,6 +138,25 @@ class MicroController extends Controller
 
                 $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
 
+
+                //********************* section for the dept offcie only ***** */
+
+                $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", 2);
+                })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
+
+               $data['microproduct_withloadanalysis'] = Product::with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", 3);
+                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
+    
+                 $data['microproduct_withefficacyanalysis'] = Product::with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1)->where("status", 3);
+                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
+
+                $data['microproduct_withtests'] = $data['microproduct_withloadanalysis']->merge($data['microproduct_withefficacyanalysis']);
+
+
+                //********************* section for authusers who perform repot ***** */
                 $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 2);
                 })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
@@ -147,9 +169,10 @@ class MicroController extends Controller
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
-                $data['microproduct_withtests'] = $data['microproduct_withloadanalysis']->merge($data['microproduct_withefficacyanalysis']);
+               $data['auth_microproduct_withtests'] = $data['microproduct_withloadanalysis']->merge($data['microproduct_withefficacyanalysis']);
 
 
+                //***************************************** All completed report  */
                 $data['microproduct_withloadanalysis_completedtests'] = Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 4);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->limit(100)->get();
