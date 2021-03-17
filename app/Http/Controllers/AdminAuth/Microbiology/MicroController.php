@@ -1210,8 +1210,8 @@ class MicroController extends Controller
               $data = ([
                'pathogen' => $r->pathogen,
                'pi_zone' => $r->pi_zone,
-               'ci_zone' => $r->pi_zone,
-               'fi_zone' => $r->pi_zone,
+               'ci_zone' => $r->ci_zone,
+               'fi_zone' => $r->fi_zone,
                'added_by_id' => Auth::guard('admin')->id(),
               ]);
 
@@ -1320,8 +1320,8 @@ class MicroController extends Controller
                   ->update([
                     'pathogen' => $r->pathogen[$l],
                     'pi_zone' => $r->pi_zone[$l],
-                    'ci_zone' => $r->pi_zone[$l],
-                    'fi_zone' => $r->pi_zone[$l],
+                    'ci_zone' => $r->ci_zone[$l],
+                    'fi_zone' => $r->fi_zone[$l],
                     'action'=> 1,
                     'added_by_id'=> Auth::guard('admin')->id(),
                     'updated_at' => \Carbon\Carbon::now(), 'added_by_id' => Auth::guard('admin')->id(),

@@ -295,7 +295,7 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                        <td class="font"><input class="form-control" style="width:180px" type="text" name="pathogen[]" value="{{$microbial_efficacy->pathogen}} :"></td>
+                                        <td class="font"><input class="form-control" style="width:180px" type="text" name="pathogen[]" value="{{$microbial_efficacy->pathogen}}"></td>
             
                                         <td class="font"><input class="form-control" type="text" name="pi_zone[]" value="{{$microbial_efficacy->pi_zone}} "></td>
                                        

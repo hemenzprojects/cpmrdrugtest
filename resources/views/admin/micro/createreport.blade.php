@@ -735,11 +735,11 @@ $product = \App\Product::where('id',7)->first();
      <div class="row efficacyonly">
      
         <div class="col-sm-12 3 box" style="display: none">
-            <div class="card">
+            <div class="card" style="padding: 2%">
                 <div class="row">
                     <div class="col-lg-4">
                     
-                        <div class="form-group" style="width: 400px">
+                        <div class="form-group" >
                             <div class="card-header"><h3>Select product to begin report</h3></div>
                         
                             <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select3">
@@ -789,8 +789,9 @@ $product = \App\Product::where('id',7)->first();
                                             <span class="custom-control-label">&nbsp;</span>
                                         </label> 
                                     </td>
-                                    <td class="font" style="font-style: italic; margin:5px;">{{$metest->pathogen}}</td>
-                                    <input type="hidden" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
+                                    <td class="font" style="font-style: italic; margin:5px;">
+                                        <input type="text" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
+                                    </td>
 
                                     <td class="font">
                                         <input type="text" class="form-control" required name="pi_zone_{{$metest->id}}" placeholder="PI Zone" value="{{$metest->pi_zone}}">
