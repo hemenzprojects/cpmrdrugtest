@@ -288,9 +288,55 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row align-items-center">
-                                <div class="col-lg-8 col-md-12">
+                                <div class="col-lg-3 col-md-12">
                                     <h3 class="card-title">All products Received</h3>
                                   </div>
+                                  <div class="col-lg-7">
+                                    <form action="{{route('admin.sid.registeredproduct.report')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <span style="margin: 5px">From</span>  <input type="date" name="from_date"  required class="form-control" value="{{ $from_date}}">
+                                                <div>
+                                                    @error('from_date')
+                                                <small style="margin:15px" class="form-text text-danger" role="alert">
+                                                    <strong>{{$message}}</strong>
+                                                </small>
+                                                @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4"> 
+                                                <span style="margin: 5px">To</span>  <input type="date" name="to_date" required class="form-control" value="{{ $to_date }}">
+                                                @error('to_date')
+                                                <small style="margin:15px" class="form-text text-danger" role="alert">
+                                                    <strong>{{$message}}</strong>
+                                                </small>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-4">
+                                              
+                                                <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
+                                            </div>
+                                        </div>
+                                        
+                                    </form>
+                                   
+                                </div>
+                                <div class="col col-sm-2">
+                                    @if ($to_date !== Null)
+
+                                    <div class="card-options d-inline-block">
+                                        <form action="{{route("admin.sid.deliverysheet.pdf")}}">
+                                            @foreach($products->sortBy('id') as $product)
+                                            <input type="hidden" name="product_id[]" value="{{$product->id}}">
+                                            @endforeach
+                                    <button class="btn btn-info" type="submit" title="Download delivery sheet"><i class="ik ik-download"></i></button>
+                                    </form> 
+                                   
+                                    </div>
+                                                                            
+                                    @endif
+                                </div>
                                 <div class="col-md-12" style="overflow-x: scroll" >
                                   
 
@@ -349,21 +395,7 @@
                                             </td>
 
                                             </tr>
-                                            <div class="modal fade" id="exampleModalCenter{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalCenterLabel">Transactional Details</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                        </div>
-                                                       
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                       
                                             @endforeach
 									    </tbody>
 									</table>
@@ -375,6 +407,21 @@
                 </div>
             
             </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-lg-8 col-md-12">
+                        <h3 class="card-title">Click to view product under each category</h3>
+                      </div>
+                    @foreach($product_types as $product_type)    
+                    <a href="{{route("admin.sid.producttype.productlist", ['id' => $product_type->id])}}" class="badge badge-light mb-1 active">{{$product_type->name}}</a>
+                    
+                    @endforeach
+
+
+                </div>
+            </div>
+
              </div>
           
             

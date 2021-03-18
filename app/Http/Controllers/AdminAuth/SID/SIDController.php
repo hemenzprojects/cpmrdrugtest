@@ -13,6 +13,9 @@ use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
 use App\MicrobialEfficacyAnalyses;
 use App\MicrobialLoadAnalyses;
+use App\PhytoPhysicochemData;
+use App\PhytoOrganoleptics;
+use App\PhytoChemicalConstituents;
 use App\Admin;
 use App\Customer;
 use App\Department;
@@ -194,9 +197,16 @@ class SIDController extends Controller
 
         } 
 
-    //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
+        $data['year'] = \Carbon\Carbon::now('y');
 
-        $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->get();
+        $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
+             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+         })->get();
+         
+    //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
+        $data['from_date'] = Null;
+        $data['to_date'] = Null;
+        $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->whereRaw('YEAR(created_at)= ?', array($data['year']))->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
 
@@ -495,6 +505,48 @@ class SIDController extends Controller
         Session::flash('message', 'Product successsfully updated.');
         return redirect()->back();
     }
+
+    public function producttype_productlist($id){
+      
+        $data['from_date'] = Null;
+        $data['to_date'] = Null;
+        $data['products'] = Product::orderBy('id', 'DESC')->where('product_type_id',$id)->get();
+        $data['product_types'] = ProductType::all();
+        $data['customers'] = Customer::orderBy('id', 'DESC')->get();
+        return View('admin.sid.products.create', $data);
+
+    }
+
+     public function registeredproduct_report(Request $r){
+         
+        $data = $r->validate([
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+
+        $data['from_date'] = $r->from_date;
+        $data['to_date'] = $r->to_date;
+
+        $data['products'] = Product::orderBy('id', 'DESC')->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->whereDoesntHave('departments')->get();
+        $data['product_types'] = ProductType::all();
+        $data['customers'] = Customer::orderBy('id', 'DESC')->get();
+        return View('admin.sid.products.create', $data);
+
+     }
+
+     public function deliverysheet_pdf(Request $r){
+    //   dd($r->all());
+      $data['products'] = Product::whereIn('id',$r->product_id)->orderBy('id', 'DESC')->get();
+
+     $pdf = \PDF::loadView('admin.sid.downloads.deliverysheet',$data);
+
+     $pdf->save(storage_path().'_filename.pdf');
+
+     return $pdf->download('deliverysheet.pdf');
+
+     // return view('admin.micro.downloads.report',$data)
+
+     }
 
 
     //*********************************************Product Category*****************************************************/
@@ -1403,12 +1455,27 @@ class SIDController extends Controller
         $efficacy_analysis_option = Null;
         $load_analysis_option = Null;
 
+        $organolepticts_option = Null;
+        $physicochemical_option = Null;
+        $chemical_constituents_option = Null;
+
+
         if ($r->dept_id == 1) {
             $efficacy_analysis_options = MicrobialEfficacyAnalyses::pluck("id")->toArray();
             $efficacy_analysis_option = json_encode($efficacy_analysis_options);
     
             $load_analysis_options = MicrobialLoadAnalyses::pluck("id")->toArray();
             $load_analysis_option = json_encode($load_analysis_options);
+        }
+        if ($r->dept_id == 3) {
+            $organolepticts_options = PhytoOrganoleptics::pluck("id")->toArray();
+            $organolepticts_option = json_encode($organolepticts_options);
+    
+            $physicochemical_options = PhytoPhysicochemData::pluck("id")->toArray();
+            $physicochemical_option = json_encode($physicochemical_options);
+            
+            $chemical_constituents_options = PhytoChemicalConstituents::pluck("id")->toArray();
+            $chemical_constituents_option = json_encode($chemical_constituents_options);
         }
       
 
@@ -1425,6 +1492,10 @@ class SIDController extends Controller
             'email' => $r->email,
             'efficacy_analysis_options' => $efficacy_analysis_option, 
             'load_analysis_options' => $load_analysis_option,   
+            'organolepticts_options' => $organolepticts_option, 
+            'physicochemical_options' => $physicochemical_option, 
+            'chemical_constituents_options' => $chemical_constituents_option,   
+
             'password' => bcrypt($r->password),
         ]);
         Admin::create($data);
@@ -1539,6 +1610,18 @@ class SIDController extends Controller
                 $load_analysis_options = MicrobialLoadAnalyses::pluck("id")->toArray();
                 $load_analysis_option = json_encode($load_analysis_options);
             }
+
+            if ($r->dept_id == 3) {
+                $organolepticts_options = PhytoOrganoleptics::pluck("id")->toArray();
+                $organolepticts_option = json_encode($organolepticts_options);
+        
+                $physicochemical_options = PhytoPhysicochemData::pluck("id")->toArray();
+                $physicochemical_option = json_encode($physicochemical_options);
+                
+                $chemical_constituents_options = PhytoChemicalConstituents::pluck("id")->toArray();
+                $chemical_constituents_option = json_encode($chemical_constituents_options);
+            }
+          
           
    
             $data = ([
@@ -1552,8 +1635,12 @@ class SIDController extends Controller
                 'email' => $r->email,
                 'dept_office_id' => $r->dept_office_id,
                 'efficacy_analysis_options' => $efficacy_analysis_option, 
-                'load_analysis_options' => $load_analysis_option,                
+                'load_analysis_options' => $load_analysis_option,   
+                'organolepticts_options' => $organolepticts_option, 
+                'physicochemical_options' => $physicochemical_option, 
+                'chemical_constituents_options' => $chemical_constituents_option,             
                 'tell' => $r->tell,
+
                  
             ]);
          Admin::where('id',$id)->update($data);

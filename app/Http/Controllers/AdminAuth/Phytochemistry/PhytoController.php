@@ -19,6 +19,8 @@ use App\PhytoChemicalConstituentsReport;
 use \Session;
 use \Hash;
 use \Auth;
+use \DB;
+
 
 class PhytoController extends Controller
 {
@@ -125,10 +127,15 @@ class PhytoController extends Controller
              ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
 
               $data['phyto_testconducted'] = PhytoTestConducted::all();
-              $data['phyto_physicochemdata'] = PhytoPhysicochemData::all();
-              $data['phyto_organoleptics'] = PhytoOrganoleptics::all();
-              $data['phyto_chemicalconst'] = PhytoChemicalConstituents::all();
-
+                   
+              $admin_organolepticts_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->organolepticts_options);
+              $admin_physicochemical_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->physicochemical_options);
+              $admin_chemicalconsts_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->chemical_constituents_options);
+  
+  
+               $data['phyto_organoleptics_admin'] = PhytoOrganoleptics::whereIn('id',$admin_organolepticts_options)->get();
+               $data['phyto_physicochemdata_admin'] = PhytoPhysicochemData::whereIn('id',$admin_physicochemical_options)->get();
+               $data['phyto_chemicalconsts_admin'] = PhytoChemicalConstituents::whereIn('id',$admin_chemicalconsts_options)->get();
               return View('admin.phyto.createreport', $data); 
             }
 
@@ -738,9 +745,20 @@ class PhytoController extends Controller
            //************************************************Phyto Configurations ************************** */
 
            public function hodoffice_config(){
+             
+            $admin_organolepticts_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->organolepticts_options);
+            $admin_physicochemical_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->physicochemical_options);
+            $admin_chemicalconsts_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->chemical_constituents_options);
+
+
             $data['phyto_organoleptics'] = PhytoOrganoleptics::all();
+           $data['phyto_organoleptics_admin'] = PhytoOrganoleptics::whereIn('id',$admin_organolepticts_options)->get();
+
             $data['phyto_physicochemdata'] = PhytoPhysicochemData::all();
+           $data['phyto_physicochemdata_admin'] = PhytoPhysicochemData::whereIn('id',$admin_physicochemical_options)->get();
+
             $data['phyto_chemicalconsts'] = PhytoChemicalConstituents::all();
+           $data['phyto_chemicalconsts_admin'] = PhytoChemicalConstituents::whereIn('id',$admin_chemicalconsts_options)->get();
             
             return view('admin.phyto.hodoffice.config',$data);
            }
@@ -773,26 +791,48 @@ class PhytoController extends Controller
           } 
               if ($r->action == 0 && $r->action == null) {
               Session::flash('message_title', 'error');
-              Session::flash('message', 'Please select required product and submit.');
+              Session::flash('message', 'Please select feature product and submit.');
               return redirect()->back();
           } 
- 
+
+          
+          
+          if ($r->action ==1) {
+
+            $admin = Admin::findOrFail(Auth::guard('admin')->id());
+            $admin->organolepticts_options = json_encode($r->get("organo_item"));
+            $admin->save();
             $data = 
             [ 
             'action' => $r->action,
             'added_by_id' => Auth::guard('admin')->id(),
-            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
             ];
-           
             PhytoOrganoleptics::whereIN('id', $r->organo_item)->update($data);
             PhytoOrganoleptics::whereNotin('id',$r->organo_item)->update(['action' =>0]);
-            Session::flash("message", "Template updated successfully");
+           } 
+ 
+           if($r->action ==2){
+            $l = 0;
+            $count1 = count($r->organo_item_id);
+            while($l < $count1){
+            DB::table('phyto_organoleptics')->where('id', $r->organo_item_id[$l])
+                  ->update([
+                    'name' => $r->name[$l],
+                    'feature' => $r->feature[$l],
+                    'action'=> 1,
+                    'added_by_id'=> Auth::guard('admin')->id(),
+                  ]  
+                  );
+              $l++;
+            }
+          }
+            Session::flash("message", "Organoleptics Template updated successfully");
             Session::flash("message_title", "success");  
             return redirect()->back();
 
            }
 
-           
            public function config_physicochemdata_create(Request $r){
 
            
@@ -866,10 +906,10 @@ class PhytoController extends Controller
           } 
               if ($r->action == 0 && $r->action == null) {
               Session::flash('message_title', 'error');
-              Session::flash('message', 'Please select required product and submit.');
+              Session::flash('message', 'Please select required feature and submit.');
               return redirect()->back();
           } 
- 
+    
             $data = 
             [ 
             'action' => $r->action,

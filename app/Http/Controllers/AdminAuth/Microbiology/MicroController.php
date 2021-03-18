@@ -1291,7 +1291,7 @@ class MicroController extends Controller
            } 
                if ($r->action == 0 && $r->action == null) {
                Session::flash('message_title', 'error');
-               Session::flash('message', 'Please select required product and submit.');
+               Session::flash('message', 'Please select required feature and submit.');
                return redirect()->back();
            } 
                
@@ -1335,7 +1335,6 @@ class MicroController extends Controller
            Session::flash("message_title", "success");  
            return redirect()->back();
             }
-
 
             
            // ********************************* General Report Section *********************************//

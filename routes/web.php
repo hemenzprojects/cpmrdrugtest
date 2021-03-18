@@ -59,6 +59,13 @@
    Route::post('sid/create_product','AdminAuth\SID\SIDController@product_store');
    Route::post('sid/product/update/{id}','AdminAuth\SID\SIDController@product_update');
 
+   //registerd product report
+   Route::post('sid/registered_product/report','AdminAuth\SID\SIDController@registeredproduct_report')->name('admin.sid.registeredproduct.report');
+   Route::get('sid/deliverysheet/pdf/','AdminAuth\SID\SIDController@deliverysheet_pdf')->name('admin.sid.deliverysheet.pdf');
+   Route::get('sid/producttype/productlist/{id}','AdminAuth\SID\SIDController@producttype_productlist')->name('admin.sid.producttype.productlist');
+
+
+
    //products review Route
    Route::get('sid/product/review/{id}','AdminAuth\SID\SIDController@review_product')->name('admin.sid.product.review');
    Route::post('sid/product/review/create/{id}','AdminAuth\SID\SIDController@review_create');

@@ -16,7 +16,8 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-       'title','first_name','last_name','position','email','dept_id','user_type_id','dept_office_id','password','company','tell','tell_alt','street_address','house_number','load_analysis_options','efficacy_analysis_options'
+       'title','first_name','last_name','position','email','dept_id','user_type_id','dept_office_id','password','company','tell','tell_alt','street_address','house_number',
+       'load_analysis_options','efficacy_analysis_options','organolepticts_options','physicochemical_options','chemical_constituents_options'
     ];
 
     /**

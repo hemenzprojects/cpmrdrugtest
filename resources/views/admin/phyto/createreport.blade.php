@@ -275,7 +275,7 @@
                     <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
                     <table class="table table-inverse">                      
                         <tbody>
-                            @foreach ($phyto_organoleptics->where('action',1) as $organo_item)
+                            @foreach ($phyto_organoleptics_admin as $organo_item)
                             <tr>
                             <th>
                                 <label class="custom-control custom-checkbox">
@@ -301,7 +301,7 @@
 
                         <table class="table table-inverse">                      
                             <tbody>
-                                @foreach ($phyto_physicochemdata->where('action',1) as $physicochem_item)
+                                @foreach ($phyto_physicochemdata_admin as $physicochem_item)
                                 <tr>
                                 <th>
                                     <label class="custom-control custom-checkbox">
@@ -334,7 +334,8 @@
                             <?php
                             $phytochem =1;
                             ?>
-                            @foreach ($phyto_chemicalconst->where('action',1) as $item)
+                            
+                            @foreach ($phyto_chemicalconsts_admin as $item)
                            
                             <option value="{{$item->id}}" {{$phytochem == $item->id? "selected":""}}>{{$item->name}}</option>  
   
