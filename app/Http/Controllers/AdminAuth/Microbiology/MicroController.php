@@ -84,7 +84,7 @@ class MicroController extends Controller
             'received_at' => \Carbon\Carbon::now(),
             ];
            
-            ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
+            ProductDept::whereIN('product_id',$deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
 
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
