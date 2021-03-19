@@ -52,6 +52,7 @@
                             </div>
                         </a>
                     </div>
+                 
                 </div>
                 <table id="order-table_labs" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
@@ -62,7 +63,7 @@
                             <th>Product Type</th>
                             <th>Quantity</th>
                             <th>status</th>
-                            <th style="display: none">status id</th>
+                            <th class="showstatus"></th>
                             <th>Delivered by</th>
                             <th>Received by</th>
                             <th>Actions</th>                        
@@ -70,12 +71,13 @@
                     </thead>
                     <tbody>                                            
                         @foreach($dept1 as $microproduct)
+                        
                         <tr>
                                 <td>
                                     <div class="form-check mx-sm-2">
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="deptproduct_id[]" value="{{$microproduct->id}}">
-                                            <span class="custom-control-label">&nbsp; </span>
+                                        <input type="checkbox" class="custom-control-input microselect" name="deptproduct_id[]" value="{{$microproduct->id}}">
+                                            <span class="custom-control-label">&nbsp; {{$microproduct->id}}</span>
                                         </label>
                                     </div>
                                 </td> 
@@ -92,7 +94,7 @@
                                 <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                 <td class="font">{{$microproduct->pivot->quantity}}</td>
                                 <td>{!! $microproduct->product_status !!}</td>
-                                <td style="display: none">{{$microproduct->pivot->status}}</td>
+                                <td class="showstatus"><span style="display: non">{{$microproduct->pivot->status}}</span></td>
                                 <td class="font">
                                     {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
                                 </td>
@@ -226,6 +228,18 @@
              </div>
          </div>
       </form>
+    </div>
+    <div class="card">
+    <div class="card-body">
+        <div class="col-lg-8 col-md-12">
+            <h3 class="card-title">Click to view product under each category</h3>
+          </div>
+        @foreach($product_types as $product_type)    
+        <a href="{{route("admin.micro.producttype.productlist", ['id' => $product_type->id])}}" class="badge badge-light mb-1 active">{{$product_type->name}}</a>
+        
+        @endforeach
+
+    </div>
     </div>
 </div>
 @endsection

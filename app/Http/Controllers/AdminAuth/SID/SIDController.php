@@ -1225,7 +1225,7 @@ class SIDController extends Controller
       })->get();
     
         
-      $data['micro_pendingproduct'] = Product::  
+       $data['micro_pendingproduct'] = Product::  
       whereHas("departments", function ($q) use ($data) {
           return $q->where("dept_id", 1)->where("status", '>',1)->where("status", '<',4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();

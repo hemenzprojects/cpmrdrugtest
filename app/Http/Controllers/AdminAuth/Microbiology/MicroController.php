@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Department;
 use App\ProductDept;
 use App\Product;
+use App\ProductType;
 use App\Admin;
 use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
@@ -37,22 +38,42 @@ class MicroController extends Controller
         Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
         return redirect()->route('admin.general.dashboard');
 
-    } 
+    }   
+         $data['product_types'] = ProductType::all();
+
           $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
 
           return View('admin.micro.receiveproduct', $data); 
 
     }
 
+     public function producttype_productlist($id){
+                 
+      if(!Admin::find(Auth::guard('admin')->id())->hasPermission(13)) {
+        Session::flash('messagetitle', 'warning');
+        Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+        return redirect()->route('admin.general.dashboard');
+
+    }   
+        $data['product_type_id'] = $id;
+         $data['product_types'] = ProductType::all();
+
+          $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
+
+          return View('admin.micro.receiveproduct', $data); 
+     }
+
+
     public function acceptproduct(AcceptMircoProductRequest $request)
       {    
-             
+          //  dd($request->all());
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(14)) {
           Session::flash('messagetitle', 'warning');
           Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
           return redirect()->route('admin.general.dashboard');
         }       
-
+        
+            
               $adminId = Auth::guard('admin')->id();
               $deptproduct_id = $request->deptproduct_id;
               $status = $request->status;
@@ -75,15 +96,28 @@ class MicroController extends Controller
               Session::flash('message', 'Sorry Product(s) is/are now in a work process mode..');
               return redirect()->back();
             } 
-                        
-            $data = 
-            [ 
-            'status' => $status,
-            'received_by' => $adminId,
-            'delivered_by' => $delivered_by,
-            'received_at' => \Carbon\Carbon::now(),
-            ];
-           
+
+            if ($status == 1) {
+              $data = 
+              [ 
+              'status' => 1,
+              'received_by' => Null,
+              'delivered_by' => Null,
+              'received_at' => Null,
+              ];
+            }
+
+              if ($status == 2) {
+                $data = 
+                [ 
+                'status' => 2,
+                'received_by' => $adminId,
+                'delivered_by' => $delivered_by,
+                'received_at' => \Carbon\Carbon::now(),
+                ];
+               
+              }
+         
             ProductDept::whereIN('product_id',$deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
 
             Session::flash('message_title', 'success');
@@ -1370,17 +1404,17 @@ class MicroController extends Controller
             $data['year'] = \Carbon\Carbon::now('y');
 
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+              return $q->where("dept_id",1)->where("status", '>',1);
             })->where('micro_process_status','<>',3)->get();
             
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+              return $q->where("dept_id",1)->where("status", '>',1);
             })->WhereNull("micro_process_status")->get();
   
-            $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
+             $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
             $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+              return $q->where("dept_id",1)->where('status','>',2);
              })->get();
 
             return view('admin.micro.generalreport.index',$data);
@@ -1394,17 +1428,17 @@ class MicroController extends Controller
            $data['to_date'] = now();
 
            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("dept_id",1)->where("status", '>',1);
           })->where('micro_process_status','<>',3)->get();
           
           $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("dept_id",1)->where("status", '>',1);
           })->WhereNull("micro_process_status")->get();
 
          $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
           $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("dept_id",1)->where('status','>',2);
            })->get();
 
             return view('admin.micro.generalreport.index',$data);

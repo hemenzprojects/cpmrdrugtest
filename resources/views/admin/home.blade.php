@@ -91,7 +91,7 @@
     </div>
  @endif
 
- @if (Auth::guard('admin')->user()->dept_id ==1)
+ @if (Auth::guard('admin')->user()->dept_id == 1)
     
     <div class="">
         <div class="">

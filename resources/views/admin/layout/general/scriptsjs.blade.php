@@ -445,6 +445,7 @@ $(document).ready(function(){
 </script>
 <script>
   $(function () {
+  
     //Initialize Select2 Elements
     $('.select2').select2()
 
@@ -514,9 +515,23 @@ $(document).ready(function(){
 
   <!-- checkusermicro-->
 <script>
+    var selectedItems = [];
+    $(document).on('change','.microselect',function(){
+      if($(this).is(':checked')){
+        selectedItems.push($(this).val())
+      }else{
+        var index = selectedItems.indexOf($(this).val())
+        if(index != -1)
+        selectedItems.splice(index,1)
+      }
+      console.log(selectedItems)
+    })
+
 $('#acceptmicroproductform').submit(function(e){
   
     e.preventDefault();
+    var product_id= $('input[id="deptproduct_id"]').attr("value");
+         console.log(product_id);
     console.log('attempted to submit form')
     
     var _token = $('#_token').val()
@@ -538,8 +553,16 @@ $('#acceptmicroproductform').submit(function(e){
   if (result.status === true)
   {
     $('#adminid').val(result.admin);
-    
+    // $('#deptproduct_id').val(selectedItems);
+
+    console.log(selectedItems)
+    selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='deptproduct_id[]'`)
+      $('#acceptmicroproductform').prepend(`<input type='hidden' value='${item}' name='deptproduct_id[]'>`)
+    })
+    selectedItems=[]
     e.currentTarget.submit();
+   
   }
 
      // display the error message some where on the page with result.message
@@ -898,8 +921,9 @@ console.log(animalmodel);
   {{-- Micro hop signin --}}
   <script>
     $('#microhodfinalapproveform').submit(function(e){
-      
+
         e.preventDefault();
+      
         console.log('attempted to submit form')
         
         var _token = $('#_token').val()

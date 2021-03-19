@@ -141,7 +141,8 @@
    Route::get('micro/receiveproduct','AdminAuth\Microbiology\MicroController@receiveproduct_index')->name('admin.micro.receiveproduct');
    Route::post('/microbiology/checkuser', 'AdminAuth\Microbiology\MicroController@checkuser')->name('admin.checkuser.microproduct');
    Route::post('/microbiology/acceptproduct', 'AdminAuth\Microbiology\MicroController@acceptproduct')->name('admin.accept.microproduct');
-   
+   Route::get('micro/producttype/productlist/{id}','AdminAuth\Microbiology\MicroController@producttype_productlist')->name('admin.micro.producttype.productlist');
+
  
    //* General Report Section */
    Route::get('micro/general_report/index','AdminAuth\Microbiology\MicroController@generalreport_index')->name('admin.micro.general_report.index');
