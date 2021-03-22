@@ -186,7 +186,7 @@
                                      <div class="form-check mx-sm-2">
                                          <label class="custom-control custom-checkbox">
                                          <input type="checkbox" class="custom-control-input microselect" name="deptproduct_id[]" value="{{$microproduct->id}}">
-                                             <span class="custom-control-label">&nbsp; {{$microproduct->id}}</span>
+                                             <span class="custom-control-label">&nbsp; </span>
                                          </label>
                                      </div>
                                  </td> 
@@ -203,7 +203,7 @@
                                  <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
                                  <td class="font">{{$microproduct->pivot->quantity}}</td>
                                  <td>{!! $microproduct->product_status !!}</td>
-                                 <td class="showstatus"><span style="display: non">{{$microproduct->pivot->status}}</span></td>
+                                 <td class="showstatus"><span style="display: none">{{$microproduct->pivot->status}}</span></td>
                                  <td class="font">
                                      {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
                                  </td>
