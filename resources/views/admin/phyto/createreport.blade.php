@@ -54,7 +54,7 @@
                                     <div class="card-body"> 
                                 
                                         <h6> Product Name </h6>
-                                        <small class="text-muted ">{{$phytoproduct->productType->code}}|{{$phytoproduct->id}}|{{$phytoproduct->created_at->format('y')}} </small>
+                                        <small class="text-muted ">{{$phytoproduct->code}}</small>
                                         <h6>Product Type </h6>
                                         <small class="text-muted ">{{ucfirst($phytoproduct->productType->name)}}</small>
                                         <h6>Quantity</h6>
@@ -144,6 +144,8 @@
             <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
+                        @if (count($auth) >0)
+                        @if ($auth_id->dept_office_id == 1)
                         @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <div class="dd-handle">
@@ -154,9 +156,25 @@
                                         </span>  
 
                                             <span>
-                                            <small class=" font">
-                                                <strong>Assigned: </strong>{{\App\Admin::find($phytoreport->phyto_analysed_by)? \App\Admin::find($phytoreport->phyto_analysed_by)->full_name:'null'}}</small><br>
-                                             </span>
+
+                                             <span class=" font">
+                                                       
+                                                <small class="float-right font"><strong>Assigned: </strong>
+                                                    <span style="font-size: 10px; margin:2px">        
+                                                    {{\App\Admin::find($phytoreport->phyto_analysed_by)? \App\Admin::find($phytoreport->phyto_analysed_by)->full_name:' null '}}
+                                                    </span>
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 1: </strong>
+                                                    <span style="font-size: 10px;margin:2px"> 
+                                                    {{\App\Admin::find($phytoreport->phyto_approved_by)? \App\Admin::find($phytoreport->phyto_approved_by)->full_name:' null '}}
+                                                    </span>
+                                                </small><br>
+                                                <small class="float-right font"><strong>Approval 2: </strong>
+                                                    <span style="font-size: 10px;margin:2px"> 
+                                                    {{\App\Admin::find($phytoreport->phyto_finalapproved_by)? \App\Admin::find($phytoreport->phyto_finalapproved_by)->full_name:' null '}}
+                                                    </span>
+                                                </small>
+                                                </span><br><br>
 
                                           <span><strong>Evaluation:</strong> 
                                            {!! $phytoreport->phyto_report_evaluation !!}
@@ -184,7 +202,72 @@
                                 </div>  
                             </div>
                         </li>
-                       @endforeach
+                         @endforeach
+                         @endif
+                         @endif
+
+
+                         @if (count($auth) >0)
+                         @if ($auth_id->dept_office_id >1)
+                         @foreach($auth_phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
+                         <li class="dd-item" data-id="1">
+                             <div class="dd-handle">
+                                 <div class="row align-items-center">
+                                     <div class="col-lg-10 col-md-12">
+                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                             {{$phytoreport->code}}
+                                         </span>  
+ 
+                                             <span>
+ 
+                                              <span class=" font">
+                                                        
+                                                 <small class="float-right font"><strong>Assigned: </strong>
+                                                     <span style="font-size: 10px; margin:2px">        
+                                                     {{\App\Admin::find($phytoreport->phyto_analysed_by)? \App\Admin::find($phytoreport->phyto_analysed_by)->full_name:' null '}}
+                                                     </span>
+                                                 </small><br>
+                                                 <small class="float-right font"><strong>Approval 1: </strong>
+                                                     <span style="font-size: 10px;margin:2px"> 
+                                                     {{\App\Admin::find($phytoreport->phyto_approved_by)? \App\Admin::find($phytoreport->phyto_approved_by)->full_name:' null '}}
+                                                     </span>
+                                                 </small><br>
+                                                 <small class="float-right font"><strong>Approval 2: </strong>
+                                                     <span style="font-size: 10px;margin:2px"> 
+                                                     {{\App\Admin::find($phytoreport->phyto_finalapproved_by)? \App\Admin::find($phytoreport->phyto_finalapproved_by)->full_name:' null '}}
+                                                     </span>
+                                                 </small>
+                                                 </span><br><br>
+ 
+                                           <span><strong>Evaluation:</strong> 
+                                            {!! $phytoreport->phyto_report_evaluation !!}
+                                           </span><br>
+                                           <span><strong>Created at:</strong> 
+                                            <sup style="font-size: 10px">  @foreach($phytoreport->organolipticReport as $temp)
+                                             @if($phytoreport->organolipticReport->first() == $temp)
+                                             {{$temp->created_at->format('d/m/y')}}
+                                             @endif
+                                             @endforeach</sup>
+                                             
+                                             </span>
+                                             <span class="float-right font">
+                                                 <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.phyto.report.delete',['id' =>$phytoreport->id ])}}">
+                                                   <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
+                                                 </a>
+                                                  
+                                             </span>
+                                     </div> 
+                                     <div class="col-lg-2 col-md-12">
+                                     <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}"><i class="ik ik-eye"></i></a> 
+                                       
+                                     </div>                                                           
+                                     
+                                 </div>  
+                             </div>
+                         </li>
+                          @endforeach
+                          @endif
+                          @endif
                     </ul>
                 </div>
 
@@ -301,22 +384,36 @@
 
                         <table class="table table-inverse">                      
                             <tbody>
-                                @foreach ($phyto_physicochemdata_admin as $physicochem_item)
+                                @for ($i = 0; $i < count($phyto_physicochemdata_admin); $i++)
+                                    
+                             
                                 <tr>
                                 <th>
                                     <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$physicochem_item->id}}">
+                                    <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$phyto_physicochemdata_admin[$i]->id}}">
                                     <span class="custom-control-label">&nbsp;</span>
                                    </label>
                                </th>
                                 <td class="font"> 
-                                <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p>
-                                    <input class="form-control" type="{{$physicochem_item->id != 1 && $physicochem_item->id != 2 &&  $physicochem_item->id != 4 ?'hidden':''}}" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+
+
+                                <p class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">{{$phyto_physicochemdata_admin[$i]->name}}</p>
+                                    <input class="form-control" type="{{$phyto_physicochemdata_admin[$i]->id != 1 && $phyto_physicochemdata_admin[$i]->id != 2 && $phyto_physicochemdata_admin[$i]->id != 4 ?'hidden':''}}" name="physicochemname_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->name}}">
                                 </td>
                                 {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
-                                <td class="font"><input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}"></td>
+                                <td class="font">
+                                   <input type="hidden" name="physicochemdata_location_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->location}}">
+                                    <?php
+                                    if ($phyto_physicochemdata_admin[$i]->location == 3) {
+                                   $result = explode(' ',$phyto_physicochemdata_admin[$i]->result);
+                    
+                                    print_r($result[0]); echo ' ';  print_r($result[1]); echo ' '; print_r($result[2]);  echo ' ';  echo '<sup>';  print_r($result[3]); echo '</sup>'; print_r($result[4]);
+                                    } 
+                                  ?>
+                                    <input class="form-control" type="text" name="physicochemresult_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->result}}">
+                                </td>
                                 </tr>        
-                                @endforeach
+                                @endfor
                            </tbody>
                         </table>
                            

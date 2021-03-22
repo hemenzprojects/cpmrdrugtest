@@ -292,8 +292,8 @@ $product = \App\Product::where('id',7)->first();
                         @endif
                      
                         @if (count($auth) >0)
-                         @if ($auth_id->dept_office_id == 2)
-                      ..
+                         @if ($auth_id->dept_office_id > 1)
+                       ..
                        <ul class="list-group" id="myList">
                            @foreach($auth_microproduct_withtests->sortBy('micro_hod_evaluation') as $auth_microproduct_withtest)
                          <li class="list-group-item" style="padding: 1px;border:1px">
@@ -729,8 +729,6 @@ $product = \App\Product::where('id',7)->first();
     <div class="card-body">
     <form action="{{route('admin.micro.report.create_test')}}" method="POST">
         {{ csrf_field() }}
-    
-  
     
      <div class="row efficacyonly">
      

@@ -69,8 +69,9 @@
                             <th>Actions</th>                        
                        </tr>
                     </thead>
-                    <tbody>                                            
-                        @foreach($dept1 as $microproduct)
+                    <tbody>   
+                        @if ($product_type_id<1)
+                                @foreach($dept1 as $microproduct)
                         
                         <tr>
                                 <td>
@@ -176,6 +177,115 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif                                         
+                         @if ($product_type_id>0)
+                         @foreach($dept1->where('product_type_id',$product_type_id) as $microproduct)
+                        
+                         <tr>
+                                 <td>
+                                     <div class="form-check mx-sm-2">
+                                         <label class="custom-control custom-checkbox">
+                                         <input type="checkbox" class="custom-control-input microselect" name="deptproduct_id[]" value="{{$microproduct->id}}">
+                                             <span class="custom-control-label">&nbsp; {{$microproduct->id}}</span>
+                                         </label>
+                                     </div>
+                                 </td> 
+                                 <td class="font">B{{$microproduct->pivot->updated_at->format('dym')}}</td>
+                               
+                                 <td class="font">
+                                     <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                         {{$microproduct->code}}
+                                    </span>
+                                     @if ($microproduct->isReviewedByDept(1))
+                                     <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">R</span></sup>
+                                     @endif
+                                 </td>
+                                 <td class="font">{{ucfirst($microproduct->productType->name)}}</td>
+                                 <td class="font">{{$microproduct->pivot->quantity}}</td>
+                                 <td>{!! $microproduct->product_status !!}</td>
+                                 <td class="showstatus"><span style="display: non">{{$microproduct->pivot->status}}</span></td>
+                                 <td class="font">
+                                     {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
+                                 </td>
+                                 <td class="font">
+                                     {{ucfirst(\App\Admin::find($microproduct->pivot->received_by)? \App\Admin::find($microproduct->pivot->received_by)->full_name:'null')}}
+                                 </td>
+                                                                                                             
+                                 <td>
+                                 <div class="table-actions">
+                                                                         
+                                 <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View" href=""><i class="ik ik-eye"></i></a>
+                                 <a title="Edit" href=""><i class="ik ik-edit"></i></a>
+ 
+                                 </div>
+                             <div class="modal fade" id="demoModal{{$microproduct->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+ 
+                                     <div class="modal-dialog" role="document">
+                                         <div class="modal-content">
+                                             <div class="modal-header">
+                                                 <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                             </div>
+                                             <div class="modal-body">
+                                                 <div class="card-body"> 
+                                                     
+                                                     <h6> Product Name </h6>
+                                                     <small class="text-muted ">{{$microproduct->productType->code}}|{{$microproduct->id}}|{{$microproduct->created_at->format('y')}}</small>
+                                                     <h6>Product Type </h6>
+                                                     <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
+                                                     <h6>Quantity</h6>
+                                                     <small class="text-muted "> {{$microproduct->pivot->quantity}}</small>
+                                                     <h6>Indication</h6>
+                                                     <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
+ 
+                                                     <h6>Dosage</h6>
+                                                     <p class="text-muted"> {{ ucfirst($microproduct->dosage)}}<br></p>
+ 
+                                                     <hr><h5>Distribution Details</h5>
+                                                     <h6>Received By </h6>
+                                                     <small class="text-muted ">
+                                                         {{ucfirst(\App\Admin::find($microproduct->pivot->distributed_by)? \App\Admin::find($microproduct->pivot->distributed_by)->full_name:'null')}}
+                                                     </small>
+  
+                                                     <h6>Delivered By </h6>
+                                                     <small class="text-muted">
+                                                         {{ucfirst(\App\Admin::find($microproduct->pivot->delivered_by)? \App\Admin::find($microproduct->pivot->delivered_by)->full_name:'null')}}
+ 
+                                                     </small>
+                                                                                                       
+                                                     {{-- <hr><h5>Customer Details</h5>
+                                                     
+                                                     <h6>Name</h6>
+                                                     <small class="text-muted ">{{ucfirst($microproduct->customer->name)}}</small>
+                                                     <h6>Tell</h6>
+                                                     <small class="text-muted ">{{ucfirst($microproduct->customer->tell)}}</small> --}}
+                                                     
+                                                     <hr><h5>Distribution Periods</h5>
+                                                     <div  style="margin-bottom: 5px">
+                                                     <h6 >product distribution period</h6>
+                                                     <small class="text-muted">
+                                                     Date: {{$microproduct->pivot->created_at->format('Y-m-d')}}
+                                                     Time: {{$microproduct->pivot->created_at->format('H:i:s')}}
+                                                     </small>
+                                                     </div>
+                                                     <h6> product delivery period</h6>
+                                                     <small class="text-muted ">
+                                                     Date: {{$microproduct->pivot->updated_at->format('Y-m-d')}}
+                                                     Time: {{$microproduct->pivot->updated_at->format('H:i:s')}}
+                                                     </small>
+                                                 </div>
+                                             </div>
+                                             <div class="modal-footer">
+                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                 <button type="button" class="btn btn-primary">Save changes</button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </td>
+                         </tr>
+                         @endforeach 
+                         @endif
                     </tbody>
                 </table>
                 <div class="row" style="margin-top:5px">

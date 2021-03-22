@@ -91,11 +91,11 @@ $product = \App\Product::find($report_id);
                    
                         <div class="col-sm-3">
                             @if ( $product->micro_hod_evaluation ===Null ||  $product->micro_hod_evaluation ===1 )
-                            <button  type="submit" class="btn btn-success pull-right pharmsubmitreport1" id="pharm_submit_report" >
+                            <button  type="submit" class="btn btn-success pull-right submitreport1" id="pharm_submit_report" >
                             <i class="fa fa-credit-card "></i> 
                             Save Report
                             </button>
-                            <button style="display: none"  type="button" class="btn btn-info pull-right pharmsubmitreport2" id="pharm_submit_report" data-toggle="modal" data-target="#exampleModalCenter">
+                            <button style="display: none"  type="button" class="btn btn-info pull-right submitreport2" id="pharm_submit_report" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fa fa-credit-card " ></i> 
                               Submit Report
                             </button>
@@ -110,7 +110,7 @@ $product = \App\Product::find($report_id);
                             @if ( $product->micro_hod_evaluation ===Null ||  $product->micro_hod_evaluation ===1 )
                             <div class="form-check mx-sm-2">
                                 <label class="custom-control custom-checkbox">
-                                    <input id="pharmsubmitreport" type="checkbox" name="complete_report" value="1" class="custom-control-input">
+                                    <input id="submitreport" type="checkbox" name="complete_report" value="1" class="custom-control-input">
                                     <span class="custom-control-label">&nbsp;Check to complete report </span>
                                 </label>
                             </div>

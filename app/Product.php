@@ -497,6 +497,9 @@ class Product extends Model
 
       public function getPhytoReportEvaluationAttribute()
       {
+        if($this->phyto_hod_evaluation === 0){
+            return '<span style="color:#ff0000; font-size:11.5px">pending</span>';
+        }
          if($this->phyto_hod_evaluation === 1){
           return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
         }elseif ($this->phyto_hod_evaluation === 2) {

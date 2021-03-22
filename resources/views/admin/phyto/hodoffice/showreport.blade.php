@@ -5,223 +5,268 @@
 @php
     $product = \App\Product::find($report_id);
 @endphp
+
 <div class="container-fluid">
-  
-    <div class="card" style="padding: 15px">
-           <div class="text-center"> 
-           <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
-           <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
-           <p class="card-subtitle">Phytochemistry Department</p>
-          </div>
-
-             <div class="card">
-                <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> PRODUCT DETAILS</strong></h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="font"> <strong>Name of Product:</strong></td>
-                                <td class="font">
-                                    {{$phytoshowreport->code}}
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="font"><strong>Date Recievied:</strong></td>
-                                <td class="font">
-                                    {{ $phytoshowreport->departmentById(3)->pivot->updated_at->format('d/m/Y') }}
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="font"><strong>Date of Report:</strong></td> 
-                                <td class="font">{{$phytoshowreport->phyto_dateanalysed}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+    @include('admin.phyto.temp.organophysicoforminputmodal') 
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    {{-- <i class="ik ik-edit bg-blue"></i> --}}
+                    <div class="d-inline">
+                        <h5>Office of the HOD</h5>
+                        <span>Below shows withheld, approved and completed product(s)</span>
+                    </div>
                 </div>
-        
             </div>
-
-           <div class="card">
-              <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> TECHNICAL INFORMATION</strong></h4>
-
-              <div class="col-md-7">
-
-                <div class="col-lg-10 col-md-10" style="margin: 5px"><h5>A. {{\App\PhytoTestConducted::find(1)->name}}</h5></div> 
-                <div class="table-responsive">
-                    <table class="table">
-
-                    <tbody>
-                      @foreach ($phytoshowreport->organolipticReport as $item)
-                      <tr>
-                        <th scope="row">{{$item->name}} :</th>
-                        <td class="font">{{$item->feature}}</td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-         
-                </table>
+            <div class="col-lg-4">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="../index.html"><i class="ik ik-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Group Add-Ons</li>
+                    </ol>
+                </nav>
             </div>
-
-            <div class="col-lg-10 col-md-10" style="margin: 5px"><h5>B. {{\App\PhytoTestConducted::find(2)->name}}</h5></div>
-            <div class="table-responsive"> 
-                <table class="table">
-                    <tbody>
-                        @foreach ($phytoshowreport->phytochemdataReport as $item)
-                        <tr>
-                          <th scope="row">{{$item->name}} : </th> 
-                          <td class="font"> = {{$item->result}}</td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                </table>
-            </div>
-            
-            <div class="col-lg-10 col-md-10" style="margin: 5px"><h5>C. {{\App\PhytoTestConducted::find(3)->name}}</h5></div>
-                 <h6 class="" style="margin: 3%"> 
-                  @foreach ($phytoshowreport->phytochemconstReport as $pchemconst_item)
-                  @foreach (\App\PhytoChemicalConstituents::where('id', $pchemconst_item->name)->get() as $item)
-                  {{$item->name}},
-                  @endforeach
-                 @endforeach
-                 </h6>
-                    
-            </div>
-            <div class="col-md-5"></div>
-
-           </div>
-
-           <div class="card">
-            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> REMARKS</strong></h4>
-           <h6 style="margin:15px">{{$phytoshowreport->phyto_comment}}</h6>
-           </div>
-
-
-           <div class="row invoice-info" style="margin: 15px">
-            <?php
-            $phyto_analysed_by = ($product? $product->phyto_analysed_by:'');
-            $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
-            ?>
-            <div class="col-sm-4 invoice-col">
-                <p>Analyzed By</p><br>
-                @if ($product->phyto_hod_evaluation >null)
-                <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
-                @endif
-                -----------------------------<br>
-              
-                <span>{{ucfirst(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->full_name:'')}}</span>
-                <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
-
-            </div> 
-            <div class="col-sm-4 invoice-col">
-                 
-            </div>
-            <div class="col-sm-4 invoice-col">
-                <?php
-                $phyto_appoved_by = ($product? $product->phyto_appoved_by:'');
-                $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
-
-                ?>
-                <p>Supervisor</p><br>
-
-                @if ($product->phyto_hod_evaluation ==2)
-
-                <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
-                @endif
-
-                ------------------------------<br> 
-
-              <span>{{ucfirst(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->full_name:'')}}</span>
-              <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
- 
-            </div>
-
         </div>
-        
-           <div class="col-12" style="margin-top: 50px">
-            <div class="row">
-                <div class="col-md-6" style="margin-right: 16%">
-                  @if ($product->phyto_hod_evaluation <2)
-                  <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Approve Report</button>
-                  @endif
-                  @if ($product->phyto_hod_evaluation ==2) 
-                 <a href="{{ old('redirect_to', URL::previous())}}">
-                  <div class="alert alert-success" role="alert">
-                      Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
-                  </div>
-                 </a>
-                 
-                 @endif
-                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+            <div class="card-body">
+                    <div class="row clearfix">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="state">
+                                            <h6>Report(s) Withheld</h6>
+                                            @foreach ($withhelds->groupBy('phyto_hod_evaluation') as $result_evaluation) 
+                                           <h2>{{count($result_evaluation)}}</h2>
+                                            @endforeach
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ik ik-alert-circle"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-small mt-10 d-block">Total number of product withheld</small>
+                                </div>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="state">
+                                            <h6> Approved Report(s)</h6>
+                                            @foreach ($approvals->groupBy('phyto_hod_evaluation') as $result_approved) 
+                                            <h2>{{count($result_approved)}}</h2>
+                                             @endforeach
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ik ik-thumbs-up"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-small mt-10 d-block">Total number of report in Approved</small>
+                                </div>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="widget">
+                                <div class="widget-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="state">
+                                            <h6>Completed Report(s) </h6>
+                                            @foreach ($completeds->groupBy('phyto_hod_evaluation') as $result_completed) 
+                                            <h2>{{count($result_completed)}}</h2>
+                                             @endforeach
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ik ik-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-small mt-10 d-block">Total number of report completed</small>
+                                </div>
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @include('admin.phyto.temp.hodoffice2') 
+    
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            
+                            <div class="card" style="padding: 15px">
+                                <div class="text-center"> 
+                                <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
+                                <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
+                                <p class="card-subtitle">Phytochemistry Department</p>
+                               </div>
+                     
+                            <form action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
+                            {{ csrf_field() }} 
+                               <div class="card"  style="padding: 15px">
+                                 @include('admin.phyto.temp.productformat') 
+                                 @include('admin.phyto.temp.organolepticsformat')
+                                 @include('admin.phyto.temp.physicochemicalformat')
+                                 @include('admin.phyto.temp.chemicalconstituents')
+                                 @include('admin.phyto.temp.phytoconclusion')
+                              </div>
+                              <div class="col-sm-3">
+                                @if ( $product->phyto_hod_evaluation ===Null ||  $product->phyto_hod_evaluation ===1 )
+                                <button  type="submit" class="btn btn-success pull-right submitreport1" >
+                                <i class="fa fa-credit-card "></i> 
+                                     Save Report
+                                </button>
+                                @endif
+                              </div>
+                            </form>
+                                 </div>
+                     
+                     
+                     
+                                <div class="row invoice-info" style="margin: 15px">
+                                 <?php
+                                 $phyto_analysed_by = ($product? $product->phyto_analysed_by:'');
+                                 $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
+                                 ?>
+                                 <div class="col-sm-4 invoice-col">
+                                     <p>Analyzed By</p><br>
+                                     @if ($product->phyto_hod_evaluation >null)
+                                     <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
+                                     @endif
+                                     -----------------------------<br>
+                                   
+                                     <span>{{ucfirst(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->full_name:'')}}</span>
+                                     <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+                     
+                                 </div> 
+                                 <div class="col-sm-4 invoice-col">
+                                      
+                                 </div>
+                                 <div class="col-sm-4 invoice-col">
+                                     <?php
+                                     $phyto_appoved_by = ($product? $product->phyto_appoved_by:'');
+                                     $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
+                     
+                                     ?>
+                                     <p>Supervisor</p><br>
+                     
+                                     @if ($product->phyto_hod_evaluation ==2)
+                     
+                                     <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
+                                     @endif
+                     
+                                     ------------------------------<br> 
+                     
+                                   <span>{{ucfirst(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->full_name:'')}}</span>
+                                   <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
+                      
+                                 </div>
+                     
+                             </div>
+                             
+                                <div class="col-12" style="margin-top: 50px">
+                                 <div class="row">
+                                     <div class="col-md-6" style="margin-right: 16%">
+                                       @if ($product->phyto_hod_evaluation <2)
+                                       <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Approve Report</button>
+                                       @endif
+                                       @if ($product->phyto_hod_evaluation ==2) 
+                                      <a href="{{ old('redirect_to', URL::previous())}}">
+                                       <div class="alert alert-success" role="alert">
+                                           Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
+                                       </div>
+                                      </a>
+                                      
+                                      @endif
+                                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                           <div class="modal-dialog modal-dialog-centered" role="document">
+                                            
                        
-  
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to evaluate report</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                              </div>
-                              <div class="modal-body">
-                                  <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{route('admin.phyto.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
-                                      {{ csrf_field() }}
-                                  <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
-  
-                                  <div class="input-group input-group-default col-md-6">
-                                      <select class="form-control" name="evaluate">
-                                          <option value="2">Approve Report</option>
-                                          <option value="1">Reject Report</option>
-                                      </select>
-                                      </div>
-                                      <div id="error-div" style="margin: 5px; color:red;"></div>
-                                      <input name="adminid" id="adminid"  type="hidden" >
-              
-                                      <div class="input-group input-group-default">
-                                          @error('email')
-                                          <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                              <strong>{{$message}}</strong>
-                                          </small>
-                                          @enderror
-                                          <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                          <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email">
-                                      </div>
-              
-                                      <div class="input-group input-group-default">
-                                          @error('password')
-                                          <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                              <strong>{{$password}}</strong>
-                                          </small>
-                                          @enderror
-                                          <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                          <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
-                                      </div>                         
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                  <button type="submit" class="btn btn-primary">Sign Report</button>
-                              </div>
-                          </form>
-                          </div>
-                      </div>
-                  </div>
+                                                <div class="modal-content">
+                                                   <div class="modal-header">
+                                                       <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to evaluate report</h5>
+                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                   </div>
+                                                   <div class="modal-body">
+                                                       <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{route('admin.phyto.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
+                                                           {{ csrf_field() }}
+                                                       <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
+                       
+                                                       <div class="input-group input-group-default col-md-6">
+                                                           <select class="form-control" name="evaluate">
+                                                               <option value="2">Approve Report</option>
+                                                               <option value="1">Reject Report</option>
+                                                           </select>
+                                                           </div>
+                                                           <div id="error-div" style="margin: 5px; color:red;"></div>
+                                                           <input name="adminid" id="adminid"  type="hidden" >
+                                   
+                                                           <div class="input-group input-group-default">
+                                                               @error('email')
+                                                               <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                                   <strong>{{$message}}</strong>
+                                                               </small>
+                                                               @enderror
+                                                               <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                                               <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email">
+                                                           </div>
+                                   
+                                                           <div class="input-group input-group-default">
+                                                               @error('password')
+                                                               <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                                   <strong>{{$password}}</strong>
+                                                               </small>
+                                                               @enderror
+                                                               <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                                               <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                                                           </div>                         
+                                                   </div>
+                                                   <div class="modal-footer">
+                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                       <button type="submit" class="btn btn-primary">Sign Report</button>
+                                                   </div>
+                                               </form>
+                                               </div>
+                                           </div>
+                                       </div>
+                                     </div>
+                                     <div class="col-md-4">  
+                                          @if ($product->phyto_hod_evaluation == 2) 
+                                         
+                                       <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
+                                      <a href="{{url('admin/phyto/report/hod_office/complete_report',['id' => $product->id])}}">
+                                       <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
+                                      </a>
+                                       @endif
+                                   </div>
+                                </div>
+                               </div>
+                             </div>
+                        </div>
+                    </div>
+                   
                 </div>
-                <div class="col-md-4">  
-                     @if ($product->phyto_hod_evaluation == 2) 
-                    
-                  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                 <a href="{{url('admin/phyto/report/hod_office/complete_report',['id' => $product->id])}}">
-                  <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
-                 </a>
-                  @endif
-              </div>
-           </div>
-          </div>
-        </div>
-</div>
 
+        
+    </div>
+</div>
 
 
 @endsection

@@ -46,13 +46,13 @@ $(document).on("click", "a.deleteText", function() {
 </script>
 
 <script>
-  $('#pharmsubmitreport').change(function(){
+  $('#submitreport').change(function(){
     if($(this).is(':checked')){
-    $(".pharmsubmitreport1").hide(); 
-    $(".pharmsubmitreport2").toggle();
+    $(".submitreport1").hide(); 
+    $(".submitreport2").toggle();
     }else{
-      $(".pharmsubmitreport1").toggle(); 
-      $(".pharmsubmitreport2").hide();
+      $(".submitreport1").toggle(); 
+      $(".submitreport2").hide();
     }
   })
 
@@ -614,6 +614,18 @@ $('#acceptpharmproductform').submit(function(e){
 
 <!-- checkuserphyto-->
 <script>
+     var phyto_selectedItems = [];
+    $(document).on('change','.phytoselect',function(){
+      if($(this).is(':checked')){
+        phyto_selectedItems.push($(this).val())
+      }else{
+        var index = phyto_selectedItems.indexOf($(this).val())
+        if(index != -1)
+        phyto_selectedItems.splice(index,1)
+      }
+      console.log(phyto_selectedItems)
+    })
+
   $('#acceptphytoproductform').submit(function(e){
     
       e.preventDefault();
@@ -639,6 +651,13 @@ $('#acceptpharmproductform').submit(function(e){
     {
       $('#adminid').val(result.admin);
       
+      console.log(phyto_selectedItems)
+      phyto_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='deptproduct_id[]'`)
+      $('#acceptphytoproductform').prepend(`<input type='hidden' value='${item}' name='deptproduct_id[]'>`)
+    })
+    phyto_selectedItems=[]
+
       e.currentTarget.submit();
     }
   
@@ -903,6 +922,8 @@ console.log(animalmodel);
     });
   
   </script>
+
+
 
   {{-- pharm report display div base on test conducted --}}
   <script>

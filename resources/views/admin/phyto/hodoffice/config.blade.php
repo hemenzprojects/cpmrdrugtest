@@ -104,8 +104,8 @@
                                                     </label>
                                                 </div>
                                                 <input type="hidden" name="organo_item_id[]" value="{{$phyto_organoleptics[$i]->id}}">
-                                                </td>
-                                        <td class="font"><input type="text" name="name[]" value="{{$phyto_organoleptics[$i]->name}} "></td>
+                                            </td>
+                                           <td class="font"><input type="text" name="name[]" value="{{$phyto_organoleptics[$i]->name}} "></td>
 
                                         <td class="font"><input class="form-control" type="text" name="feature[]" value="{{$phyto_organoleptics[$i]->feature}}"></td>
                                      
@@ -116,7 +116,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <select required name="action" class="form-control" id="exampleSelectGender">
+                                                    <select required name="action" class="form-control">
                                                 <option value=""> Select Action</option>                                        
                                                     <option  value="1" >Activate</option>
                                                     <option  value="2" >Update Template</option>
@@ -215,6 +215,8 @@
                                                     <input type="checkbox" name="physicochem_item[]" value="{{$physicochemdata->id}}" class="custom-control-input" {{$physicochemdata->action == 1 ?'checked':''}} >
                                                     <span class="custom-control-label">&nbsp;</span>
                                                 </label>
+                                                <input type="hidden" name="physicochem_item_id[]" value="{{$physicochemdata->id}}">
+
                                             </div>
                                             </td>
                                      <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}} "></td>
@@ -228,7 +230,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <select required name="action" class="form-control" id="exampleSelectGender">
+                                            <select required name="action" class="form-control">
                                          <option value=""> Select Action</option>                                        
                                             <option  value="1" >Activate</option>
                                             <option  value="2" >Update Template</option>
@@ -323,9 +325,11 @@
                                                 <input type="checkbox" name="chemicalconsts_item[]" value="{{$chemicalconst->id}}" class="custom-control-input" {{$chemicalconst->action == 1 ?'checked':''}} >
                                                 <span class="custom-control-label">&nbsp;</span>
                                             </label>
+                                            <input type="hidden" name="chemicalconsts_item_id[]" value="{{$chemicalconst->id}}">
+
                                         </div>
                                      </td>
-                                     <td class="font"><input type="name" value="{{$chemicalconst->name}} "></td>
+                                     <td class="font"><input type="text" name="name[]" value="{{$chemicalconst->name}} "></td>
          
                                      <td class="font"><input class="form-control" type="text" name="description[]" value="{{$chemicalconst->description}}"></td>
                                     
@@ -336,7 +340,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <select required name="action" class="form-control" id="exampleSelectGender">
+                                            <select required name="action" class="form-control" >
                                          <option value=""> Select Action</option>                                        
                                             <option  value="1" >Activate</option>
                                             <option  value="2" >Update Template</option>

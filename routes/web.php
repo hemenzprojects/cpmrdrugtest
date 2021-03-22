@@ -294,6 +294,8 @@
    Route::get('phyto/receiveproduct','AdminAuth\Phytochemistry\PhytoController@receiveproduct_index')->name('admin.phyto.receiveproduct');
    Route::post('/phytochemistry/checkuser','AdminAuth\Phytochemistry\PhytoController@checkuser')->name('admin.phyto.checkuser');
    Route::post('/phytochemistry/accept/product','AdminAuth\Phytochemistry\PhytoController@acceptproduct')->name('admin.phyto.acceptproduct');
+   Route::get('phyto/producttype/productlist/{id}','AdminAuth\Phytochemistry\PhytoController@producttype_productlist')->name('admin.phyto.producttype.productlist');
+
    Route::get('phyto/completedreport/show/{id}','AdminAuth\Phytochemistry\PhytoController@completedreport_show')->name('admin.pharm.completedreport.show');
 
    Route::get('phyto/makereport/index','AdminAuth\Phytochemistry\PhytoController@makereport_index')->name('admin.phyto.makereport.index');

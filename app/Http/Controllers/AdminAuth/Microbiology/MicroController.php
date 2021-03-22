@@ -39,6 +39,7 @@ class MicroController extends Controller
         return redirect()->route('admin.general.dashboard');
 
     }   
+         $data['product_type_id']= 0;
          $data['product_types'] = ProductType::all();
 
           $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
@@ -122,7 +123,7 @@ class MicroController extends Controller
 
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
-            return redirect()->route('admin.micro.receiveproduct')
+            return redirect()->back()
             ->with('success', 'Section updated successfully');
            }
 
@@ -195,15 +196,15 @@ class MicroController extends Controller
                   return $q->where("dept_id", 1)->where("status", 2);
                 })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
 
-               $data['microproduct_withloadanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+               $data['auth_microproduct_withloadanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
     
-                 $data['microproduct_withefficacyanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+                 $data['auth_microproduct_withefficacyanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
-               $data['auth_microproduct_withtests'] = $data['microproduct_withloadanalysis']->merge($data['microproduct_withefficacyanalysis']);
+               $data['auth_microproduct_withtests'] = $data['auth_microproduct_withloadanalysis']->merge($data['auth_microproduct_withefficacyanalysis']);
 
 
                 //***************************************** All completed report  */
@@ -618,7 +619,9 @@ class MicroController extends Controller
                         }
                     $product = $products->first();
                     $product->micro_hod_evaluation = 0;
+
                     $product->update();
+                    
                     Session::flash("message", "Report has been submitted to the Head of Department");
                     Session::flash("message_title", "success");
                   }
@@ -1404,41 +1407,41 @@ class MicroController extends Controller
             $data['year'] = \Carbon\Carbon::now('y');
 
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where("status", '>',1);
+              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->where('micro_process_status','<>',3)->get();
             
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where("status", '>',1);
+              return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->WhereNull("micro_process_status")->get();
   
              $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
             $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($data){
-              return $q->where("dept_id",1)->where('status','>',2);
+              return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
              })->get();
 
             return view('admin.micro.generalreport.index',$data);
            }
 
            public function generalyearly_report(Request $r){
-          // return $r;
-          $data = $r->all();
+           $data = $r->all();
            $data['product_types'] = \App\ProductType::all();
            $data['from_date'] = "2020-01-01";
            $data['to_date'] = now();
+           $data['year'] = $r->year;
 
            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where("status", '>',1);
+            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->where('micro_process_status','<>',3)->get();
           
           $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where("status", '>',1);
+            return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->WhereNull("micro_process_status")->get();
 
          $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
           $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($data){
-            return $q->where("dept_id",1)->where('status','>',2);
+            return $q->where("dept_id",1)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
            })->get();
 
             return view('admin.micro.generalreport.index',$data);
