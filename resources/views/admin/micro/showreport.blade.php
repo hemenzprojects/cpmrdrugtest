@@ -7,7 +7,7 @@ $product = \App\Product::find($report_id);
 @section('content')
         <div class="container-fluid">
             <div class="card" style="padding: 15px">
-            <form action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
+            <form id="checkinputmask" action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
                     {{ csrf_field() }} 
                 <div class="text-center"> 
                 <img src="{{asset('admin/img/logo.jpg')}}" class="" width="9%">

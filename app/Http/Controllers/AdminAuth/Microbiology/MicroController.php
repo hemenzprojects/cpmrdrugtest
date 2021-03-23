@@ -297,6 +297,7 @@ class MicroController extends Controller
                       $results= explode(' ',$result[$i]);
                       $rs_part1 =$results[0];
                       $rs_part2 = explode('^',$results[2]);
+                  
                       $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
 
                       $criterial= explode(' ',$acceptance_criterion[$i]);

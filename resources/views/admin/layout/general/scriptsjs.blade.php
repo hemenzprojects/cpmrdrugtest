@@ -205,6 +205,49 @@ $("#microproduct_id").change(function() {
 </script>
 
 <script>
+
+$("#inputmask_0").on('keyup', function() {
+  console.log()
+  if (this.value.replace(/[.X^]/g, '').length === 0) {
+    alert('Empty');
+  }
+});
+</script>
+<script>
+  $('#checkinputmask').submit(function(e){
+     
+       e.preventDefault();
+       console.log('attempted to submit form check inputmask')
+       
+       var inputmask_1 = $('#inputmask_0').val();
+       var inputmask_2 = $('#inputmask_1').val();
+       var replace_1 = inputmask_1.replace(/[.X_^]/g, '');
+       var replace_2 = inputmask_2.replace(/[.X_^]/g, '');
+
+       var  length1 = replace_1.length;
+       var  length2 = replace_2.length;
+
+       if(length1 < 7){
+        $('#error-div0').html("Error: Please check Result field and input data properly")
+       }else{
+        $('#error-div0').html(" ")
+       }
+
+       if(length2 < 7){
+        $('#error-div1').html("Error: Please check Result field and input data properly")
+       }else{
+        $('#error-div1').html(" ")
+       }
+
+      if (length1 + length2 === 14)
+     {
+       // $('#userid').val(result.user);
+        e.currentTarget.submit();
+     }
+
+   })
+   </script>
+<script>
     $(document).ready(function(){
       $('#stateresult').html('Result (CFU/g)'); 
       $('#manycount_stateresult').html('Result (CFU/g)'); 

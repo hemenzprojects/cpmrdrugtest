@@ -479,7 +479,7 @@ $product = \App\Product::where('id',7)->first();
               <h4>CREATE MICROBIAL REPORT</h4>
             </ul>
               <div class="card-body 3">
-                <form action="{{route('admin.micro.report.create_test')}}" method="POST">
+                <form id="checkinputmask" action="{{route('admin.micro.report.create_test')}}" method="POST">
                     {{ csrf_field() }}
                     <div class="row align-items-center">
                                                    
@@ -563,8 +563,11 @@ $product = \App\Product::where('id',7)->first();
                                                       <input type="hidden" class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                     </td>
                                                     <td class="font">
-                                                        <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
-                                                    </td>
+                                                    <input type="text" id="inputmask_{{$i}}" class="form-control {{$i<2?'date-inputmask':''}}"  name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
+
+                                                    <div id="error-div{{$i}}" style="margin: 5px; color:red;"></div>
+
+                                                  </td>
                                                     <td class="font">
                                                         
                                                         <input type="text" class="form-control {{$i<2?'date-inputmask':''}}" required name="acceptance_criterion_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Acceptance Criterion':''}}" id="expresult-{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->acceptance_criterion}}">

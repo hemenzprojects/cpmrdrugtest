@@ -53,12 +53,13 @@
                   ?>
                 <p>
 
-                  
+        
                   
                 <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 @endif
-             <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="result_disabled{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
-          
+             <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="inputmask_{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
+              <div id="error-div{{$i}}" style="margin: 5px; color:red;"></div>
+
             <input type="hidden" class="form-control" id="rs_total{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
             <input type="hidden"  class="form-control"  name="test_conducted_id" value="{{$show_microbial_loadanalyses[$i]->test_conducted_id}}">
 
