@@ -326,12 +326,14 @@
                                     @if ($to_date !== Null)
 
                                     <div class="card-options d-inline-block">
-                                        <form action="{{route("admin.sid.deliverysheet.pdf")}}">
+                                       
+                                            <form action="{{route('admin.sid.deliverysheet.pdf')}}" method="POST">
+                                                {{ csrf_field() }}
                                             @foreach($products->sortBy('id') as $product)
                                             <input type="hidden" name="product_id[]" value="{{$product->id}}">
                                             @endforeach
-                                    <button class="btn btn-info" type="submit" title="Download delivery sheet"><i class="ik ik-download"></i></button>
-                                    </form> 
+                                      <button class="btn btn-info" type="submit" title="Download delivery sheet"><i class="ik ik-download"></i></button>
+                                      </form> 
                                    
                                     </div>
                                                                             

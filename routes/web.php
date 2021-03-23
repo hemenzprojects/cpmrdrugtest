@@ -61,7 +61,7 @@
 
    //registerd product report
    Route::post('sid/registered_product/report','AdminAuth\SID\SIDController@registeredproduct_report')->name('admin.sid.registeredproduct.report');
-   Route::get('sid/deliverysheet/pdf/','AdminAuth\SID\SIDController@deliverysheet_pdf')->name('admin.sid.deliverysheet.pdf');
+   Route::post('sid/deliverysheet/pdf/','AdminAuth\SID\SIDController@deliverysheet_pdf')->name('admin.sid.deliverysheet.pdf');
    Route::get('sid/producttype/productlist/{id}','AdminAuth\SID\SIDController@producttype_productlist')->name('admin.sid.producttype.productlist');
 
 
