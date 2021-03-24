@@ -26,8 +26,8 @@ $product = \App\Product::find($report_id);
                       
                       <span> {{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\, F Y')}}
                     </span>
-                    <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{$product->phyto_dateanalysed}}">
-                    
+                    <input class="form-control"  type="date" placeholder="Date" name="date_analysed" value="{{$product->phyto_dateanalysed}}">
+                   
                    </td>
               
               </tr>

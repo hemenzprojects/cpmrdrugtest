@@ -18,7 +18,7 @@
                                         <input type="hidden" name="phyto_testconducted_2" value="{{\App\PhytoTestConducted::find(2)->id}}">
                                     <th>
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$physicochem_item->id}}">
+                                        <input type="checkbox" class="custom-control-input select_all_child" name="physicochemdata_id[]" value="{{$physicochem_item->id}}">
                                         <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </th>
@@ -29,7 +29,12 @@
                                     <td class="font">
                                         <input type="hidden" name="physicochemdata_location_{{$physicochem_item->id}}" value="{{$physicochem_item->location}}">
 
-                                        <input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}"></td>
+                                        <input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" name="physicochemunit_{{$physicochem_item->id}}" value="{{$physicochem_item->unit}}">
+
+                                    </td>
                                     </tr>        
                                     @endforeach
                                 </tbody>
@@ -67,7 +72,7 @@
                                         <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
                                     <th>
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input select_all_child" id="" name="organoleptics_id[]" value="{{$organo_item->id}}">
+                                        <input type="checkbox" class="custom-control-input select_all_child"  name="organoleptics_id[]" value="{{$organo_item->id}}">
                                         <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </th>

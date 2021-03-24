@@ -13,8 +13,8 @@
     </div>
         <div class="col-md-8">
           <div class="form-group 321">
-          <select  name="micro_la_conclution_option" class="form-control" id="micro_la_conclution_option">
-            <option value="{{$product->micro_la_conclution}}">{{$product->micro_la_conclution}}</option>
+          <select required  name="micro_la_conclution_option" class="form-control" id="micro_la_conclution_option">
+            <option value="{{$product->micro_la_conclution}}">{{$product->micro_la_conclution == Null ?'Please select option':$product->micro_la_conclution}}</option>
             <option value="The sample meets with the requirements as per BP specifications">The sample meets with the requirements as per BP specifications</option>
             <option value="The sample doest not meets with the requirements as per BP specifications">The sample doest not meets with the requirements as per BP specifications</option>
         </select>

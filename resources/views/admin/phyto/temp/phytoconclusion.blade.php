@@ -1,6 +1,6 @@
 
 <h6 style="margin-top: 2%">REMARKS</h6>
-<textarea class="form-control" name="comment" id="" cols="30" rows="3"> {{$product->phyto_comment}}</textarea>
+<textarea class="form-control" required name="comment"  cols="30" rows="3"> {{$product->phyto_comment}}</textarea>
 
 
 

@@ -273,11 +273,19 @@ $product = \App\Product::where('id',7)->first();
                                          
                                     </span>
                                     <span style="font-size:10px" style="margin-top:10px">
+                                        @if (count(App\MicrobialLoadReport::where('product_id',$microproduct_withtest->id)->get())>0)
                                         @foreach($microproduct_withtest->loadAnalyses as $temp)
                                         @if($microproduct_withtest->loadAnalyses->first() == $temp)
-                                        {{$temp->created_at->format('d/m/y')}}
+                                        {{$temp->pivot->created_at->format('d/m/y')}}
                                         @endif
                                         @endforeach
+                                        @else
+                                        @foreach($microproduct_withtest->efficacyAnalyses as $temp)
+                                        @if($microproduct_withtest->efficacyAnalyses->first() == $temp)
+                                        {{$temp->pivot->created_at->format('d/m/y')}}
+                                        @endif
+                                        @endforeach                            
+                                        @endif
                                     </span>
                                 </div>
                                 </div>

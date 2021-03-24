@@ -94,11 +94,19 @@
                              
                         </span>
                         <span style="font-size:10px" style="margin-top:10px">
+                            @if (count(App\MicrobialLoadReport::where('product_id',$evaluation->id)->get())>0)
                             @foreach($evaluation->loadAnalyses as $temp)
                             @if($evaluation->loadAnalyses->first() == $temp)
-                            {{$temp->created_at->format('d/m/y')}}
+                            {{$temp->pivot->created_at->format('d/m/y')}}
                             @endif
                             @endforeach
+                            @else
+                            @foreach($evaluation->efficacyAnalyses as $temp)
+                            @if($evaluation->efficacyAnalyses->first() == $temp)
+                            {{$temp->pivot->created_at->format('d/m/y')}}
+                            @endif
+                            @endforeach                            
+                            @endif
                         </span>
                     </div>
                     </div>

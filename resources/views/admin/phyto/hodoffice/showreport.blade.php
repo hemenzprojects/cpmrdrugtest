@@ -118,8 +118,9 @@
                                 <p class="card-subtitle">Phytochemistry Department</p>
                                </div>
                      
-                            <form action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
-                            {{ csrf_field() }} 
+                               <form id="checkunit" action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
+                                {{ csrf_field() }} 
+                                
                                <div class="card"  style="padding: 15px">
                                  @include('admin.phyto.temp.productformat') 
                                  @include('admin.phyto.temp.organolepticsformat')
@@ -128,7 +129,7 @@
                                  @include('admin.phyto.temp.phytoconclusion')
                               </div>
                               <div class="col-sm-3">
-                                @if ( $product->phyto_hod_evaluation ===Null ||  $product->phyto_hod_evaluation ===1 )
+                                @if ( $product->phyto_hod_evaluation === 0 ||  $product->phyto_hod_evaluation ===1 )
                                 <button  type="submit" class="btn btn-success pull-right submitreport1" >
                                 <i class="fa fa-credit-card "></i> 
                                      Save Report
@@ -140,46 +141,8 @@
                      
                      
                      
-                                <div class="row invoice-info" style="margin: 15px">
-                                 <?php
-                                 $phyto_analysed_by = ($product? $product->phyto_analysed_by:'');
-                                 $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
-                                 ?>
-                                 <div class="col-sm-4 invoice-col">
-                                     <p>Analyzed By</p><br>
-                                     @if ($product->phyto_hod_evaluation >null)
-                                     <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
-                                     @endif
-                                     -----------------------------<br>
-                                   
-                                     <span>{{ucfirst(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->full_name:'')}}</span>
-                                     <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
-                     
-                                 </div> 
-                                 <div class="col-sm-4 invoice-col">
-                                      
-                                 </div>
-                                 <div class="col-sm-4 invoice-col">
-                                     <?php
-                                     $phyto_appoved_by = ($product? $product->phyto_appoved_by:'');
-                                     $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
-                     
-                                     ?>
-                                     <p>Supervisor</p><br>
-                     
-                                     @if ($product->phyto_hod_evaluation ==2)
-                     
-                                     <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
-                                     @endif
-                     
-                                     ------------------------------<br> 
-                     
-                                   <span>{{ucfirst(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->full_name:'')}}</span>
-                                   <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
-                      
-                                 </div>
-                     
-                             </div>
+                                 @include('admin.phyto.temp.signaturetemplate')
+
                              
                                 <div class="col-12" style="margin-top: 50px">
                                  <div class="row">

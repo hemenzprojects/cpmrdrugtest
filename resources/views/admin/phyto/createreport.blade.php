@@ -335,7 +335,7 @@
         </ul>
       <div class="card-body">
           
-        <form action="{{url('admin/phyto/makereport/create')}}" method="post">
+        <form id="checkunit" action="{{url('admin/phyto/makereport/create')}}" method="post">
             {{ csrf_field() }}
            <div class="row">
                <div class="col-md-3"></div>
@@ -344,7 +344,7 @@
                     <ul class="nav justify-content-center" style="margin-top: 10px"> 
                         <label for="">Select Product</label>
                         </ul>
-                    <select  class="form-control select2" name="product_id">
+                    <select required class="form-control select2" name="product_id">
                         @foreach($phytoproducts as $phytoproduct)
                        <option value="{{$phytoproduct->id}}" style="font-size: 2px">{{$phytoproduct->code}} </option>
                   
@@ -394,23 +394,23 @@
                                     <span class="custom-control-label">&nbsp;</span>
                                    </label>
                                </th>
-                                <td class="font"> 
+                                <td class="font" style="width:200px"> 
 
 
                                 <p class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">{{$phyto_physicochemdata_admin[$i]->name}}</p>
                                     <input class="form-control" type="{{$phyto_physicochemdata_admin[$i]->id != 1 && $phyto_physicochemdata_admin[$i]->id != 2 && $phyto_physicochemdata_admin[$i]->id != 4 ?'hidden':''}}" name="physicochemname_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->name}}">
                                 </td>
                                 {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
-                                <td class="font">
+                                <td class="font" style="width:30%">
                                    <input type="hidden" name="physicochemdata_location_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->location}}">
-                                    <?php
-                                    if ($phyto_physicochemdata_admin[$i]->location == 3) {
-                                   $result = explode(' ',$phyto_physicochemdata_admin[$i]->result);
-                    
-                                    print_r($result[0]); echo ' ';  print_r($result[1]); echo ' '; print_r($result[2]);  echo ' ';  echo '<sup>';  print_r($result[3]); echo '</sup>'; print_r($result[4]);
-                                    } 
-                                  ?>
+                                  
                                     <input class="form-control" type="text" name="physicochemresult_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->result}}">
+                                </td>
+                                <td class="font">
+                                
+                                    <input class="form-control" type="text" id="unit{{$phyto_physicochemdata_admin[$i]->location}}" name="physicochemunit_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->unit}}">
+                                    <div id="error-div{{$phyto_physicochemdata_admin[$i]->location}}" style="margin: 5px; color:red;"></div>
+
                                 </td>
                                 </tr>        
                                 @endfor

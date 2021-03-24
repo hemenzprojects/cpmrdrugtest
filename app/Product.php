@@ -189,7 +189,7 @@ class Product extends Model
     public function efficacyAnalyses()
     {
         return $this->belongsToMany('App\MicrobialEfficacyAnalyses', "microbial_efficacy_reports", 'product_id', 'efficacy_analyses_id')
-        ->withPivot(['efficacy_analyses_id','pathogen','pi_zone','ci_zone','fi_zone']);
+        ->withPivot(['efficacy_analyses_id','pathogen','pi_zone','ci_zone','fi_zone','created_at','added_by_id','updated_at']);
     }
 
     public function getMicroGradeReportAttribute(){

@@ -247,6 +247,30 @@ $("#inputmask_0").on('keyup', function() {
 
    })
    </script>
+
+  <script>
+ $('#checkunit').submit(function(e){
+     
+     e.preventDefault();
+     console.log('attempted to submit form check unit')
+     
+     var unit = $('#unit3').val();
+     var  length = unit.length;
+       
+     if(length !== 3){
+      $('#error-div3').html("Please check unit field ")
+     }else{
+      $('#error-div3').html(" ")
+     }
+
+    if (length === 3)
+   {
+     // $('#userid').val(result.user);
+      e.currentTarget.submit();
+   }
+
+ })
+  </script>
 <script>
     $(document).ready(function(){
       $('#stateresult').html('Result (CFU/g)'); 
@@ -324,24 +348,26 @@ $("#inputmask_0").on('keyup', function() {
 <script>
   
   $(document).ready(function() {
-    // $('#micro_la_conclution_option').prop('required',true)
     var inputValue = $('input[id="ml_general_conclusion"]').attr("value");
     $('input[id="ml_general_conclusion"]').click(function() {
       console.log(inputValue)
       $("." + inputValue).toggle();
+      $('#micro_la_conclution_option').prop('required',false)
+
      });
       
   });
 
   $(document).ready(function() {
     
-    // $('#micro_la_conclution_option').prop('required',true)
+    
     var inputValue = $('input[id="me_general_conclusion"]').attr("value");
     $('input[id="me_general_conclusion"]').click(function() {
       console.log(inputValue)
       $("." + inputValue).toggle();
+      // $('#micro_la_conclution_option').prop('required',false)
+
      });
-      
   });
 </script>
 <script>

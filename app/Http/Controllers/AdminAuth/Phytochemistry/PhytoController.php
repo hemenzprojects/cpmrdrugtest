@@ -203,7 +203,7 @@ class PhytoController extends Controller
 
               $date_analysed = (\Carbon\Carbon::parse($r->date_analysed));
   
-              if ($r->date_analysed > \Carbon\Carbon::now()) {
+              if ($date_analysed > \Carbon\Carbon::now()) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please check date field. Date must not exceed todays date');
                 return redirect()->back();
@@ -228,6 +228,7 @@ class PhytoController extends Controller
 
               $physicochem_name = [];
               $physicochem_result = [];
+              $physicochem_unit = [];
               $physicochem_location = [];
 
             foreach ($r->organoleptics_id as $key => $value) {
@@ -280,7 +281,9 @@ class PhytoController extends Controller
               }
               array_push($physicochem_name,$r->{'physicochemname_'.$value});
               array_push($physicochem_result,$r->{'physicochemresult_'.$value});
+              array_push($physicochem_unit,$r->{'physicochemunit_'.$value});
               array_push($physicochem_location,$r->{'physicochemdata_location_'.$value});
+
 
              
              }
@@ -292,6 +295,7 @@ class PhytoController extends Controller
               'phyto_physicochemdata_id'=>$r->physicochemdata_id[$i],
               'name'=>$physicochem_name[$i],
               'result'=>$physicochem_result[$i],
+              'unit'=>$physicochem_unit[$i],
               'location'=>$physicochem_location[$i], 
               'addedby_id'=> Auth::guard('admin')->id(),
               'created_at' => \Carbon\Carbon::now(),
@@ -452,6 +456,7 @@ class PhytoController extends Controller
               // dd($r->all());
               $physicochem_name = [];
               $physicochem_result = [];
+              $physicochem_unit = [];
               $physicochem_location = [];
 
 
@@ -480,6 +485,7 @@ class PhytoController extends Controller
                 }
                 array_push($physicochem_name,$r->{'physicochemname_'.$value});
                 array_push($physicochem_result,$r->{'physicochemresult_'.$value});
+                array_push($physicochem_unit,$r->{'physicochemunit_'.$value});
                 array_push($physicochem_location,$r->{'physicochemdata_location_'.$value});
 
                
@@ -494,6 +500,7 @@ class PhytoController extends Controller
                 'phyto_physicochemdata_id'=>$r->physicochemdata_id[$i],
                 'name'=>$physicochem_name[$i],
                 'result'=>$physicochem_result[$i],
+                'unit'=>$physicochem_unit[$i],
                 'location'=>$physicochem_location[$i],  
                 'addedby_id'=> Auth::guard('admin')->id(),
                 'created_at' => \Carbon\Carbon::now(),
@@ -533,6 +540,8 @@ class PhytoController extends Controller
                         ->update([
                           'name' => $r->physicochemname[$l],
                           'result' => $r->physicochemresult[$l],
+                          'unit' => $r->physicochemunit[$l],
+
                           'updated_at' => \Carbon\Carbon::now(),
                         ]  
                         );
@@ -788,7 +797,7 @@ class PhytoController extends Controller
                   $p= Product::find($id);
                   $p->update([
                     'phyto_hod_evaluation'=> $r->evaluate,
-                    'phyto_appoved_by'=>$r->adminid,
+                    'phyto_finalapproved_by'=>$r->adminid,
                   ]); 
                  
                   if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
@@ -830,7 +839,7 @@ class PhytoController extends Controller
 
             $data['product_types'] = \App\ProductType::all();
             $data['year'] = \Carbon\Carbon::now('y');
-   
+    
               $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
                return $q->where("dept_id",3)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
              })->where('phyto_hod_evaluation','<>',2)->get();
@@ -1012,6 +1021,8 @@ class PhytoController extends Controller
             $data = ([
               'name' => $r->name,
               'result' => $r->result,
+              'unit' => $r->unit,
+
               'added_by_id' => Auth::guard('admin')->id(),
              ]);
              
@@ -1059,6 +1070,7 @@ class PhytoController extends Controller
                   ->update([
                     'name' => $r->name[$l],
                     'result' => $r->result[$l],
+                    'unit' => $r->unit[$l],
                     'action'=> 1,
                     'added_by_id'=> Auth::guard('admin')->id(),
                   ]  

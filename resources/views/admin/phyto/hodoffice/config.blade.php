@@ -184,6 +184,11 @@
                                                         </small>
                                                         @enderror
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Unit</label>
+                                                        <input type="text" required name="unit" class="form-control" placeholder="Unit">
+                                                     
+                                                    </div>
                                             </div>
 
                                         <div class="modal-footer">
@@ -203,6 +208,7 @@
                                          <th>Activation</th>
                                          <th>Name</th>
                                          <th>Result</th>
+                                         <th>Unit</th>
                                          <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#demoModal_1">New</button></th>
 
                                      </tr>
@@ -219,10 +225,11 @@
 
                                             </div>
                                             </td>
-                                     <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}} "></td>
+                                       <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}} "></td>
          
                                      <td class="font"><input class="form-control" type="text" name="result[]" value="{{$physicochemdata->result}}"></td>
-                               
+                                     <td class="font"><input class="form-control" type="text" name="unit[]" value="{{$physicochemdata->unit}}"></td>
+
                                      </tr>        
                                      @endforeach
                                 </tbody>
