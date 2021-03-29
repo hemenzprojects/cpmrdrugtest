@@ -141,7 +141,7 @@
    Route::get('micro/receiveproduct','AdminAuth\Microbiology\MicroController@receiveproduct_index')->name('admin.micro.receiveproduct');
    Route::post('/microbiology/checkuser', 'AdminAuth\Microbiology\MicroController@checkuser')->name('admin.checkuser.microproduct');
    Route::post('/microbiology/acceptproduct', 'AdminAuth\Microbiology\MicroController@acceptproduct')->name('admin.accept.microproduct');
-   Route::get('micro/producttype/productlist/{id}','AdminAuth\Microbiology\MicroController@producttype_productlist')->name('admin.micro.producttype.productlist');
+   Route::post('micro/producttype/productlist/search','AdminAuth\Microbiology\MicroController@productlist_search')->name('admin.micro.productlist.search');
 
  
    //* General Report Section */
@@ -158,7 +158,7 @@
    //*download or generate pdf */
    Route::get('micro/report/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.micro.report.pdf');
 
-     //Microbiology configurations */
+   //Microbiology configurations */
   Route::get('micro/hod_office/config','AdminAuth\Microbiology\MicroController@hodoffice_config')->name('admin.micro.hod_office.config');
   Route::post('micro/config/microbialanalysis/create','AdminAuth\Microbiology\MicroController@microbialanalysis_create')->name('admin.micro.config.microbialanalysis.create');
   Route::post('micro/config/microbialanalysis/update','AdminAuth\Microbiology\MicroController@microbialanalysis_update')->name('admin.micro.config.microbialanalysis.update');
@@ -294,7 +294,7 @@
    Route::get('phyto/receiveproduct','AdminAuth\Phytochemistry\PhytoController@receiveproduct_index')->name('admin.phyto.receiveproduct');
    Route::post('/phytochemistry/checkuser','AdminAuth\Phytochemistry\PhytoController@checkuser')->name('admin.phyto.checkuser');
    Route::post('/phytochemistry/accept/product','AdminAuth\Phytochemistry\PhytoController@acceptproduct')->name('admin.phyto.acceptproduct');
-   Route::get('phyto/producttype/productlist/{id}','AdminAuth\Phytochemistry\PhytoController@producttype_productlist')->name('admin.phyto.producttype.productlist');
+   Route::post('phyto/producttype/productlist/search','AdminAuth\Phytochemistry\PhytoController@productlist_search')->name('admin.phyto.productlist.search');
 
    Route::get('phyto/completedreport/show/{id}','AdminAuth\Phytochemistry\PhytoController@completedreport_show')->name('admin.pharm.completedreport.show');
 
@@ -317,6 +317,20 @@
    Route::post('phyto/pending_reports/index/{id}','AdminAuth\Phytochemistry\PhytoController@pendingreports_index')->name('admin.phyto.pending_reports.index');
    Route::post('phyto/general_report/between_months','AdminAuth\Phytochemistry\PhytoController@between_months')->name('admin.phyto.general_report.between_months');
 
+  //Phytochemistry configurations */
+  Route::get('phyto/hod_office/config','AdminAuth\Phytochemistry\PhytoController@hodoffice_config')->name('admin.phyto.hod_office.config');
+  Route::post('phyto/config/organoleptics/create','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_create')->name('admin.phyto.config.organoleptics.create');
+  Route::post('phyto/config/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_update')->name('admin.phyto.config.organoleptics.update');
+
+  Route::post('phyto/config/physicochemdata/create','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_create')->name('admin.phyto.config.physicochemdata.create');
+  Route::post('phyto/config/physicochemdata/update','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_update')->name('admin.phyto.config.physicochemdata.update');
+
+  Route::post('phyto/config/chemicalconsts/create','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_create')->name('admin.phyto.config.chemicalconsts.create');
+  Route::post('phyto/config/chemicalconsts/update','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_update')->name('admin.phyto.config.chemicalconsts.update');
+
+     //*download or generate pdf */
+   Route::get('phyto/report/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.phyto.report.pdf');
+
  });
 
    Route::group(['middleware'=>['phytodepthod']],function(){
@@ -333,16 +347,6 @@
      Route::post('/phyto/hod_office/checkhodsign', 'AdminAuth\Phytochemistry\PhytoController@checkhodsign')->name('admin.phyto.hod_office.checkhodsign');
      Route::post('/phyto/hod_office/evaluatereport/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_edit')->name('admin.phyto.hod_office.evaluatereport');
  
-     //Phytochemistry configurations */
-     Route::get('phyto/hod_office/config','AdminAuth\Phytochemistry\PhytoController@hodoffice_config')->name('admin.phyto.hod_office.config');
-     Route::post('phyto/config/organoleptics/create','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_create')->name('admin.phyto.config.organoleptics.create');
-     Route::post('phyto/config/organoleptics/update','AdminAuth\Phytochemistry\PhytoController@config_organoleptics_update')->name('admin.phyto.config.organoleptics.update');
-
-     Route::post('phyto/config/physicochemdata/create','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_create')->name('admin.phyto.config.physicochemdata.create');
-     Route::post('phyto/config/physicochemdata/update','AdminAuth\Phytochemistry\PhytoController@config_physicochemdata_update')->name('admin.phyto.config.physicochemdata.update');
-
-     Route::post('phyto/config/chemicalconsts/create','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_create')->name('admin.phyto.config.chemicalconsts.create');
-     Route::post('phyto/config/chemicalconsts/update','AdminAuth\Phytochemistry\PhytoController@config_chemicalconsts_update')->name('admin.phyto.config.chemicalconsts.update');
 
     });
 

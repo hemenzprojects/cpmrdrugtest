@@ -319,6 +319,12 @@
                                         </div>                                                           
                                         
                                     </div>  
+                                    <span class="float-right font" style="margin-top:10px">
+                                        <a href="{{route('admin.phyto.report.pdf',['id' => $phytocompeleted_report->id])}}">
+                                            <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                                          </a>
+                                           
+                                      </span>
                                 </div>
                             </li>
                        @endforeach
@@ -451,15 +457,25 @@
 
                  </div>
 
-                  <div class="col-md-6">
-                    <h6 style="margin-top: 2%">Date Analysed</h6>
+                  <div class="col-md-3">
+                    <h6 style="margin-top: 5%">Date Analysed</h6>
                     <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="" placeholder=" {{Carbon\Carbon::now()->format('d/m/Y')}}" style="width:250px">
 
 
                    <h6 style="margin-top: 5%"></h6>
                    <button type="submit" onclick="return confirm('Are sure of report submition')" class="btn btn-primary mr-2">Submit Report</button>
 
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                    <label for="exampleInputEmail3" style="margin-top: 5%"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
+                    <select name="phyto_grade" required class="form-control" id="exampleSelectGender">
+                    <option value="">None</option>
+                        <option value="1">Failed</option>
+                        <option value="2">Passed</option>
+                    </select>                                
                     </div>
+                 </div>
             </div>
         </form>
       </div>

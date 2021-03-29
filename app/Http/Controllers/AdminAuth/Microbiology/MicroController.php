@@ -15,6 +15,7 @@ use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
 use App\MicrobialEfficacyAnalyses;
 use App\MicrobialLoadAnalyses;
+use Carbon\Carbon;
 use \Session;
 use \Hash;
 use \Auth;
@@ -48,22 +49,87 @@ class MicroController extends Controller
 
     }
 
-     public function producttype_productlist($id){
-                 
-      if(!Admin::find(Auth::guard('admin')->id())->hasPermission(13)) {
-        Session::flash('messagetitle', 'warning');
-        Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
-        return redirect()->route('admin.general.dashboard');
+      public function productlist_search(Request $r){
+        // dd($r->all());
+        if(!Admin::find(Auth::guard('admin')->id())->hasPermission(13)) {
+          Session::flash('messagetitle', 'warning');
+          Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
+          return redirect()->route('admin.general.dashboard');
+  
+      } 
+       $data['product_type_id'] = $r->product_type_id;
+       $data['product_types'] = ProductType::all();
 
-    }   
-        $data['product_type_id'] = $id;
-         $data['product_types'] = ProductType::all();
+        if ($r->date == Null) {
+          $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')
+          ->whereHas("departments", function($q)use($r){
+           return $q->where("dept_id",1)->where("status",$r->status);
+          })->get();
+        }
+     
+        if ($r->date == 1) {
 
-          $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
+          $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+  
+          $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
+          ->whereHas("departments", function($q)use($r,$week_start){
+            return $q->where("dept_id",1)->where('product_depts.created_at','>=',$week_start);
+          })->get();
+          
+          if ($r->status == 1) {
+  
+            $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+  
+            $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
+            ->whereHas("departments", function($q)use($r,$week_start){
+              return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.created_at','>=',$week_start);
+            })->get();
+          }
+     
+          if ($r->status > 1) {
+            $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+  
+            $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
+            ->whereHas("departments", function($q)use($r,$week_start){
+              return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.received_at','>=',$week_start);
+            })->get();
+          }
+     
+        }
+  
+        if ($r->date == 2) {
 
-          return View('admin.micro.receiveproduct', $data); 
-     }
+          $month_start = date('Y-m-01 00:00:00');
+  
+          $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",1)->where('product_depts.created_at','>=',$month_start);
+           })->get();
 
+          if ($r->status == 1) {
+            $month_start = date('Y-m-01 00:00:00');
+  
+            $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+               return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.created_at','>=',$month_start);
+             })->get();
+          }
+          if ($r->status > 1) {
+            $month_start = date('Y-m-01 00:00:00');
+  
+            $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+               return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.received_at','>=',$month_start);
+             })->get();
+          }
+      
+        }
+        elseif ($r->date == Null && $r->status == Null) {
+      
+        $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')
+       ->whereHas("departments", function($q){
+        return $q->where("dept_id",1);
+       })->get();
+       }
+       return View('admin.micro.receiveproduct', $data); 
+      } 
 
     public function acceptproduct(AcceptMircoProductRequest $request)
       {    
@@ -118,12 +184,11 @@ class MicroController extends Controller
                 ];
                
               }
-         
             ProductDept::whereIN('product_id',$deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
 
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
-            return redirect()->back()
+            return redirect()->route('admin.micro.receiveproduct')
             ->with('success', 'Section updated successfully');
            }
 
@@ -889,11 +954,7 @@ class MicroController extends Controller
 
               $input = $r->all(); 
           
-              //  if ($r->evaluation == null) {
-              //    Session::flash('message_title', 'error');
-              //      Session::flash('message', 'Please select options to evaluate report');
-              //    return redirect()->back();
-              //  }
+      
                if ($r->evaluated_product == null) {
                  Session::flash('message_title', 'error');
                    Session::flash('message', 'Please select required reports for evaluation');
@@ -1407,6 +1468,21 @@ class MicroController extends Controller
             $data['product_types'] = \App\ProductType::all();
             $data['year'] = \Carbon\Carbon::now('y');
 
+
+            $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+
+            $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->where("status",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+            
+            $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",1)->where("status",'>',1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+
+
+
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->where('micro_process_status','<>',3)->get();
@@ -1430,6 +1506,20 @@ class MicroController extends Controller
            $data['from_date'] = "2020-01-01";
            $data['to_date'] = now();
            $data['year'] = $r->year;
+
+
+           $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->get();
+
+          $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->where("status",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->get();
+          
+          $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($data){
+            return $q->where("dept_id",1)->where("status",'>',1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->get();
+
 
            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
             return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -1489,6 +1579,19 @@ class MicroController extends Controller
        
              $data = $r->all();
              $data['product_types'] = \App\ProductType::all();
+
+             $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+
+            $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status",1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+            
+            $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",1)->where("status",'>',1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+
 
 
              $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){

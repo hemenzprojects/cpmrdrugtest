@@ -539,7 +539,8 @@ class SIDController extends Controller
         $product_id = $r->product_id;
     if ($product_id == Null) {
         Session::flash('message_title', 'error');
-        Session::flash('message', 'Sorry! Delivery sheet has no product(s)');
+        Session::flash('message', 'Sorry! Delivery sheet has no produ
+        ct(s)');
         return redirect()->route('admin.sid.product.create');
     }
       $data['products'] = Product::whereIn('id',$r->product_id)->orderBy('id', 'DESC')->get();

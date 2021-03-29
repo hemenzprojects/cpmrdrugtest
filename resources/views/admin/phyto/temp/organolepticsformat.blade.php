@@ -18,10 +18,16 @@
             @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 1)
             <th>
             <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input select_all_child" name="organoleptics_id[]" value="{{$organo_item->id}}" checked>
+            <input type="checkbox" class="custom-control-input select_all_child" checked>
             <span class="custom-control-label">&nbsp;</span>
             </label>
-                </th>
+            </th>
+            <th style="display: none">
+                <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input select_all_child" name="organoleptics_id[]" value="{{$organo_item->id}}" checked>
+                <span class="custom-control-label">&nbsp;</span>
+                </label>
+            </th>
             @endif
         
             <td class="font" style="width: 300px"><strong> {{$organo_item->name}} :</strong></td>

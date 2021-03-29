@@ -43,16 +43,68 @@ class PhytoController extends Controller
 
     }
 
-    
-    public function producttype_productlist($id){
   
-        $data['product_type_id'] = $id;
-        $data['product_types'] = ProductType::all();
 
-          $data['dept3'] = Department::find(3)->products()->with('departments')->orderBy('status')->get();
+       public function productlist_search(Request $r){
 
-          return View('admin.phyto.receiveproduct', $data); 
-     }
+       $data['product_type_id'] = $r->product_type_id;
+       $data['product_types'] = ProductType::all();
+
+       if ($r->date == Null) {
+        $data['dept3'] = Department::find(3)->products()->with('departments')->orderBy('status')
+        ->whereHas("departments", function($q)use($r){
+          return $q->where("dept_id",3)->where("status",$r->status);
+        })->get();
+      }
+
+       if ($r->date == 1) {
+        if ($r->status == 1) {
+
+          $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
+          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
+          ->whereHas("departments", function($q)use($r,$week_start){
+            return $q->where("dept_id",3)->where("status",$r->status)->where('product_depts.created_at','>=',$week_start);
+          })->get();
+        }
+   
+        if ($r->status > 1) {
+          $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
+          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
+          ->whereHas("departments", function($q)use($r,$week_start){
+            return $q->where("dept_id",3)->where("status",$r->status)->where('product_depts.received_at','>=',$week_start);
+          })->get();
+        }
+   
+      }
+
+      if ($r->date == 2) {
+        if ($r->status == 1) {
+          $month_start = date('Y-m-01 00:00:00');
+
+          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",3)->where("status",$r->status)->where('product_depts.created_at','>=',$month_start);
+           })->get();
+        }
+        if ($r->status > 1) {
+          $month_start = date('Y-m-01 00:00:00');
+
+          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",3)->where("status",$r->status)->where('product_depts.received_at','>=',$month_start);
+           })->get();
+        }
+    
+      }
+      elseif ($r->date == Null && $r->status == Null) {
+      
+        $data['dept3'] = Department::find(1)->products()->with('departments')->orderBy('status')
+       ->whereHas("departments", function($q){
+        return $q->where("dept_id",3);
+       })->get();
+       }
+      return View('admin.phyto.receiveproduct', $data); 
+    } 
 
     public function acceptproduct(AcceptPhytoProductRequest $request)
       {   
@@ -83,6 +135,7 @@ class PhytoController extends Controller
                         
             
             if ($status == 1) {
+
               $data = 
               [ 
               'status' => 1,
@@ -102,13 +155,12 @@ class PhytoController extends Controller
                 ];
                
               }
-      
             ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '<',3)->update($data);
  
             
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
-            return redirect()->back()
+            return redirect()->route('admin.phyto.receiveproduct')
             ->with('success', 'Section updated successfully');
     }
 
@@ -182,6 +234,11 @@ class PhytoController extends Controller
             }
 
             public function makereport_create(Request $r){
+
+              $data = $r->validate([
+                'phyto_grade' => 'required', 
+                'comment' => 'required', 
+              ]);
 
               // dd($r->all());
               $checkifexist = PhytoOrganolepticsReport::where('product_id',$r->product_id)->get();
@@ -329,6 +386,7 @@ class PhytoController extends Controller
               $product = $products->first();
               $product->phyto_comment = $r->comment;
               $product->phyto_dateanalysed = $date_analysed;
+              $product->phyto_grade = $r->phyto_grade;
               $product->phyto_analysed_by = Auth::guard('admin')->id();
               $product->update();
 
@@ -517,6 +575,11 @@ class PhytoController extends Controller
 
             public function makereport_update(Request $r, $id){
                 // return Product::find($id);
+                $data = $r->validate([
+                  'phyto_grade' => 'required', 
+                  'comment' => 'required', 
+                ]);
+
                if ($r->organoleptics_id) {
                   $l = 0;
                   $count1 = count($r->organoleptics_id);
@@ -589,6 +652,7 @@ class PhytoController extends Controller
                 $product->update();
 
                 if ($r->complete_report) {
+
                   $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                     return $q->where("dept_id", 3)->where("status", 3);
                     });
@@ -714,17 +778,14 @@ class PhytoController extends Controller
                   })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
                   ->with('pchemconstReport')->whereHas('pchemconstReport')->first();
 
+                  Session::flash("message", "Report Evaluation completed.");
+                  Session::flash("message_title", "success");
                    return view('admin.phyto.completedreport',$data);
                   }
 
                  public function evaluate(Request $r){
 
-                    // dd($r->all());
-                  if ($r->evaluation == null) {
-                    Session::flash('message_title', 'error');
-                      Session::flash('message', 'Please select options to evaluate report');
-                    return redirect()->back();
-                  }
+                
                   if ($r->evaluated_product == null) {
                     Session::flash('message_title', 'error');
                       Session::flash('message', 'Please select required reports for evaluation');
@@ -746,13 +807,15 @@ class PhytoController extends Controller
                   if(count($productdepts->get()) < 1){     
                       return redirect()->back();
                   }
+                  
                   $productdepts->update(['status' => 4]);
-                  }
-    
+                  
                   Session::flash("message", "Report Evaluation completed.");
                   Session::flash("message_title", "success");
                 
                   return redirect()->back();
+                  }
+    
                  }
                   
                  public function checkhodsign(Request $request){
@@ -821,7 +884,7 @@ class PhytoController extends Controller
           
               $data['report_id'] = $id; 
 
-              $data['phytoshowreport'] = Product::where('id',$id)->where('phyto_hod_evaluation','!=',2)->orWhereNull('phyto_hod_evaluation')->with('departments')->whereHas("departments", function($q){
+              $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                return $q->where("dept_id", 3)->where("status",'>',2);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
 
@@ -1197,6 +1260,36 @@ class PhytoController extends Controller
           Product::where('id',$id)->update($data);
 
           return redirect()->back();
+       }
+
+       public function phytoreport_pdf ($id){
+
+        $phytoshowreport = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 3)->where("status", 4);
+         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+         ->with('pchemconstReport')->whereHas('pchemconstReport');
+
+         if(count($phytoshowreport->get()) < 1){   
+          return redirect()->back();
+         }
+         $data['report_id'] = $id; 
+         $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->get();
+         $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
+         $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
+
+
+       
+        // Send data to the view using loadView function of PDF facade
+
+        $pdf = \PDF::loadView('admin.phyto.downloads.report',$data);
+
+        $pdf->save(storage_path().'_filename.pdf');
+
+        return $pdf->download('phytoreport.pdf');
+
+        // return view('admin.micro.downloads.report',$data);
+
+
        }
 }
 

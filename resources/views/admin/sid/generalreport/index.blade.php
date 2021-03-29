@@ -130,18 +130,16 @@
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
              <td class="font"> 
-
                 {{count($product_type['pending'])}}
              </td>
              <td class="font"> 
                 {{count($product_type['completed'])}}
              </td>
-    
              </tr>
             @php
                $i++; 
             @endphp
-              @endforeach
+            @endforeach
              
          </tbody>
          <tr>

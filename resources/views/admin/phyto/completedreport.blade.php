@@ -27,7 +27,7 @@
                     <tr>
                         <td class="font"> <strong>Name of Product:</strong></td>
                         <td class="font">
-                            {{$phytoshowreport->productType->code}}|{{$phytoshowreport->id}}|{{$phytoshowreport->created_at->format('y')}}
+                            {{$phytoshowreport->code}}
                         </td>
                     </tr>
                     <tr>
@@ -85,7 +85,7 @@
         </table>
     </div>
     
-    <div class="col-lg-10 col-md-10" style="margin: 5px"><h5>C. {{\App\PhytoTestConducted::find(3)->name}}</h5></div>
+     <div class="col-lg-10 col-md-10" style="margin: 5px"><h5>C. {{\App\PhytoTestConducted::find(3)->name}}</h5></div>
     
          <h6 class="" style="margin: 3%"> 
           @foreach ($phytoshowreport->phytochemconstReport as $pchemconst_item)

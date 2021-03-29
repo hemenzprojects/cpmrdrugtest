@@ -115,8 +115,12 @@
          <tr>
              <th>#</th>
              <th>Product Type</th>
+             <th>Total Number of Product sent </th>
+             <th>Number of Product Pending </th>
              <th>Number of Product Received</th>
              <th>Number of Product Analysed</th>
+            
+
          </tr>
          </thead>
          <tbody>
@@ -124,8 +128,19 @@
              <tr>
              <td class="font">{{$product_type->id}} </td>
              <td class="font"> {{$product_type->name}} </td>
+             <td class="font">
+                @foreach ($all_product_lab->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+                {{count($item)}}
+                @endforeach 
+             </td>
+             <td>
+                @foreach ($all_pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+                {{count($item)}}
+                @endforeach 
+               
+             </td>
              <td class="font"> 
-                  @foreach ($pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+                  @foreach ($all_recieved_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
                 {{count($item)}}
                  @endforeach   
              </td>
@@ -134,7 +149,6 @@
                 {{count($item)}}
                 @endforeach  
              </td>
-    
              </tr>
             
               @endforeach
@@ -143,8 +157,11 @@
          <tr>
             <th>Total</th>
             <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
             <th>Total</th>
-            <th>Total</th>
+
         </tr>
         </table>
         </div>

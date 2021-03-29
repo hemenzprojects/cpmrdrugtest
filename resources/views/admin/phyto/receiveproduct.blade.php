@@ -32,27 +32,77 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form  id="acceptphytoproductform" sign-user-url="{{route('admin.phyto.checkuser')}}" action="{{route('admin.phyto.acceptproduct')}}" class="" method="POST">
-            {{ csrf_field() }}
-            <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
-          <div class="card">
+          <div class="card" style="overflow-x: scroll">
              <div class="card-body">
-                 <div class="row align-items-center">
-                    <div class="col-md-12">
-                       <a data-toggle="modal" data-target="#demoModal">
-                           <div class="page-header">
-                                <div class="col-md-6">
-                                    <div class="page-header-title">
-                                            <i class="ik ik-edit bg-blue"></i>
+                <form  action="{{route('admin.phyto.productlist.search')}}" class="" method="POST">
+                    {{ csrf_field() }}
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                               <a data-toggle="modal" data-target="#demoModal">
+                                   <div class="page-header">
+                                        <div class="col-md-6">
+                                            <div class="page-header-title">
+                                                    <i class="ik ik-edit bg-blue"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                      
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5>Phytochemistry</h5>
-                                </div>
+                                </a>
+                            
                             </div>
-                        </a>
+                        
+                        </div>
                     </div>
+                    
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                    <select name="product_type_id" class="form-control select2">
+                                        <option value="">Select Product Type </option>
+                                        @foreach($product_types as $product_type)
+                                                                        
+                                        <option value="{{$product_type->id}}" {{$product_type->id == old('product_type_id')? "selected":""}}>{{$product_type->name}}</option>
+    
+                                        @endforeach
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select name="status" class="form-control select2">
+                                    <option value="">Select Product Status </option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Received</option>
+                                    <option value="3">Inprogress</option>
+                                    <option value="4">Completed</option>
+    
+    
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select name="date" class="form-control select2">
+                                    <option value="">Select Period</option>
+                                    <option value="1">Weekly</option>
+                                    <option value="2">Monthly</option>
+
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary mr-2">Search List</button>
+                        </div>
+                    
                 </div>
+               </form>
+             <form  id="acceptphytoproductform" sign-user-url="{{route('admin.phyto.checkuser')}}" action="{{route('admin.phyto.acceptproduct')}}" class="" method="POST">
+                {{ csrf_field() }}
+                <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
                 <table id="order-table_labs" class="table table-striped table-bordered nowrap dataTable">
                     <thead>
                         <tr>
@@ -65,6 +115,7 @@
                             <th style="display: none">status id</th>
                             <th>Distributed by</th>
                             <th>Received by</th>
+                            <th>Date</th>
                             <th>Actions</th>                        
                        </tr>
                     </thead>
@@ -102,7 +153,10 @@
                                 <td class="font">
                                     {{ucfirst(\App\Admin::find($phytochemistry->pivot->received_by)? \App\Admin::find($phytochemistry->pivot->received_by)->full_name:'null')}}
                                 </td>
-                                    
+                                <td class="font" style="font-size: 11px"> 
+                                    {{($phytochemistry->pivot->received_at ? $phytochemistry->pivot->received_at : 'Null')}}
+
+                                </td> 
                                 <td>
                                 <div class="table-actions">
                                                                         
@@ -152,8 +206,7 @@
                                                     <div  style="margin-bottom: 5px">
                                                     <h6 >product distribution period</h6>
                                                     <small class="text-muted">
-                                                    Date: {{$phytochemistry->pivot->created_at->format('Y-m-d')}}
-                                                    Time: {{$phytochemistry->pivot->created_at->format('H:i:s')}}
+                                                    Date: {{$phytochemistry->pivot->received_at}}
                                                     </small>
                                                     </div>
                                                     <h6> product delivery period</h6>
@@ -207,7 +260,10 @@
                             <td class="font">
                                 {{ucfirst(\App\Admin::find($phytochemistry->pivot->received_by)? \App\Admin::find($phytochemistry->pivot->received_by)->full_name:'null')}}
                             </td>
-                                
+                            <td class="font" style="font-size: 11px"> 
+                                {{($phytochemistry->pivot->received_at ? $phytochemistry->pivot->received_at : 'Null')}}
+
+                            </td> 
                             <td>
                             <div class="table-actions">
                                                                     
@@ -257,8 +313,7 @@
                                                 <div  style="margin-bottom: 5px">
                                                 <h6 >product distribution period</h6>
                                                 <small class="text-muted">
-                                                Date: {{$phytochemistry->pivot->created_at->format('Y-m-d')}}
-                                                Time: {{$phytochemistry->pivot->created_at->format('H:i:s')}}
+                                                Date: {{$phytochemistry->pivot->received_at}}
                                                 </small>
                                                 </div>
                                                 <h6> product delivery period</h6>
@@ -328,21 +383,11 @@
                        
                     </div>
                 </div>
+            </form>
              </div>
          </div>
-      </form>
+      
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="col-lg-8 col-md-12">
-                <h3 class="card-title">Click to view product under each category</h3>
-              </div>
-            @foreach($product_types as $product_type)    
-            <a href="{{route("admin.phyto.producttype.productlist", ['id' => $product_type->id])}}" class="badge badge-light mb-1 active">{{$product_type->name}}</a>
-            
-            @endforeach
-    
-        </div>
-        </div>
+
 </div>
 @endsection

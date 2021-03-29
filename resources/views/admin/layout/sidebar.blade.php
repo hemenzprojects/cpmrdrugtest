@@ -212,7 +212,6 @@
 
                                 {{-- MICRO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==1)
-                                {{-- @if (Auth::guard('admin')->user()->dept_office_id ==1) --}}
 
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
@@ -222,7 +221,6 @@
                                    
                                     </div>
                                 </div> 
-                                {{-- @endif --}}
                                 @endif
 
                                 {{-- PHARM CONFIG  --}}
@@ -243,16 +241,15 @@
 
                                 {{-- PHYTO CONFIG  --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==3)
-                                @if (Auth::guard('admin')->user()->dept_office_id ==1)
+                
 
-                                <div class="nav-item has-sub">
+                                   <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
                                     <a href="{{route('admin.phyto.hod_office.config')}}" class="menu-item">  Report template settings</a>
                                    
                                     </div>
                                 </div> 
-                                @endif
                                 @endif
                                 <div class="nav-item">
                                     <a href="javascript:void(0)"><i class="ik ik-monitor"></i><span>Documentation</span></a>

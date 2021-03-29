@@ -14,6 +14,12 @@
                                  @if ( $product->phyto_hod_evaluation === 1 || $product->phyto_hod_evaluation === Null)
                                   <th>
                                     <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input select_all_child" checked>
+                                    <span class="custom-control-label">&nbsp;</span>
+                                    </label>
+                                  </th>
+                                  <th style="display: none">
+                                    <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input select_all_child"  name="physicochemdata_id[]" value="{{$phyto_physicochreport[$i]->id}}" checked>
                                     <span class="custom-control-label">&nbsp;</span>
                                     </label>
