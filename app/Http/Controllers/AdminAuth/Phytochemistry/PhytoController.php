@@ -235,10 +235,10 @@ class PhytoController extends Controller
 
             public function makereport_create(Request $r){
 
-              $data = $r->validate([
-                'phyto_grade' => 'required', 
-                'comment' => 'required', 
-              ]);
+              // $data = $r->validate([
+              //   'phyto_grade' => 'required', 
+              //   'comment' => 'required', 
+              // ]);
 
               // dd($r->all());
               $checkifexist = PhytoOrganolepticsReport::where('product_id',$r->product_id)->get();
