@@ -1,10 +1,11 @@
+@php
+    $product = \App\Product::find($report_id);
+@endphp
+
 @extends('admin.layout.main')
 
 @section('content')
-@php
 
-    $product = \App\Product::find($report_id);
-@endphp
 
 <div class="container-fluid">
     
@@ -12,6 +13,7 @@
 
     <form id="checkunit" action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
         {{ csrf_field() }} 
+     <input type="hidden" name="savereport" value="1">   
     <div class="card" style="padding: 15px">
            <div class="text-center"> 
            <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
@@ -95,15 +97,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{url('admin/phyto/makereport/update',['id' => $report_id])}}" class="" method="POST">
+                <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.analyst.checkanalystsign')}}" action="{{url('admin/phyto/makereport/update',['id' => $report_id])}}" class="" method="POST">
                     {{ csrf_field() }}
                 <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
 
                 <div class="input-group input-group-default col-md-6">
-                    <select class="form-control" name="evaluate">
-                        <option value="2">Approve Report</option>
-                        <option value="1">Reject Report</option>
-                    </select>
+                   
                     </div>
                     <div id="error-div" style="margin: 5px; color:red;"></div>
                     <input name="adminid" id="adminid"  type="hidden" >
@@ -141,4 +140,6 @@
 
 
 
+@endsection
+@section('bottom-scripts')
 @endsection

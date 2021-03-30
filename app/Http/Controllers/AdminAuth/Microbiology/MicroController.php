@@ -75,7 +75,7 @@ class MicroController extends Controller
           ->whereHas("departments", function($q)use($r,$week_start){
             return $q->where("dept_id",1)->where('product_depts.created_at','>=',$week_start);
           })->get();
-          
+
           if ($r->status == 1) {
   
             $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
@@ -670,8 +670,7 @@ class MicroController extends Controller
                       $product->micro_dateanalysed =$r->date_analysed;
                       $product->micro_dateapproved =\Carbon\Carbon::now();
                       $product->micro_analysed_by = Auth::guard('admin')->id();
-                      
-                      
+  
                       $product->update();
     
                   }
@@ -1639,7 +1638,7 @@ class MicroController extends Controller
 
             $pdf->save(storage_path().'_filename.pdf');
 
-            return $pdf->download('microreport.pdf');
+            return $pdf->download('microreport.pdf',$id);
 
             // return view('admin.micro.downloads.report',$data);
 

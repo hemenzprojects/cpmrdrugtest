@@ -1157,11 +1157,11 @@ console.log(animalmodel);
         e.currentTarget.submit();
       }
     
-        // display the error message some where on the page with result.message
+      // display the error message some where on the page with result.message
       $('#error-div').html(result.message)
       })
       
-        // Continue the form submit
+    // Continue the form submit
     // e.currentTarget.submit();
     })
 

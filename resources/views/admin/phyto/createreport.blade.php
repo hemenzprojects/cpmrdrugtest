@@ -123,11 +123,19 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header" style="border-color: #f7ca18;" >
-                @foreach($phytoreports->groupBy('product_id') as $phytoreport)
+                
+                @if (count($auth) >0)
+                @if ($auth_id->dept_office_id >1)
+                @foreach($auth_phytoreports->groupBy('product_id') as $phytoreport)
                 <label class="badge badge-warning" style="background-color:#f7ca18; margin-right:5px;">
                    {{count($phytoreport)}} 
                 </label>
                 @endforeach
+                @endif
+                @endif
+              
+
+                
                 <h3>In Progress</h3>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
@@ -145,7 +153,7 @@
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
                         @if (count($auth) >0)
-                        @if ($auth_id->dept_office_id == 1)
+                        @if ($auth_id->dept_office_id == 1 || $auth_id->user_type_id < 4)
                         @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <div class="dd-handle">
@@ -268,6 +276,7 @@
                           @endforeach
                           @endif
                           @endif
+
                     </ul>
                 </div>
 
@@ -277,6 +286,11 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
+                @foreach($phytocompleted_reports->groupBy('product_id') as $phytocompleted_report)
+                <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">
+                   {{count($phytocompleted_report)}} 
+                </label>
+                @endforeach
                 <h3>Completed</h3>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">

@@ -214,7 +214,7 @@ class PhytoController extends Controller
              ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
 
 
-             $data['phytocompleted_reports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+             $data['phytocompleted_reports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 4);
              })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
              ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
@@ -245,16 +245,22 @@ class PhytoController extends Controller
               if (count( $checkifexist) >0) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Multiple test entry error');
+                return redirect()->back();
+
               }
               $checkifexist = PhytoPhysicochemDataReport::where('product_id',$r->product_id)->get();
               if (count( $checkifexist) >0) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Multiple test entry error');
+                return redirect()->back();
+
               }
               $checkifexist = PhytoChemicalConstituentsReport::where('product_id',$r->product_id)->get();
               if (count( $checkifexist) >0) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Multiple test entry error');
+                return redirect()->back();
+
               }
 
 
@@ -575,12 +581,15 @@ class PhytoController extends Controller
 
             public function makereport_update(Request $r, $id){
                 // return Product::find($id);
+                // dd($r->all());          
+
+              if ($r->savereport) {
                 $data = $r->validate([
                   'phyto_grade' => 'required', 
                   'comment' => 'required', 
                 ]);
 
-               if ($r->organoleptics_id) {
+                if ($r->organoleptics_id) {
                   $l = 0;
                   $count1 = count($r->organoleptics_id);
                   while($l < $count1){
@@ -613,7 +622,7 @@ class PhytoController extends Controller
                 }
 
                 if ($r->chemicalconst) {
-
+                  
                     $data = $r->validate([
                     'chemicalconst' => 'required', 
                      ]);
@@ -650,9 +659,10 @@ class PhytoController extends Controller
                 $product->phyto_analysed_by = Auth::guard('admin')->id();
 
                 $product->update();
+              }
+             
 
                 if ($r->complete_report) {
-
                   $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                     return $q->where("dept_id", 3)->where("status", 3);
                     });
@@ -664,6 +674,7 @@ class PhytoController extends Controller
                     $product->phyto_approved_by = $r->adminid;
 
                     $product->update();
+
                 }
 
                 Session::flash("message", "Report successfully updated.");
@@ -826,6 +837,32 @@ class PhytoController extends Controller
                   $checkallmail = Admin::where('email', '=', $userEmail)->first();
                   $checkmailonly = Admin::where('dept_id',3)->where('email', '=', $userEmail)->first();
                   $admin = Admin::where('dept_id',3)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
+      
+                  if (!$checkallmail) {
+                    return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
+                  }
+                  if (!$checkmailonly) {
+                    return response()->json(['status' => false, 'message' => "Sorry This section is authorised by recognised and approved staffs"]);
+                  }
+                  if(!$admin){
+                    return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
+                  }
+                  if(!Hash::check($adminPassword, $admin->password)){
+                    return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+                  }
+                  
+                  return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+                  
+                }
+
+                public function checkanalystsign(Request $request){
+             
+                  $userEmail = $request->get('email');
+                  $adminPassword = $request->get('password');
+      
+                  $checkallmail = Admin::where('email', '=', $userEmail)->first();
+                  $checkmailonly = Admin::where('dept_id',3)->where('email', '=', $userEmail)->first();
+                  $admin = Admin::where('dept_id',3)->where('dept_office_id',2)->where('email', '=', $userEmail)->first();
       
                   if (!$checkallmail) {
                     return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);

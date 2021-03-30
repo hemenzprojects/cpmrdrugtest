@@ -1610,6 +1610,10 @@ class SIDController extends Controller
             $efficacy_analysis_option = Null;
             $load_analysis_option = Null;
     
+            $organolepticts_option = Null;
+            $physicochemical_option = Null;
+            $chemical_constituents_option = Null;
+    
             if ($r->dept_id == 1) {
                 $efficacy_analysis_options = MicrobialEfficacyAnalyses::pluck("id")->toArray();
                 $efficacy_analysis_option = json_encode($efficacy_analysis_options);

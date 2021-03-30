@@ -147,10 +147,7 @@ $product = \App\Product::find($report_id);
                         <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
 
                         <div class="input-group input-group-default col-md-6">
-                            <select class="form-control" name="evaluate">
-                                <option value="2">Approve Report</option>
-                                <option value="1">Reject Report</option>
-                            </select>
+                         
                             </div>
                             <div id="error-div" style="margin: 5px; color:red;"></div>
                             <input name="adminid" id="adminid"  type="hidden" >

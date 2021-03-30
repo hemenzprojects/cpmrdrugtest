@@ -330,6 +330,8 @@
 
      //*download or generate pdf */
    Route::get('phyto/report/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.phyto.report.pdf');
+   Route::post('/phyto/analyst/checkanalystsign', 'AdminAuth\Phytochemistry\PhytoController@checkanalystsign')->name('admin.phyto.analyst.checkanalystsign');
+
 
  });
 
