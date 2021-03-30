@@ -153,7 +153,7 @@
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
                         @if (count($auth) >0)
-                        @if ($auth_id->dept_office_id == 1 || $auth_id->user_type_id < 4)
+                        @if ($auth_id->dept_office_id == 1)
                         @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <div class="dd-handle">
