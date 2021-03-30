@@ -355,7 +355,7 @@
         </ul>
       <div class="card-body">
           
-        <form id="checkunit" action="{{url('admin/phyto/makereport/create')}}" method="post">
+        <form  action="{{url('admin/phyto/makereport/create')}}" method="post">
             {{ csrf_field() }}
            <div class="row">
                <div class="col-md-3"></div>
