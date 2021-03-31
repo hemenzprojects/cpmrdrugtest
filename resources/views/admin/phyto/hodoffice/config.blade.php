@@ -134,6 +134,7 @@
                        
                            <div class="col-md-4">
                             <div class="alert alert-warning" role="alert">
+                                <h6>Default parameters</h6>
                                 @foreach ($phyto_organoleptics_admin as $item)
                                 <ul><li>{{$item->name}}</li></ul>  
                                 @endforeach
@@ -186,9 +187,11 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="exampleInputName1">Unit</label>
-                                                        <input type="text" required name="unit" class="form-control" placeholder="Unit">
+                                                        <input type="text" name="unit" class="form-control" placeholder="Unit">
                                                      
                                                     </div>
+                                                    <input type="hidden" name="location" value="{{count($phyto_physicochemdata)}}">
+
                                             </div>
 
                                         <div class="modal-footer">
@@ -218,17 +221,17 @@
                              
                                             <div class="form-check mx-sm-2">
                                                 <label class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="physicochem_item[]" value="{{$physicochemdata->id}}" class="custom-control-input" {{$physicochemdata->action == 1 ?'checked':''}} >
+                                                    <input type="checkbox" name="physicochem_item[]" value="{{$physicochemdata->id}}" class="custom-control-input">
                                                     <span class="custom-control-label">&nbsp;</span>
                                                 </label>
                                                 <input type="hidden" name="physicochem_item_id[]" value="{{$physicochemdata->id}}">
 
                                             </div>
                                             </td>
-                                       <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}} "></td>
+                                       <td class="font"><input type="text" name="name[]" value="{{$physicochemdata->name}}"> </td>
          
                                      <td class="font"><input class="form-control" type="text" name="result[]" value="{{$physicochemdata->result}}"></td>
-                                     <td class="font"><input class="form-control" type="text" name="unit[]" value="{{$physicochemdata->unit}}"></td>
+                                        <td class="font"><input class="form-control" type="text" name="unit[]" value="{{$physicochemdata->unit}}" id="preventunittype{{$physicochemdata->id}}" {{$physicochemdata->location == 1 ? "readonly" : "" }}> </td>
 
                                      </tr>        
                                      @endforeach
@@ -252,6 +255,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="alert alert-warning" role="alert">
+                                <h6>Default parameters</h6>
                                     @foreach ($phyto_physicochemdata_admin as $item)
                                     <ul><li>{{$item->name}}</li></ul>  
                                     @endforeach
@@ -362,6 +366,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="alert alert-warning" role="alert">
+                                <h6>Default parameters</h6>
                                     @foreach ($phyto_chemicalconsts_admin as $item)
                                     <ul><li>{{$item->name}}</li></ul>  
                                     @endforeach

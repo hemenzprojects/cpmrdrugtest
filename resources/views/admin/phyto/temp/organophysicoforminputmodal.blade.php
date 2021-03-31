@@ -1,7 +1,7 @@
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
                 
-                <div class="modal-content">
+                <div class="modal-content" style="width: 140%">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongLabel">B. {{\App\PhytoTestConducted::find(2)->name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -23,8 +23,8 @@
                                         </label>
                                     </th>
                                     <td class="font">
-                                        <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p>
-                                        <input type="{{$physicochem_item->id != 1 && $physicochem_item->id != 2 &&  $physicochem_item->id != 4 ?'hidden':''}}" class="form-control" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
+                                        {{-- <p class="physicochem_{{$physicochem_item->id}}">{{$physicochem_item->name}}</p> --}}
+                                        <input type="text" class="form-control" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}">
                                     </td>
                                     <td class="font">
                                         <input type="hidden" name="physicochemdata_location_{{$physicochem_item->id}}" value="{{$physicochem_item->location}}">
@@ -32,7 +32,7 @@
                                         <input class="form-control" type="text" name="physicochemresult_{{$physicochem_item->id}}" value="{{$physicochem_item->result}}">
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text" name="physicochemunit_{{$physicochem_item->id}}" value="{{$physicochem_item->unit}}">
+                                        <input class="form-control" type="text" name="physicochemunit_{{$physicochem_item->id}}" value="{{$physicochem_item->unit}}"  {{$physicochem_item->location == 1 ? "readonly" : "" }}>
 
                                     </td>
                                     </tr>        

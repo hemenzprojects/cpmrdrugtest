@@ -355,7 +355,7 @@
         </ul>
       <div class="card-body">
           
-        <form id="checkunit" action="{{url('admin/phyto/makereport/create')}}" method="post">
+        <form action="{{url('admin/phyto/makereport/create')}}" method="post">
             {{ csrf_field() }}
            <div class="row">
                <div class="col-md-3"></div>
@@ -409,10 +409,13 @@
                              
                                 <tr>
                                 <th>
-                                    <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$phyto_physicochemdata_admin[$i]->id}}">
-                                    <span class="custom-control-label">&nbsp;</span>
-                                   </label>
+                                       <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$phyto_physicochemdata_admin[$i]->id}}">
+                                        <span class="custom-control-label">&nbsp;</span>
+                                        @if ($phyto_physicochemdata_admin[$i]->location == 1 )
+                                        <span style="color:red;font-size: 13px;">*</span>
+                                        @endif
+                                       </label>
                                </th>
                                 <td class="font" style="width:200px"> 
 
@@ -428,8 +431,7 @@
                                 </td>
                                 <td class="font">
                                 
-                                    <input class="form-control" type="text" id="unit{{$phyto_physicochemdata_admin[$i]->location}}" name="physicochemunit_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->unit}}">
-                                    <div id="error-div{{$phyto_physicochemdata_admin[$i]->location}}" style="margin: 5px; color:red;"></div>
+                                    <input class="form-control" type="text"  name="physicochemunit_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->unit}}" {{$phyto_physicochemdata_admin[$i]->location == 1 ? "readonly" : "" }}>
 
                                 </td>
                                 </tr>        

@@ -34,14 +34,13 @@
                                 
                                 <td class="font">
                             
-                                <input class="form-control" type="text" id="unit{{$phyto_physicochreport[$i]->location}}" name="physicochemunit[]" value="{{$phyto_physicochreport[$i]->unit}}">
-                                <div id="error-div{{$phyto_physicochreport[$i]->location}}" style="margin: 5px; color:red;"></div>
+                                <input class="form-control" type="text" name="physicochemunit[]" value="{{$phyto_physicochreport[$i]->unit}}" {{$physicochem_item[$i]->location == 1 ? "readonly" : "" }}>
 
                                 </td>
                                 <td class="font">
                                   {{$phyto_physicochreport[$i]->result}}
                                   <?php
-                                  if ($phyto_physicochreport[$i]->location == 3) {
+                                  if ($phyto_physicochreport[$i]->location == 1) {
                                  $result = explode(' ',$phyto_physicochreport[$i]->unit);
                                   echo '<sup>';  print_r($result[0]); echo '</sup>'; print_r($result[1]);
                                   }else {

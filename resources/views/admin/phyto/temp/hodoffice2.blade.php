@@ -73,7 +73,8 @@
                                     {!! $evaluation->phyto_report_evaluation !!}
                                    </span><br>
                                    <span><strong>Created at:</strong> 
-                                    <sup style="font-size: 10px">  @foreach($evaluation->organolipticReport as $temp)
+                                    <sup style="font-size: 10px"> 
+                                     @foreach($evaluation->organolipticReport as $temp)
                                      @if($evaluation->organolipticReport->first() == $temp)
                                      {{$temp->created_at->format('d/m/y')}}
                                      @endif

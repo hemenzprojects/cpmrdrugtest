@@ -118,7 +118,7 @@
                                 <p class="card-subtitle">Phytochemistry Department</p>
                                </div>
                      
-                               <form id="checkunit" action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
+                               <form  action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
                                 {{ csrf_field() }} 
                                 
                                <div class="card"  style="padding: 15px">

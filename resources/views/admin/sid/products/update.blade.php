@@ -71,7 +71,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Product Type</div>
                                                     </div>
-                                                    <select  name="product_type_id" style="" class="form-control select2">
+                                                    <select style="" class="form-control select2">
                                                         <option value="">Select Product Type</option>
                                                         <?php $ptype = old('product_type_id')? old('product_type_id'):($p->productType? $p->productType->id: ""); ?>
                                                         @foreach($product_types as $product_type)

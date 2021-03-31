@@ -11,7 +11,7 @@
     
     @include('admin.phyto.temp.organophysicoforminputmodal') 
 
-    <form id="checkunit" action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
+    <form  action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
         {{ csrf_field() }} 
      <input type="hidden" name="savereport" value="1">   
     <div class="card" style="padding: 15px">

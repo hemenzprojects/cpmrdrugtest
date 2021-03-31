@@ -271,6 +271,7 @@ $("#inputmask_0").on('keyup', function() {
 
  })
   </script>
+
 <script>
     $(document).ready(function(){
       $('#stateresult').html('Result (CFU/g)'); 

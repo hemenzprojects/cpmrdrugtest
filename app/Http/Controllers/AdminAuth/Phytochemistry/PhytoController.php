@@ -197,27 +197,20 @@ class PhytoController extends Controller
 
              $data['phytoproducts'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 2);
-              })->with('organolipticReport')->whereDoesntHave("organolipticReport")->get();
+              })->get();
               
              //********************* section for authusers who perform repot ***** */
-
              $data['auth_phytoreports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 3);
-             })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-             ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
-   
+             })->get();
              //********************* section for the dept offcie only ***** */
-
              $data['phytoreports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 3);
-             })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-             ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
-
+             })->get();
 
              $data['phytocompleted_reports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 4);
-             })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-             ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+             })->get();
 
               $data['phyto_testconducted'] = PhytoTestConducted::all();
                    
@@ -235,12 +228,15 @@ class PhytoController extends Controller
 
             public function makereport_create(Request $r){
 
-              // $data = $r->validate([
-              //   'phyto_grade' => 'required', 
-              //   'comment' => 'required', 
-              // ]);
-
               // dd($r->all());
+              $productdepts = ProductDept::where('product_id',$r->product_id)->where("dept_id", 3)->where("status",2)->update(['status' => 3]);
+              $products =Product::where('id', $r->product_id)->with("departments")->whereHas("departments", function($q){
+                return $q->where("dept_id", 3)->where("status", 3);
+                });
+                  if(count($products->get()) < 1){     
+                    return redirect()->back();
+               }
+
               $checkifexist = PhytoOrganolepticsReport::where('product_id',$r->product_id)->get();
               if (count( $checkifexist) >0) {
                 Session::flash('message_title', 'error');
@@ -286,6 +282,7 @@ class PhytoController extends Controller
                 Session::flash('message', 'Please select required physicochemical constituents data.');
                 return redirect()->back();
               }
+
               $organoleptics_name = [];
               $organoleptics_feature = [];
 
@@ -311,22 +308,8 @@ class PhytoController extends Controller
              
             }
 
-            for ($i=0; $i < count($r->organoleptics_id); $i++) { 
-                  
-               PhytoOrganolepticsReport::create([
-              'product_id'=>$r->product_id,
-              'phyto_testconducted_id'=>$r->phyto_testconducted_1,
-              'phyto_organoleptics_id'=>$r->organoleptics_id[$i],
-              'name'=>$organoleptics_name[$i],
-              'feature'=>$organoleptics_feature[$i], 
-              'addedby_id'=> Auth::guard('admin')->id(),
-              'created_at' => \Carbon\Carbon::now(),
-              'updated_at' => \Carbon\Carbon::now(),
-              ]);
-              
-             }
 
-             foreach ($r->physicochemdata_id as $key => $value) {
+            foreach ($r->physicochemdata_id as $key => $value) {
               if(!isset($r->{'physicochemname_'.$value}) or $r->{'physicochemname_'.$value}==null){
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Physicocheminal name field is required.');
@@ -346,12 +329,43 @@ class PhytoController extends Controller
               array_push($physicochem_result,$r->{'physicochemresult_'.$value});
               array_push($physicochem_unit,$r->{'physicochemunit_'.$value});
               array_push($physicochem_location,$r->{'physicochemdata_location_'.$value});
-
-
              
              }
+             
+             for ($i =0; $i < count($physicochem_unit); $i++){ 
+              if ($i == 1) {
+                $results= explode(' ',$physicochem_unit[$i]);
+                if ($results != "0 C") {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'System Error please check input field.');
+                  return redirect()->back();
+                  }
+
+               
+              } 
+            }
+
+
+
+            for ($i=0; $i < count($r->organoleptics_id); $i++) { 
+                  
+               PhytoOrganolepticsReport::create([
+              'product_id'=>$r->product_id,
+              'phyto_testconducted_id'=>$r->phyto_testconducted_1,
+              'phyto_organoleptics_id'=>$r->organoleptics_id[$i],
+              'name'=>$organoleptics_name[$i],
+              'feature'=>$organoleptics_feature[$i], 
+              'addedby_id'=> Auth::guard('admin')->id(),
+              'created_at' => \Carbon\Carbon::now(),
+              'updated_at' => \Carbon\Carbon::now(),
+              ]);
+              
+             }
+
+
             for ($i=0; $i < count($r->physicochemdata_id); $i++) { 
                   
+           
               PhytoPhysicochemDataReport::create([
               'product_id'=>$r->product_id,
               'phyto_testconducted_id'=>$r->phyto_testconducted_2,
@@ -380,15 +394,7 @@ class PhytoController extends Controller
               ]);
               
              }
-
-             $productdepts = ProductDept::where('product_id',$r->product_id)->where("dept_id", 3)->where("status",2)->update(['status' => 3]);
              
-             $products =Product::where('id', $r->product_id)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id", 3)->where("status", 3);
-              });
-                if(count($products->get()) < 1){     
-                  return redirect()->back();
-                }
               $product = $products->first();
               $product->phyto_comment = $r->comment;
               $product->phyto_dateanalysed = $date_analysed;
@@ -416,7 +422,6 @@ class PhytoController extends Controller
                $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->get();
                $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
                $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
-
 
 
               $data['organoleptics_ids'] = PhytoOrganolepticsReport::where('product_id',$id)->pluck('phyto_organoleptics_id')->toArray();
@@ -544,7 +549,12 @@ class PhytoController extends Controller
 
                 if(!isset($r->{'physicochemdata_location_'.$value}) or $r->{'physicochemdata_location_'.$value}==null){
                   Session::flash('message_title', 'error');
-                  Session::flash('message', 'System Error Physicocheminal location field is required.');
+                  Session::flash('message', 'System Error Physicochemical location field is required.');
+                  return redirect()->back();
+                }
+                if(($r->{'physicochemunit_2'}) != "0 C"){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'System Error please Physicochemical unit field.');
                   return redirect()->back();
                 }
                 array_push($physicochem_name,$r->{'physicochemname_'.$value});
@@ -554,8 +564,7 @@ class PhytoController extends Controller
 
                
                }
-
-
+              
               for ($i=0; $i < count($r->physicochemdata_id); $i++) { 
                     
                 PhytoPhysicochemDataReport::create([
@@ -604,7 +613,19 @@ class PhytoController extends Controller
                   }
                 }
 
-                if ($r->physicochemdata_id) {
+                if ($r->physicochemdata_id){
+                          
+                  for ($i =0; $i < count($r->physicochemunit); $i++){ 
+                  if ($i == 1) {
+                  $results= explode(' ',$r->physicochemunit[$i]);
+                    if ($results != "0 C") {
+                    Session::flash('message_title', 'error');
+                    Session::flash('message', 'System Error please check input field.');
+                    return redirect()->back();
+                    }
+
+                  } 
+                  }
                   $l = 0;
                   $count1 = count($r->physicochemdata_id);
                   while($l < $count1){
@@ -689,25 +710,19 @@ class PhytoController extends Controller
               
                  $data['evaluations'] = Product::where('phyto_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 3);
-                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+                 })->get();
 
-  
                  $data['withhelds'] = Product::where('phyto_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 3);
-                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+                 })->get();
 
                  $data['approvals'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 3);
-                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+                 })->get();
 
                  $data['completeds'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 4);
-                 })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-                 ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
-    
+                 })->get();
                   return view('admin.phyto.hodoffice.evaluation',$data);
     
                 }
@@ -723,8 +738,7 @@ class PhytoController extends Controller
 
                    $data['evaluations'] = Product::where('phyto_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
                     return $q->where("dept_id", 3)->where("status", 3);
-                   })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-                   ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+                   })->get();
 
                   $phytoshowreport = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                     return $q->where("dept_id", 3)->where("status", 3);
@@ -1066,16 +1080,20 @@ class PhytoController extends Controller
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
               return redirect()->back();
           } 
-              if ($r->action == 0 && $r->action == null) {
+              if ($r->action == 0 || $r->action == null) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select feature product and submit.');
               return redirect()->back();
           } 
 
-          
-          
-          if ($r->action ==1) {
+             
+          if ($r->action == 1) {
 
+            if ($r->organo_item == NULL) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select Organolepticts feature to activate.');
+              return redirect()->back();
+            } 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->organolepticts_options = json_encode($r->get("organo_item"));
             $admin->save();
@@ -1090,6 +1108,8 @@ class PhytoController extends Controller
            } 
  
            if($r->action ==2){
+          
+
             $l = 0;
             $count1 = count($r->organo_item_id);
             while($l < $count1){
@@ -1115,13 +1135,15 @@ class PhytoController extends Controller
            
             $data = $r->validate([
               'name' => 'required', 
-              'result' => 'required',   
+              'result' => 'required', 
             ]);
 
             $data = ([
               'name' => $r->name,
               'result' => $r->result,
               'unit' => $r->unit,
+              'location' => $r->location,
+
 
               'added_by_id' => Auth::guard('admin')->id(),
              ]);
@@ -1143,8 +1165,14 @@ class PhytoController extends Controller
               return redirect()->back();
           } 
 
-          if ($r->action ==1) {
+          if ($r->action == 1) {
 
+            if ($r->physicochem_item == NULL) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select Physicochemical feature(s) to activate.');
+              return redirect()->back();
+            } 
+            
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->physicochemical_options = json_encode($r->get("physicochem_item"));
             $admin->save();
@@ -1163,6 +1191,19 @@ class PhytoController extends Controller
            }
            
            if($r->action ==2){
+
+            for ($i =0; $i < count($r->unit); $i++){ 
+              if ($i == 1) {
+                $results= explode(' ',$r->unit[$i]);
+                 if (count( $results) > 2) {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'System Error please check input field.');
+                  return redirect()->back();
+                 }
+               
+              } 
+            }
+
             $l = 0;
             $count = count($r->physicochem_item_id);
             while($l < $count){
@@ -1216,6 +1257,12 @@ class PhytoController extends Controller
           } 
 
           if ($r->action ==1) {
+
+            if ($r->chemicalconsts_item == NULL) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select Phytochemical Constituents feature(s) to activate.');
+              return redirect()->back();
+            } 
 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->chemical_constituents_options = json_encode($r->get("chemicalconsts_item"));
@@ -1294,6 +1341,7 @@ class PhytoController extends Controller
            'phyto_grade'=>Null,
            'phyto_analysed_by'=>Null,
           ]);
+          
           Product::where('id',$id)->update($data);
 
           return redirect()->back();
@@ -1313,7 +1361,6 @@ class PhytoController extends Controller
          $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->get();
          $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
          $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
-
 
        
         // Send data to the view using loadView function of PDF facade
