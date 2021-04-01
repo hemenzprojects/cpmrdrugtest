@@ -25,8 +25,11 @@
                                     </label>
                                   </th>
                                 @endif
-                                <td class="font" style="width: 200px"><strong>{{$phyto_physicochreport[$i]->name}} :</strong></td>
-                                <input type="hidden" name="physicochemname[]" value="{{$phyto_physicochreport[$i]->name}}">
+                                <td class="font" style="width: 200px">
+                                  <strong>{{$phyto_physicochreport[$i]->name}}
+                                :</strong>
+                                </td>
+                                <input type="hidden" name="physicochemname[]" value="{{$phyto_physicochreport[$i]->name}} {{$phyto_physicochreport[$i]->location == 2 ? $product->productType->name : "" }}">
                                 <td style="color: " class="font">
                                   
                                     <input class="form-control" type="text" name="physicochemresult[]" value="{{$phyto_physicochreport[$i]->result}}">

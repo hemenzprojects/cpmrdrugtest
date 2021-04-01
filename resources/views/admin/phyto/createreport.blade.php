@@ -372,7 +372,7 @@
                 </div>
                </div>
                <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <h6>A. {{\App\PhytoTestConducted::find(1)->name}}</h6>
                     <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
                     <table class="table table-inverse">                      
@@ -397,7 +397,7 @@
                        
                 </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-7">
                         <h6>B. {{\App\PhytoTestConducted::find(2)->name}}</h6>
                     <input type="hidden" name="phyto_testconducted_2" value="{{\App\PhytoTestConducted::find(2)->id}}">
 
@@ -416,10 +416,12 @@
                                         @endif
                                        </label>
                                </th>
-                                <td class="font" style="width:200px"> 
+                                <td class="font" style="width:150px"> 
 
 
-                                <p class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">{{$phyto_physicochemdata_admin[$i]->name}}</p>
+                                <p class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">
+                                    {{$phyto_physicochemdata_admin[$i]->name}}
+                                </p>
                                     <input class="form-control" type="{{$phyto_physicochemdata_admin[$i]->id != 1 && $phyto_physicochemdata_admin[$i]->id != 2 && $phyto_physicochemdata_admin[$i]->id != 4 ?'hidden':''}}" name="physicochemname_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->name}}">
                                 </td>
                                 {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
