@@ -25,22 +25,22 @@
                                     </label>
                                   </th>
                                 @endif
-                                <td class="font" style="width: 200px">
+                                <td class="font" style="width: 110px ">
                                   <strong>{{$phyto_physicochreport[$i]->name}}
                                 :</strong>
                                 </td>
                                 <input type="hidden" name="physicochemname[]" value="{{$phyto_physicochreport[$i]->name}} {{$phyto_physicochreport[$i]->location == 2 ? $product->productType->name : "" }}">
-                                <td style="color: " class="font">
+                                <td style="color:" class="font">
                                   
                                     <input class="form-control" type="text" name="physicochemresult[]" value="{{$phyto_physicochreport[$i]->result}}">
                                 </td>
                                 
-                                <td class="font">
+                                <td class="font" style="width: 14%">
                             
                                 <input class="form-control" type="text" name="physicochemunit[]" value="{{$phyto_physicochreport[$i]->unit}}" {{$phyto_physicochreport[$i]->location == 1 ? "readonly" : "" }}>
 
                                 </td>
-                                <td class="font">
+                                <td class="font" style="font-size:13px">
                                   
                                    @if ($phyto_physicochreport[$i]->location == 1)
                                    <p>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </p>        
