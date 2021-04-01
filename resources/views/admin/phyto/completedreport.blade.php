@@ -78,7 +78,13 @@
                 @foreach ($phytoshowreport->phytochemdataReport as $item)
                 <tr>
                   <th scope="row">{{$item->name}} : </th> 
-                  <td class="font"> = {{$item->result}}</td>
+                  <td class="font">
+                    @if ($item->location == 1)
+                    <p>{{$item->result}}  &deg; {{$item->unit}}  </p>        
+                   @else
+                   {{$item->result}}  {{$item->unit}}
+                   @endif
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

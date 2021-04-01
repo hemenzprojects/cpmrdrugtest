@@ -151,16 +151,12 @@ $product = \App\Product::find($report_id);
         <tr>
             <td class="font" style="width: 50%"><strong>{{$phyto_physicochreport[$i]->name}}</strong></td>
             <td class="font" style="width: 50%">
-                {{$phyto_physicochreport[$i]->result}}
+                @if ($phyto_physicochreport[$i]->location == 1)
+                <p>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </p>        
+               @else
+               {{$phyto_physicochreport[$i]->result}}  {{$phyto_physicochreport[$i]->unit}}
+               @endif
 
-                <?php
-                if ($phyto_physicochreport[$i]->location == 3) {
-               $result = explode(' ',$phyto_physicochreport[$i]->unit);
-                echo '<sup>';  print_r($result[0]); echo '</sup>'; print_r($result[1]);
-                }else {
-                 print_r( $phyto_physicochreport[$i]->unit);
-                }
-               ?>
             </td>
         </tr>
         @endfor

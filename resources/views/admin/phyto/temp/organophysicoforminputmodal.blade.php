@@ -33,7 +33,13 @@
                                     </td>
                                     <td>
                                         <input class="form-control" type="text" name="physicochemunit_{{$physicochem_item->id}}" value="{{$physicochem_item->unit}}"  {{$physicochem_item->location == 1 ? "readonly" : "" }}>
-
+                                    </td>
+                                    <td>
+                                        <select name="physicochemdata_roworder_{{$physicochem_item->id}}" id="">
+                                            @foreach ($phyto_physicochemdata->except($physicochemdata_roworder) as $item)
+                                            <option value="{{$item->id}}">Row {{$item->id}}</option>
+                                            @endforeach
+                                       </select>
                                     </td>
                                     </tr>        
                                     @endforeach

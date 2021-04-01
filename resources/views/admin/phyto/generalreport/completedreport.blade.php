@@ -44,11 +44,9 @@
                                                 </td>
                                                 <td class="font">
                                                     <span style="color: #0e9059">
-                                                    {{$completed_product->productType->code}}|{{$completed_product->id}}|{{$completed_product->created_at->format('y')}} 
+                                                    {{$completed_product->code}} 
                                                    </span>
-                                                   <sup style="font-size: 1px">
-                                                    {{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}} 
-                                                 </sup>
+       
                                                 </td>
                                                 <td class="font">
                                                 @foreach ($completed_product->organolipticReport->groupBy('id')->first() as $item)
@@ -83,7 +81,12 @@
                                                 </td>
                                                 <td class="font">
                                                 <a href="{{url('admin/phyto/completedreport/show',['id' => $completed_product->id])}}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
-
+                                                <span class="font" style="margin-top:10px">
+                                                    <a href="{{route('admin.phyto.report.pdf',['id' => $completed_product->id])}}">
+                                                        <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                                                      </a>
+                                                       
+                                                  </span>
                                                 </td>
                                                 </tr>
                                             @endforeach 

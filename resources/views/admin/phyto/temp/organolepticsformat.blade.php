@@ -2,7 +2,7 @@
     <div class="col-lg-10 col-md-10">
         <h6>A. {{\App\PhytoTestConducted::find(1)->name}}</h6>
     </div> 
-    @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 1)
+    @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
     <div class="col-lg-1 col-md-10" style="margin: 1%">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#demoModal">Add</button>
     </div>
@@ -15,7 +15,7 @@
 
         <tr>
         
-            @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 1)
+            @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
             <th>
             <label class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input select_all_child" checked>
@@ -34,7 +34,7 @@
             <input type="hidden" name="organolepticsname[]" value="{{$organo_item->name}}">
 
             <td class="font"><input class="form-control" type="text" name="organolepticsfeature[] " value="{{$organo_item->feature}}"></td>
-            @if ($product->phyto_hod_evaluation === Null || $product->phyto_hod_evaluation === 1)
+            @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
                 <td > 
                 <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/organoleptics/delete',['p_id' => $report_id, 'organo_id' => $organo_item->id ])}}">
                 <button type="button" name="remove" class="btn btn-danger btn_remove">X</button>

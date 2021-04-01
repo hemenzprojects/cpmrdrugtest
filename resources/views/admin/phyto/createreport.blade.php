@@ -10,7 +10,7 @@
                    {{count($phytoproduct)}} 
                 </label>
                 @endforeach
-                <h3>Todos</h3>
+                <h3>Tasks</h3>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="ik ik-chevron-left action-toggle"></i></li>
@@ -79,7 +79,6 @@
                                         <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
                                         @endforeach
                                      
-
                                         {{-- <hr><h5>Customer Details</h5>
                                         
                                         <h6>Name</h6>
@@ -153,7 +152,7 @@
                 <div class="dd" data-plugin="nestable">
                     <ul class="dd-list" id="myList2">
                         @if (count($auth) >0)
-                        @if ($auth_id->dept_office_id == 1)
+                        @if ($auth_id->user_type_id < 4)
                         @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <div class="dd-handle">
@@ -216,7 +215,7 @@
 
 
                          @if (count($auth) >0)
-                         @if ($auth_id->dept_office_id >1)
+                         @if ($auth_id->user_type_id >3)
                          @foreach($auth_phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                          <li class="dd-item" data-id="1">
                              <div class="dd-handle">
@@ -412,7 +411,7 @@
                                        <label class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$phyto_physicochemdata_admin[$i]->id}}">
                                         <span class="custom-control-label">&nbsp;</span>
-                                        @if ($phyto_physicochemdata_admin[$i]->location == 1 )
+                                        @if ($phyto_physicochemdata_admin[$i]->location == 0 || $phyto_physicochemdata_admin[$i]->location == 1)
                                         <span style="color:red;font-size: 13px;">*</span>
                                         @endif
                                        </label>
@@ -433,6 +432,13 @@
                                 
                                     <input class="form-control" type="text"  name="physicochemunit_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->unit}}" {{$phyto_physicochemdata_admin[$i]->location == 1 ? "readonly" : "" }}>
 
+                                </td>
+                                <td>
+                                    <select name="physicochemdata_roworder_{{$phyto_physicochemdata_admin[$i]->id}}" id="">
+                                         @foreach ($phyto_physicochemdata_admin as $item)
+                                         <option value="{{$item->id}}" {{$item->id == $phyto_physicochemdata_admin[$i]->id ? "selected":""}}>Row {{$item->id}}</option>
+                                         @endforeach
+                                    </select>
                                 </td>
                                 </tr>        
                                 @endfor
