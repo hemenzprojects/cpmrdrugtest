@@ -37,7 +37,7 @@
                   @include('admin.phyto.temp.signaturetemplate')
 
                  <div class="row" style="margin-top: 5%">
-                    <div class="col-9">
+                    <div class="col-7">
                         <div class="row">
                        
                             <div class="col-sm-3">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-3">
+                    <div class="col-sm-2">
                         @if ( $product->phyto_hod_evaluation ===0)
                         <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
                         @endif
@@ -84,10 +84,13 @@
                         @if ( $product->phyto_hod_evaluation ===2)
                         <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                        @endif
-                       <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
-                        <i class="fa fa-chevron-right "></i> 
-                        Preview
-                    </button>
+                       
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
+                            <i class="fa fa-chevron-right "></i> 
+                            Preview
+                        </button>
                     </div>
                 </div>
            
