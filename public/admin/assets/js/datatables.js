@@ -562,6 +562,7 @@ $(document).ready(function() {
             [0, "asc"]
         ]
     });
+ 
     $('#order-table2').DataTable({
         "order": [
             [5, "asc"]

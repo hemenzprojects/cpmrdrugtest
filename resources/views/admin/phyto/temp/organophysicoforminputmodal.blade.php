@@ -59,7 +59,7 @@
 </div>
 <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 140%">
             <div class="modal-header">
                 <h5 class="modal-title" id="demoModalLabel"><h6>A. {{\App\PhytoTestConducted::find(1)->name}}</h6></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -82,11 +82,22 @@
                                         <span class="custom-control-label">&nbsp;</span>
                                         </label>
                                     </th>
-                                    <td class="font">{{$organo_item->name}} :</td>
-                                    <input type="hidden" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
+                                    <td class="font">
+                                        <input type="text"  class="form-control" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
+
+                                    </td>
         
-                                    <td class="font"><input class="form-control" type="text" name="organolepticsfeature_{{$organo_item->id}}" value="{{$organo_item->feature}}"></td>
-                                    </tr>        
+                                    <td class="font">
+                                        <input class="form-control" type="text" name="organolepticsfeature_{{$organo_item->id}}" value="{{$organo_item->feature}}">
+                                    </td>
+                                    <td>
+                                        <select name="organolepticsroworder_{{$organo_item->id}}">
+                                            @foreach ($phyto_organoleptics->except($organoleptics_roworder) as $item)
+                                            <option value="{{$item->id}}">Row {{$item->id}}</option>
+                                            @endforeach
+                                       </select>
+                                    </td>
+                                </tr>        
                                     @endforeach
                                     
                                 </tbody>

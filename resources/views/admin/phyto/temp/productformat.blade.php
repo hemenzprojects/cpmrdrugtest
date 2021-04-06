@@ -8,7 +8,7 @@ $product = \App\Product::find($report_id);
         <thead>
             <tr  class="table-warning">
                 <th>Product Code</th>
-                <th>Product Form</th>
+                <th>Dosage Form</th>
                 <th>Date Received</th>
                 <th>Date Analysed</th>
             </tr>

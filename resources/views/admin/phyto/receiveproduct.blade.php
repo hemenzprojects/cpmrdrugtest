@@ -127,7 +127,7 @@
                                 <td>
                                     <div class="form-check mx-sm-2">
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input phytoselect" name="deptproduct_id[]" value="{{$phytochemistry->id}}" >
+                                        <input type="checkbox" class="custom-control-input phytoselect"  value="{{$phytochemistry->id}}" >
                                             <span class="custom-control-label">&nbsp; </span>
                                         </label>
                                     </div>
@@ -359,7 +359,7 @@
                     </div>
                     <div class="col-md-4">
                       <div id="error-div" style="margin: 5px; color:red;"></div>
-                        <input name="adminid" id="adminid"  type="hidden" >
+                        <input name="adminid" id="adminid"  type="hidden">
 
                         <div class="input-group input-group-default">
                             @error('email')
@@ -372,13 +372,13 @@
                         </div>
 
                         <div class="input-group input-group-default">
-                            @error('password')
+                            @error('pin')
                             <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                <strong>{{$password}}</strong>
+                                <strong>{{$pin}}</strong>
                             </small>
                             @enderror
                             <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                            <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                            <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with pin">
                         </div>
                        
                     </div>

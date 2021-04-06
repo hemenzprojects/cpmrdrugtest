@@ -121,6 +121,12 @@
                 </form>
             </div>
             <div class="col-md-6">
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h3>Change Password</h3>
@@ -152,9 +158,9 @@
                       <div class="">
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">Password</div>
+                                <div class="input-group-text">New Password</div>
                             </div>
-                            <input id="password" placeholder="Password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                            <input id="password" placeholder="New Password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
                         </div>
 
@@ -180,14 +186,75 @@
                             </div>
                             </div>
                         </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Change PIN</h3>
+                        <span></span>
+                        
+                    </div>
+                    <div class="card-body">
+
+                        <p style="margin-top: 100px">PIN should contain digits only<br>
+                            </p>
+                        <form method="post" action="{{route('admin.pin.change')}}" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="" style="">
+                                <h4 class="card-title mt-10"></h4>
+                            <div class="form-group">
+                                <label for="exampleInputPassword4">Current PIN</label>
+                                <input type="password" name="current_pin" class="form-control" id="exampleInputPassword4" placeholder="Current PIN">
+                            </div>
+                            @if ($errors->has('current_pin'))
+                            <span class="invalid-feedback" role="alert">
+                        <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                                    {{ $errors->first('password') }}</p>
+                            </span>
+                        @endif
+                              
+                      <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">New PIN</div>
+                            </div>
+                            <input id="pin" placeholder="New PIN" type="password" class="form-control{{ $errors->has('pin') ? ' is-invalid' : '' }}" name="pin" required>
+
+                        </div>
+
+                        @if ($errors->has('pin'))
+                        <span class="invalid-feedback" role="alert">
+                            <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                                {{ $errors->first('password') }}</p>
+                        </span>
+                    @endif
+                    
+                    </div>
+                    <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Confirm PIN</div>
+                            </div>
+                            <input id="pin-confirm" type="password" placeholder="Confirm PIN" class="form-control" name="pin_confirmation" required>
+
+                        </div>
+                    </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary mr-2">Change PIN</button>
+                            </div>
+                            </div>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
         </div>
-
-
         
-   <div class="row">
+   
+        <div class="row">
        <div class="col-sm-6">
         <div class="card table-card">
             <div class="card-header">

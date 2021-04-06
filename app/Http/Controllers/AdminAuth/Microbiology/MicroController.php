@@ -195,7 +195,7 @@ class MicroController extends Controller
             public function checkuser(Request $request){
               
               $userEmail = $request->get('email');
-              $adminPassword = $request->get('password');
+              $adminPin = $request->get('pin');
 
               $checkmailonly = Admin::where('email', '=', $userEmail)->first();
               $admin = Admin::where('dept_id',4)->where('email', '=', $userEmail)->first();
@@ -206,8 +206,8 @@ class MicroController extends Controller
               if(!$admin){
                 return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact SID "]);
               }
-              if(!Hash::check($adminPassword, $admin->password)){
-                return response()->json(['status' => false, 'message' => "Your password is invalid"]);
+              if(!Hash::check($adminPin, $admin->pin)){
+                return response()->json(['status' => false, 'message' => "Your PIN is invalid. Please check and sign"]);
               }
               
             return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
@@ -1213,7 +1213,7 @@ class MicroController extends Controller
             public function checkhodsign(Request $request){
              
               $userEmail = $request->get('email');
-              $adminPassword = $request->get('password');
+              $adminPin = $request->get('pin');
 
               $checkmailonly = Admin::where('dept_id',1)->where('email', '=', $userEmail)->first();
               $admin = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
@@ -1224,8 +1224,8 @@ class MicroController extends Controller
               if(!$admin){
                 return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
               }
-              if(!Hash::check($adminPassword, $admin->password)){
-                return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+              if(!Hash::check($adminPin, $admin->pin)){
+                return response()->json(['status' => false, 'message' => "Invalid PIN. Please check and sign "]);
               }
               
             return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
@@ -1233,25 +1233,23 @@ class MicroController extends Controller
             }
 
             public function checkhodfinalapprovalsign(Request $request){
-         
+              
               $userEmail = $request->get('email');
-              $adminPassword = $request->get('password');
+              $adminPIN = $request->get('pin');
   
               $checkallmail = Admin::where('email', '=', $userEmail)->first();
-              $checkmailonly = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
               $admin = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
   
               if (!$checkallmail) {
                 return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
               }
-              if (!$checkmailonly) {
-                return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);
-              }
+          
               if(!$admin){
                 return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
               }
-              if(!Hash::check($adminPassword, $admin->password)){
-                return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+
+              if(!Hash::check($adminPIN, $admin->pin)){
+                return response()->json(['status' => false, 'message' => "Invalid Pin. Please check and sign "]);
               }
               
               return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);

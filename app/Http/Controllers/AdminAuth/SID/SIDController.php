@@ -1448,7 +1448,10 @@ class SIDController extends Controller
             'position' => 'required',
             'email' => 'required|email|max:255|unique:admins',
             'password' => 'required|min:6|confirmed',
+            'pin' => 'required|min:4|confirmed',
+
         ]);
+
         if ($r->has('select_file')) {
             $image = $r->file('select_file');
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
@@ -1504,6 +1507,8 @@ class SIDController extends Controller
             'chemical_constituents_options' => $chemical_constituents_option,   
 
             'password' => bcrypt($r->password),
+            'pin' => bcrypt($r->pin),
+
         ]);
         Admin::create($data);
 
@@ -1569,7 +1574,7 @@ class SIDController extends Controller
         $data['user_types'] = \App\UserType::all();
         $data['dept_offices'] = \App\DeptOffice::all();
         $data['admins'] = Admin::all();
-        $data['admin'] = Admin::find($id);
+        $data['admin'] = Admin::findorFail($id);
 
         return view('admin.auth.editadmin',$data);
     }

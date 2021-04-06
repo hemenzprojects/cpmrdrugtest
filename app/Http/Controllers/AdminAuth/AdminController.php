@@ -91,6 +91,29 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    
+    public function change_pin(Request $r){
+        $data = $r->validate([
+            'current_pin' => 'required',
+            'pin' => 'required|min:4|confirmed',
+        ]);
+        
+        $admin = Admin::where('id',Auth::guard('admin')->id())->first();
+        if (!Hash::check($r->current_pin, $admin->pin))
+        {
+            // The passwords does not match
+            Session::flash('messagetitle', 'error');
+            Session::flash('message', 'Incorrect current pin! Check and try again.');
+            return redirect()->back();
+        }
+     
+        $admin->pin = bcrypt($r->pin);
+        $admin->save();
+        Session::flash('message_title', 'success');
+        Session::flash('message', 'Pin changed successfully.');
+        return redirect()->back();
+    }
+
     public function updateprofile_admin(Request $r, $id){
         $user = Admin::find($id);
         $data = $r->validate([

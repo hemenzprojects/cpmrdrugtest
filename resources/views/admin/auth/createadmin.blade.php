@@ -219,7 +219,7 @@
 
                         @if ($errors->has('password'))
                         <span class="invalid-feedback" role="alert">
-                    <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                        <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
                                 {{ $errors->first('password') }}</p>
                         </span>
                     @endif
@@ -231,6 +231,33 @@
                                 <div class="input-group-text">Confirm Password</div>
                             </div>
                             <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation" required>
+
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Pin</div>
+                            </div>
+                            <input id="pin" placeholder="Pin" type="password" class="form-control{{ $errors->has('pin') ? ' is-invalid' : '' }}" name="pin" required>
+
+                        </div>
+
+                        @if ($errors->has('pin'))
+                        <span class="invalid-feedback" role="alert">
+                        <p style="color: red; font-stretch: condensed;margin-top: -2px; margin-bottom: 5px;}">
+                                {{ $errors->first('pin') }}</p>
+                        </span>
+                    @endif
+                    
+                    </div>
+                    <div class="">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Confirm Pin</div>
+                            </div>
+                            <input id="pin-confirm" type="password" placeholder="Confirm Pin" class="form-control" name="pin_confirmation" required>
 
                         </div>
                     </div>

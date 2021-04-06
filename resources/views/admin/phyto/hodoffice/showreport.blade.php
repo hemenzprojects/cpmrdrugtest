@@ -7,6 +7,7 @@
 @endphp
 
 <div class="container-fluid">
+    @include('admin.phyto.temp.preview') 
     @include('admin.phyto.temp.organophysicoforminputmodal') 
     <div class="page-header">
         <div class="row align-items-end">
@@ -109,9 +110,8 @@
     
                     </div>
                     <div class="col-md-8">
-                        <div class="card">
-                            
-                            <div class="card" style="padding: 15px">
+                        <div class="card" style="padding: 5px">
+
                                 <div class="text-center"> 
                                 <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
                                 <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
@@ -123,22 +123,27 @@
                                 <input type="hidden" name="savereport" value="1">   
 
                                <div class="card"  style="padding: 15px">
+
                                  @include('admin.phyto.temp.productformat') 
                                  @include('admin.phyto.temp.organolepticsformat')
                                  @include('admin.phyto.temp.physicochemicalformat')
                                  @include('admin.phyto.temp.chemicalconstituents')
                                  @include('admin.phyto.temp.phytoconclusion')
                               </div>
-                              <div class="col-sm-3">
+                              <div class="col-sm-6">
                                 @if ( $product->phyto_hod_evaluation === 0 ||  $product->phyto_hod_evaluation ===1 )
                                 <button  type="submit" class="btn btn-success pull-right submitreport1" >
                                 <i class="fa fa-credit-card "></i> 
                                      Save Report
                                 </button>
                                 @endif
+
+                                 <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
+                                    <i class="fa fa-chevron-right "></i> 
+                                    Preview
+                                </button>
                               </div>
-                            </form>
-                                 </div>
+                             </form>
                      
                      
                      
@@ -149,7 +154,7 @@
                                  <div class="row">
                                      <div class="col-md-6" style="margin-right: 16%">
                                        @if ($product->phyto_hod_evaluation <2)
-                                       <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Approve Report</button>
+                                       <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Sign Report</button>
                                        @endif
                                        @if ($product->phyto_hod_evaluation ==2) 
                                       <a href="{{ old('redirect_to', URL::previous())}}">
@@ -189,22 +194,22 @@
                                                                </small>
                                                                @enderror
                                                                <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                                               <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email">
+                                                            <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email" value="{{App\Admin::find(Auth::guard("admin")->id())->email}}" readonly>
                                                            </div>
                                    
                                                            <div class="input-group input-group-default">
-                                                               @error('password')
+                                                               @error('pin')
                                                                <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                                                   <strong>{{$password}}</strong>
+                                                                   <strong>{{$pin}}</strong>
                                                                </small>
                                                                @enderror
                                                                <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                                               <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                                                               <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
                                                            </div>                         
                                                    </div>
                                                    <div class="modal-footer">
                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                       <button type="submit" class="btn btn-primary">Sign Report</button>
+                                                       <button type="submit" class="btn btn-primary">Sign</button>
                                                    </div>
                                                </form>
                                                </div>

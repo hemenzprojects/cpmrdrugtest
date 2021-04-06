@@ -97,8 +97,7 @@ class PhytoController extends Controller
     
       }
       elseif ($r->date == Null && $r->status == Null) {
-      
-        $data['dept3'] = Department::find(1)->products()->with('departments')->orderBy('status')
+        $data['dept3'] = Department::find(3)->products()->with('departments')->orderBy('status')
        ->whereHas("departments", function($q){
         return $q->where("dept_id",3);
        })->get();
@@ -167,7 +166,7 @@ class PhytoController extends Controller
             public function checkuser(Request $request){
               
               $userEmail = $request->get('email');
-              $adminPassword = $request->get('password');
+              $adminPin = $request->get('pin');
 
               $checkmailonly = Admin::where('email', '=', $userEmail)->first();
               $admin = Admin::where('dept_id',4)->where('email', '=', $userEmail)->first();
@@ -178,11 +177,11 @@ class PhytoController extends Controller
               if(!$admin){
                 return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact SID "]);
               }
-              if(!Hash::check($adminPassword, $admin->password)){
-                return response()->json(['status' => false, 'message' => "Your password is invalid"]);
+              if(!Hash::check($adminPin, $admin->pin)){
+                return response()->json(['status' => false, 'message' => "Your PIN is invalid"]);
               }
               
-            return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+              return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
               // if ($user) {
               //   return redirect()->route('admin.user.microproduct', $user);
               // }
@@ -282,6 +281,7 @@ class PhytoController extends Controller
 
               $organoleptics_name = [];
               $organoleptics_feature = [];
+              $organoleptics_roworder = [];
 
               $physicochem_name = [];
               $physicochem_result = [];
@@ -304,6 +304,8 @@ class PhytoController extends Controller
               }
               array_push($organoleptics_name,$r->{'organolepticsname_'.$value});
               array_push($organoleptics_feature,$r->{'organolepticsfeature_'.$value});
+              array_push($organoleptics_roworder,$r->{'organolepticsroworder_'.$value});
+
              
             }
 
@@ -351,6 +353,7 @@ class PhytoController extends Controller
               'phyto_organoleptics_id'=>$r->organoleptics_id[$i],
               'name'=>$organoleptics_name[$i],
               'feature'=>$organoleptics_feature[$i], 
+              'roworder'=>$organoleptics_roworder[$i],   
               'addedby_id'=> Auth::guard('admin')->id(),
               'created_at' => \Carbon\Carbon::now(),
               'updated_at' => \Carbon\Carbon::now(),
@@ -417,13 +420,14 @@ class PhytoController extends Controller
                }
                $data['report_id'] = $id; 
                $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
-               $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
+               $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();
                $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
 
               $data['organoleptics_ids'] = PhytoOrganolepticsReport::where('product_id',$id)->pluck('phyto_organoleptics_id')->toArray();
               $data['physicochemdata_ids'] = PhytoPhysicochemDataReport::where('product_id',$id)->pluck('phyto_physicochemdata_id')->toArray();
+              $data['organoleptics_roworder'] = PhytoOrganolepticsReport::where('product_id',$id)->pluck('roworder')->toArray();
               $data['physicochemdata_roworder'] = PhytoPhysicochemDataReport::where('product_id',$id)->pluck('roworder')->toArray();
-  
+
               $admin_organolepticts_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->organolepticts_options);
               $admin_physicochemical_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->physicochemical_options);
               $admin_chemicalconsts_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->chemical_constituents_options);
@@ -479,6 +483,7 @@ class PhytoController extends Controller
               }
               $organoleptics_name = [];
               $organoleptics_feature = [];
+              $organoleptics_roworder = [];
 
                foreach ($r->organoleptics_id as $key => $value) {
 
@@ -494,6 +499,8 @@ class PhytoController extends Controller
                 }
                 array_push($organoleptics_name,$r->{'organolepticsname_'.$value});
                 array_push($organoleptics_feature,$r->{'organolepticsfeature_'.$value});
+                array_push($organoleptics_roworder,$r->{'organolepticsroworder_'.$value});
+
                
               }
           
@@ -505,6 +512,7 @@ class PhytoController extends Controller
                 'phyto_organoleptics_id'=>$r->organoleptics_id[$i],
                 'name'=>$organoleptics_name[$i],
                 'feature'=>$organoleptics_feature[$i], 
+                'roworder'=>$organoleptics_roworder[$i], 
                 'addedby_id'=> Auth::guard('admin')->id(),
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
@@ -556,8 +564,6 @@ class PhytoController extends Controller
                 array_push($physicochem_unit,$r->{'physicochemunit_'.$value});
                 array_push($physicochem_location,$r->{'physicochemdata_location_'.$value});
                 array_push($physicochem_roworder,$r->{'physicochemdata_roworder_'.$value});
-
-
                
                }
 
@@ -606,6 +612,7 @@ class PhytoController extends Controller
                         ->update([
                           'name' => $r->organolepticsname[$l],
                           'feature' => $r->organolepticsfeature[$l],
+                          'roworder' => $r->organolepticsroworder[$l],
                           'updated_at' => \Carbon\Carbon::now(),
                         ]  
                         );
@@ -748,6 +755,7 @@ class PhytoController extends Controller
                   $data['organoleptics_ids'] = PhytoOrganolepticsReport::where('product_id',$id)->pluck('phyto_organoleptics_id')->toArray();
                   $data['physicochemdata_ids'] = PhytoPhysicochemDataReport::where('product_id',$id)->pluck('phyto_physicochemdata_id')->toArray();
                   $data['physicochemdata_roworder'] = PhytoPhysicochemDataReport::where('product_id',$id)->pluck('roworder')->toArray();
+                  $data['organoleptics_roworder'] = PhytoOrganolepticsReport::where('product_id',$id)->pluck('roworder')->toArray();
 
                   $admin_organolepticts_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->organolepticts_options);
                   $admin_physicochemical_options= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->physicochemical_options);
@@ -837,9 +845,9 @@ class PhytoController extends Controller
                  public function checkhodsign(Request $request){
              
                   $userEmail = $request->get('email');
-                  $adminPassword = $request->get('password');
+                  $adminPin  = $request->get('pin');
       
-                  $checkallmail = Admin::where('email', '=', $userEmail)->first();
+                  $checkallmail  = Admin::where('email', '=', $userEmail)->first();
                   $checkmailonly = Admin::where('dept_id',3)->where('email', '=', $userEmail)->first();
                   $admin = Admin::where('dept_id',3)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
       
@@ -852,8 +860,8 @@ class PhytoController extends Controller
                   if(!$admin){
                     return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
                   }
-                  if(!Hash::check($adminPassword, $admin->password)){
-                    return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+                  if(!Hash::check($adminPin, $admin->pin)){
+                    return response()->json(['status' => false, 'message' => "Invalid PIN. Please check and sign "]);
                   }
                   
                   return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
@@ -863,7 +871,7 @@ class PhytoController extends Controller
                 public function checkanalystsign(Request $request){
              
                   $userEmail = $request->get('email');
-                  $adminPassword = $request->get('password');
+                  $adminPin = $request->get('pin');
       
                   $checkallmail = Admin::where('email', '=', $userEmail)->first();
                   $checkmailonly = Admin::where('dept_id',3)->where('email', '=', $userEmail)->first();
@@ -878,8 +886,8 @@ class PhytoController extends Controller
                   if(!$admin){
                     return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
                   }
-                  if(!Hash::check($adminPassword, $admin->password)){
-                    return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+                  if(!Hash::check($adminPin, $admin->pin)){
+                    return response()->json(['status' => false, 'message' => "Invalid PIN. Please check and sign "]);
                   }
                   
                   return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
@@ -944,6 +952,20 @@ class PhytoController extends Controller
 
             $data['product_types'] = \App\ProductType::all();
             $data['year'] = \Carbon\Carbon::now('y');
+
+
+            $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",3)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+
+            $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",3)->where("status",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+            
+            $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",3)->where("status",'>',1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+            })->get();
+
     
               $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
                return $q->where("dept_id",3)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -1004,6 +1026,19 @@ class PhytoController extends Controller
        
              $data = $r->all();
              $data['product_types'] = \App\ProductType::all();
+
+             $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+
+            $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->where("status",1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+            
+            $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($r){
+              return $q->where("dept_id",3)->where("status",'>',1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+            })->get();
+
 
 
              $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){

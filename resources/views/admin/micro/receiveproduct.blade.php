@@ -129,7 +129,7 @@
                                 <td>
                                     <div class="form-check mx-sm-2">
                                         <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input microselect" name="deptproduct_id[]" value="{{$microproduct->id}}">
+                                        <input type="checkbox" class="custom-control-input microselect"  value="{{$microproduct->id}}">
                                             <span class="custom-control-label">&nbsp; </span>
                                         </label>
                                     </div>
@@ -379,13 +379,13 @@
                         </div>
 
                         <div class="input-group input-group-default">
-                            @error('password')
+                            @error('pin')
                             <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                <strong>{{$password}}</strong>
+                                <strong>{{$pin}}</strong>
                             </small>
                             @enderror
                             <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                            <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                            <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
                         </div>
                        
                     </div>

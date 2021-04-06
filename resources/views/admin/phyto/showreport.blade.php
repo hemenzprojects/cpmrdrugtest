@@ -8,7 +8,7 @@
 
 
 <div class="container-fluid">
-    
+    @include('admin.phyto.temp.preview') 
     @include('admin.phyto.temp.organophysicoforminputmodal') 
 
     <form  action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
@@ -56,8 +56,10 @@
                                 <button type="button" onclick="myFunction()" class="btn btn-primary pull-right" id="pharm_complete_report" style="margin-right: 5px;">
                                 <i class="fa fa-view"></i> Print Report</button>
                                 @endif
+                                
                             </div>
                             <div class="col-sm-9">
+                                
                                 @if ( $product->phyto_hod_evaluation ===Null ||  $product->phyto_hod_evaluation ===1 )
                                 <div class="form-check mx-sm-2">
                                     <label class="custom-control custom-checkbox">
@@ -66,7 +68,9 @@
                                     </label>
                                 </div>
                                 @endif
+                                
                             </div>
+                            
                         </div>
                     </div>
                     
@@ -80,6 +84,10 @@
                         @if ( $product->phyto_hod_evaluation ===2)
                         <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
                        @endif
+                       <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
+                        <i class="fa fa-chevron-right "></i> 
+                        Preview
+                    </button>
                     </div>
                 </div>
            
@@ -114,18 +122,18 @@
                         </small>
                         @enderror
                         <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                        <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email">
+                        <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email" value="{{App\Admin::find(Auth::guard("admin")->id())->email}}">
                     </div>
                     <input  type="hidden" name="complete_report" value="1" class="custom-control-input">
 
                     <div class="input-group input-group-default">
-                        @error('password')
+                        @error('pin')
                         <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                            <strong>{{$password}}</strong>
+                            <strong>{{$pin}}</strong>
                         </small>
                         @enderror
                         <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                        <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                        <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
                     </div>                         
             </div>
             <div class="modal-footer">

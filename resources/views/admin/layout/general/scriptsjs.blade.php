@@ -450,6 +450,7 @@ $(document).ready(function(){
     $(function () {
       //Initialize Select2 Elements
       $('.select2').select2()
+      
   
       //Datemask dd/mm/yyyy
       $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
@@ -606,11 +607,11 @@ $('#acceptmicroproductform').submit(function(e){
     
     var _token = $('#_token').val()
     var useremail = $('#useremail').val()
-    var userpassword = $('#userpassword').val()
+    var userpin = $('#userpin').val()
 
   var data = {
   'email' : useremail,
-  'password' : userpassword,
+  'pin' : userpin,
   '_token': _token
   }
   
@@ -703,17 +704,17 @@ $('#acceptpharmproductform').submit(function(e){
       
       var _token = $('#_token').val()
       var useremail = $('#useremail').val()
-      var userpassword = $('#userpassword').val()
+      var userpin = $('#userpin').val()
   
     var data = {
     'email' : useremail,
-    'password' : userpassword,
+    'pin' : userpin,
     '_token': _token
     }
     
     var form = $(this);
     var url = form.attr('sign-user-url');
-    var url2 = form.attr('action')
+    // var url2 = form.attr('action')
     $.post(url, data, function(result){
     console.log(result)
   
@@ -1019,11 +1020,11 @@ console.log(animalmodel);
         
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
-        var userpassword = $('#userpassword').val()
+        var userpin = $('#userpin').val()
     
       var data = {
       'email' : useremail,
-      'password' : userpassword,
+      'pin' : userpin,
       '_token': _token
       }
       
@@ -1057,11 +1058,11 @@ console.log(animalmodel);
         
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
-        var userpassword = $('#userpassword').val()
+        var userpin = $('#userpin').val()
     
       var data = {
       'email' : useremail,
-      'password' : userpassword,
+      'pin' : userpin,
       '_token': _token
       }
       
@@ -1137,24 +1138,24 @@ console.log(animalmodel);
         
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
-        var userpassword = $('#userpassword').val()
+        var userpin = $('#userpin').val()
     
       var data = {
       'email' : useremail,
-      'password' : userpassword,
+      'pin' : userpin,
       '_token': _token
       }
       
       var form = $(this);
       var url = form.attr('sign-user-url');
-      var url2 = form.attr('action')
+      // var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
     
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
-        
+      
         e.currentTarget.submit();
       }
     

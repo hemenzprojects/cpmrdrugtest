@@ -1,41 +1,42 @@
 
                         <div class="row">
                             <div class="col-lg-10 col-md-10"><h6>B. {{\App\PhytoTestConducted::find(2)->name}}</h6></div> 
-                            @if ($product->phyto_hod_evaluation === Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
+                            @if ($product->phyto_hod_evaluation === Null || $product->phyto_hod_evaluation === 1)
                             <div class="col-lg-1 col-md-10" style="margin: 1%"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalLong">Add</button></div>  
                             @endif
-                          
+                            @if ( (App\Admin::find(Auth::guard("admin")->id())->dept_office_id == 1) && ($product->phyto_hod_evaluation === 0))
+                            <div class="col-lg-1 col-md-10" style="margin: 1%"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalLong">Add</button></div>  
+                            @endif
                         </div>
                         <table class="table table-inverse" >                      
                         <tbody>
                               @for ($i = 0; $i < count($phyto_physicochreport); $i++)
                                  
                                 <tr>
-                                 @if ( $product->phyto_hod_evaluation === Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
-                                  <th>
+                                  {{-- <th>
                                     <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input select_all_child" checked>
                                     <span class="custom-control-label">&nbsp;</span>
                                     </label>
-                                  </th>
+                                  </th> --}}
                                   <th style="display: none">
                                     <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input select_all_child"  name="physicochemdata_id[]" value="{{$phyto_physicochreport[$i]->id}}" checked>
                                     <span class="custom-control-label">&nbsp;</span>
                                     </label>
                                   </th>
-                                @endif
-                                <td class="font" style="width: 110px ">
+                                
+                                <td class="font" style="">
                                   <strong>{{$phyto_physicochreport[$i]->name}}
                                 :</strong>
                                 </td>
-                                <input type="hidden" name="physicochemname[]" value="{{$phyto_physicochreport[$i]->name}} {{$phyto_physicochreport[$i]->location == 2 ? $product->productType->name : "" }}">
+                                <input type="hidden" name="physicochemname[]" value="{{$phyto_physicochreport[$i]->name}} ">
                                 <td style="color:" class="font">
                                   
                                     <input class="form-control" type="text" name="physicochemresult[]" value="{{$phyto_physicochreport[$i]->result}}">
                                 </td>
                                 
-                                <td class="font" style="width: 14%">
+                                <td class="font" style="">
                             
                                 <input class="form-control" type="text" name="physicochemunit[]" value="{{$phyto_physicochreport[$i]->unit}}" {{$phyto_physicochreport[$i]->location == 1 ? "readonly" : "" }}>
 
@@ -48,7 +49,6 @@
                                   {{$phyto_physicochreport[$i]->result}}  {{$phyto_physicochreport[$i]->unit}}
                                   @endif
                                 </td>
-                                @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 0 || $product->phyto_hod_evaluation === 1)
                                 </a> 
                                 <td>
                                   <select name="physicochemroworder[]">
@@ -57,12 +57,19 @@
                                     @endforeach
                                  </select>
                                 </td>
+
                                 <td >
+                                   @if ($product->phyto_hod_evaluation ===Null || $product->phyto_hod_evaluation === 1)
+
                                   <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/physicochemdata/delete',['p_id' => $phyto_physicochreport[$i]->product_id, 'physico_id' => $phyto_physicochreport[$i]->id])}}">
                                     <button type="button" name="remove" class="btn btn-danger btn_remove">X</button> 
-
+                                    @endif
+                                    @if ( (App\Admin::find(Auth::guard("admin")->id())->dept_office_id == 1) && ($product->phyto_hod_evaluation === 0))
+                                  <a onclick="return confirm('Please confrim before deleting row')" href="{{url('admin/phyto/makereport/physicochemdata/delete',['p_id' => $phyto_physicochreport[$i]->product_id, 'physico_id' => $phyto_physicochreport[$i]->id])}}">
+                                    <button type="button" name="remove" class="btn btn-danger btn_remove">X</button> 
+                                    @endif
                                 </td>
-                                @endif
+                             
 
                             </tr>        
 

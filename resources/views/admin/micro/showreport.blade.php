@@ -164,13 +164,13 @@ $product = \App\Product::find($report_id);
                             <input  type="hidden" name="complete_report" value="1" class="custom-control-input">
 
                             <div class="input-group input-group-default">
-                                @error('password')
+                                @error('pin')
                                 <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                    <strong>{{$password}}</strong>
+                                    <strong>{{$pin}}</strong>
                                 </small>
                                 @enderror
                                 <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                <input required id="userpassword" type="password" class="form-control" name="password" placeholder="Sign with password">
+                                <input required id="userpin" type="password" class="form-control" name="PIN" placeholder="Sign with PIN">
                             </div>                         
                     </div>
                     <div class="modal-footer">

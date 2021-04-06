@@ -124,7 +124,7 @@
             <div class="card-header" style="border-color: #f7ca18;" >
                 
                 @if (count($auth) >0)
-                @if ($auth_id->dept_office_id >1)
+                @if ($auth_id->user_type_id >3)
                 @foreach($auth_phytoreports->groupBy('product_id') as $phytoreport)
                 <label class="badge badge-warning" style="background-color:#f7ca18; margin-right:5px;">
                    {{count($phytoreport)}} 
@@ -132,8 +132,17 @@
                 @endforeach
                 @endif
                 @endif
+                
+                @if (count($auth) >0)
+                @if ($auth_id->user_type_id < 4)
+                @foreach($phytoreports->groupBy('product_id') as $phytoreport)
+                <label class="badge badge-warning" style="background-color:#f7ca18; margin-right:5px;">
+                   {{count($phytoreport)}} 
+                </label>
+                @endforeach
+                @endif
+                @endif
               
-
                 
                 <h3>In Progress</h3>
                 <div class="card-header-right">
@@ -372,7 +381,7 @@
                 </div>
                </div>
                <div class="col-md-3"></div>
-                <div class="col-md-5">
+                <div class="col-md-12">
                     <h6>A. {{\App\PhytoTestConducted::find(1)->name}}</h6>
                     <input type="hidden" name="phyto_testconducted_1" value="{{\App\PhytoTestConducted::find(1)->id}}">
                     <table class="table table-inverse">                      
@@ -385,19 +394,27 @@
                                 <span class="custom-control-label">&nbsp;</span>
                                </label>
                            </th>
-                            <td class="font">{{$organo_item->name}} :</td>
+                            <td class="font">
+                                <input type="text" class="form-control" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
+                            </td>
                             
-                            <input type="hidden" name="organolepticsname_{{$organo_item->id}}" value="{{$organo_item->name}}">
 
                             <td class="font"><input class="form-control" type="text" name="organolepticsfeature_{{$organo_item->id}}" value="{{$organo_item->feature}}"></td>
-                            </tr>        
+                            <td>
+                                <select name="organolepticsroworder_{{$organo_item->id}}">
+                                     @foreach ($phyto_organoleptics_admin as $item)
+                                     <option value="{{$item->id}}" {{$item->id == $organo_item->id ? "selected":""}}>Row {{$item->id}}</option>
+                                     @endforeach
+                                </select>
+                            </td>
+                          </tr>        
                             @endforeach
                        </tbody>
                     </table>
                        
                 </div>
 
-                  <div class="col-md-7">
+                  <div class="col-md-12">
                         <h6>B. {{\App\PhytoTestConducted::find(2)->name}}</h6>
                     <input type="hidden" name="phyto_testconducted_2" value="{{\App\PhytoTestConducted::find(2)->id}}">
 
@@ -411,18 +428,17 @@
                                        <label class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input select_all_child" id="" name="physicochemdata_id[]" value="{{$phyto_physicochemdata_admin[$i]->id}}">
                                         <span class="custom-control-label">&nbsp;</span>
-                                        @if ($phyto_physicochemdata_admin[$i]->location == 0 || $phyto_physicochemdata_admin[$i]->location == 1)
-                                        <span style="color:red;font-size: 13px;">*</span>
-                                        @endif
+                                     
                                        </label>
                                </th>
-                                <td class="font" style="width:150px"> 
+                                <td class="font" style="width:"> 
 
 
-                                <p class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">
+                                {{-- <span class="physicochem_{{$phyto_physicochemdata_admin[$i]->id}}">
                                     {{$phyto_physicochemdata_admin[$i]->name}}
-                                </p>
-                                    <input class="form-control" type="{{$phyto_physicochemdata_admin[$i]->id != 1 && $phyto_physicochemdata_admin[$i]->id != 2 && $phyto_physicochemdata_admin[$i]->id != 4 ?'hidden':''}}" name="physicochemname_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->name}}">
+                                </span> --}}
+                                {{-- type="{{$phyto_physicochemdata_admin[$i]->id != 1 && $phyto_physicochemdata_admin[$i]->id != 2 && $phyto_physicochemdata_admin[$i]->id != 4 ?'hidden':''}}" --}}
+                                    <input class="form-control"  name="physicochemname_{{$phyto_physicochemdata_admin[$i]->id}}" value="{{$phyto_physicochemdata_admin[$i]->name}}">
                                 </td>
                                 {{-- <input type="hidden" name="physicochemname_{{$physicochem_item->id}}" value="{{$physicochem_item->name}}"> --}}
                                 <td class="font" style="width:30%">

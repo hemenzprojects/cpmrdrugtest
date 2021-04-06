@@ -33,7 +33,13 @@
     color: #fff;
     background: #113a03;
         }
-   .font{font-size: 13px}
+   .font{
+       font-size: 13px
+   }
+   .font2{
+    font-family: "Times New Roman";
+       font-size: 14px
+   }
    .badge-warning {
     background-color: #171819;
     }

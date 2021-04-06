@@ -104,46 +104,62 @@
     </div>
 <div class="card">
     <div class="text-center"> 
-        <h4 class="font" style="font-size:18px; margin-top:20px">Number of Drug Analysis Report Completed from to </h4>
+        <h4 class="font" style="font-size:18px; margin-top:20px">Number of Drug Analysis Report Completed from to {{ date("F Y", strtotime($from_date)) }} to {{ date("F Y", strtotime($to_date)) }} </h4>
 
 
        </div>
     <div class="card-body">
-        <table id="order-table" class="table table-striped table-bordered nowrap">
+        <table id="general-report" class="table table-striped table-bordered nowrap">
      <thead>
      <tr>
-         <th>#</th>
-         <th>Product Type</th>
-         <th>Number of Product Received</th>
-         <th>Number of Product Analysed</th>
+        <th>#</th>
+        <th>Product Type</th>
+        <th>Total Number of Product sent </th>
+        <th>Number of Product Pending </th>
+        <th>Number of Product Received</th>
+        <th>Number of Product Analysed</th>
      </tr>
      </thead>
      <tbody>
         @foreach ($product_types as $product_type)                                    
-         <tr>
-         <td class="font">{{$product_type->id}} </td>
-         <td class="font"> {{$product_type->name}} </td>
-         <td class="font"> 
-              @foreach ($pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-            {{count($item)}}
-             @endforeach   
-         </td>
-         <td class="font"> 
-            @foreach ($completed_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
-            {{count($item)}}
-            @endforeach  
-         </td>
-
-         </tr>
-        
-          @endforeach
+        <tr>
+        <td class="font">{{$product_type->id}} </td>
+        <td class="font"> {{$product_type->name}} </td>
+        <td class="font">
+           @foreach ($all_product_lab->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+           {{count($item)}}
+           @endforeach 
+        </td>
+        <td>
+           @foreach ($all_pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+           {{count($item)}}
+           @endforeach 
+          
+        </td>
+        <td class="font"> 
+             @foreach ($all_recieved_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+           {{count($item)}}
+            @endforeach   
+        </td>
+        <td class="font"> 
+           @foreach ($completed_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
+           {{count($item)}}
+           @endforeach  
+        </td>
+        </tr>
+       
+         @endforeach
+       
          
      </tbody>
      <tr>
-        <th>Total</th>
         <th></th>
-        <th>Total</th>
-        <th>Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
     </tr>
     </table>
     </div>

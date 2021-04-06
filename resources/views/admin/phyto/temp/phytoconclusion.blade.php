@@ -2,8 +2,6 @@
 <h6 style="margin-top: 2%">REMARKS</h6>
 <textarea class="form-control" required name="comment"  cols="30" rows="3"> {{$product->phyto_comment}}</textarea>
 
-
-
 <div class="col-sm-3" style="margin-top:30px">
 <div class="form-group">
     <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>

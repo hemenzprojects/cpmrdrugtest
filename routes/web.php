@@ -36,6 +36,7 @@
   Route::get('/profile/create', 'AdminAuth\AdminController@profile_create')->name('admin.profile.create');
   Route::post('/profile/update/{id}', 'AdminAuth\AdminController@updateprofile_admin')->name('admin.profile.update');
   Route::post('/password/change', 'AdminAuth\AdminController@change_password')->name('admin.password.change');
+  Route::post('/pin/change', 'AdminAuth\AdminController@change_pin')->name('admin.pin.change');
 
   Route::get('general/home','AdminAuth\SID\SIDController@homedashboard')->name('admin.general.dashboard');
 
