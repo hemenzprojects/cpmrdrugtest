@@ -747,7 +747,7 @@ class PhytoController extends Controller
                    }
                    $data['report_id'] = $id; 
                    $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
-                   $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
+                   $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();
                    $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
     
     
@@ -1374,8 +1374,8 @@ class PhytoController extends Controller
          
          $data['report_id'] = $id; 
          $p = Product::Find($id);
-         $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('location')->get();
-         $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->get();
+         $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
+         $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();
          $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
 
        
