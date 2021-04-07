@@ -85,7 +85,7 @@ $product = \App\Product::find($report_id);
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:25%;border:0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 15px;"> <strong>CENTRE FOR PLANT MEDICINE RESEARCH.</strong> </span>
+        <span class="font" style="font-size: 15px;"> <strong>CENTRE FOR PLANT MEDICINE RESEARCH</strong> </span>
         </td>
         <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
@@ -95,7 +95,7 @@ $product = \App\Product::find($report_id);
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:34%;border: 0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 15px;">PHYTOCHEMISTRY DEPARTMENT.</span>
+        <span class="font" style="font-size: 15px;">PHYTOCHEMISTRY DEPARTMENT</span>
         </td>
         <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 

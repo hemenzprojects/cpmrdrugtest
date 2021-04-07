@@ -7,8 +7,8 @@
             <div class="modal-body">
                 <div class="text-center"> 
                     <img src="{{asset('admin/img/logo.jpg')}}" class="" width="10%">
-                    <h4 class="font2" style="font-size:18px"> Centre for Plant Medicine Research.Phytochemistry Department </h4>
-                    <p class="card-subtitle"> Phytochemistry Analysis Report on Herbal Product</p>
+                    <h4 class="font2" style="font-size:18px">CENTRE FOR PLANT MEDICINE RESEARCH </h4>
+                    <p class="card-subtitle">PHYTOCHEMISTRY DEPARTMENT</p>
                 </div>
             <table class="table table-striped table-bordered nowrap dataTable" >
             <tr>
@@ -53,7 +53,7 @@
                         <td class="font2" style="width: 50%"><strong>{{$phyto_physicochreport[$i]->name}}</strong></td>
                         <td class="font2" style="width: 50%">
                             @if ($phyto_physicochreport[$i]->location == 1)
-                            <p>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </p>        
+                            <span>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </span>        
                            @else
                            {{$phyto_physicochreport[$i]->result}}  {{$phyto_physicochreport[$i]->unit}}
                            @endif
