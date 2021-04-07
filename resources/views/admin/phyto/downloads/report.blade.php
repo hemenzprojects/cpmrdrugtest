@@ -83,9 +83,9 @@ $product = \App\Product::find($report_id);
 </table>
 <table style="margin-top: -0.1%" >
     <tr style="border: 0px solid #d3d3d3;">
-        <td style="width:16%;border:0px solid #d3d3d3;"></td>
+        <td style="width:25%;border:0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 15px;">  Centre for Plant Medicine Research. Phytochemistry Department.</span>
+        <span class="font" style="font-size: 15px;"> <strong>CENTRE FOR PLANT MEDICINE RESEARCH.</strong> </span>
         </td>
         <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
@@ -93,9 +93,9 @@ $product = \App\Product::find($report_id);
 </table>
 <table style="margin-top:-1.0%" >
     <tr style="border: 0px solid #d3d3d3;">
-        <td style="width:24%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:34%;border: 0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 15px;">Phytochemistry Analysis Report on Herbal Product</span>
+        <span class="font" style="font-size: 15px;">PHYTOCHEMISTRY DEPARTMENT.</span>
         </td>
         <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
@@ -121,14 +121,14 @@ $product = \App\Product::find($report_id);
 <table style="margin-top:2%">
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:40%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 17px;"><strong>Technical Information</strong></span>
+        <span class="font" style="font-size: 15px;"><strong>TECHNICAL INFORMATION </strong></span>
         </td>
     </tr>
 </table>
 <table >
     <thead>
         <tr>
-            <th class="font" style="border: 0px solid #d3d3d3;font-size:14px">(A) Organoleptic Properties</th>
+            <th class="font" style="border: 0px solid #d3d3d3;font-size:14px">(A) {{\App\PhytoTestConducted::find(1)->name}}</th>
         </tr>
     </thead>
     <tbody>
@@ -144,7 +144,7 @@ $product = \App\Product::find($report_id);
 <table style="margin-top: 1.5%">
     <thead style="margin: 12%">
         <tr>
-            <th class="font" style="border: 0px solid #d3d3d3;font-size:14px">(B) Physicochemical Data</th>
+            <th class="font" style="border: 0px solid #d3d3d3;font-size:14px">(B) {{\App\PhytoTestConducted::find(2)->name}}</th>
         </tr>
     </thead>
     <tbody>
@@ -153,7 +153,7 @@ $product = \App\Product::find($report_id);
             <td class="font" style="width: 50%"><strong>{{$phyto_physicochreport[$i]->name}}</strong></td>
             <td class="font" style="width: 50%">
                 @if ($phyto_physicochreport[$i]->location == 1)
-                <p>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </p>        
+                <span>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </span>        
                @else
                {{$phyto_physicochreport[$i]->result}}  {{$phyto_physicochreport[$i]->unit}}
                @endif
@@ -167,7 +167,7 @@ $product = \App\Product::find($report_id);
     <table style="margin-top: 1.5%">
         <thead>
             <tr>
-                <th class="font" style="border: 0px solid #d3d3d3; font-size:14px">(C) PhytoChemical Constituents</th>
+                <th class="font" style="border: 0px solid #d3d3d3; font-size:14px">(C) {{\App\PhytoTestConducted::find(3)->name}}</th>
             </tr>
         </thead>
         <tbody>
@@ -191,7 +191,7 @@ $product = \App\Product::find($report_id);
 <table style="margin-top:2%">
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:40%; border: 0px solid #d3d3d3;" >
-        <span style="font-size: 17px;"><strong>Remarks</strong></span><br>
+        <span style="font-size: 15px;"><strong>REMARKS</strong></span><br>
         <span class="font">
             {{$product->phyto_comment}}
           </span>

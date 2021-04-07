@@ -3,7 +3,8 @@
 <head>
 <style>
 .font{
-      font-size: 12px;
+      font-size: 13px;
+      font-family: "Times New Roman";
     }
 table {
   font-family: arial, sans-serif;
@@ -75,35 +76,45 @@ tr:nth-child(even) {
 <div class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'watermarked2':'watermarked1'}}">
     <div style=" background-color: #ffffffeb;">
 <table>
-    <tr style="border: #fff">
-        <td style="width:50%;border: #fff"></td>
-        <td style="width:50%; border: #fff" >
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:50%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:50%; border: 0px solid #d3d3d3;" >
             <img src="{{asset('admin/img/logo.jpg')}}" width="20%">
         </td>
-        <td style="width:10%; border: #fff"></td>
+        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
     </tr>
 
 </table>
-<table style="margin-top: -0.1%" >
-    <tr style="border: #fff">
-        <td style="width:16%;border: #fff"></td>
-        <td style="width:60%; border: #fff" >
-        <span style="font-size: 15px;"> Microbiology Department. Centre for Plant Medicine Research </span>
+<table style="margin-top: -0.3%" >
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:25%; border: 0px solid #d3d3d3;"></td>
+        <td style="width:50%; border: 0px solid #d3d3d3;" >
+        <span style="font-size: 15px; font-family: Times New Roman" > CENTRE FOR PLANT MEDICINE RESEARCH. </span>
         </td>
-        <td style="width:10%; border: #fff"></td>
+        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
     </tr>
 </table>
 <table style="margin-top:-2.0%" >
-    <tr style="border: #fff">
-        <td style="width:30%;border: #fff"></td>
-        <td style="width:60%; border: #fff" >
-        <span style="font-size: 13px;">Microbial Analysis Report on Herbal Product</span>
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:38%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:60%; border: 0px solid #d3d3d3;" >
+         <span style="font-size: 15px; font-family: Times New Roman">MICROBIOLOGY DEPARTMENT</span><br>
         </td>
-        <td style="width:10%; border: #fff"></td>
+        <td style="width:10%;border: 0px solid #d3d3d3;"></td>
 
     </tr>
+</table>
+<table style="margin-top:-2.0%" >
+  <tr style="border: 0px solid #d3d3d3;">
+      <td style="width:35%;border: 0px solid #d3d3d3;"></td>
+      <td style="width:60%; border: 0px solid #d3d3d3;" >
+      <span style="font-size: 13px; font-family: Times New Roman">Microbial Analysis Report on Herbal Product</span>
+      </td>
+      <td style="width:10%;border: 0px solid #d3d3d3;"></td>
+
+  </tr>
 </table>
 
 <table >

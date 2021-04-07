@@ -590,6 +590,7 @@ $product = \App\Product::where('id',7)->first();
                                                       </td>
                                                       <td style="display: none">
                                                         <input type="hidden" name="definition_{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->definition}}">
+                                                        <input type="hidden" name="location_{{$MicrobialLoadAnalysis[$i]->id}}" value="{{$MicrobialLoadAnalysis[$i]->location}}">
 
                                                       </td>
                                                 </tr>
@@ -603,7 +604,7 @@ $product = \App\Product::where('id',7)->first();
                                     <p style="font-style: italic; margin:5px; font-size:12px"> 
                                         <?php
                                         if ($i<2) {
-                                    $definition= explode(' ',$MicrobialLoadAnalysis[0]->definition);
+                                       $definition= explode(' ',$MicrobialLoadAnalysis[0]->definition);
                                  
                                         echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
                                         

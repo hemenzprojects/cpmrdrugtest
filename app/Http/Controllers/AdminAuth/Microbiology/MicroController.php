@@ -295,7 +295,6 @@ class MicroController extends Controller
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-                // dd($r->all());
 
                 $input = $r->all();
                 $mp_id = $input['micro_product_id'];
@@ -316,6 +315,7 @@ class MicroController extends Controller
                 $acceptance_criterion = [];
                 $mlcompliance = [];
                 $definition = [];
+                $location = [];
 
                 $pathogen = [];
                 $pi_zone = [];
@@ -346,19 +346,26 @@ class MicroController extends Controller
                       Session::flash('message', 'Compliance field is required.');
                       return redirect()->back();
                     }
-   
+                 
                     array_push($test_conducted,$r->{'test_conducted_'.$value});
                     array_push($result,$r->{'result_'.$value});
                     array_push($acceptance_criterion,$r->{'acceptance_criterion_'.$value});
                     array_push($mlcompliance,$r->{'mlcompliance_'.$value});
                     array_push($definition,$r->{'definition_'.$value});
-   
-   
+                    array_push($location,$r->{'location_'.$value});
+
+                    if (!in_array(0 & 1, $location)) {
+                      Session::flash('message_title', 'error');
+                      Session::flash('message', 'The first two fields are required.');
+                      return redirect()->back();
+                    }
                   }
                
                   
                     for ($i=0; $i < count($result); $i++) { 
-                    if ($i<2) {
+                     
+                      if ($i<2) {
+                   
                       $results= explode(' ',$result[$i]);
                       $rs_part1 =$results[0];
                       $rs_part2 = explode('^',$results[2]);
@@ -382,12 +389,14 @@ class MicroController extends Controller
                           'ac_total'=>$ac_total,
                           'date_template'=>$r->date_template,
                           'definition'=>$definition[$i],
+                          'location'=>$location[$i],
                           'added_by_id' => Auth::guard('admin')->id(),
                           'created_at' => \Carbon\Carbon::now(),
                           'updated_at' => \Carbon\Carbon::now(),
                       ]);
              
                     }else{
+                      
                         MicrobialLoadReport::create([
                         'test_conducted'=>$test_conducted[$i],
                         'load_analyses_id'=>$r->mltest_id[$i],
@@ -399,6 +408,7 @@ class MicroController extends Controller
                         'ac_total'=>$ac_total,
                         'date_template'=>$r->date_template,
                         'definition'=>$definition[$i],
+                        'location'=>$location[$i],
                         'added_by_id' => Auth::guard('admin')->id(),
                         'created_at' => \Carbon\Carbon::now(),
                         'updated_at' => \Carbon\Carbon::now(),
@@ -519,7 +529,7 @@ class MicroController extends Controller
                 
                 $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
           
-                $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
+                $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
                
                 $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
@@ -539,7 +549,6 @@ class MicroController extends Controller
                 } 
 
                 $input = $r->all();
-              //  dd($input);
                $ml_testconducteds = $r->test_conducted;
                $mc_testconducteds= $r->mc_test_conducted;
                $mlr_ids =  $r->mltest_id;
@@ -550,11 +559,12 @@ class MicroController extends Controller
                 if(count($productdepts->get()) < 1){     
                     return redirect()->back();
                 }
-                $productdept = $productdepts->first();
-                $productdept->status = 3;
-                $productdept->update();
+                // $productdept = $productdepts->first();
+                // $productdept->status = 3;
+                // $productdept->update();
               
                    if($r->test_conducted_update){
+
                     for ($i =0; $i < count($r->result); $i++){ 
                           if ($i<2) {
                             $results= explode(' ',$r->result[$i]);
@@ -640,7 +650,7 @@ class MicroController extends Controller
                           $l++;
                         }
                       }
-                  if ($r->efficacyanalyses_update || $r->test_conducted_update) {
+                   if ($r->efficacyanalyses_update || $r->test_conducted_update) {
                         $micro_la_conclution = Null;
                         $micro_ea_conclution = Null;
 
@@ -763,7 +773,7 @@ class MicroController extends Controller
                  
           
                 $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-                $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+                $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
                 $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
@@ -1201,7 +1211,7 @@ class MicroController extends Controller
                })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
         
               $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-              $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+              $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
               $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
               
@@ -1322,7 +1332,7 @@ class MicroController extends Controller
               // $data = $r->validate([
               //   'date' => 'required',          
               // ]);
-           
+                
          
            if ($r->action > 2 ) {
             Session::flash('message_title', 'error');
@@ -1448,7 +1458,7 @@ class MicroController extends Controller
              })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
       
             $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-            $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+            $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
             $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
             
@@ -1625,7 +1635,7 @@ class MicroController extends Controller
              })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
       
             $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-            $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->first();
+            $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
             $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
