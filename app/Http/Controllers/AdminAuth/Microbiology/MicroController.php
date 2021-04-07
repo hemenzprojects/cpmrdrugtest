@@ -1629,7 +1629,8 @@ class MicroController extends Controller
             }  
 
             $data['report_id'] = $id; 
-      
+            $p = Product::Find($id);
+
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>',2);
              })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
@@ -1646,7 +1647,7 @@ class MicroController extends Controller
 
             $pdf->save(storage_path().'_filename.pdf');
 
-            return $pdf->download('microreport.pdf',$id);
+            return $pdf->download('microreport_'.$p->code.'.pdf',$id);
 
             // return view('admin.micro.downloads.report',$data);
 

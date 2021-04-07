@@ -336,14 +336,14 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
       ?>
         <span>Analyzed By</span><br>
         @if ($product->micro_hod_evaluation >1)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="15%"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="21%"><br>
         @endif
         -----------------------------<br>
       
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
     </td>
-    <td class="font" style="width: 150%;border: #fff"> </td>
+    <td class="font" style="width: 130%;border: #fff"> </td>
     
     <td class="font" style="border: #fff">
         <?php
@@ -353,7 +353,7 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
         ?>
         <span>Supervisor</span><br>
         @if ($product->micro_hod_evaluation ==2)
-        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="15%"><br>
+        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="21%"><br>
         @endif
 
         ------------------------------<br> 
