@@ -112,7 +112,7 @@ $product = \App\Product::find($report_id);
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                        <form  id="microhodapproveform" sign-user-url="{{route('admin.micro.hod_office.checkhodsign')}}" action="{{url('admin/micro/report/update',['id' => $report_id])}}" class="" method="POST">
+                        <form  id="microhodapproveform" sign-user-url="{{route('admin.micro.evaluation.checkhodsign')}}" action="{{url('admin/micro/report/update',['id' => $report_id])}}" class="" method="POST">
                             {{ csrf_field() }}
                         <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
 
