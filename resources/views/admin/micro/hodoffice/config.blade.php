@@ -140,7 +140,7 @@
                                                         <span class="custom-control-label">&nbsp;</span>
                                                     </label>
                                             </td>
-                                                <td class="font"><input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}"></td>
+                                                <td class="font"><input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" {{$microbial_loadanalyses[$i]->location == 0 || $microbial_loadanalyses[$i]->location == 1 ? "readonly" : "" }}></td>
                     
                                                 <td class="font"><input class="form-control" type="text" name="result[{{$i}}]" value="{{$microbial_loadanalyses[$i]->result}}"></td>
                                             

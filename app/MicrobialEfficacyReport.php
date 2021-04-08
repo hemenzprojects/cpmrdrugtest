@@ -23,8 +23,8 @@ class MicrobialEfficacyReport extends Model
     }
     public function getRefAttribute(){
 
-        if ($this->reference) {
-            return '<p style="font-style: italic; font-size:12px">The efficacy analysis was conducted using agar well diffusion method. (Holder and Boyce, 1994. Burns 20:264-9). The diametre of the cork borer used = 6 mm.</p>';
+        if ($this->reference === 1) {
+            return '<p style="font-style: italic; font-size:12.5px">The efficacy analysis was conducted using agar well diffusion method. (Holder and Boyce, 1994. Burns 20:264-9). The diametre of the cork borer used = 6 mm.</p>';
         }
     }
 }

@@ -30,10 +30,10 @@ $product = \App\Product::find($report_id);
             </div>
         </div>
     </div>
-    
-    
-       
+
             <div class="card-body">
+                @include('admin.micro.temp.preview') 
+
                     <div class="row clearfix">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="widget">
@@ -148,52 +148,21 @@ $product = \App\Product::find($report_id);
                                                     
                                     </div>
                                 </div>
-            
-                                <div class="row invoice-info" style="margin: 15px; margin-top:60px">
-                                    <?php
-                                    $micro_approved_by = ($product? $product->micro_approved_by:'');
-                                    $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
-                                  ?>
-                                    <div class="col-sm-4 invoice-col">
-                                        <p>Analyzed By</p><br>
-                                        @if ($product->micro_hod_evaluation == 2)
-                                        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
-                                        @endif
-
-                                        -----------------------------<br>
-                                      
-                                        <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
-                                        <p>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</p>
-            
-                                    </div> 
-                                    <div class="col-sm-4 invoice-col">
-                                         
+                                @include('admin.micro.temp.signaturetemplate') 
+                                <div class="row" style="margin-bottom:2%; margin-top:5%">
+                                    <div class="col-sm-3" >
+                                     @if ($product->micro_hod_evaluation < 2 )
+                                     <button type="submit" class="btn btn-danger pull-right"> <i class="fa fa-credit-card"></i>Save report</button>
+                                     @endif
                                     </div>
-                                    <div class="col-sm-4 invoice-col">
-                                        <?php
-                                        $micro_finalapproved_by = ($product? $product->micro_finalapproved_by:'');
-                                        $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
-
-                                        ?>
-                                        <p>Approved by</p><br>
-                                        @if ($product->micro_finalapproved_by !== Null)
-                                        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
-                                        @endif
-
-                                        ------------------------------<br> 
-
-                                        <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->full_name:'')}}</span>
-                                        <p>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->position:'')}}</p>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
+                                            <i class="fa fa-chevron-right "></i> 
+                                            Preview
+                                        </button>
+                                    </div>
+                                </div>
                          
-                                    </div>
-            
-                                </div>
-                                @if ($product->micro_hod_evaluation < 2 )
-                                <div class="col-sm-3" style="margin-bottom:2%; margin-top:5%">
-                                 <button type="submit" class="btn btn-danger pull-right"> <i class="fa fa-credit-card"></i>Save report</button>
-                                </div>
-                 
-                                @endif
                            </div>
               
                     </form>

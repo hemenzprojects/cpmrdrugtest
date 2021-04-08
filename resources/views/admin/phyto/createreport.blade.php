@@ -164,6 +164,7 @@
                         @if ($auth_id->user_type_id < 4)
                         @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
                         <li class="dd-item" data-id="1">
+                            <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}">
                             <div class="dd-handle">
                                 <div class="row align-items-center">
                                     <div class="col-lg-10 col-md-12">
@@ -217,6 +218,7 @@
                                     
                                 </div>  
                             </div>
+                            </a>
                         </li>
                          @endforeach
                          @endif

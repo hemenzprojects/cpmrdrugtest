@@ -3,7 +3,7 @@
 <head>
 <style>
 .font{
-      font-size: 13px;
+      font-size: 12px;
       font-family: "Times New Roman";
     }
 table {
@@ -86,7 +86,7 @@ tr:nth-child(even) {
     </tr>
 
 </table>
-<table style="margin-top: -0.3%" >
+<table style="margin-top: -1.20%" >
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:25%; border: 0px solid #d3d3d3;"></td>
         <td style="width:50%; border: 0px solid #d3d3d3;" >
@@ -106,7 +106,7 @@ tr:nth-child(even) {
 
     </tr>
 </table>
-<table style="margin-top:-2.0%" >
+{{-- <table style="margin-top:-2.0%" >
   <tr style="border: 0px solid #d3d3d3;">
       <td style="width:35%;border: 0px solid #d3d3d3;"></td>
       <td style="width:60%; border: 0px solid #d3d3d3;" >
@@ -115,7 +115,7 @@ tr:nth-child(even) {
       <td style="width:10%;border: 0px solid #d3d3d3;"></td>
 
   </tr>
-</table>
+</table> --}}
 
 <table >
     <tr>
@@ -135,125 +135,134 @@ tr:nth-child(even) {
 </table>
 
 @if (($microbial_loadanalyses) && count($microbial_loadanalyses)>0)
+<div>
+    <table>
+        <tr>
+            
+            <th class="font" style="border: #fff">(A) Microbial Load Analysis</th>
+        </tr>
+        <tr>
+            <th class="font">Test Conducted</th>
+            @if ($product->productType->state ==2)
+            <th class="font">Result (CFU/ml)</th>
+            @endif
+            @if ($product->productType->state ==1)
+            <th class="font">Result (CFU/g)</th>
+            @endif
+            <th class="font">Accepted Criterion BP
+              (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
+              {{Carbon\Carbon::parse($item->date)->format('Y')}}
+              <input type="hidden" name="date_template" value="{{$item->date}}">
+            @endforeach)
+            </th class="font">
+            <th class="font">Compliance</th>
+        </tr>
 
-<table>
-    <tr>
-        
-        <th class="font" style="border: #fff">(A) Microbial Load Analysis</th>
-    </tr>
-    <tr>
-        <th class="font">Test Conducted</th>
-        @if ($product->productType->state ==2)
-        <th class="font">Result (CFU/ml)</th>
-        @endif
-        @if ($product->productType->state ==1)
-        <th class="font">Result (CFU/g)</th>
-        @endif
-        <th class="font">Accepted Criterion BP
-          (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
-          {{Carbon\Carbon::parse($item->date)->format('Y')}}
-          <input type="hidden" name="date_template" value="{{$item->date}}">
-         @endforeach)
-        </th class="font">
-        <th class="font">Compliance</th>
-    </tr>
+        @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+      <tr>
+        <td style="font-style: italic;" class="font" >
+            <?php
+            if ($i<2) {
+            $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
 
-    @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-  <tr>
-    <td style="font-style: italic;" class="font" >
-        <?php
-         if ($i<2) {
-        $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
+            echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
+            }else {
+                $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
+                print_r($test_conducted); 
+            }   
+          ?>
+              <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
 
-        echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-         }else {
-            $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
-            print_r($test_conducted); 
-         }   
-       ?>
-           <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
-
-    </td>
-  
-
-    <td class="font">
-      @if ($microbial_loadanalyses[$i]->rs_total ==0)
-      <span>0</span>
-      @else
-      @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
-      <span>3 TNTC</span>
-      @endif
-      @endif
-
-     @if ($microbial_loadanalyses[$i]->rs_total >0 && $microbial_loadanalyses[$i]->rs_total < 9900000000)
-     <span>
-      <?php 
-      if ($i<2) {
-          $results= explode(' ',$microbial_loadanalyses[$i]->result);
-          $rs_part1 =$results[0];
-          $rs_part2 = explode('^',$results[2]);
+        </td>
       
-          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+
+        <td class="font">
+          @if ($microbial_loadanalyses[$i]->rs_total <1 || $microbial_loadanalyses[$i]->rs_total == 9900000000)
+            <?php 
+            if ($i<2) {
+              if ($microbial_loadanalyses[$i]->rs_total == 0) {
+                print_r(' 0 ');
+              }
+              if ($microbial_loadanalyses[$i]->rs_total == 9900000000) {
+                print_r(' 3 TNTC ');
+              }
+              
+            }
+            else {
+            $results =  $microbial_loadanalyses[$i]->result;
+            print_r($results); 
+            }
+            ?>
+        @endif
+        @if ($microbial_loadanalyses[$i]->rs_total >0 && $microbial_loadanalyses[$i]->rs_total < 9900000000)
+        <span>
+          <?php 
+          if ($i<2) {
+              $results= explode(' ',$microbial_loadanalyses[$i]->result);
+              $rs_part1 =$results[0];
+              $rs_part2 = explode('^',$results[2]);
           
-      }
-      else {
-      $results =  $microbial_loadanalyses[$i]->result;
-      print_r($results); 
-      }
-      ?>
-    </span> 
-     @endif
+              print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+              
+          }
+          else {
+          $results =  $microbial_loadanalyses[$i]->result;
+          print_r($results); 
+          }
+          ?>
+        </span> 
+        @endif
 
 
-    </td>
-    <td class="font">
-        <?php 
-        if ($i<2) {
-          $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
-          $rs_part1 =$acceptance_criterion[0];
-          $rs_part2 = explode('^',$acceptance_criterion[2]);
-     
-          print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-           
-        }else {
-          $acceptance_criterion =  $microbial_loadanalyses[$i]->acceptance_criterion;
-          print_r($acceptance_criterion); 
-        }
-      ?>
-        {{-- {{($item->acceptance_criterion)}} --}}
-    </td>
+        </td>
+        <td class="font">
+            <?php 
+            if ($i<2) {
+              $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
+              $rs_part1 =$acceptance_criterion[0];
+              $rs_part2 = explode('^',$acceptance_criterion[2]);
+        
+              print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
+              
+            }else {
+              $acceptance_criterion =  $microbial_loadanalyses[$i]->acceptance_criterion;
+              print_r($acceptance_criterion); 
+            }
+          ?>
+            {{-- {{($item->acceptance_criterion)}} --}}
+        </td>
 
-    <td class="font">
-        {!! $microbial_loadanalyses[$i]->micro_compliance_report !!}
-    </td>                        
-  </tr>
-  @endfor
-</table>
-
-
+        <td class="font">
+            {!! $microbial_loadanalyses[$i]->micro_compliance_report !!}
+        </td>                        
+      </tr>
+      @endfor
+    </table>
 
 
-<table style="border:#e8efec2b">
-  <tr style="border:#e8efec2b">
-  <td style="font-style: italic;font-size:11px;border:#e8efec2b ">
-    @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
- 
-@if ($i<1)
-<span > 
-    <?php
-    if ($i<2) {
-$definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
-    echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
+
+    <table style="border:#e8efec2b">
+      <tr style="border:#e8efec2b">
+      <td style="font-style: italic;font-size:11px;border:#e8efec2b ">
+        @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
     
+    @if ($i<1)
+    <span > 
+        <?php
+        if ($i<2) {
+    $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
-    $definition= explode(' ',$microbial_loadanalyses[1]->definition);
+        echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
+        
 
-        echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
-        }
-    ?>
+        $definition= explode(' ',$microbial_loadanalyses[1]->definition);
 
-  </span>
+            echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+            }
+        ?>
+
+      </span>
 @endif
 @endfor
   </td>
@@ -269,19 +278,19 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 </tr>
 </table>
 
-
+<span style="font-size:14px"> 
+  <strong> General Conclusion:</strong>
+  {{$product->micro_la_conclution}}
+</span>
+</div>
 @endif
 
 
-  <span style="font-size:14px"> 
-    <strong> General Conclusion:</strong>
-    {{$product->micro_la_conclution}}
-  </span>
 
 
  @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
 
- <table style="margin-bottom:15px">
+ <table>
     <tr>
   <th class="font" style="border: #fff">(B) Microbial Efficacy Analysis</th>
     </tr>
@@ -316,15 +325,9 @@ $definition= explode(' ',$microbial_loadanalyses[0]->definition);
 
   <span style="font-size: 14px" >
     <span style="font-size:14px"><strong>General Conclusion:</strong> </span>
-    {{$product->micro_la_conclution}}</span>
+    {{$product->micro_ea_conclution}}</span>
 
   @endif
-
-    {{-- @if ($check_load->load_analyses_id ==1)
-    <table style="margin-top:10%">
-    kjhgj
-    </table>
-    @endif --}}
 
 <table>
   

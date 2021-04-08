@@ -1226,7 +1226,7 @@ class MicroController extends Controller
               $adminPin = $request->get('pin');
 
               $checkmailonly = Admin::where('dept_id',1)->where('email', '=', $userEmail)->first();
-              $admin = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
+              $admin = Admin::where('dept_id',1)->where('user_type_id','<',4)->where('email', '=', $userEmail)->first();
 
               if (!$checkmailonly) {
                 return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);

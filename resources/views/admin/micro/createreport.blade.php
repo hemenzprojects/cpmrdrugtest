@@ -168,7 +168,7 @@ $product = \App\Product::where('id',7)->first();
             <div class="card">
                 <div class="card-header" style="border-color: #ffc107;" >
                     @if (count($auth) >0)
-                    @if ($auth_id->dept_office_id == 1)
+                    @if ($auth_id->user_type_id <4)
                         @foreach($microproduct_withtests->groupBy('product_id') as $microproduct_withtest)
                         <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
                             {{count($microproduct_withtest)}} 
@@ -177,7 +177,7 @@ $product = \App\Product::where('id',7)->first();
                      @endif
                      @endif
                      @if (count($auth) >0)
-                     @if ($auth_id->dept_office_id == 2)
+                     @if ($auth_id->user_type_id >3)
                          @foreach($auth_microproduct_withtests->groupBy('product_id') as $auth_microproduct_withtest)
                          <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
                             {{count($auth_microproduct_withtest)}} 
@@ -201,7 +201,7 @@ $product = \App\Product::where('id',7)->first();
                
                   <div class="card-body progress-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                         @if (count($auth) >0)
-                          @if ($auth_id->dept_office_id == 1)
+                          @if ($auth_id->user_type_id < 4)
                          
                           <ul class="list-group" id="myList">
                             @foreach($microproduct_withtests->sortBy('micro_hod_evaluation') as $microproduct_withtest)
@@ -301,7 +301,7 @@ $product = \App\Product::where('id',7)->first();
                         @endif
                      
                         @if (count($auth) >0)
-                         @if ($auth_id->dept_office_id > 1)
+                         @if ($auth_id->user_type_id >3)
                        ..
                        <ul class="list-group" id="myList">
                            @foreach($auth_microproduct_withtests->sortBy('micro_hod_evaluation') as $auth_microproduct_withtest)
