@@ -110,124 +110,157 @@
     
                     </div>
                     <div class="col-md-8">
-                        <div class="card" style="padding: 5px">
 
-                                <div class="text-center"> 
-                                <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
-                                <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
-                                <p class="card-subtitle">Phytochemistry Department</p>
-                               </div>
-                     
-                               <form  action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
-                                {{ csrf_field() }} 
-                                <input type="hidden" name="savereport" value="1">   
-
-                               <div class="card"  style="padding: 15px">
-
-                                 @include('admin.phyto.temp.productformat') 
-                                 @include('admin.phyto.temp.organolepticsformat')
-                                 @include('admin.phyto.temp.physicochemicalformat')
-                                 @include('admin.phyto.temp.chemicalconstituents')
-                                 @include('admin.phyto.temp.phytoconclusion')
-                              </div>
-                              <div class="col-sm-6">
-                                @if ( $product->phyto_hod_evaluation === 0 ||  $product->phyto_hod_evaluation ===1 )
-                                <button  type="submit" class="btn btn-success pull-right submitreport1" >
-                                <i class="fa fa-credit-card "></i> 
-                                     Save Report
-                                </button>
-                                @endif
-
-                                 <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
-                                    <i class="fa fa-chevron-right "></i> 
-                                    Preview
-                                </button>
-                              </div>
-                             </form>
-                     
-                     
-                     
-                                 @include('admin.phyto.temp.signaturetemplate')
-
-                             
-                                <div class="col-12" style="margin-top: 50px">
-                                 <div class="row">
-                                     <div class="col-md-6" style="margin-right: 16%">
-                                       @if ($product->phyto_hod_evaluation <2)
-                                       <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Sign Report</button>
-                                       @endif
-                                       @if ($product->phyto_hod_evaluation ==2) 
-                                      <a href="{{ old('redirect_to', URL::previous())}}">
-                                       <div class="alert alert-success" role="alert">
-                                           Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
-                                       </div>
-                                      </a>
-                                      
-                                      @endif
-                                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
-                                           <div class="modal-dialog modal-dialog-centered" role="document">
-                                            
-                       
-                                                <div class="modal-content">
-                                                   <div class="modal-header">
-                                                       <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to evaluate report</h5>
-                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                   </div>
-                                                   <div class="modal-body">
-                                                       <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{route('admin.phyto.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
-                                                           {{ csrf_field() }}
-                                                       <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
-                       
-                                                       <div class="input-group input-group-default col-md-6">
-                                                           <select class="form-control" name="evaluate">
-                                                               <option value="2">Approve Report</option>
-                                                               <option value="1">Reject Report</option>
-                                                           </select>
-                                                           </div>
-                                                           <div id="error-div" style="margin: 5px; color:red;"></div>
-                                                           <input name="adminid" id="adminid"  type="hidden" >
-                                   
-                                                           <div class="input-group input-group-default">
-                                                               @error('email')
-                                                               <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                                                   <strong>{{$message}}</strong>
-                                                               </small>
-                                                               @enderror
-                                                               <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                                            <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email" value="{{App\Admin::find(Auth::guard("admin")->id())->email}}" readonly>
-                                                           </div>
-                                   
-                                                           <div class="input-group input-group-default">
-                                                               @error('pin')
-                                                               <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
-                                                                   <strong>{{$pin}}</strong>
-                                                               </small>
-                                                               @enderror
-                                                               <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
-                                                               <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
-                                                           </div>                         
-                                                   </div>
-                                                   <div class="modal-footer">
-                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                       <button type="submit" class="btn btn-primary">Sign</button>
-                                                   </div>
-                                               </form>
-                                               </div>
-                                           </div>
-                                       </div>
-                                     </div>
-                                     <div class="col-md-4">  
-                                          @if ($product->phyto_hod_evaluation == 2) 
-                                         
-                                       <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
-                                      <a href="{{url('admin/phyto/report/hod_office/complete_report',['id' => $product->id])}}" target=”_blank”>
-                                       <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
-                                      </a>
-                                       @endif
-                                   </div>
+                        <div class="card">
+                            <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Preveiw Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Edit Report</a>
+                                </li>
+                              
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade active show" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                                    <div class="card-body">
+                                        @if ($product->phyto_hod_evaluation ===0) 
+                                        Please preview and evaluate <strong>({{$product->code}})</strong>  report 
+                                        @endif
+                                    </div>
                                 </div>
+                                <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <div class="card-body">
+                                      
+                                  <div class="text-center"> 
+                                    <img src="{{asset('admin/img/logo.jpg')}}" class="" width="11%">
+                                    <h4 class="font" style="font-size:16px"> Centre for Plant Medicine Research </h4>
+                                    <p class="card-subtitle">Phytochemistry Department</p>
+                                   </div>
+                         
+                                   <form  action="{{url('admin/phyto/makereport/update',['id' => $product->id])}}" method="post">
+                                    {{ csrf_field() }} 
+                                    <input type="hidden" name="savereport" value="1">   
+    
+                                     @include('admin.phyto.temp.productformat') 
+                                     @include('admin.phyto.temp.organolepticsformat')
+                                     @include('admin.phyto.temp.physicochemicalformat')
+                                     @include('admin.phyto.temp.chemicalconstituents')
+                                     @include('admin.phyto.temp.phytoconclusion')
+                                
+                                  @include('admin.phyto.temp.signaturetemplate')
+
+                                  <div class="col-sm-6">
+                                    @if ( $product->phyto_hod_evaluation === 0 ||  $product->phyto_hod_evaluation ===1 )
+                                    <button  type="submit" class="btn btn-success pull-right submitreport1" >
+                                    <i class="fa fa-credit-card "></i> 
+                                         Save Report
+                                    </button>
+                                    @endif
+    
+                                  </div>
+                                 </form>
+                         
+                         
+                         
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-12" style="margin-top: 20px;margin-bottom: 10px">
+                                <div class="row">
+                                    <div class="col-md-6" style="margin-right: 16%">
+                                     
+                                      @if ($product->phyto_hod_evaluation ==2) 
+                                     <a href="{{ old('redirect_to', URL::previous())}}">
+                                      <div class="alert alert-success" role="alert">
+                                          Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
+                                      </div>
+                                     </a>
+                                     
+                                     @endif
+                                     @if ($product->phyto_hod_evaluation ===1) 
+                                     <a href="{{ old('redirect_to', URL::previous())}}">
+                                         <div class="alert alert-danger" role="alert">
+                                             Report of {{$product->code}}  has been rejected by Hod for some reasons
+                                         </div> 
+                                     </a>
+                                     @endif
+                                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                           
+                      
+                                               <div class="modal-content">
+                                                  <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to evaluate report</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                      <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{route('admin.phyto.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
+                                                          {{ csrf_field() }}
+                                                      <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
+                      
+                                                      <div class="input-group input-group-default col-md-6">
+                                                          <select class="form-control" name="evaluate">
+                                                              <option value="2">Approve Report</option>
+                                                              <option value="1">Reject Report</option>
+                                                          </select>
+                                                          </div>
+                                                          <div id="error-div" style="margin: 5px; color:red;"></div>
+                                                          <input name="adminid" id="adminid"  type="hidden" >
+                                  
+                                                          <div class="input-group input-group-default">
+                                                              @error('email')
+                                                              <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                                  <strong>{{$message}}</strong>
+                                                              </small>
+                                                              @enderror
+                                                              <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                                           <input required id="useremail" type="email" class="form-control" name="email" placeholder="Enter your email" value="{{App\Admin::find(Auth::guard("admin")->id())->email}}" readonly>
+                                                          </div>
+                                  
+                                                          <div class="input-group input-group-default">
+                                                              @error('pin')
+                                                              <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                                                                  <strong>{{$pin}}</strong>
+                                                              </small>
+                                                              @enderror
+                                                              <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
+                                                              <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
+                                                          </div>                         
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                      <button type="submit" class="btn btn-primary">Sign</button>
+                                                  </div>
+                                              </form>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="row"> 
+                                    <div class="col-md-6">
+                                       @if ($product->phyto_hod_evaluation <2)
+                                       <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-credit-card"></i> Evaluate Report</button>
+                                       @endif
+                                    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
+                                       <i class="fa fa-chevron-right "></i> 
+                                       Preview
+                                   </button>
+                                    </div>
+                                    @if ($product->phyto_hod_evaluation == 2) 
+                                    <div class="col-md-6">  
+                                      <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
+                                     <a href="{{url('admin/phyto/report/hod_office/complete_report',['id' => $product->id])}}" target=”_blank”>
+                                      <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
+                                     </a>
+                                    </div>
+                                    @endif
                                </div>
-                             </div>
+                              </div>
+                        </div>
+                     
                         </div>
                     </div>
                    

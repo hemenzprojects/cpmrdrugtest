@@ -21,7 +21,7 @@
             <td class="font2">{{$product->code}}</td>
             <td class="font2">{{$product->productType->name}}</td>
             <td class="font2">{{ $product->departmentById(1)->pivot->updated_at->format('jS \\, F Y') }}</td>
-            <td class="font2">{{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\, F Y')}}</td>
+            <td class="font2">{{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>
             </tr>
 
             </table>
