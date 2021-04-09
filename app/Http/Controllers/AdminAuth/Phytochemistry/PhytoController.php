@@ -50,6 +50,7 @@ class PhytoController extends Controller
        $data['product_type_id'] = $r->product_type_id;
        $data['product_types'] = ProductType::all();
 
+
        if ($r->date == Null) {
         $data['dept3'] = Department::find(3)->products()->with('departments')->orderBy('status')
         ->whereHas("departments", function($q)use($r){
@@ -58,17 +59,25 @@ class PhytoController extends Controller
       }
 
        if ($r->date == 1) {
-        if ($r->status == 1) {
+        $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+  
+        $data['dept3'] = Department::find(1)->products()->orderBy('status')->with('departments')
+        ->whereHas("departments", function($q)use($r,$week_start){
+          return $q->where("dept_id",3)->where('product_depts.created_at','>=',$week_start);
+        })->get();
+
+      if ($r->status == 1) {
 
           $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
 
-          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
+         $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
           ->whereHas("departments", function($q)use($r,$week_start){
             return $q->where("dept_id",3)->where("status",$r->status)->where('product_depts.created_at','>=',$week_start);
           })->get();
         }
    
         if ($r->status > 1) {
+
           $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
 
           $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
@@ -79,7 +88,14 @@ class PhytoController extends Controller
    
       }
 
-      if ($r->date == 2) {
+      if ($r->date == 2){
+        
+          $month_start = date('Y-m-01 00:00:00');
+  
+          $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",3)->where('product_depts.created_at','>=',$month_start);
+           })->get();
+
         if ($r->status == 1) {
           $month_start = date('Y-m-01 00:00:00');
 
@@ -102,6 +118,8 @@ class PhytoController extends Controller
         return $q->where("dept_id",3);
        })->get();
        }
+
+        
       return View('admin.phyto.receiveproduct', $data); 
     } 
 
