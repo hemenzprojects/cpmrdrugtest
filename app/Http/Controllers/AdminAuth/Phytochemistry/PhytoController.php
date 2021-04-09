@@ -61,7 +61,7 @@ class PhytoController extends Controller
        if ($r->date == 1) {
         $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
   
-        $data['dept3'] = Department::find(1)->products()->orderBy('status')->with('departments')
+        $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')
         ->whereHas("departments", function($q)use($r,$week_start){
           return $q->where("dept_id",3)->where('product_depts.created_at','>=',$week_start);
         })->get();
@@ -89,7 +89,7 @@ class PhytoController extends Controller
       }
 
       if ($r->date == 2){
-        
+
           $month_start = date('Y-m-01 00:00:00');
   
           $data['dept3'] = Department::find(3)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
