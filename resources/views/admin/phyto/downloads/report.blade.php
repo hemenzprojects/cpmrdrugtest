@@ -72,11 +72,11 @@ $product = \App\Product::find($report_id);
     <div style=" background-color: #ffffffe7;">
 <table>
     <tr style="border: 0px solid #d3d3d3;">
-        <td style="width:42%;border:0px solid #d3d3d3;"></td>
+        <td style="width:47%;border:0px solid #d3d3d3;"></td>
         <td style="width:50%; border: 0px solid #d3d3d3;" >
             <img src="{{asset('admin/img/logo.jpg')}}" width="30%">
         </td>
-        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
+    <td style="width:20%; border: 0px solid #d3d3d3;"> <span style="font-size:9px" >SN - {{$product->phyto_serial_number}}</span> </td>
 
     </tr>
 

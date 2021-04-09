@@ -15,7 +15,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 7px;
 }
 
 tr:nth-child(even) {
@@ -48,7 +48,7 @@ tr:nth-child(even) {
 }
 .watermarked2{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 68% 50%;
+    background-size: 69% 45%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -77,11 +77,11 @@ tr:nth-child(even) {
     <div style=" background-color: #ffffffeb;">
 <table>
     <tr style="border: 0px solid #d3d3d3;">
-        <td style="width:50%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:58%;border: 0px solid #d3d3d3;"></td>
         <td style="width:50%; border: 0px solid #d3d3d3;" >
             <img src="{{asset('admin/img/logo.jpg')}}" width="20%">
         </td>
-        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
+        <td style="width:20%; border: 0px solid #d3d3d3;"> <span style="font-size:9px" >SN - {{$product->micro_serial_number}}</span></td>
 
     </tr>
 

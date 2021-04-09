@@ -49,7 +49,14 @@ class Product extends Model
     //     return 1;
     // }
 
- 
+    public function getPhytoSerialNumberAttribute(){
+       $serial_number = $this->productType->code. "".$this->id."/". $this->phyto_hod_evaluation."".$this->phyto_grade."/".$this->created_at->format('ymd');
+        return $serial_number;
+    }
+    public function getMicroSerialNumberAttribute(){
+        $serial_number = $this->productType->code. "".$this->id ."/". $this->micro_hod_evaluation."".$this->micro_grade."/".$this->created_at->format('ymd');
+        return $serial_number;
+     }
 
     public function getExperimentalDeathsAttribute()
     {
