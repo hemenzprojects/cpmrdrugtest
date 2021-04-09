@@ -134,7 +134,7 @@ $product = \App\Product::find($report_id);
     <tbody>
         @foreach ($phyto_organolepticsreport as $organo_item)
         <tr>
-            <td class="font" style="width: 50%"><strong>{{$organo_item->name}}</strong></td>
+            <td class="font" style="width: 50%">{{$organo_item->name}}</td>
             <td class="font" style="width: 50%">{{$organo_item->feature}}</td>
         </tr>
         @endforeach
@@ -150,7 +150,7 @@ $product = \App\Product::find($report_id);
     <tbody>
         @for ($i = 0; $i < count($phyto_physicochreport); $i++)
         <tr>
-            <td class="font" style="width: 50%"><strong>{{$phyto_physicochreport[$i]->name}}</strong></td>
+            <td class="font" style="width: 50%">{{$phyto_physicochreport[$i]->name}}</td>
             <td class="font" style="width: 50%">
                 @if ($phyto_physicochreport[$i]->location == 1)
                 <span>{{$phyto_physicochreport[$i]->result}}  &deg; {{$phyto_physicochreport[$i]->unit}}  </span>        
