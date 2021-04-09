@@ -48,7 +48,7 @@ tr:nth-child(even) {
 }
 .watermarked2{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 63% 50%;
+    background-size: 60% 45%;
     background-position: center;
     background-repeat: no-repeat;
 }
