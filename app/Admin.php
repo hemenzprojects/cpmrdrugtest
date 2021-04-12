@@ -47,7 +47,7 @@ class Admin extends Authenticatable
 
     public function getFullNameAttribute(){
 
-        return $this->title.' '.$this->first_name.' '.$this->last_name;
+        return $this->title.'. '.$this->first_name.' '.$this->last_name;
     }
 
     public function type()
