@@ -484,6 +484,7 @@ $product = \App\Product::where('id',7)->first();
 
     <div class="row">
         <div class="card">
+ 
             <ul class="nav justify-content-center" style="margin-top: 10px"> 
               <h4>CREATE MICROBIAL REPORT</h4>
             </ul>
@@ -720,7 +721,20 @@ $product = \App\Product::where('id',7)->first();
                             </small>
                             @enderror
                         </div>
-                       
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select name="micro_grade" class="form-control">
+                                <option value="">Product Evaluation</option>
+                                    <option value="1">Failed</option>
+                                    <option value="2">Passed</option>
+                                </select>                                
+                                </div>
+                                @error('micro_grade')
+                                <small class="form-text text-danger" role="alert">
+                                    <strong style="color:#fff">{{$message}}</strong>
+                                </small>
+                                @enderror
+                        </div>
                         <div class="col-sm-3">
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
                         </div>

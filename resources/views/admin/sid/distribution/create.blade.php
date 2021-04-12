@@ -162,17 +162,44 @@
             
                 <form action="{{url('admin/sid/distribute_product')}}" class="form-inline" method="POST">
                         {{ csrf_field() }}
-                        <div class="col-md-12" style="margin:5px">
+                        <div class="col-md-12" style="margin:5px" >
                             <div class="form-group">
                                 <label for="exampleSelectGender">{{$dept[$n]->name}}</label><br>
                                 <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
-                                   @foreach (\App\Product::all() as $p)
-                                       @if (count($p->productDept()->where('dept_id',$dept[$n]->id)->get())>0)
-                                          @php continue; @endphp
-                                       @endif
-                                   <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
+                                   @if ($dept[$n]->id == 1)
+                                   @foreach (\App\Product::where('micro_grade',Null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',1)->get())>0)
+                                      @php continue; @endphp
+                                     
+                                   @endif
                                 
-                                   @endforeach
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
+                            
+                                  @endforeach
+                                   @endif 
+                                  
+                                   @if ($dept[$n]->id == 2)
+                                   @foreach (\App\Product::where('pharm_grade',Null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',2)->get())>0)
+                                      @php continue; @endphp
+                                     
+                                   @endif
+                                
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
+                            
+                                  @endforeach
+                                   @endif 
+
+                                  @if ($dept[$n]->id == 3)
+                                   @foreach (\App\Product::where('phyto_grade',null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',3)->get())>0)
+                                      @php continue; @endphp
+                                   @endif
+
+                                  <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
+                            
+                                  @endforeach
+                                   @endif 
                                 </select>
                             </div>
                         </div>
@@ -244,14 +271,13 @@
                                                         <th>Product Type</th>
                                                         <th>Quantity</th>
                                                         <th>status</th>
-                                                        <th class="showstatus"></th>
                                                         <th>Distributed by</th>
                                                         <th>Received by</th>
                                                         <th>Actions</th>                        
                                                 </tr>
                                                 </thead>
                                                 <tbody>                                            
-                                                    @foreach($dept[$j]->products()->with('departments')->orderBy('status')->get() as $product)
+                                                    @foreach($dept[$j]->products()->with('departments')->where('status',1)->orderBy('created_at')->get() as $product)
                                                     <tr>
                                                             <td class="font">
                                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
@@ -263,7 +289,6 @@
                                                             <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                             <td class="font">{{$product->pivot->quantity}}</td>
                                                            <td> {!! $product->product_status !!}</td>
-                                                            <td class="showstatus"><span style="display: none">{{$product->pivot->status}}</span></td>
                                                             <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>
                                                             <td class="font">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</td>
                                                                                     

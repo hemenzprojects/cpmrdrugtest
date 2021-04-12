@@ -33,6 +33,7 @@ class MicroTestCreateRequest extends FormRequest
         $this->session()->flash('message', 'Please check error(s) indicated and retry.');
         $rule = [
             'micro_product_id' => 'required|numeric',
+            'micro_grade' => 'required|numeric',
             'test_conducted_id' =>['required','numeric',new MicroTestCreateLoadRule],
             'microbialcount' => ['numeric',new MicroTestCreateCountRule],
             'efficacyanalyses' => ['numeric',new MicroTestCreateEfficacyRule], 

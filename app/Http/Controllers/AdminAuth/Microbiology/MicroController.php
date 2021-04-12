@@ -287,7 +287,6 @@ class MicroController extends Controller
               }
 
               public function test_create(MicroTestCreateRequest $r){
-
                             
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
@@ -295,7 +294,13 @@ class MicroController extends Controller
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-
+                 $micro_grades = [1,2];
+                 if(!in_array($r->micro_grade, $micro_grades)){
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Sorry! System Error.');
+                    return redirect()->back();
+                 }
+               
                 $input = $r->all();
                 $mp_id = $input['micro_product_id'];
                 $products= Product::where('id',$mp_id);
@@ -502,6 +507,8 @@ class MicroController extends Controller
                 $product = $products->first();
                 $product->micro_dateanalysed =$r->date_analysed;
                 $product->micro_analysed_by = Auth::guard('admin')->id();
+                $product->micro_grade = $r->micro_grade;
+
                 $product->update();
               
                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
@@ -547,7 +554,13 @@ class MicroController extends Controller
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-
+                 
+                $micro_grades = [1,2];
+                if(!in_array($r->micro_grade, $micro_grades)){
+                 Session::flash('message_title', 'error');
+                 Session::flash('message', 'Sorry! System Error.');
+                   return redirect()->back();
+                }
                 $input = $r->all();
                $ml_testconducteds = $r->test_conducted;
                $mc_testconducteds= $r->mc_test_conducted;
