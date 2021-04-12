@@ -198,7 +198,15 @@
                                 {{-- SID --}}
                                 @if (Auth::guard('admin')->user()->dept_id ==4)
                                 @if (Auth::guard('admin')->user()->dept_office_id ==1)
-
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                    <div class="submenu-content">
+                                    <a href="{{route('admin.sid.phyto_completed_reports')}}" class="menu-item">Mirco Completed Reports</a>
+                                    <a href="{{route('admin.sid.phyto_completed_reports')}}" class="menu-item">Pharm Completed Reports</a>
+                                    <a href="{{route('admin.sid.phyto_completed_reports')}}" class="menu-item">Phyto Completed Reports</a>
+                                    
+                                    </div>
+                                </div>
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-settings"></i><span>Users Configuration</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
@@ -207,6 +215,7 @@
                                     <a href="#" class="menu-item"> User Permissions</a>
                                     </div>
                                 </div> 
+                               
                                 @endif
                                 @endif
 

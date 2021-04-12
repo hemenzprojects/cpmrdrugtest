@@ -3,7 +3,7 @@
 <head>
 <style>
 .font{
-      font-size: 14px;
+      font-size: 14.5px;
       font-family: "Times New Roman";
     }
 table {
@@ -226,7 +226,7 @@ $product = \App\Product::find($report_id);
         $hod_user_type = (\App\Admin::find($phyto_finalapproved_by)? \App\Admin::find($phyto_finalapproved_by)->user_type_id:'');
 
         ?>
-        <span>Supervisor</span><br>
+        <span>Approved By</span><br>
         @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
 
         <img src="{{asset(\App\Admin::find($phyto_finalapproved_by)? \App\Admin::find($phyto_finalapproved_by)->sign_url:'')}}" class="" width="21%"><br>

@@ -1665,4 +1665,39 @@ class SIDController extends Controller
         Session::flash("message_title", "success");
         return redirect()->back();
 }
+
+     public function phyto_completed_reports(){
+
+      $data['phytocompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 3)->where("status",4);
+      })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+
+      ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+      return view('admin.sid.hodoffice.phytocompletedreports',$data);
+    }
+
+
+    public function phyto_completedreport_update(Request $r){
+
+        $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 3)->where("status",4);
+        })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+  
+        ->with('pchemconstReport')->whereHas('pchemconstReport');
+
+         if(count($phytocompletedreports->get()) < 1){     
+            return redirect()->back();
+          }
+
+          $data = 
+          [ 
+          'status' => 3,
+          ];   
+
+         ProductDept::whereIN('product_id', $r->phyto_completedproduct_id)->where("dept_id", 3)->where("status",4)->update($data);
+  
+         return redirect()->back();
+      }
+
 }

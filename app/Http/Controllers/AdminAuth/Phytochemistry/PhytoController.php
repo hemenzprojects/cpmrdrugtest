@@ -944,6 +944,7 @@ class PhytoController extends Controller
 
             //*************************************************** General Report Section ************************** */\
              
+
              public function completedreport_show($id){
               $productdepts = ProductDept::where('product_id', $id)->where("dept_id",3)->where("status",4);
               if(count($productdepts->get()) < 1){     
