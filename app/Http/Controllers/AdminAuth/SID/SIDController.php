@@ -203,6 +203,14 @@ class SIDController extends Controller
              return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
          })->get();
          
+        //  $p = Product::whereHas("departments", function ($q) use ($data) {
+        //     return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        // })->pluck('id')->toArray();
+
+      
+        //  Product::whereIn('id', $p)->update(['phyto_hod_evaluation' => Null]);
+
+       
     //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
         $data['from_date'] = Null;
         $data['to_date'] = Null;
@@ -255,9 +263,7 @@ class SIDController extends Controller
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
-        $micro_hod_evaluation =Null;
-        $pharm_hod_evaluation =Null;
-        $phyto_hod_evaluation =Null;
+        
        
         if ($request->single_multiple_lab ==1) {
             if ($check_lab <1) {
@@ -275,23 +281,17 @@ class SIDController extends Controller
             if ($request->micro_hod_evaluation) {
             
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
 
             if ($request->pharm_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
 
             if ($request->phyto_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
             }
         
        }
@@ -307,15 +307,12 @@ class SIDController extends Controller
 
             if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation) {
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
             if ($request->micro_hod_evaluation && $request->phyto_hod_evaluation) {
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
             }
             if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
             }
          
        }
@@ -332,9 +329,6 @@ class SIDController extends Controller
             'dosage' => $request->dosage,
             'indication' => $request->indication,
             'single_multiple_lab' => $single_multiple_lab,
-            'micro_hod_evaluation' => $micro_hod_evaluation,
-            'pharm_hod_evaluation' => $pharm_hod_evaluation,
-            'phyto_hod_evaluation' => $phyto_hod_evaluation,
             'micro_grade' => $micro_grade,
             'pharm_grade' => $pharm_grade,
             'phyto_grade' => $phyto_grade,

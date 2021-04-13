@@ -158,12 +158,12 @@
                                @if ($product->single_multiple_lab ==1)
                                <strong>Single Lab</strong> <br>
                                Test to be conducted if various Labs:
-                                    @if ($product->micro_hod_evaluation == Null)
+                                    @if ($product->micro_grade == Null ||$product->micro_analysed_by != Null)
                                     <li> Microbiology Lab</li>
                                     @endif
-                                    @if ($product->pharm_hod_evaluation == Null)
+                                    @if ($product->pharm_grade == Null ||$product->pharm_analysed_by != Null)
                                     <li> Pharmachology Lab</li>
-                                    @endif @if ($product->phyto_hod_evaluation == Null)
+                                    @endif @if ($product->phyto_grade == Null ||$product->phyto_analysed_by != Null)
                                     <li> Phytochemistry Lab<li>
                                     @endif
                                @endif
@@ -171,12 +171,12 @@
                                <strong>Multiple Labs</strong> <br>
 
                                Test to be conducted if various Labs:
-                                    @if ($product->micro_hod_evaluation == Null)
+                                    @if ($product->micro_grade == Null ||$product->micro_analysed_by != Null)
                                     <li> Microbiology Lab</li>
                                     @endif
-                                    @if ($product->pharm_hod_evaluation == Null)
+                                    @if ($product->pharm_grade == Null ||$product->pharm_analysed_by != Null)
                                     <li> Pharmachology Lab</li>
-                                    @endif @if ($product->phyto_hod_evaluation == Null)
+                                    @endif @if ($product->phyto_grade == Null  ||$product->phyto_analysed_by != Null)
                                     <li> Phytochemistry Lab<li>
                                     @endif
                                @endif

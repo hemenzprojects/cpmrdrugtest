@@ -76,7 +76,7 @@ class CreateProductsTable extends Migration
             $table->date('phyto_datecompleted')->nullable();
             $table->integer('phyto_overall_status')->default(1)->nullable();
             $table->integer('phyto_process_status')->nullable()->default(0)->comment('begins from (when assistant head or lab technologist approves report)');
-            $table->integer('phyto_hod_evaluation')->default(0)->nullable()->comment('1 - Approval pending 2 - Report Approved');
+            $table->integer('phyto_hod_evaluation')->nullable()->comment('1 - Approval pending 2 - Report Approved');
             $table->text('phyto_hod_remarks')->nullable();
             $table->integer('phyto_approved_by')->nullable();
             $table->integer('phyto_finalapproved_by')->nullable();

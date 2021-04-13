@@ -152,7 +152,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -167,18 +167,52 @@
                                 <label for="exampleSelectGender">{{$dept[$n]->name}}</label><br>
                                 <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
                                   
-                                   @foreach (\App\Product::all() as $p)
-                                   @if (count($p->productDept()->where('dept_id',$n)->get())>0)
+                                    @foreach (\App\Product::all() as $p)
+                                    @if (count($p->productDept()->where('dept_id',$dept[$n]->id)->get())>0)
+                                       @php continue; @endphp
+                                    @endif
+                                    <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->micro_grade}}</option>
+
+                                    @endforeach
+                                </select>
+{{-- 
+                                <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
+
+                                    @if ($dept[$n]->id == 1)
+                                   @foreach (\App\Product::where('micro_grade',Null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',1)->get())>0)
                                       @php continue; @endphp
                                      
                                    @endif
                                 
-                                 <option value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} </option>
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->phyto_grade}}</option>
                             
                                   @endforeach
+                                   @endif 
                                   
-                             
-                                </select>
+                                   @if ($dept[$n]->id == 2)
+                                   @foreach (\App\Product::where('pharm_grade',Null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',2)->get())>0)
+                                      @php continue; @endphp
+                                     
+                                   @endif
+                                
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->phyto_grade}}</option>
+                            
+                                  @endforeach
+                                   @endif 
+
+                                  @if ($dept[$n]->id == 3)
+                                   @foreach (\App\Product::where('phyto_grade',null)->get() as $p)
+                                   @if (count($p->productDept()->where('dept_id',3)->get())>0)
+                                      @php continue; @endphp
+                                   @endif
+
+                                <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->phyto_grade}}</option>
+                            
+                                  @endforeach
+                                   @endif 
+                                </select> --}}
                             </div>
                         </div>
                         <input type="hidden" name="dept_id" value="{{$dept[$n]->id}}">
@@ -255,18 +289,20 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>                                            
-                                                    @foreach($dept[$j]->products()->with('departments')->where('status',1)->orderBy('created_at')->get() as $product)
+                                                    @foreach($dept[$j]->products()->with('departments')->where('status',1)->orderBy('product_depts.created_at','DESC')->get() as $product)
                                                     <tr>
                                                             <td class="font">
                                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                                    {{$product->code}}
-                                                                </span>
+                                                                    {{$product->id}}
+                                                                </span> 
                                                             </td>
                                                             <td class="font">{{ucfirst($product->name)}}</td>
                                                             
                                                             <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                             <td class="font">{{$product->pivot->quantity}}</td>
                                                            <td> {!! $product->product_status !!}</td>
+
+
                                                             <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>
                                                             <td class="font">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</td>
                                                                                     
