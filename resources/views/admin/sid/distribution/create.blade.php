@@ -175,8 +175,8 @@
 
                                     @endforeach
                                 </select>
-{{-- 
-                                <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
+
+                                {{-- <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
 
                                     @if ($dept[$n]->id == 1)
                                    @foreach (\App\Product::where('micro_grade',Null)->get() as $p)
@@ -185,7 +185,7 @@
                                      
                                    @endif
                                 
-                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->phyto_grade}}</option>
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->micro_grade}}</option>
                             
                                   @endforeach
                                    @endif 
@@ -197,7 +197,7 @@
                                      
                                    @endif
                                 
-                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->phyto_grade}}</option>
+                                 <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->pharm_grade}}</option>
                             
                                   @endforeach
                                    @endif 
@@ -297,11 +297,21 @@
                                                                     {{$product->code}}
                                                                 </span> 
                                                             </td>
-                                                            <td class="font">{{ucfirst($product->name)}}</td>
+                                                            <td class="font">{{ucfirst($product->name)}}
+                                                                @if ($product->failed_tag)
+                                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">#R</span></sup>
+                                                                @endif
+                                                                @if($product->single_multiple_lab ==1)
+                                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
+                                                                @endif
+                                                                @if($product->single_multiple_lab ==2)
+                                                                <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
+                                                                @endif
+                                                            </td>
                                                             
                                                             <td class="font">{{ucfirst($product->productType->name)}}</td>
                                                             <td class="font">{{$product->pivot->quantity}}</td>
-                                                           <td> {!! $product->product_status !!}</td>
+                                                            <td> {!! $product->product_status !!}</td>
 
 
                                                             <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>

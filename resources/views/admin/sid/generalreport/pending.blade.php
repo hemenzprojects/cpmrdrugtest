@@ -49,7 +49,6 @@
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <h5>{{$dept[$j]->name}}</h5>
-                                                                                <span>Click here to ditribute product only to this department</span>
                                                                             </div>
                                                                         </div>
                                                                 </a>                                           
@@ -78,7 +77,17 @@
                                                                             {{$product->code}}
                                                                         </span>
                                                                     </td>
-                                                                    <td class="font">{{ucfirst($product->name)}}</td>
+                                                                    <td class="font">{{ucfirst($product->name)}}
+                                                                        @if ($product->failed_tag)
+                                                                        <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;">#R</span></sup>
+                                                                        @endif
+                                                                        @if($product->single_multiple_lab ==1)
+                                                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
+                                                                        @endif
+                                                                        @if($product->single_multiple_lab ==2)
+                                                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
+                                                                        @endif
+                                                                    </td>
                                                                     <td class="font">{{$product->pivot->quantity}}</td>
                                                                       <td class="font">{!! $product->product_status !!}</td>
                                                                     <td class="showstatus"><span style="display: none">{{$product->pivot->status}}</span></td>
