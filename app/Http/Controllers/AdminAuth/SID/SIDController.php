@@ -208,7 +208,9 @@ class SIDController extends Controller
         })->pluck('id')->toArray();
 
       
-         Product::whereIn('id', $p)->update(['phyto_hod_evaluation' => Null]);
+         Product::whereIn('id', $p)->update(['micro_hod_evaluation' => Null]);
+         Product::whereIn('id', $p)->update(['pharm_hod_evaluation' => Null]);
+
 
        
       return 0;
