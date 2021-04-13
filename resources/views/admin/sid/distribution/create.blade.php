@@ -285,13 +285,14 @@
                                                         <th>status</th>
                                                         <th>Distributed by</th>
                                                         <th>Received by</th>
+                                                        <th>Date</th>
                                                         <th>Actions</th>                        
                                                 </tr>
                                                 </thead>
                                                 <tbody>                                            
                                                     @foreach($dept[$j]->products()->with('departments')->where('status',1)->orderBy('product_depts.created_at','DESC')->get() as $product)
                                                     <tr>
-                                                            <td class="font">
+                                                        <td class="font">
                                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                                     {{$product->code}}
                                                                 </span> 
@@ -305,7 +306,7 @@
 
                                                             <td class="font">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</td>
                                                             <td class="font">{{\App\Admin::find($product->pivot->received_by)?\App\Admin::find($product->pivot->received_by)->full_name:'null'}}</td>
-                                                                                    
+                                                            <td style="font-size: 10px">{{$product->pivot->created_at->format('Y-m-d')}} <br> {{$product->pivot->created_at->format('H:i:s')}}</td>                        
                                                         <td>
                                                             <div class="table-actions">
                                                                                                     
@@ -317,7 +318,7 @@
                                                         </div>
                                                         
                                                         </td>
-                                                </tr>
+                                                  </tr>
                                                 <div class="modal fade" id="demoModal{{$j}}{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
 
                                                     <div class="modal-dialog" role="document">
