@@ -171,7 +171,7 @@
                                     @if (count($p->productDept()->where('dept_id',$dept[$n]->id)->get())>0)
                                        @php continue; @endphp
                                     @endif
-                                    <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}} {{$p->micro_grade}}</option>
+                                    <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
 
                                     @endforeach
                                 </select>
