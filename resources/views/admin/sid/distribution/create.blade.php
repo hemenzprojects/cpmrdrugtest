@@ -165,7 +165,7 @@
                         <div class="col-md-12" style="margin:5px" >
                             <div class="form-group">
                                 <label for="exampleSelectGender">{{$dept[$n]->name}}</label><br>
-                                <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
+                                {{-- <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
                                   
                                     @foreach (\App\Product::all() as $p)
                                     @if (count($p->productDept()->where('dept_id',$dept[$n]->id)->get())>0)
@@ -174,9 +174,9 @@
                                     <option  value="{{$p->id}}" {{$p->id == old('product')? "selected":""}}>{{($p->code)}} - {{($p->name)}}</option>
 
                                     @endforeach
-                                </select>
+                                </select> --}}
 
-                                {{-- <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
+                               <select required name="product_id" style="width:100%;" class="form-control " tag="35909090456{{$n}}">
 
                                     @if ($dept[$n]->id == 1)
                                    @foreach (\App\Product::where('micro_grade',Null)->get() as $p)
@@ -212,7 +212,7 @@
                             
                                   @endforeach
                                    @endif 
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
                         <input type="hidden" name="dept_id" value="{{$dept[$n]->id}}">

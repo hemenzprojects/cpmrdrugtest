@@ -203,15 +203,15 @@ class SIDController extends Controller
              return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
          })->get();
          
-        //  $p = Product::whereHas("departments", function ($q) use ($data) {
-        //     return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        // })->pluck('id')->toArray();
+         $p = Product::whereHas("departments", function ($q) use ($data) {
+            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        })->pluck('id')->toArray();
 
       
-        //  Product::whereIn('id', $p)->update(['phyto_hod_evaluation' => Null]);
+         Product::whereIn('id', $p)->update(['phyto_hod_evaluation' => Null]);
 
        
-    //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
+      return 0;
         $data['from_date'] = Null;
         $data['to_date'] = Null;
         $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->whereRaw('YEAR(created_at)= ?', array($data['year']))->get();
