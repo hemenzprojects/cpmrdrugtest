@@ -293,7 +293,7 @@
                                                     <tr>
                                                             <td class="font">
                                                                 <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                                    {{$product->id}}
+                                                                    {{$product->code}}
                                                                 </span> 
                                                             </td>
                                                             <td class="font">{{ucfirst($product->name)}}</td>
