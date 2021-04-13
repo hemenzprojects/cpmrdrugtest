@@ -174,7 +174,7 @@
                                       @if ($product->phyto_hod_evaluation ==2) 
                                      <a href="{{ old('redirect_to', URL::previous())}}">
                                       <div class="alert alert-success" role="alert">
-                                          Report succesfully completed. Final report of {{$product->code}}  will be printed by SID 
+                                          Report succesfully completed. Final report of {{$product->code}}  will be printed by SID and submited for review.
                                       </div>
                                      </a>
                                      

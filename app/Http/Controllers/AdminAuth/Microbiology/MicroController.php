@@ -555,12 +555,8 @@ class MicroController extends Controller
 
                 } 
                  
-                $micro_grades = [1,2];
-                if(!in_array($r->micro_grade, $micro_grades)){
-                 Session::flash('message_title', 'error');
-                 Session::flash('message', 'Sorry! System Error.');
-                   return redirect()->back();
-                }
+              
+
                 $input = $r->all();
                $ml_testconducteds = $r->test_conducted;
                $mc_testconducteds= $r->mc_test_conducted;
@@ -577,6 +573,12 @@ class MicroController extends Controller
                 // $productdept->update();
               
                    if($r->test_conducted_update){
+                    $micro_grades = [1,2];
+                    if(!in_array($r->micro_grade, $micro_grades)){
+                     Session::flash('message_title', 'error');
+                     Session::flash('message', 'Sorry! System Error.');
+                       return redirect()->back();
+                    }
 
                     for ($i =0; $i < count($r->result); $i++){ 
                           if ($i<2) {
