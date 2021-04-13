@@ -24,7 +24,7 @@
         $hod_user_type = (\App\Admin::find($phyto_finalapproved_by)? \App\Admin::find($phyto_finalapproved_by)->user_type_id:'');
 
         ?>
-        <p>Supervisor</p><br>
+        <p>Approved By</p><br>
 
         @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
 
