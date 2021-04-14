@@ -34,7 +34,7 @@ class PhytoController extends Controller
 
     public function receiveproduct_index(){
           
-          $data['dept3'] = Department::find(3)->products()->with('departments')->orderBy('status')->get();
+          $data['dept3'] = Department::find(3)->products()->with('departments')->where('status',1)->orderBy('status')->get();
 
           $data['product_type_id']= 0;
           $data['product_types'] = ProductType::all();
@@ -1361,7 +1361,6 @@ class PhytoController extends Controller
 
           $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 3)->where("status",3);
           if(count($productdepts->get()) < 1){
-              
               return redirect()->back();
           }
           $productdept = $productdepts->first();

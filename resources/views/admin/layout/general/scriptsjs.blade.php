@@ -647,18 +647,30 @@ $('#acceptmicroproductform').submit(function(e){
 
    <!-- checkuserpharm-->
 <script>
+      var pharm_selectedItems = [];
+    $(document).on('change','.pharmselect',function(){
+      if($(this).is(':checked')){
+        pharm_selectedItems.push($(this).val())
+      }else{
+        var index = pharm_selectedItems.indexOf($(this).val())
+        if(index != -1)
+        pharm_selectedItems.splice(index,1)
+      }
+      console.log(pharm_selectedItems)
+    })
 $('#acceptpharmproductform').submit(function(e){
   
     e.preventDefault();
+    var product_id= $('input[id="deptproduct_id"]').attr("value");
     console.log('attempted to submit form')
-    
+        
     var _token = $('#_token').val()
     var useremail = $('#useremail').val()
-    var userpassword = $('#userpassword').val()
+    var userpin = $('#userpin').val()
 
   var data = {
   'email' : useremail,
-  'password' : userpassword,
+    'pin' : userpin,
   '_token': _token
   }
   
@@ -671,6 +683,12 @@ $('#acceptpharmproductform').submit(function(e){
   if (result.status === true)
   {
     $('#adminid').val(result.admin);
+    console.log(pharm_selectedItems)
+    pharm_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='deptproduct_id[]'`)
+      $('#acceptpharmproductform').prepend(`<input type='hidden' value='${item}' name='deptproduct_id[]'>`)
+    })
+    pharm_selectedItems=[]
     e.currentTarget.submit();
   }
 

@@ -43,7 +43,7 @@ class MicroController extends Controller
          $data['product_type_id']= 0;
          $data['product_types'] = ProductType::all();
 
-          $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')->get();
+          $data['dept1'] = Department::find(1)->products()->with('departments')->where('status',1)->orderBy('status')->get();
 
           return View('admin.micro.receiveproduct', $data); 
 

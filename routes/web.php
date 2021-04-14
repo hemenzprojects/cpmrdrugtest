@@ -207,6 +207,9 @@
    Route::get('pharm/receiveproduct','AdminAuth\Pharmacology\PharmController@receiveproduct_index')->name('admin.pharm.receiveproduct');
    Route::post('/pharmacology/checkuser','AdminAuth\Pharmacology\PharmController@checkuser')->name('admin.pharm.checkuser');
    Route::post('/pharmacology/acceptproduct','AdminAuth\Pharmacology\PharmController@acceptproduct')->name('admin.pharm.acceptproduct');
+   Route::post('pharm/producttype/productlist/search','AdminAuth\Pharmacology\PharmController@productlist_search')->name('admin.pharm.productlist.search');
+
+
    Route::get('pharm/report/show/{id}','AdminAuth\Pharmacology\PharmController@report_show')->name('admin.pharm.report.show');
    Route::post('/pharm/report/create/{id}', 'AdminAuth\Pharmacology\PharmController@pharmreport_create')->name('admin.pharm.report.create');
    Route::get('pharm/completedreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.pharm.completedreport.show');

@@ -25,8 +25,7 @@ class AcceptPharmProductRequest extends FormRequest
     {
         $rule = [
             'status' =>'required','numeric', 
-            'email' => 'required', 
-            'password' => 'required'
+            'pin' => 'required', 
        ];
 
        return $rule;

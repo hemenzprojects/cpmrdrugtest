@@ -9,6 +9,7 @@ use App\Department;
 use App\ProductDept;
 use App\Admin;
 use App\Product;
+use App\ProductType;
 use App\PharmTestConducted;
 use App\PharmSamplePreparation;
 use App\PharmAnimalExperiment;
@@ -32,15 +33,93 @@ class PharmController extends Controller
 
     public function receiveproduct_index(){
           
-          $data['dept2'] = Department::find(2)->products()->with('departments')->orderBy('status')->get();
+          $data['product_type_id']= 0;
+          $data['product_types'] = ProductType::all();
+          $data['dept2'] = Department::find(2)->products()->with('departments')->where('status',1)->orderBy('status')->get();
         
           return View('admin.pharm.receiveproduct', $data); 
 
     }
 
+    
+    public function productlist_search(Request $r){
+      // dd($r->all());
+     $data['product_type_id'] = $r->product_type_id;
+     $data['product_types'] = ProductType::all();
+
+      if ($r->date == Null) {
+        $data['dept2'] = Department::find(2)->products()->with('departments')->orderBy('status')
+        ->whereHas("departments", function($q)use($r){
+         return $q->where("dept_id",2)->where("status",$r->status);
+        })->get();
+      }
+   
+      if ($r->date == 1) {
+
+        $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
+        $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')
+        ->whereHas("departments", function($q)use($r,$week_start){
+          return $q->where("dept_id",2)->where('product_depts.created_at','>=',$week_start);
+        })->get();
+
+        if ($r->status == 1) {
+
+          $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')
+          ->whereHas("departments", function($q)use($r,$week_start){
+            return $q->where("dept_id",2)->where("status",$r->status)->where('product_depts.created_at','>=',$week_start);
+          })->get();
+        }
+   
+        if ($r->status > 1) {
+          $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')
+          ->whereHas("departments", function($q)use($r,$week_start){
+            return $q->where("dept_id",2)->where("status",$r->status)->where('product_depts.received_at','>=',$week_start);
+          })->get();
+        }
+   
+      }
+
+      if ($r->date == 2) {
+
+        $month_start = date('Y-m-01 00:00:00');
+
+        $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+           return $q->where("dept_id",2)->where('product_depts.created_at','>=',$month_start);
+         })->get();
+
+        if ($r->status == 1) {
+          $month_start = date('Y-m-01 00:00:00');
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",2)->where("status",$r->status)->where('product_depts.created_at','>=',$month_start);
+           })->get();
+        }
+        if ($r->status > 1) {
+          $month_start = date('Y-m-01 00:00:00');
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
+             return $q->where("dept_id",2)->where("status",$r->status)->where('product_depts.received_at','>=',$month_start);
+           })->get();
+        }
+    
+      }
+      elseif ($r->date == Null && $r->status == Null) {
+    
+      $data['dept2'] = Department::find(1)->products()->with('departments')->orderBy('status')
+     ->whereHas("departments", function($q){
+      return $q->where("dept_id",1);
+     })->get();
+     }
+     return View('admin.pharm.receiveproduct', $data); 
+    } 
+
     public function acceptproduct(AcceptPharmProductRequest $request)
         {   
-        
             $adminId = Auth::guard('admin')->id();
             $deptproduct_id = $request->deptproduct_id;
             $status = $request->status;
@@ -80,30 +159,30 @@ class PharmController extends Controller
             ->with('success', 'Section updated successfully');
           }
 
-            public function checkuser(Request $request){
-              
-              $userEmail = $request->get('email');
-              $adminPassword = $request->get('password');
+          public function checkuser(Request $request){
+            
+            $userEmail = $request->get('email');
+            $adminPin = $request->get('pin');
 
-              $checkmailonly = Admin::where('email', '=', $userEmail)->first();
-              $admin = Admin::where('dept_id',4)->where('email', '=', $userEmail)->first();
+            $checkmailonly = Admin::where('email', '=', $userEmail)->first();
+            $admin = Admin::where('dept_id',4)->where('email', '=', $userEmail)->first();
 
-              if (!$checkmailonly) {
-                return response()->json(['status' => false, 'message' => "There's no user with the given email"]);
-              }
-              if(!$admin){
-                return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact SID "]);
-              }
-              if(!Hash::check($adminPassword, $admin->password)){
-                return response()->json(['status' => false, 'message' => "Your password is invalid"]);
-              }
-              
-            return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
-              // if ($user) {
-              //   return redirect()->route('admin.user.product', $user);
-              // }
-             
-    }   
+            if (!$checkmailonly) {
+              return response()->json(['status' => false, 'message' => "There's no user with the given email"]);
+            }
+            if(!$admin){
+              return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact SID "]);
+            }
+            if(!Hash::check($adminPin, $admin->pin)){
+              return response()->json(['status' => false, 'message' => "Your PIN is invalid. Please check and sign"]);
+            }
+            
+          return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+            // if ($user) {
+            //   return redirect()->route('admin.user.microproduct', $user);
+            // }
+           
+         }
     
 
     //******************************************************************************************Sample Preparation********************** */
