@@ -216,7 +216,8 @@
 
       //**Pharmacology samplepreparation */
    Route::get('pharm/samplepreparation/create','AdminAuth\Pharmacology\PharmController@samplepreparation_create')->name('admin.pharm.samplepreparation.create');
-  
+   Route::get('pharm/report/index','AdminAuth\Pharmacology\PharmController@pharmreport_index')->name('admin.pharm.report.index');
+
    Route::post('pharm/samplepreparation/store','AdminAuth\Pharmacology\PharmController@samplepreparation_store')->name('admin.pharm.samplepreparation.store');
    Route::post('pharm/sampleprepanimalhouse/store','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse')->name('admin.pharm.sampleprep_animalhouse.store');
   

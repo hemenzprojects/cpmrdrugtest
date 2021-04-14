@@ -184,39 +184,45 @@ class PharmController extends Controller
            
          }
     
+         //**************************************************************************************** Report Index ********************************* */
+         public function pharmreport_index(){
+          $data['pharm_testconducteds'] = PharmTestConducted::all();
 
-    //******************************************************************************************Sample Preparation********************** */
-            public function samplepreparation_create(){
+           $data['samples_to_animalhouses'] = Product::with('departments')->whereHas("departments", function($q){
+             return $q->where("dept_id", 2)->where("status", 2);
+           })->with('samplePreparation')->whereHas("samplePreparation", function($q){
+             return $q->where("created_by", Auth::guard('admin')->id());
+           })->get();
 
-             $data['pharm_testconducteds'] = PharmTestConducted::all();
-              $data['pharmproducts'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 2);
-              })->with('samplePreparation')->whereDoesntHave("samplePreparation")->get();
-
-              $data['samples_to_animalhouses'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 2);
-              })->with('samplePreparation')->whereHas("samplePreparation", function($q){
-                return $q->where("created_by", Auth::guard('admin')->id());
-              })->get();
-
-              $data['sample_preps'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 3);
-              })->with('samplePreparation')->whereHas("samplePreparation")->get();
+           $data['sample_preps'] = Product::with('departments')->whereHas("departments", function($q){
+             return $q->where("dept_id", 2)->where("status", 3);
+           })->with('samplePreparation')->whereHas("samplePreparation")->get();
 
 
-              $data['exp_inprogress'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 7);
-              })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
-                return $q->where("created_by", Auth::guard('admin')->id()); })->get();
+           $data['exp_inprogress'] = Product::with('departments')->whereHas("departments", function($q){
+             return $q->where("dept_id", 2)->where("status", 7);
+           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
+             return $q->where("created_by", Auth::guard('admin')->id()); })->get();
 
-              $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 8);
-              })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
-                return $q->where("created_by", Auth::guard('admin')->id()); })->get();
+           $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
+             return $q->where("dept_id", 2)->where("status", 8);
+           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
+             return $q->where("created_by", Auth::guard('admin')->id()); })->get();
 
-              return View('admin.pharm.samplepreparation.createsample', $data); 
-            }
+           return View('admin.pharm.report_index', $data); 
+         }
 
+         //******************************************************************************************Sample Preparation********************** */
+              public function samplepreparation_create(){
+
+                $data['pharm_testconducteds'] = PharmTestConducted::all();
+                $data['pharmproducts'] = Product::with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 2)->where("status", 2);
+                })->with('samplePreparation')->whereDoesntHave("samplePreparation")->get();
+     
+                return View('admin.pharm.samplepreparation.create', $data); 
+
+              }
             
               public function samplepreparation_store(Request $r){
                   // dd(($r->all()));
@@ -350,7 +356,7 @@ class PharmController extends Controller
                        
             Session::flash("message", "Sample preparation completed. Product(s) is/are yet to be receieved for experimentation at the animal house");
             Session::flash("message_title", "success");
-            return redirect()->route('admin.pharm.samplepreparation.create');
+            return redirect()->route('admin.pharm.report.index');
          }
 
               public function sampleprep_animalhouse_delete($id){
