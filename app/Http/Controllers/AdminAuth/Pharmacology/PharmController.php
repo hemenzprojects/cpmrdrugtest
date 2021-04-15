@@ -436,7 +436,7 @@ class PharmController extends Controller
               }
 
               public function samplepreparation_animalhouse_report(Request $r){
-
+   return $r;
                    $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
 
                    if ($r->pharm_admin == Null) {

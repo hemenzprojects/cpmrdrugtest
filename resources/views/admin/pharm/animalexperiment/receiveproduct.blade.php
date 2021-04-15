@@ -170,7 +170,7 @@
             <div class="col-md-4">   
                 <select required name="officer" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
                     <option value="">Select Staff</option>
-                    @foreach(\App\Admin::where('dept_id',2)->where('dept_office_id',2)->get() as $officer)
+                    @foreach(\App\Admin::where('dept_id',2)->where('dept_office_id','<',3)->get() as $officer)
                                     
                     <option  value="{{$officer->id}}" {{$officer->id == old('admin')? "selected":""}}>{{$officer->full_name}}</option>
 
