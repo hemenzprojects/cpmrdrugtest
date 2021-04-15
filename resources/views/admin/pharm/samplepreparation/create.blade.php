@@ -9,8 +9,8 @@
                 <div class="page-header-title">
                     <i class="ik ik-server bg-blue"></i>
                     <div class="d-inline">
-                        <h5>Taskboard</h5>
-                        <span>Pharmacology product experimentation processes </span>
+                        <h5>Sample Preparation</h5>
+                        <span>Pharmacology sample preparation processes </span>
                     </div>
                 </div>
             </div>
@@ -21,9 +21,9 @@
                             <a href="../index.html"><i class="ik ik-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">Apps</a>
+                            <a href="#">Home</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Taskboard</li>
+                        <li class="breadcrumb-item active" aria-current="page">Sample preparation</li>
                     </ol>
                 </nav>
             </div>

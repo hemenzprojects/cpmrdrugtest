@@ -104,8 +104,8 @@
                                      <div class="nav-item has-sub">
                                         <a href="#"><i class="ik ik-file-text"></i><span>Record Books</span></a>
                                         <div class="submenu-content" style="">
-                                            <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Prepared Samples</a>
-                                            <a href="{{route('admin.pharm.samplepreparation.index')}}" class="menu-item">Animal House Samples </a>
+                                            <a href="{{route('admin.pharm.samplepreparation.samplesindex')}}" class="menu-item">Prepared Samples</a>
+                                            <a href="{{route('admin.pharm.samplepreparation.animalhouse')}}" class="menu-item">Animal House Samples </a>
                                        
                                         </div>
                                     </div>
