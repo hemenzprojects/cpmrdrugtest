@@ -697,7 +697,7 @@
                 {{ csrf_field() }}
                 <div class="card-body">
                     <div class="dt-responsive">
-                        <table id="hod_order-table1"  class="table table-striped table-bordered nowrap">
+                        <table id="hod_order-tabl"  class="table table-striped table-bordered nowrap">
                             <thead>
                             <tr>
                                 <th>#</th>

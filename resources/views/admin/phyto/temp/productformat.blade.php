@@ -20,11 +20,11 @@ $product = \App\Product::find($report_id);
                   <td class="font"> {{$product->productType->name}}</td>
                   <td class="font">  
                                                  
-                    {{ $product->departmentById(3)->pivot->updated_at->format('jS \\, F Y') }}                                        
+                    {{ $product->departmentById(3)->pivot->updated_at->format('jS \\ F Y') }}                                        
                   </td>
                   <td class="font">
                       
-                      <span> {{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\, F Y')}}
+                      <span> {{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\ F Y')}}
                     </span>
                     <input class="form-control"  type="date" placeholder="Date" name="date_analysed" value="{{$product->phyto_dateanalysed}}">
                    

@@ -43,13 +43,13 @@
                         <label class="badge badge-warning" style="background-color:#f5365c; margin-right:5px;">
                            {{count($pharmproduct)}} 
                         </label>
-                        @endforeach Prepared Samples</h3>
+                        @endforeach Input data of prepared Samples</h3>
                 </div>
               <form action="{{route('admin.pharm.samplepreparation.store')}}" method="post">
                 {{ csrf_field() }}
                 <div class="card-body">
                     <div class="dt-responsive">
-                        <table id="order-table" class="table table-striped table-bordered nowrap" >
+                        <table id="order-tabl" class="table table-striped table-bordered nowrap" >
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -179,7 +179,7 @@
                      
                         </div>
                         <div class="col-md-3">
-                            <button onclick="return confirm('Please click Ok to confirm submission of sample preparation')"  type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <button onclick="return confirm('Please click Ok to confirm accurate data input')"  type="submit" class="btn btn-primary mr-2">Save Record</button>
                         </div>
                      </div>
                    

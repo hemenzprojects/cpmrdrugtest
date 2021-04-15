@@ -410,20 +410,21 @@ class PharmController extends Controller
               }
 
 
-              public function samplepreparation_report(Request $r){
+               public function samplepreparation_report(Request $r){
+ 
+                //  dd($r->all());
+                  $data['recordbooks'] = PharmSamplePreparation::whereDate('pharm_sample_preparations.created_at', '>=', $r->from_date)->whereDate('pharm_sample_preparations.created_at','<=',$r->to_date)->get();
+                  $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->orderBy('created_at', 'Desc')->limit(400)->get();
 
-                $data['recordbooks'] = PharmSamplePreparation::whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->get();
-                $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->orderBy('created_at', 'Desc')->limit(400)->get();
-                return View('admin.pharm.samplepreparation.index',$data);
+                  if ($r->animalhouse) {
+                    $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
+                    $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->whereDate('pharm_sample_preparations.updated_at', '>=', $r->from_date)->whereDate('pharm_sample_preparations.updated_at','<=',$r->to_date)->get();
+                  }
+                
+                 return View('admin.pharm.samplepreparation.index',$data);
                 
               }
-              public function samplepreparation_animalhouse_report(Request $r){
-
-                $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
-                $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->whereDate('updated_at', '>=', $r->from_date)->whereDate('updated_at','<=',$r->to_date)->get();
-                return View('admin.pharm.samplepreparation.index',$data);
-                
-              }
+          
 
 //************************************************************************************Animal Experimentation********************************************* */
                public function animalexperimentation_create(){

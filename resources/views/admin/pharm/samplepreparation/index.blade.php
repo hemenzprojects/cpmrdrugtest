@@ -91,7 +91,7 @@
                                 {{\App\Admin::find($recordbook->created_by)? \App\Admin::find($recordbook->created_by)->full_name:'null'}}
                             </td> 
                             <td class="font">
-                                {{ Carbon\Carbon::parse($recordbook->created_at)->format('jS \\, F Y')}}
+                                {{ Carbon\Carbon::parse($recordbook->created_at)->format('jS \\ F Y')}}
                             </td> 
                       
                         </tr>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="col col-sm-9">
                     <div class="card-search with-adv-search dropdown">
-                        <form action="{{route('admin.pharm.samplepreparation.animalhouse.report')}}" method="POST">
+                        <form action="{{route('admin.pharm.samplepreparation.report')}}" method="POST">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-4">
@@ -196,7 +196,7 @@
                                     <span style="margin: 5px">To</span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
                                 </div>
                                 <div class="col-md-4">
-                                  
+                                   <input type="hidden" name="animalhouse">
                                     <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
                                 </div>
                             </div>
