@@ -145,7 +145,7 @@ class Product extends Model
     public function getProductStatusAttribute()
     {
         if ($this->pivot->status == 1) {
-           return '<label class="badge badge-danger">#Pending</label>';
+            return '<label class="badge badge-danger">#Pending</label>';
         }elseif ($this->pivot->status == 2) {
             return '<label class="badge badge-success">#Received</label>';
         }
@@ -504,6 +504,9 @@ class Product extends Model
 
       public function getPhytoReportEvaluationAttribute()
       {
+        if($this->phyto_hod_evaluation === Null){
+            return '<span style="color:#ff0000; font-size:11.5px">Not signed</span>';
+        }
         if($this->phyto_hod_evaluation === 0){
             return '<span style="color:#ff0000; font-size:11.5px">pending</span>';
         }

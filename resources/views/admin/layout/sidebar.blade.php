@@ -144,7 +144,7 @@
                                      @endif
                                      @if (Auth::guard('admin')->user()->dept_office_id ==1)
                                      <div class="nav-item has-sub">
-                                         <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                         <a href="#"><i class="ik ik-layout"></i><span>HoD Office</span> <span class="badge badge-success"></span></a>
                                          <div class="submenu-content">
                                           <a href="#" class="menu-item">Assign Duty</a>
                                          <a href="{{route('admin.pharm.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
@@ -171,7 +171,7 @@
                                                 @if (Auth::guard('admin')->user()->dept_office_id ==1)
 
                                                 <div class="nav-item has-sub">
-                                                    <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                                    <a href="#"><i class="ik ik-layout"></i><span>HoD Office</span> <span class="badge badge-success"></span></a>
                                                     <div class="submenu-content">
                                                     <a href="#" class="menu-item">Assign Duty</a>
                                                     <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
@@ -199,7 +199,7 @@
                                 @if (Auth::guard('admin')->user()->dept_id ==4)
                                 @if (Auth::guard('admin')->user()->dept_office_id ==1)
                                 <div class="nav-item has-sub">
-                                    <a href="#"><i class="ik ik-layout"></i><span>Hod Office</span> <span class="badge badge-success"></span></a>
+                                    <a href="#"><i class="ik ik-layout"></i><span>HoD Office</span> <span class="badge badge-success"></span></a>
                                     <div class="submenu-content">
                                     <a href="{{route('admin.sid.phyto_completed_reports')}}" class="menu-item">Mirco Completed Reports</a>
                                     <a href="{{route('admin.sid.phyto_completed_reports')}}" class="menu-item">Pharm Completed Reports</a>

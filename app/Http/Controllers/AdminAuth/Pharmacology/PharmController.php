@@ -136,6 +136,13 @@ class PharmController extends Controller
               return redirect()->back();
           }  
 
+            $deptproduct = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 2)->first();
+            if ($status < (!empty($deptproduct->status) ? $deptproduct->status: '')) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Select product from the required department');
+              return redirect()->back();
+            } 
+
             $productdeptstatus = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 2)->where("status", '>', 2)->first();
             if ($status < (!empty($productdeptstatus->status) ? $productdeptstatus->status: '')) {
               Session::flash('message_title', 'error');

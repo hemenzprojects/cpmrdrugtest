@@ -43,7 +43,7 @@
                         <label class="badge badge-warning" style="background-color:#f5365c; margin-right:5px;">
                            {{count($pharmproduct)}} 
                         </label>
-                        @endforeach Input data of prepared Samples</h3>
+                        @endforeach Input data of prepared samples</h3>
                 </div>
               <form action="{{route('admin.pharm.samplepreparation.store')}}" method="post">
                 {{ csrf_field() }}
