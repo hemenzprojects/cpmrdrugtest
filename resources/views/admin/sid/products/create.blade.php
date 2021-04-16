@@ -379,7 +379,9 @@
                                                 @endif
                                             </td>
                                             <td class="font" >{{$product->productType->name}}</td>
-                                            <td class="font">{{$product->customer_name}}</td>
+                                            <td class="font">{{$product->customer_name}}<br>
+                                             <span style="font-size:10px">{{$product->customer->company_name}}</span>
+                                            </td>
                                             <td class="font">{{$product->price}}</td>
                                             {{-- <td class="font">{{ucfirst($product->created_by)}}</td> --}}
                                             <td class="font">{{$product->created_at->format('Y / m / d')}}</td>

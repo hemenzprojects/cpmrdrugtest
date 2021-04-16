@@ -293,7 +293,7 @@ class Product extends Model
     public function getCustomerNameAttribute()
     {
         if ($this->customer){
-            return $this->customer->title .' '. $this->customer->first_name .' - '. $this->customer->last_name;
+            return $this->customer->title .' '. $this->customer->first_name .' - '. $this->customer->last_name ;
         }
     }
  
