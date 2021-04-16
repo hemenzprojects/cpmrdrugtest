@@ -110,9 +110,9 @@ class PharmController extends Controller
       }
       elseif ($r->date == Null && $r->status == Null) {
     
-      $data['dept2'] = Department::find(1)->products()->with('departments')->orderBy('status')
+      $data['dept2'] = Department::find(2)->products()->with('departments')->orderBy('status')
      ->whereHas("departments", function($q){
-      return $q->where("dept_id",1);
+      return $q->where("dept_id",2);
      })->get();
      }
      return View('admin.pharm.receiveproduct', $data); 
@@ -436,19 +436,20 @@ class PharmController extends Controller
               }
 
               public function samplepreparation_animalhouse_report(Request $r){
-   return $r;
-                   $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
 
+                   $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
+                  
                    if ($r->pharm_admin == Null) {
+                    //  return $r;
                    $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
-                   $data['animalhouse_recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->whereDate('pharm_sample_preparations.delivered_at', '>=', $r->from_date)->whereDate('pharm_sample_preparations.delivered_at','<=',$r->to_date)->get();
-                   }
+                   return  $data['animalhouse_recordbooks'] = PharmSamplePreparation::where('pharm_sample_preparations.received_at', '>=', $r->from_date)->where('pharm_sample_preparations.received_at','<=',$r->to_date)->get();
+                    
+                  }
                    if ($r->pharm_admin != Null) {
                      $data['recordbooks'] = PharmSamplePreparation::orderBy('created_at', 'Desc')->limit(400)->get();
-                     $data['animalhouse_recordbooks'] = PharmSamplePreparation::where('delivered_by',$r->pharm_admin)->whereNotNull('measurement')->whereDate('pharm_sample_preparations.delivered_at', '>=', $r->from_date)->whereDate('pharm_sample_preparations.delivered_at','<=',$r->to_date)->get();
+                     $data['animalhouse_recordbooks'] = PharmSamplePreparation::where('delivered_by',$r->pharm_admin)->whereNotNull('measurement')->whereDate('pharm_sample_preparations.received_at', '>=', $r->from_date)->whereDate('pharm_sample_preparations.received_at','<=',$r->to_date)->get();
                   
                    }
-
 
                    return View('admin.pharm.samplepreparation.samplestoanimalhouse',$data);                                
              }
@@ -708,7 +709,7 @@ class PharmController extends Controller
 
              public function animalexperiment_recordbook(){
 
-             $data['recordbooks'] = PharmSamplePreparation::orderBy('id','DESC')->limit(500)->get();
+             $data['recordbooks'] = PharmSamplePreparation::whereNotNull('measurement')->orderBy('id','DESC')->limit(500)->get();
              
               return View('admin.pharm.animalexperiment.recordbook',$data);
              }

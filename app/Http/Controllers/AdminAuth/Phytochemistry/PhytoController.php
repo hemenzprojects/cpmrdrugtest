@@ -427,8 +427,7 @@ class PhytoController extends Controller
 
             public function makereport_show ($id){
 
-             
-              $phytoshowreport = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
+               $phytoshowreport = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 3);
                })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
                ->with('pchemconstReport')->whereHas('pchemconstReport');
@@ -942,7 +941,7 @@ class PhytoController extends Controller
                  return redirect()->back();
                  }
 
-            //*************************************************** General Report Section ************************** */\
+              //*************************************************** General Report Section ************************** */\
              
 
              public function completedreport_show($id){

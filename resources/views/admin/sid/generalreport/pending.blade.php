@@ -186,6 +186,8 @@
                                             <th>Name</th>
                                             <th>Department</th>
                                             <th>status</th>
+                                            <th>Date Received</th>
+
 
                                           
                                         </tr>
@@ -199,7 +201,7 @@
                                                     {{$item->code}}
                                                 </span>
                                             </td>
-                                            <td>{{$item->name}}</td>
+                                            <td class="font">{{$item->name}}</td>
                                             <td class="font">
                                                 @foreach ($item->departments as $dept)
                                                    <ul>
@@ -209,8 +211,20 @@
                                             </td>
                                             <td class="font">
                                                 @foreach ($item->departments as $dept)
-                                                   <ul>
+                                                   <ul style="margin: -2px;">
                                                        <li> {!! $dept->product_status !!}</li>
+                                                   </ul>
+                                                @endforeach
+                                            </td>
+                                            <td class="font">
+                                                @foreach ($item->departments as $dept)
+                                                   <ul>
+                                                       @if ($dept->pivot->received_at == Null)
+                                                           <li> <span>Not Received</span></li>
+                                                       @else
+                                                       <li> {{$dept->pivot->received_at}}</li>
+
+                                                       @endif
                                                    </ul>
                                                 @endforeach
                                             </td>

@@ -22,7 +22,7 @@ class Department extends Model
             return '<label class="badge badge-success">Received</label>';
         }
         elseif ($this->pivot->status === 3) {
-            return '<button type="button" class="btn btn-outline-warning btn-rounded">IN PROGRESS</button>';
+            return '<label class="btn btn-warning">Inprogress</label>';
         }
         elseif ($this->pivot->status === 4) {
             return '<button type="button" class="btn btn-outline-success btn-rounded"><i class="ik ik-check-square" style="color:#000"></i>COMPLETED</button>';

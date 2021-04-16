@@ -39,7 +39,7 @@
                                 <div class="col-md-3">
                                     <span style="margin: 5px">User</span>  
                                     <select name="pharm_admin" id="" class="form-control">
-                                        <option value="">All Useres</option>
+                                        <option value="">All Users</option>
                                         @foreach ($admins as $item)
                                        <option value="{{$item->id}}">{{$item->full_name}}</option> 
                                         @endforeach
