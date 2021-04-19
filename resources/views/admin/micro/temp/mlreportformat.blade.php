@@ -52,8 +52,6 @@
                     }
                   ?>
                 <p>
-
-        
                   
                 <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 @endif
@@ -127,9 +125,11 @@
      </div>
      <div class="col-md-6">
       @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-      @if ($show_microbial_loadanalyses[$i]->rs_total == 9900000000)
+      @if ($i < 1)
+      @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
       <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
       @endif 
+      @endif
      @endfor
      </div>
    
