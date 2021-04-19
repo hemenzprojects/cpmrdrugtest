@@ -183,3 +183,23 @@
         </div>
     </body>
 </html>
+0
+
+    <script type="text/javascript">
+        var element = new Image;
+        var devtoolsOpen = false;
+        element.__defineGetter__("id", function() 
+        {
+            devtoolsOpen = true;
+             
+            window.location.replace("http://www.w3schools.com");
+            
+            // This only executes when devtools is open.
+        });
+        setInterval(function() {
+            devtoolsOpen = false;
+            console.log(element);
+             
+        }, 1000);
+
+    </script>

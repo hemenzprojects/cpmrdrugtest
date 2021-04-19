@@ -173,8 +173,6 @@ class PhytoController extends Controller
                
               }
             ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '<',3)->update($data);
- 
-            
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
             return redirect()->route('admin.phyto.receiveproduct')

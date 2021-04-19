@@ -6,6 +6,9 @@ $product = \App\Product::where('id',7)->first();
 
 ?>
 <div class="">
+            {{-- @foreach( $errors->all() as $error)
+        <li>{{$error}}</li>
+    @endforeach --}}
     <div class="page-header">
         <div class="row align-items-end">
             <div class="col-lg-8">
@@ -724,7 +727,8 @@ $product = \App\Product::where('id',7)->first();
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <select name="micro_grade" class="form-control">
-                                <option value="">Product Evaluation</option>
+                                    <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
+                                    <option value="">Evaluate Product</option>
                                     <option value="1">Failed</option>
                                     <option value="2">Passed</option>
                                 </select>                                
@@ -844,7 +848,21 @@ $product = \App\Product::where('id',7)->first();
                     @endfor
                 </div>
                 @include('admin.micro.temp.meconclusioninput') 
-
+                <div class="col-sm-3" style="margin-top: 5%">
+                    <div class="form-group">
+                        <select name="micro_grade" class="form-control">
+                        <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
+                        <option value="">Evaluate Product</option>
+                            <option value="1">Failed</option>
+                            <option value="2">Passed</option>
+                        </select>                                
+                        </div>
+                        @error('micro_grade')
+                        <small class="form-text text-danger" role="alert">
+                            <strong style="color:#fff">{{$message}}</strong>
+                        </small>
+                        @enderror
+                </div>
             </div>
         </div> 
 

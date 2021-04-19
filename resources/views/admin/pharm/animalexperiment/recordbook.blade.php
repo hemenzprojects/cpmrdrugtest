@@ -29,14 +29,26 @@
                         <form action="{{route('admin.pharm.animalexperiment_recordbook.report')}}" method="POST">
                             {{ csrf_field() }}
                             <div class="row">
-                                <div class="col-md-4">
-                                    <span style="margin: 5">From</span>  <input type="date" name="from_date" class="form-control" value="2020-01-10">
+                                <div class="col-md-3">
+                                <span style="margin: 5">From</span>  
+                                <input type="date" name="from_date" class="form-control" value="{{ date('Y-m-d') }}">
                                 </div>
-                                <div class="col-md-4">
-                                    <span style="margin: 5px">To</span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
+                              
+                                <div class="col-md-3">
+                                    <span style="margin: 5px">To  </span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
                                 </div>
-                                <div class="col-md-4">
-                                  
+                                <div class="col-md-3">
+                                    <span style="margin: 5px">User</span>  
+                                    <select name="pharm_admin" id="" class="form-control">
+                                        <option value="">All Users</option>
+                                        @foreach ($admins as $item)
+                                       <option value="{{$item->id}}">{{$item->full_name}}</option> 
+                                        @endforeach
+                                       
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="hidden" name="samplepreparation">
                                     <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
                                 </div>
                             </div>
@@ -50,25 +62,20 @@
             <div class="dt-responsive">
                
                     <table id="lang-dt" class="table table-striped table-bordered nowrap">
-                    
-                      
                     <thead>
                     <tr>
-                    
                         <th>Product</th>
                         <th>Measurement</th>
-                        {{-- <th>Dosage</th>
-                        <th>Yield</th> --}}
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
                         <th>Date Distributed</th>
                         <th>Date Delivered</th>
-
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($recordbooks as $recordbook)
+                        @foreach($recordbooks as $product)
+                        @foreach ($product->samplePreparation as $recordbook)
                         
                         <tr style="background-color: #fff">
                            
@@ -76,20 +83,14 @@
                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$recordbook->id}}" title="View Product" href="">
                            
                             <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                {{App\Product::find($recordbook->product_id)->code}}
+                                {{$product->code}}
                             </span>
                             </a> 
                             <td class="font">
                                 {{$recordbook->measurement}}
                             </td>
-                            {{-- <td class="font">
-                                {{$recordbook->dosage}}
-                            </td>
                             <td class="font">
-                                {{$recordbook->yield}}
-                            </td> --}}
-                            <td class="font">
-                                {!! \App\Product::find($recordbook->product_id)->pharm_product_status !!}
+                                {!! $product->pharm_product_status !!}
                             </td>
                             <td class="font">
                                 {{\App\Admin::find($recordbook->delivered_by)? \App\Admin::find($recordbook->delivered_by)->full_name:'null'}}
@@ -106,7 +107,6 @@
 
                             </td> 
 
-                            
                         </tr>
                         <div class="modal fade" id="demoModal{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -118,45 +118,32 @@
                                     <div class="card-body"> 
                                 
                                         <h6> Product Name </h6>
-                                        <small class="text-muted "> {{ucfirst(\App\Product::find($recordbook->product_id)->productType->code)}}|{{$recordbook->product_id}}|{{ucfirst(\App\Product::find($recordbook->product_id)->created_at->format('y'))}}
+                                        <small class="text-muted "> {{$product->code}}
                                            </small>
                                         <h6>Product Type </h6>
-                                        <small class="text-muted ">{{ucfirst(\App\Product::find($recordbook->product_id)->productType->name)}}</small>
+                                        <small class="text-muted ">{{$product->productType->name}}</small>
                                                                      
                                         <small class="text-muted "></small>
                                         <h6>Indication</h6>
-                                        <p class="text-muted">{{ucfirst(\App\Product::find($recordbook->product_id)->indication)}}<br></p>
+                                        <p class="text-muted">{{$product->indication}}<br></p>
         
-                                                <h6>Delivery Officer </h6>
-                                                <small class="text-muted">{{\App\Admin::find($recordbook->delivered_by)?\App\Admin::find($recordbook->delivered_by)->full_name:'null'}}</small>
-                                                <h6>Received By </h6>
-                                                <small class="text-muted">{{\App\Admin::find($recordbook->received_by)?\App\Admin::find($recordbook->received_by)->full_name:'null'}}</small>
-                                              
-                                               
-                                                <hr><h5>Distribution Periods</h5>
-                                                <div  style="margin-bottom: 5px">
-                                                <p>
-                                                    <h6 >Distribution Period</h6>
-                                                    Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small>
-                                                   
-                                                </p>
-                                                 <p>
-                                                    <h6 >Date Analysed</h6>
-                                                   {{--                                                   
-                                                    Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small> --}}
-                                                   
-                                                </p>
-                                                </div>
-                                            
-        
-                                                <hr><h5>Preparation Details</h5>
-                                                <p><strong>Volume/Mass/Weight :</strong> {{$recordbook->measurement}} </p>
-                                                <p><strong>Dosage :</strong> {{$recordbook->dosage}} </p>
-                                                <p><strong>Yield :</strong> {{$recordbook->yield}} </p>
-                                                <p><strong>Remarks :</strong> {{$recordbook->remarks}} </p>
-        
+                                        <h6>Delivery Officer </h6>
+                                        <small class="text-muted">{{\App\Admin::find($recordbook->delivered_by)?\App\Admin::find($recordbook->delivered_by)->full_name:'null'}}</small>
+                                        <h6>Received By </h6>
+                                        <small class="text-muted">{{\App\Admin::find($recordbook->received_by)?\App\Admin::find($recordbook->received_by)->full_name:'null'}}</small>
+                                    
+                                    
+                                        <hr><h5>Distribution Periods</h5>
+                                        <div  style="margin-bottom: 5px">
+                                        <p>
+                                            <h6 >Distribution Period</h6>
+                                            Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>                                                   
+                                        </p>
+                                    
+                                        </div>        
+                                        <hr><h5>Preparation Details</h5>
+                                        <p><strong>Volume/Mass/Weight :</strong> {{$recordbook->measurement}} </p>
+
                                     </div> 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -166,6 +153,8 @@
                             </div>
                         </div>
                        @endforeach
+                       @endforeach
+
                        
                  </tbody>
                 

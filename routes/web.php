@@ -38,7 +38,7 @@
   Route::post('/password/change', 'AdminAuth\AdminController@change_password')->name('admin.password.change');
   Route::post('/pin/change', 'AdminAuth\AdminController@change_pin')->name('admin.pin.change');
 
-  Route::get('general/home','AdminAuth\SID\SIDController@homedashboard')->name('admin.general.dashboard');
+  Route::get('general/home','AdminAuth\MainDashboard@homedashboard')->name('admin.general.dashboard');
 
   
 
@@ -220,7 +220,8 @@
 
    Route::post('pharm/samplepreparation/store','AdminAuth\Pharmacology\PharmController@samplepreparation_store')->name('admin.pharm.samplepreparation.store');
    Route::post('pharm/sampleprepanimalhouse/store','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse')->name('admin.pharm.sampleprep_animalhouse.store');
-  
+   Route::post('pharm/samplepreparation/search','AdminAuth\Pharmacology\PharmController@samplepreparation_search')->name('admin.pharm.samplepreparation.search');
+
    Route::get('pharm/samplepreparation/delete/{id}','AdminAuth\Pharmacology\PharmController@samplepreparation_delete')->name('admin.pharm.samplepreparation.delete');
    Route::get('pharm/samplepreparation/animalhouse/delete/{id}','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse_delete')->name('admin.pharm.samplepreparation.animalhouse.delete');
   

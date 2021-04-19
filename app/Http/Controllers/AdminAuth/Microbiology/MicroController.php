@@ -310,7 +310,7 @@ class MicroController extends Controller
                 $productdepts = ProductDept::where('product_id',$r->micro_product_id)->where("dept_id", 1)->where("status",3);
                 if(count($productdepts->get()) > 0){
                   Session::flash('message_title', 'error');
-                  Session::flash('message', 'Sorry! Product already chosen by another user.');
+                  Session::flash('message', 'Sorry! Product already chosen by another user or you have a (Double Entry) error');
                     return redirect()->back();
                 }
 
@@ -436,7 +436,7 @@ class MicroController extends Controller
                   
                   if($r->efficacyanalyses){
 
-               foreach ($r->metest_id as $key => $value) {
+                 foreach ($r->metest_id as $key => $value) {
                 if(!isset($r->{'pathogen_'.$value}) or $r->{'pathogen_'.$value}==null){
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'pathogen field is required.');
@@ -481,7 +481,8 @@ class MicroController extends Controller
                          
                        }
 
-                       $micro_ea_conclution = Null;              
+                       $micro_ea_conclution = Null;  
+
                      if ($r->me_general_conclusion) {
                        $micro_ea_conclution = $r->micro_ea_conclution_text;
                      }else {
@@ -555,8 +556,7 @@ class MicroController extends Controller
 
                 } 
                  
-              
-
+            
                 $input = $r->all();
                $ml_testconducteds = $r->test_conducted;
                $mc_testconducteds= $r->mc_test_conducted;
@@ -619,15 +619,7 @@ class MicroController extends Controller
                               ]);
                               }
                        }
-                        // $products = Product::where('id',$id);
-                        // if(count($productdepts->get()) < 1){
-                        //   return redirect()->back();
-                        // }
-                        // $product = $products->first();
-                        // $product->micro_la_conclution =$r->micro_comment;
-                        // $product->micro_ea_conclution =$r->micro_conclution;
-                        // $product->micro_dateanalysed =$r->date_analysed;
-                        // $product->update();
+                      
                      }
                 
                         if($r->efficacyanalyses_form){
@@ -683,10 +675,7 @@ class MicroController extends Controller
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                       return $q->where("dept_id", 1)->where("status", 3);
                       });
-                        if(count($products->get()) < 1){     
-                          return redirect()->back();
-                        }
-    
+                       
                       $product = $products->first();
                       $product->micro_ea_conclution = $micro_ea_conclution;
                       $product->micro_la_conclution = $micro_la_conclution;
@@ -704,9 +693,7 @@ class MicroController extends Controller
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                       return $q->where("dept_id", 1)->where("status", 3);
                       });
-                        if(count($products->get()) < 1){     
-                          return redirect()->back();
-                        }
+                    
                     $product = $products->first();
                     $product->micro_hod_evaluation = 0;
 

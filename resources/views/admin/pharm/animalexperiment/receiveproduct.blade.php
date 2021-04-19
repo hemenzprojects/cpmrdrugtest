@@ -56,12 +56,7 @@
                         <td class="font">
                             {{$product->measurement}}
                         </td>
-                        {{-- <td class="font">
-                            {{$product->dosage}}
-                        </td>
-                        <td class="font">
-                            {{$product->yield}}
-                        </td> --}}
+                    
                         <td class="font">
                             {{\App\PharmTestConducted::find($product->pharm_testconducted_id)->name}}
                         </td>

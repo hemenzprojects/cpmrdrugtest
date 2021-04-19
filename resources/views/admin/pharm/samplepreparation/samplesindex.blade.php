@@ -61,8 +61,6 @@
             <div class="dt-responsive">
                
                     <table id="order-table1" class="table table-striped table-bordered nowrap">
-                    
-                      
                     <thead>
                     <tr>
                     
@@ -75,21 +73,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($recordbooks as $recordbook)
-                            @php
-                            $product = \App\Product::find($recordbook->product_id);
-                            @endphp
+                        @foreach($recordbooks as $product)
+                        @foreach ($product->samplePreparation as $recordbook)
+
                             <tr style="background-color: #fff">
                            
                             <td class="font">
                             <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$recordbook->id}}" title="View Product" href="">
                              <span href="" class="badge badge-danger pull-right">
-                                {{ucfirst(\App\Product::findOrFail($recordbook->product_id)->code)}}
+                                {{$product->code}}
                             </span>
                             </a> 
                             
                             </td>
                             <td class="font">
+                                                            
                                 {{$recordbook->weight}}
                             </td>
                             <td class="font">
@@ -139,13 +137,7 @@
                                                     Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small>
                                                    
                                                 </p>
-                                                 <p>
-                                                    <h6 >Date Analysed</h6>
-                                                   {{--                                                   
-                                                    Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small> --}}
-                                                   
-                                                </p>
+                                             
                                                 </div>
                                             
                                                 <hr><h5>Preparation Details</h5>
@@ -163,7 +155,7 @@
                             </div>
                         </div>
                        @endforeach
-                       
+                       @endforeach
                  </tbody>
                 
                 </table>

@@ -9,7 +9,7 @@
                 {{-- <i class="ik ik-edit bg-blue"></i> --}}
                 <div class="d-inline">
                     <h5>Product Acceptance Section</h5>
-                    <span>Below are product sent from SID Drug Analysis with its Status</span>
+                    <span>Below are products sent from SID Drug Analysis with its Status</span>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
                         <a href=""><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Group Add-Ons</li>
+                    <li class="breadcrumb-item active" aria-current="page">Delivery System</li>
                 </ol>
             </nav>
         </div>
@@ -63,7 +63,7 @@
                                         <option value="">Select Product Type </option>
                                         @foreach($product_types as $product_type)
                                                                         
-                                        <option value="{{$product_type->id}}" {{$product_type->id == old('product_type_id')? "selected":""}}>{{$product_type->name}}</option>
+                                        <option value="{{$product_type->id}}" {{$product_type->id == $product_type_id ? "selected":""}}>{{$product_type->name}}</option>
         
                                         @endforeach
                                     </select>
@@ -73,10 +73,10 @@
                             <div class="form-group">
                                 <select name="status" class="form-control select2">
                                     <option value="">Select Product Status </option>
-                                    <option value="1">Pending</option>
-                                    <option value="2">Received</option>
-                                    <option value="3">Inprogress</option>
-                                    <option value="4">Completed</option>
+                                    <option value="1" {{1 == $status? "selected":""}}>Pending</option>
+                                    <option value="2" {{2 == $status? "selected":""}}>Received</option>
+                                    <option value="3" {{3 == $status? "selected":""}}>Inprogress</option>
+                                    <option value="8" {{8 == $status? "selected":""}}>Completed</option>
         
         
                                 </select>
@@ -87,8 +87,8 @@
                             <div class="form-group">
                                 <select name="date" class="form-control select2">
                                     <option value="">Select Period</option>
-                                    <option value="1">Weekly</option>
-                                    <option value="2">Monthly</option>
+                                    <option value="1" {{1 == $date? "selected":""}}>Weekly</option>
+                                    <option value="2" {{2 == $date? "selected":""}}>Monthly</option>
         
                                 </select>
                                 

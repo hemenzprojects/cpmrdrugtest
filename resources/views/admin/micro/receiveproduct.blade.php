@@ -9,7 +9,7 @@
                 {{-- <i class="ik ik-edit bg-blue"></i> --}}
                 <div class="d-inline">
                     <h5>Product Acceptance Section</h5>
-                    <span>Bellow are product sent from SID Drud Analysis with its status</span>
+                    <span>Below are products sent from SID Drug Analysis with its Status</span>
                 </div>
             </div>
         </div>

@@ -45,6 +45,19 @@ $(document).on("click", "a.deleteText", function() {
 
 </script>
 
+{{-- <script language="javascript">
+document.onmousedown=disableclick;
+status="Right Click Disabled";
+function disableclick(event)
+{
+  if(event.button==2)
+   {
+     alert(status);
+     return false;    
+   }
+}
+</script> --}}
+
 <script>
   $('#submitreport').change(function(){
     if($(this).is(':checked')){
@@ -1116,11 +1129,11 @@ console.log(animalmodel);
         
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
-        var userpassword = $('#userpassword').val()
+        var userpin = $('#userpin').val()
     
       var data = {
       'email' : useremail,
-      'password' : userpassword,
+      'pin' : userpin,
       '_token': _token
       }
       
@@ -1133,12 +1146,10 @@ console.log(animalmodel);
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
-        
         e.currentTarget.submit();
       }
-    
         // display the error message some where on the page with result.message
-      $('#error-div').html(result.message)
+       $('#error-div').html(result.message)
       })
       
         // Continue the form submit
@@ -1195,11 +1206,11 @@ console.log(animalmodel);
       
       var _token = $('#_token').val()
       var useremail = $('#useremail').val()
-      var userpassword = $('#userpassword').val()
+      var userpin = $('#userpin').val()
   
     var data = {
     'email' : useremail,
-    'password' : userpassword,
+    'pin' : userpin,
     '_token': _token
     }
     

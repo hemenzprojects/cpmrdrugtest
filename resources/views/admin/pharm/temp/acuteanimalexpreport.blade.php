@@ -50,7 +50,7 @@
             </tr>
             <tr>
             <td class="font"><strong>Preparation</strong></td> 
-            <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->productType->code}}|{{$pharmreports->id}}|{{$pharmreports->created_at->format('y')}} )</td>
+            <td  class="font">Freeze - dried sample of  {{$pharmreports->productType->name}} ( {{$pharmreports->code}} )</td>
             </tr>
             <tr>
                 <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 

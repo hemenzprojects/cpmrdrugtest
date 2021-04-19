@@ -157,42 +157,7 @@
         </div>
      
 
-       <div class="row" style="margin: 35px">
-                <div class="col-sm-4 invoice-col">
-                <?php
-                 $pharm_appoved_by = ( $product?  $product->pharm_appoved_by:'');
-                $hod_user_type = (\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->user_type_id:'');
-                ?>
-                <p>Analysed by</p><br>
-                @if ( $product->pharm_hod_evaluation ==2)
-                <img src="{{asset(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
-                @endif
-
-                ------------------------------<br> 
-            
-            <span>{{ucfirst(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->full_name:'')}}</span>
-            <p>{{ucfirst(\App\Admin::find($pharm_appoved_by)? \App\Admin::find($pharm_appoved_by)->position:'')}}</p>
-
-            </div> 
-            <div class="col-sm-4 invoice-col">
-            
-            </div>
-            <div class="col-sm-4 invoice-col">
-                <?php
-             $pharm_finalappoved_by = ( $product?  $product->pharm_finalappoved_by:'');
-            $user_type         = (\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->user_type_id:'');
-            ?>
-            <p>Approved By</p><br>
-            @if ( $product->pharm_finalappoved_by !== null)
-            <img src="{{asset(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->sign_url:'')}}" class="" width="42%"><br>
-            @endif
-            -----------------------------<br>
-        
-            <span>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->full_name:'')}}</span>
-            <p>{{ucfirst(\App\Admin::find($pharm_finalappoved_by)? \App\Admin::find($pharm_finalappoved_by)->position:'')}}</p>
-
-            </div>
-      </div>
+        @include('admin.pharm.temp.signaturetemp') 
 
         <div class="row" style="margin-top: 110px">
             <div class="col-9">

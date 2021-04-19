@@ -1,7 +1,7 @@
 @include('admin.layout.login')
 
 <body>
-<div class="wthree-dot" >
+<div class="wthree-dot" id="decodeIt" >
 	<div class="profile">
 		<div class="wrap">
 			<div class="wthree-grids">
@@ -111,7 +111,23 @@
 										  });
 									
 										});
-									 </script>
-									<!--banner Slider starts Here-->
+</script>
+<!--banner Slider starts Here-->
+<script language="javascript">
+document.onmousedown=disableclick;
+status="Right Click Disabled";
+function disableclick(event)
+{
+if(event.button==2)
+{
+alert(status);
+return false;    
+}
+}
+
+
+
+</script>
+
 </body>
 </html>

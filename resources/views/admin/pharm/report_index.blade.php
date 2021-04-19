@@ -41,7 +41,7 @@
                        {{count($sample_prep)}} 
                     </label>
                     @endforeach
-                    <h3>Sample Preparations</h3>
+                    <h3>Sample preparations @ animal house</h3>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="ik ik-chevron-left action-toggle"></i></li>
@@ -106,10 +106,7 @@
                                             </small>
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($sample_prep->productType->name)}}</small>
-                                            <h6>Quantity</h6>                                         
-                                            @foreach ($sample_prep->departments->groupBy('id')->first() as $product)
-                                            <small class="text-muted ">{{$product->pivot->quantity}}</small>
-                                            @endforeach
+
                                             <small class="text-muted "></small>
                                             <h6>Indication</h6>
                                             <p class="text-muted"> {{ ucfirst($sample_prep->indication)}}<br></p>
@@ -118,19 +115,17 @@
                                              </div>
 
                                              <div class="col-sm-6">
-                                                <h5>Test Conducted</h5>
+                                                <h5>Test to conduct</h5>
                                                 @foreach ($sample_prep->samplePreparation as $product)
                                                 {{\App\PharmTestConducted::find($product->pharm_testconducted_id)->name}}
                                                 @endforeach
                                             </div>
                                           </div><hr>
 
-                                          <h5>Preparation Details</h5>
+                                          <h5>Preparation to animal house</h5>
                                             
                                           @foreach ($sample_prep->samplePreparation as $product)
-                                          <p><strong>Volume/Mass/Weight :</strong> {{$product->measurement}} </p>
-                                          <p><strong>Dosage :</strong> {{$product->dosage}} </p>
-                                          <p><strong>Yield :</strong> {{$product->yield}} </p>
+                                          <p><strong>Measurement:</strong> {{$product->measurement}} </p>
                                           <p><strong>Remarks :</strong> {{$product->remarks}} </p>
 
                                           @endforeach                                 
@@ -139,7 +134,7 @@
                                                 
                                                 <div class="col-sm-6">
                                                     @foreach ($sample_prep->samplePreparation as $product)
-                                                    <h6>Distributor </h6>
+                                                    <h6>Distributor / Created by</h6>
                                                     <small class="text-muted">{{\App\Admin::find($product->distributed_by)? \App\Admin::find($product->distributed_by)->full_name:'null'}}</small>
                                                     <h6>Delivery Officer </h6>
                                                     <small class="text-muted">{{\App\Admin::find($product->delivered_by)?\App\Admin::find($product->delivered_by)->full_name:'null'}}</small>
@@ -149,19 +144,22 @@
                                                     @endforeach
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <h6 >Date Distributed</h6>
+                                                    <h6 >Date Distributed / Created</h6>
                                                     <p>
                                                         @foreach ($sample_prep->samplePreparation as $product)
-                                                        Date: <small class="text-muted ">{{$product->created_at->format('Y-m-d')}}</small>
-                                                        Time: <small class="text-muted ">{{$product->created_at->format('H:i:s')}}</small>
+                                                       @if ($product->distributed_at == Null)
+                                                       Date:  
+                                                       @else
+                                                       Date: <small class="text-muted ">{{ Carbon\Carbon::parse($product->distributed_at)->format('jS \\, F Y')}}</small>
+
+                                                       @endif
                                                         @endforeach
                                                     </p>
                                                     <p>
-                                                        <h6 >Date Analysed</h6>
+                                                        <h6>Date Delivered</h6>
         
                                                         @foreach ($sample_prep->samplePreparation as $product)
-                                                        Date: <small class="text-muted ">{{$product->updated_at->format('Y-m-d')}}</small>
-                                                        Time: <small class="text-muted ">{{$product->updated_at->format('H:i:s')}}</small>
+                                                        Date: <small class="text-muted ">{{ Carbon\Carbon::parse($product->delivered_at)->format('jS \\, F Y')}}</small>
                                                         @endforeach
                                                     </p>
                                                 </div>
@@ -215,7 +213,7 @@
                 <div class="card-body todo-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                     <div class="dd" data-plugin="nestable" >
                         <ul class="list-group" id="myList2">
-                            @foreach($exp_inprogress->sortBy('pharm_hod_evaluation') as $inprogress)
+                            @foreach($exp_inprogress->sortBy('products.pharm_hod_evaluation') as $inprogress)
                           
 
                             <li class="list-group-item dd-item" style="padding: 1px;border:1px" data-id="1">
@@ -685,19 +683,26 @@
     <div class="col-md-12">
        
             <div class="card">
+                
                 <div class="card-header d-block">
-                   
-                    <h3>  @foreach($samples_to_animalhouses->groupBy('product_id') as $pharmproduct)
-                        <label class="badge badge-warning" style="background-color:#f5365c; margin-right:5px;">
-                           {{count($pharmproduct)}} 
-                        </label>
-                        @endforeach Sample Prepared To Animal House</h3>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h3>  @foreach($samples_to_animalhouses->groupBy('product_id') as $pharmproduct)
+                                <label class="badge badge-warning" style="background-color:#f5365c; margin-right:5px;">
+                                   {{count($pharmproduct)}} 
+                                </label>
+                                @endforeach Sample(s) prepared to animal house form</h3>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Please input accurate data </p>
+                        </div>
+                    </div>
                 </div>
               <form action="{{route('admin.pharm.sampleprep_animalhouse.store')}}" method="post">
                 {{ csrf_field() }}
                 <div class="card-body">
                     <div class="dt-responsive">
-                        <table id="hod_order-tabl"  class="table table-striped table-bordered nowrap">
+                        <table id="scr-vtr-dynamic" class="table table-striped table-bordered nowrap" >
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -709,7 +714,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                    
+                        
                            @foreach($samples_to_animalhouses as $pharmproduct)
 
                             @foreach ($pharmproduct->samplePreparation as $item)
@@ -719,6 +724,7 @@
                                 <input type="checkbox" id="pharmproduct_{{$pharmproduct->id}}" product_method="{{$pharmproduct->productType->method_applied}}" name="product_id[]" class="custom-control-input method_applied" value="{{$pharmproduct->id}}">
                                 <span class="custom-control-label"></span>
                             </label>
+                            <input type="hidden" name="item_id[]" value="{{$item->id}}">
                            </td>
                             <td class="font">
 
@@ -730,32 +736,11 @@
                           
                             </td>
                             <td class="font">
-                                <input type="text" class="form-control" name="measurement_{{$pharmproduct->id}}"  placeholder="Volume/Mass/Weight">
-                                <input type="hidden" class="form-control" name="dosage_{{$pharmproduct->id}}"  placeholder="Dosage" value="{{$item->dosage}}">
-                         
-                           
-                                <input type="hidden" class="form-control" name="yield_{{$pharmproduct->id}}"  placeholder="Yield" value="{{$item->yield}}">
-                            
-                            
-                                <input type="hidden" class="form-control" name="weight_{{$pharmproduct->id}}"  placeholder="Weight" value="{{$item->weight}}">
-                           
-                                <input type="hidden" class="form-control" name="created_by_{{$pharmproduct->id}}"  placeholder="" value="{{$item->created_by}}">
-                                <input type="hidden" class="form-control" name="created_at_{{$pharmproduct->id}}"  placeholder="" value="{{$item->created_at}}">
-
-                              <div style="display: none">
-                                <select name="pharm_testconducted_{{$pharmproduct->id}}" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                    <option value="">Select Test</option>
-                                    @foreach($pharm_testconducteds as $pharm_testconducted)
-                                                        
-                                    <option value="{{$pharm_testconducted->id}}" {{$pharm_testconducted->id == $item->pharm_testconducted_id ? "selected":""}}>{{$pharm_testconducted->name}}</option>
-                                    
-                                    @endforeach
-                                    </select>
-                              </div>
+                                <input type="text" class="form-control" name="measurement[]"  placeholder="Volume/Mass/Weight">
                             </td>
 
                             <td class="font">
-                                <input type="text" class="form-control" name="remarks_{{$pharmproduct->id}}" placeholder="Remarks">
+                                <input type="text" class="form-control" name="remarks[]" placeholder="Remarks">
                             </td> 
                             <td class="font">
                                 {{ucfirst(\App\Admin::find($item->created_by)? \App\Admin::find($item->created_by)->full_name:'null')}}
@@ -772,60 +757,23 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                        <h5 class="modal-title" id="demoModalLabel">Sample prepared and product details </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="card-body"> 
                                 
-                                        <h6> Product Name </h6>
-                                        <small class="text-muted ">
-                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                {{$pharmproduct->code}}
-                                            </span>                                            </small>
-                                        <h6>Product Type </h6>
-                                        <small class="text-muted ">{{ucfirst($pharmproduct->productType->name)}}</small>
-                                        <h6>Quantity</h6>                                         
-                                        @foreach ($pharmproduct->departments->where('id',2) as $product)
-                                        <small class="text-muted ">{{$product->pivot->quantity}}</small>
-                                        @endforeach
-                                        <small class="text-muted "></small>
-                                        <h6>Indication</h6>
-                                        <p class="text-muted"> {{ ucfirst($pharmproduct->indication)}}<br></p>
+                                        <p><strong>Product Name  :</strong> {{$pharmproduct->code}}</p>
+                                        <p><strong>Product Type  :</strong> {{ucfirst($pharmproduct->productType->name)}}</p>
+                                        <p><strong>Indication  :</strong> {{ ucfirst($pharmproduct->indication)}}</p><br>
 
-                                        <hr><h5>Distribution Details</h5>
-                                        <h6>Received By </h6>
-                                        @foreach ($pharmproduct->departments->where('id',2) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                                        @endforeach
-                                        <h6>Distributed By </h6>
-                                        @foreach ($pharmproduct->departments->where('id',2) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                                        @endforeach
-                                        <h6>Delivered By </h6>
-                                        @foreach ($pharmproduct->departments->where('id',2) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                        @endforeach
-                                        
+                                        <h5>Preparation Details</h5>
+                                            
+                                          <p><strong>Volume/Mass/Weight :</strong> {{$item->weight}} </p>
+                                          <p><strong>Dosage :</strong> {{$item->dosage}} </p>
+                                          <p><strong>Yield :</strong> {{$item->yield}} </p>
+                                          <p><strong>Date created :</strong>  {{ Carbon\Carbon::parse($item->created_at)->format('jS \\, F Y')}}</p>
 
 
-                                        <hr><h5>Distribution Periods</h5>
-                                        <div  style="margin-bottom: 5px">
-                                        <h6 >product distribution period</h6>
-                                            <small class="text-muted">
-                                            @foreach ($pharmproduct->departments as $product)
-                                            Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
-                                            Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
-                                            @endforeach
-                                        </small>
-                                        </div>
-                                        <h6> product delivery period</h6>
-                                        <small class="text-muted ">
-                                            @foreach ($pharmproduct->departments as $product)
-                                            Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                                            Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
-                                            @endforeach
-                                        
-                                        </small>
                                     </div> 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -840,12 +788,16 @@
                       
                         </table>
                       
-                        <button onclick="return confirm('Please click Ok to confirm submission of sample preparation')"  type="submit" class="btn btn-primary mr-2">Send Samples</button>
 
                         
                     </div>
                  
-                   
+                   <div class="row">
+                       <div class="col-sm-9"></div>
+                       <div class="col-sm-2">
+                        <button onclick="return confirm('Please click Ok to confirm submission of sample preparation')"  type="submit" class="btn btn-primary mr-2">Send Samples</button>
+                       </div>
+                   </div>
                 </div>
               </form> 
             </div>

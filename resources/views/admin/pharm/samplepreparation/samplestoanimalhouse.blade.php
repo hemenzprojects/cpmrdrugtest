@@ -76,15 +76,14 @@
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
+                        <th>Created By</th>
                         <th>Date Distributed</th>
                         <th>Date Delivered</th>
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($animalhouse_recordbooks as $recordbook)
-                        @php
-                        $product = \App\Product::find($recordbook->product_id);
-                        @endphp
+                        @foreach($animalhouse_recordbooks as $product)
+                        @foreach ($product->samplePreparation as $recordbook)
                         <tr style="background-color: #fff">
                            
                             <td class="font">
@@ -114,6 +113,10 @@
                             <td class="font">
                             {{\App\Admin::find($recordbook->received_by)? \App\Admin::find($recordbook->received_by)->full_name:'null'}}
                             </td> 
+                            <td class="font">
+                                {{\App\Admin::find($recordbook->distributed_by)? \App\Admin::find($recordbook->distributed_by)->full_name:'null'}}
+
+                            </td>
                             <td class="font">
                                 {{ Carbon\Carbon::parse($recordbook->updated_at)->format('jS \\, F Y')}}
 
@@ -181,7 +184,8 @@
                             </div>
                         </div>
                        @endforeach
-                       
+                       @endforeach
+
                  </tbody>
                 
                 </table>

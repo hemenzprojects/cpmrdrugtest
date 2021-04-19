@@ -259,7 +259,7 @@ class Product extends Model
     public function pharmsamplePreparation()
     {
         return $this->belongsToMany('App\PharmTestConducted', "pharm_sample_preparations", 'product_id', 'pharm_testconducted_id')
-        ->withPivot([ 'product_id','measurement']);
+        ->withPivot(['product_id','measurement','created_at']);
     }
 
     public function animalExperimentation()
