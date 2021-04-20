@@ -171,11 +171,13 @@ $product = \App\Product::find($report_id);
                            </div>
                            <div class="col-md=-6">
                                
-                       @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-                       @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
-                       <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
-                       @endif 
-                      @endfor
+                            @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+                            @if ($i < 1)
+                            @if ($microbial_loadanalyses[0]->rs_total == 9900000000 || $microbial_loadanalyses[1]->rs_total == 9900000000)
+                            <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
+                            @endif 
+                            @endif
+                           @endfor
                            </div>
                        </div>
                   
@@ -258,48 +260,8 @@ $product = \App\Product::find($report_id);
                     
                     @endif
                    
-                     
-                
-                    <div class="row invoice-info" style="margin: 15px;margin-bottom:10px">
+                    @include('admin.micro.temp.signaturetemplate') 
 
-
-                        <div class="col-sm-4 invoice-col">
-                            <?php
-                            $micro_approved_by = ($product? $product->micro_approved_by:'');
-                            $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
-                          ?>
-                            <p>Analyzed By</p><br>
-                            @if ($product->micro_hod_evaluation >1)
-                            <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="42%"><br>
-                            @endif
-                            -----------------------------<br>
-                          
-                            <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
-                            <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
-
-                        </div> 
-                        <div class="col-sm-4 invoice-col">
-                           
-                        </div>
-                        <div class="col-sm-4 invoice-col">
-                            <?php
-                            $micro_finalapproved_by = ($product? $product->micro_finalapproved_by:'');
-                            $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
-
-                            ?>
-                            <p>Supervisor</p><br>
-                            @if ($product->micro_hod_evaluation ==2)
-                            <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="42%"><br>
-                            @endif
-
-                            ------------------------------<br> 
-                         
-                          <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->full_name:'')}}</span>
-                          <p>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->position:'')}}</p>
-             
-                        </div>
-
-                    </div>
     
                </div>
             {{-- <div class="col-12">

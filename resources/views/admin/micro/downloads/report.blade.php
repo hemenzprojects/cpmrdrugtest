@@ -177,6 +177,7 @@ tr:nth-child(even) {
       
 
         <td class="font">
+          
           @if ($microbial_loadanalyses[$i]->rs_total <1 || $microbial_loadanalyses[$i]->rs_total == 9900000000)
             <?php 
             if ($i<2) {

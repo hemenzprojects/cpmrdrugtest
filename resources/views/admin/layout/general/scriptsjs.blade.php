@@ -406,6 +406,31 @@ $(document).ready(function() {
   
 </script>
 
+<script>
+
+  $(document).ready(function() {
+  
+    var rstotal1 = $('input[id="rstotal0"]').attr("value");
+  
+    if (rstotal1 === "0") {
+    document.getElementById("manycount_0").innerHTML = "0";
+    }
+    if (rstotal1 == 9900000000) {
+      document.getElementById("manycount_0").innerHTML = "3 TNTC";
+    }
+  
+    var rstotal2 = $('input[id="rstotal1"]').attr("value");
+    
+    if (rstotal2 == "0") {
+      document.getElementById("manycount_1").innerHTML = "0";
+    }
+    if (rstotal2 == 9900000000) {
+      document.getElementById("manycount_1").innerHTML = "3 TNTC";
+    }
+    });
+    
+  </script>
+
 
 
 

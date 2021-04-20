@@ -77,8 +77,7 @@ class MainDashboard extends Controller
           return $q->where("dept_id", 1)->where("status", '>',1)->where("status", '<',4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
 
-      $data['micro_completedproduct'] = Product::where('micro_hod_evaluation', 2)    
-      ->whereHas("departments", function ($q) use ($data) {
+      $data['micro_completedproduct'] = Product::whereHas("departments", function ($q) use ($data) {
           return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
 

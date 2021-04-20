@@ -41,10 +41,8 @@ $product = \App\Product::find($report_id);
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6>Report(s) Withheld</h6>
-                                            @foreach ($withhelds->groupBy('micro_hod_evaluation') as $result_evaluation) 
-                                        <h2>{{count($result_evaluation)}}</h2>
+                                        <h2>{{count($withhelds)}}</h2>
                                         
-                                            @endforeach
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-alert-circle"></i>
@@ -63,10 +61,8 @@ $product = \App\Product::find($report_id);
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6> Approved Report(s)</h6>
-                                            @foreach ($approvals->groupBy('micro_hod_evaluation') as $result_approved) 
-                                            <h2>{{count($result_approved)}}</h2>
-                                            @endforeach
-                                        </div>
+                                            <h2>{{count($approvals)}}</h2>
+                                       </div>
                                         <div class="icon">
                                             <i class="ik ik-thumbs-up"></i>
                                         </div>
@@ -84,9 +80,7 @@ $product = \App\Product::find($report_id);
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6>Completed Report(s) </h6>
-                                            @foreach ($completeds->groupBy('micro_hod_evaluation') as $result_completed) 
-                                            <h2>{{count($result_completed)}}</h2>
-                                            @endforeach
+                                            <h2>{{count($completeds)}}</h2>
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-calendar"></i>

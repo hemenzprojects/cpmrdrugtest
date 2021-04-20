@@ -108,7 +108,7 @@ $product = \App\Product::find($report_id);
           
                  <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to submit report</h5>
+                        <h5 class="modal-title" >Please Sign to submit report</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
@@ -156,8 +156,8 @@ $product = \App\Product::find($report_id);
 @section('bottom-scripts')
 <script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   
 <script src="{{asset('js/microbialcomments.js')}}"></script>
-
-{{-- <script>
+{{-- 
+<script>
 function myFunction() {
   var url = $('input[id="report_url"]').attr("value");
   var r = confirm("Be aware of the following before you complete report : 1.Completed Reports can not be edited after submision, system require you to see HoD for unavoidable complains or changes.  Thank you");

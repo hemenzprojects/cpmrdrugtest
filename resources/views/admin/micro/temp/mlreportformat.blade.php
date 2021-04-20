@@ -39,9 +39,11 @@
                 <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">     
             </td> 
             <td class="font">
+              
+             
                 @if ($i<2)
-                <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 12px">
-                    <?php 
+                <p id="manycount_{{$i}}" style="font-size: 12px">
+                  <?php 
                     if ($i<2) {
                       $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
                       $rs_part1 =$results[0];
@@ -55,6 +57,7 @@
                   
                 <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 @endif
+                
              <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="inputmask_{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
               <div id="error-div{{$i}}" style="margin: 5px; color:red;"></div>
 

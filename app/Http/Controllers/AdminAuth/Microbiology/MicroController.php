@@ -1649,9 +1649,9 @@ class MicroController extends Controller
 
             $pdf->save(storage_path().'_filename.pdf');
 
-            return $pdf->download('microreport_'.$p->code.'.pdf',$id);
+            // return $pdf->download('microreport_'.$p->code.'.pdf',$id);
 
-            // return view('admin.micro.downloads.report',$data);
+            return view('admin.micro.downloads.report',$data);
 
 
            }

@@ -55,7 +55,7 @@
                                     <div class="d-inline">
                                         <h5>User Profile</h5>
                                         <span>{{$user->full_name}} - {{\App\Department::find($user->dept_id)->name}} </span>
-                                        <span>{{App\UserType::find($user->user_type_id)->name}}</span>
+                                        <span>{{$user->position}}</span>
 
                                     </div>
                                 </div>
