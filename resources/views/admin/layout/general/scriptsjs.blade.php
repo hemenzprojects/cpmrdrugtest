@@ -387,20 +387,21 @@ $("#inputmask_0").on('keyup', function() {
 <script>
 
 $(document).ready(function() {
-  var rstotal1 = $('input[id="rstotal0"]').attr("value");
+  var rstotal1 = $('input[id="rstotal_0"]').attr("value");
+var txt =  "3";
  if (rstotal1 == 0) {
-  $('#manycount0').text('0');
+  document.getElementById("manycount0").innerHTML = "0";
   }
   if (rstotal1 == 9900000000) {
-    $('#manycount0').text('3 TNTC');
+    document.getElementById("manycount0").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
   }
 
-  var rstotal2 = $('input[id="rstotal1"]').attr("value");
+  var rstotal2 = $('input[id="rstotal_1"]').attr("value");
   if (rstotal2 == 0) {
-  $('#manycount1').text('0');
+    document.getElementById("manycount1").innerHTML = "0";
   }
   if (rstotal2 == 9900000000) {
-    $('#manycount1').text('3 TNTC');
+    document.getElementById("manycount1").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
   }
   });
   
@@ -408,28 +409,28 @@ $(document).ready(function() {
 
 <script>
 
-  $(document).ready(function() {
+$(document).ready(function() {
+
+  var rstotal1 = $('input[id="rstotal0"]').attr("value");
+  var txt =  "3";
+  if (rstotal1 === "0") {
+  document.getElementById("manycount_0").innerHTML = "0";
+  }
+  if (rstotal1 == 9900000000) {
+    document.getElementById("manycount_0").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
+  }
+
+  var rstotal2 = $('input[id="rstotal1"]').attr("value");
   
-    var rstotal1 = $('input[id="rstotal0"]').attr("value");
+  if (rstotal2 == "0") {
+    document.getElementById("manycount_1").innerHTML = "0";
+  }
+  if (rstotal2 == 9900000000) {
+    document.getElementById("manycount_1").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
+  }
+  });
   
-    if (rstotal1 === "0") {
-    document.getElementById("manycount_0").innerHTML = "0";
-    }
-    if (rstotal1 == 9900000000) {
-      document.getElementById("manycount_0").innerHTML = "3 TNTC";
-    }
-  
-    var rstotal2 = $('input[id="rstotal1"]').attr("value");
-    
-    if (rstotal2 == "0") {
-      document.getElementById("manycount_1").innerHTML = "0";
-    }
-    if (rstotal2 == 9900000000) {
-      document.getElementById("manycount_1").innerHTML = "3 TNTC";
-    }
-    });
-    
-  </script>
+</script>
 
 
 

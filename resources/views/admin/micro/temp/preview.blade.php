@@ -62,14 +62,14 @@
                             print_r($test_conducted); 
                          }   
                        ?>
-                           <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
+                           <input type="hidden" id="rstotal_{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 
                     </td>
                   
                 
                     <td class="font">
                         @if ($i<2)
-                        <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 12px">
+                        <p id="manycount{{$i}}" style="font-size: 12px">
                             <?php 
                             if ($i<2) {
                               $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
