@@ -1,5 +1,10 @@
 @if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0) 
-<div class="card-header"><h3>Microbial <strong>Load</strong> Analysis</h3></div>
+
+@if (count($show_microbial_efficacyanalyses)> 0)
+<h5>A) Microbial Load Analysis</h5>
+@else
+<h5> Microbial Load Analysis </h5>
+@endif
 <div class="table-responsive ">
     <table class="table table-striped table-bordered nowrap dataTable">
         <thead>
@@ -8,7 +13,7 @@
                 <th>Test Conducted</th>
                 <th class="77772" style="display: none">Result (CFU/ml)</th>
                 <th class="77771" style="display: none">Result (CFU/g)</th>
-                <th>Accepted Criterion BP
+                <th>Acceptance Criterion
                   (BP @foreach ($show_microbial_loadanalyses->groupBy('id')->first()  as $item)
                   {{Carbon\Carbon::parse($item->date)->format('Y')}}
                   <input type="hidden" name="date_template" value="{{$item->date}}">
@@ -104,7 +109,7 @@
     </tbody>
    </table>
    <div class="row">
-     <div class="col-md-5">
+     <div class="col-md-6">
       @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
     
       @if ($i<1)
@@ -112,13 +117,12 @@
           <?php
           if ($i<2) {
          $definition= explode(' ',$show_microbial_loadanalyses[0]->definition);
-   
+      
           echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
           
    
           $definition= explode(' ',$show_microbial_loadanalyses[1]->definition);
-   
-              echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+              echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ' ';  print_r($definition[7]); 
               }
           ?>
     

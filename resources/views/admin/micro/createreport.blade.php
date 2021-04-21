@@ -563,17 +563,19 @@ $product = \App\Product::where('id',7)->first();
                                                         </label> 
                                                     </td>
                                                     <td class="font" style="font-style: italic; margin:5px">
-                                                        <?php
+                                                    <span style="font-size: 10px">  
+                                                          <?php
                                                         if ($i<2) {
                                                        $test_conducted= explode(' ',$MicrobialLoadAnalysis[$i]->test_conducted);
                                         
                                                        echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                                                        }else {
-                                                           $test_conducted =  $MicrobialLoadAnalysis[$i]->test_conducted;
-                                                           print_r($test_conducted); 
-                                                        }   
-                                                      ?>
-                                                      <input type="hidden" class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
+                                                        }
+                                                        // else {
+                                                        //    $test_conducted =  $MicrobialLoadAnalysis[$i]->test_conducted;
+                                                        //    print_r($test_conducted); 
+                                                        // }   
+                                                      ?></span>
+                                                      <input type="text" required class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
                                                     </td>
                                                     <td class="font">
                                                     <input type="text" id="inputmask_{{$i}}" class="form-control {{$i<2?'date-inputmask':''}}"  name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
@@ -738,7 +740,22 @@ $product = \App\Product::where('id',7)->first();
                                     <strong style="color:#fff">{{$message}}</strong>
                                 </small>
                                 @enderror
+
+                                {{-- <div class="form-group">
+                                    <select name="micro_grade" class="form-control">
+                                        <label for="exampleInputEmail3"> <strong><span style="color: red">Microbial Activity</span></strong>  </label>
+                                        <option value="">Microbial Activity</option>
+                                        <option value="1">Showed microbial activity</option>
+                                        <option value="2">Did not showed microbial activity</option>
+                                    </select>                                
+                                    </div>
+                                    @error('micro_grade')
+                                    <small class="form-text text-danger" role="alert">
+                                        <strong style="color:#fff">{{$message}}</strong>
+                                    </small>
+                                    @enderror --}}
                         </div>
+                     
                         <div class="col-sm-3">
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
                         </div>

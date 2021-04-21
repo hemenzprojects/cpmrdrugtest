@@ -29,7 +29,12 @@
             <div  style="margin-top:30px">
                
                 @if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0)
-                <h6 >(A) Microbial Load Analysis</h6>
+
+                @if (count($show_microbial_efficacyanalyses) > 0)
+                <h6>A) Microbial Load Analysis</h6>
+                @else
+               <h6> Microbial Load Analysis </h6>
+                @endif
                 <table class="table table-striped table-bordered nowrap dataTable"  >
                  
                     <tr>
@@ -40,7 +45,7 @@
                         @if ($product->productType->state ==1)
                         <th class="font">Result (CFU/g)</th>
                         @endif
-                        <th class="font">Accepted Criterion BP
+                        <th class="font">Acceptance Criterion BP
                           (@foreach ($show_microbial_loadanalyses->groupBy('id')->first()  as $item)
                           {{Carbon\Carbon::parse($item->date)->format('Y')}}
                           <input type="hidden" name="date_template" value="{{$item->date}}">
@@ -125,7 +130,7 @@
                 
                     $definition= explode(' ',$show_microbial_loadanalyses[1]->definition);
                 
-                        echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+                        echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);echo ' ';  print_r($definition[7]);
                         }
                     ?>
                 
@@ -149,8 +154,8 @@
                 
                 <div style="margin-top: 20px">
                     <span style="font-size:15px"> 
-                        <strong> General Conclusion:</strong>
-                        {{$product->micro_la_conclution}}
+                        <strong> General Comment:</strong>
+                        {{$product->micro_la_comment}}
                     </span>
                 </div>
                 
@@ -162,7 +167,16 @@
             <div style="margin-top:30px">
             
     @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0)
-    <h6 >(B) Microbial Efficacy Analysis</h6>
+
+      @if (count($show_microbial_loadanalyses) > 0)
+      <div class="card-heade" style="margin: 2%">
+      <h6>B) Efficacy Analysis</h6>
+      </div>
+      @else
+      <div class="card-heade" style="margin: 2%">
+      <h6> Efficacy Analysis</h6>
+      </div> 
+      @endif
     <table class="table table-striped table-bordered nowrap dataTable">
     <tr>
         <th class="font">Pathogen</th>
@@ -195,8 +209,8 @@
 
 <div style="margin-top: 20px">
     <span style="font-size: 15px" >
-        <span><strong>General Conclusion:</strong> </span>
-        {{$product->micro_ea_conclution}}
+        <span><strong>General Comment:</strong> </span>
+        {{$product->micro_ea_comment}}
       </span>
     
 </div>

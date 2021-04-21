@@ -4,8 +4,9 @@
     $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
   ?>
     <div class="col-sm-4 invoice-col">
+        
         <p>Analyzed By</p><br>
-        @if ($product->micro_hod_evaluation === 0 || $product->micro_hod_evaluation === 2)
+        @if (($product->micro_hod_evaluation === 0 && $product->micro_approved_by != Null) || $product->micro_hod_evaluation === 2)
         <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="28%"><br>
         @endif
         -----------------------------<br>

@@ -3,7 +3,7 @@
 <head>
 <style>
 .font{
-      font-size: 12px;
+      font-size: 13px;
       font-family: "Times New Roman";
     }
 table {
@@ -15,7 +15,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 7px;
+  padding: 3px;
 }
 
 tr:nth-child(even) {
@@ -42,7 +42,7 @@ tr:nth-child(even) {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 60% 50%;
+    background-size: 55% 60%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -52,7 +52,9 @@ tr:nth-child(even) {
     background-position: center;
     background-repeat: no-repeat;
 }
-
+.space{
+  margin-top: 40%;
+}
 .footer{
   margin-top: 0%;
 }
@@ -138,8 +140,11 @@ tr:nth-child(even) {
 <div>
     <table>
         <tr>
-            
-            <th class="font" style="border: #fff">(A) Microbial Load Analysis</th>
+            @if (count($microbial_efficacyanalyses) > 0)
+            <th class="font" style="border: #fff">A) Microbial Load Analysis</th>
+            @else
+            <th class="font" style="border: #fff"> Microbial Load Analysis</th>
+            @endif
         </tr>
         <tr>
             <th class="font">Test Conducted</th>
@@ -149,7 +154,7 @@ tr:nth-child(even) {
             @if ($product->productType->state ==1)
             <th class="font">Result (CFU/g)</th>
             @endif
-            <th class="font">Accepted Criterion BP
+            <th class="font">Acceptance Criterion BP
               (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
               {{Carbon\Carbon::parse($item->date)->format('Y')}}
               <input type="hidden" name="date_template" value="{{$item->date}}">
@@ -177,7 +182,7 @@ tr:nth-child(even) {
       
 
         <td class="font">
-          
+
           @if ($microbial_loadanalyses[$i]->rs_total <1 || $microbial_loadanalyses[$i]->rs_total == 9900000000)
             <?php 
             if ($i<2) {
@@ -259,7 +264,7 @@ tr:nth-child(even) {
 
         $definition= explode(' ',$microbial_loadanalyses[1]->definition);
 
-            echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
+            echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ' ';  print_r($definition[7]);
             }
         ?>
 
@@ -270,8 +275,10 @@ tr:nth-child(even) {
   <td style="font-style: italic; font-size:11px;border:#e8efec2b">
     
 @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-@if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
-<span ><sup>3</sup> TNTC = Too Numerous To Count</span>
+@if ($i < 1)
+  @if ($microbial_loadanalyses[$i]->rs_total == 9900000000)
+  <span ><sup>3</sup> TNTC = Too Numerous To Count</span>
+  @endif 
 @endif 
 @endfor
 
@@ -279,9 +286,9 @@ tr:nth-child(even) {
 </tr>
 </table>
 
-<span style="font-size:14px"> 
-  <strong> General Conclusion:</strong>
-  {{$product->micro_la_conclution}}
+<span style="font-size:14px; " > 
+  <strong> General Comment:</strong>
+  {{$product->micro_la_comment}}
 </span>
 </div>
 @endif
@@ -291,15 +298,21 @@ tr:nth-child(even) {
 
  @if (($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0)
 
- <table>
+ <table style="margin-top:2%">
+
     <tr>
-  <th class="font" style="border: #fff">(B) Microbial Efficacy Analysis</th>
+      @if (count($microbial_loadanalyses) > 0 )
+      <th class="font" style="border: #fff">B) Microbial Efficacy Analysis</th>
+      @else
+      <th class="font" style="border: #fff">  Microbial Efficacy Analysis</th>
+      @endif
     </tr>
+
     <tr>
         <th class="font">Pathogen</th>
-        <th class="font">Product Inhibition Zone</th>
-        <th class="font">Ciprofloxacin Inhibition Zone</th>
-        <th class="font">Fluconazole Inhibition Zone</th>
+        <th class="font">Product Inhibition Zone (mm)</th>
+        <th class="font">Ciprofloxacin Inhibition Zone (mm)</th>
+        <th class="font">Fluconazole Inhibition Zone (mm)</th>
     </tr>
 
     @foreach($microbial_efficacyanalyses as $efficacyanalyses)
@@ -324,16 +337,16 @@ tr:nth-child(even) {
   @endif
   @endfor
 
-  <span style="font-size: 14px" >
-    <span style="font-size:14px"><strong>General Conclusion:</strong> </span>
-    {{$product->micro_ea_conclution}}</span>
+  <span style="font-size: 14px;margin-top:2%" >
+    <span style="font-size:14px"><strong>General Comment:</strong> </span>
+    {{$product->micro_ea_comment}}</span>
 
   @endif
 
-<table>
+<table style="margin-top:2%">
   
-  <tr>
-    <td class="font" style="border: #fff" >
+  <tr class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses) < 1 ?'space':'space1'}}">
+    <td class="font " style="border: #fff" >
         <?php
         $micro_approved_by = ($product? $product->micro_approved_by:'');
         $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');

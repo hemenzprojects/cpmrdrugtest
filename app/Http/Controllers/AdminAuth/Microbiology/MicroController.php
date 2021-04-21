@@ -222,6 +222,7 @@ class MicroController extends Controller
 
               public function report_create(){
                      
+            
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(15)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -230,15 +231,16 @@ class MicroController extends Controller
                  $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
                  $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
 
-
                 $load_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
+
                 $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
+               
 
                 $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::whereIn("id", $load_analysis_options)->orderBy('location', 'ASC')->get();
 
                 $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
 
-
+              
                 //********************* section for the dept offcie only ***** */
 
                 $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
@@ -422,15 +424,15 @@ class MicroController extends Controller
 
                      }
                     
-                     $micro_la_conclution = Null;
-                   if ($r->ml_general_conclusion) {
-                     $micro_la_conclution = $r->micro_la_conclution_text;
+                     $micro_la_comment = Null;
+                   if ($r->ml_general_comment) {
+                     $micro_la_comment = $r->micro_la_comment_text;
                    }else {
-                     $micro_la_conclution = $r->micro_la_conclution_option;
+                     $micro_la_comment = $r->micro_la_comment_option;
                    }
  
                      $product = $products->first();
-                     $product->micro_la_conclution = $micro_la_conclution;
+                     $product->micro_la_comment = $micro_la_comment;
                      $product->update();
                     }
                   
@@ -481,16 +483,16 @@ class MicroController extends Controller
                          
                        }
 
-                       $micro_ea_conclution = Null;  
+                       $micro_ea_comment = Null;  
 
-                     if ($r->me_general_conclusion) {
-                       $micro_ea_conclution = $r->micro_ea_conclution_text;
+                     if ($r->me_general_comment) {
+                       $micro_ea_comment = $r->micro_ea_comment_text;
                      }else {
-                       $micro_ea_conclution = $r->micro_ea_conclution_option;
+                       $micro_ea_comment= $r->micro_ea_comment_option;
                      }
 
                        $product = $products->first();
-                       $product->micro_ea_conclution = $micro_ea_conclution;
+                       $product->micro_ea_comment = $micro_ea_comment;
                        $product->update(); 
                    }
 
@@ -519,7 +521,8 @@ class MicroController extends Controller
 
               public function report_show(MicrobialLoadReport $microbialReport, $id)
               { 
-                     
+
+            
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(17)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -548,15 +551,20 @@ class MicroController extends Controller
 
               public function report_update(request $r, $id)
               {
-                    
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(18)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-                 
-            
+                $products= Product::where('id',$id);
+                if(count($products->get()) < 1){
+                  Session::flash('messagetitle', 'warning');
+                  Session::flash('message', 'System Error! You do not have access to the resource requested');
+                  return redirect()->route('admin.micro.report.create');
+
+                }
+
                 $input = $r->all();
                $ml_testconducteds = $r->test_conducted;
                $mc_testconducteds= $r->mc_test_conducted;
@@ -623,6 +631,8 @@ class MicroController extends Controller
                      }
                 
                         if($r->efficacyanalyses_form){
+
+
                          for ($k=0; $k < count($r->metestform_id); $k++) { 
                          $data1 = ([
                           'efficacy_analyses_id'=>$r->metestform_id[$k],
@@ -636,6 +646,19 @@ class MicroController extends Controller
                             ]);
                           DB::table('microbial_efficacy_reports')->insert($data1);
                           }
+
+                            $micro_ea_comment = Null;  
+
+                          if ($r->me_general_comment) {
+                            $micro_ea_comment = $r->micro_ea_comment_text;
+                          }else {
+                            $micro_ea_comment= $r->micro_ea_comment_option;
+                          }
+     
+                            $product = $products->first();
+                            $product->micro_ea_comment = $micro_ea_comment;
+                            $product->update(); 
+
                        }
 
                        if($r->efficacyanalyses_update){
@@ -657,19 +680,20 @@ class MicroController extends Controller
                           $l++;
                         }
                       }
-                   if ($r->efficacyanalyses_update || $r->test_conducted_update) {
-                        $micro_la_conclution = Null;
-                        $micro_ea_conclution = Null;
 
-                      if ($r->ml_general_conclusion) {
-                        $micro_la_conclution = $r->micro_la_conclution_text;
+                   if ($r->efficacyanalyses_update || $r->test_conducted_update) {
+                        $micro_la_comment = Null;
+                        $micro_ea_comment = Null;
+
+                      if ($r->ml_general_comment) {
+                        $micro_la_comment = $r->micro_la_comment_text;
                       }else {
-                        $micro_la_conclution = $r->micro_la_conclution_option;
+                        $micro_la_comment = $r->micro_la_comment_option;
                       }
-                      if ($r->me_general_conclusion) {
-                        $micro_ea_conclution = $r->micro_ea_conclution_text;
+                      if ($r->me_general_comment) {
+                        $micro_ea_comment = $r->micro_ea_comment_text;
                       }else {
-                        $micro_ea_conclution = $r->micro_ea_conclution_option;
+                        $micro_ea_comment = $r->micro_ea_comment_option;
                       }
 
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
@@ -677,8 +701,8 @@ class MicroController extends Controller
                       });
                        
                       $product = $products->first();
-                      $product->micro_ea_conclution = $micro_ea_conclution;
-                      $product->micro_la_conclution = $micro_la_conclution;
+                      $product->micro_ea_comment = $micro_ea_comment;
+                      $product->micro_la_comment = $micro_la_comment;
                       $product->micro_grade = $r->micro_grade;
                       $product->micro_hod_remarks = $r->micro_hod_remarks;
                       $product->micro_dateanalysed =$r->date_analysed;
@@ -747,10 +771,11 @@ class MicroController extends Controller
                  $productdept->update();
                  
                  $data = ([
+                  'micro_finalapproved_by'=>Null,
                   'micro_hod_evaluation'=>Null,
                   'micro_dateanalysed'=>Null,
-                  'micro_la_conclution'=>Null,
-                  'micro_ea_conclution'=>Null,
+                  'micro_la_comment'=>Null,
+                  'micro_ea_comment'=>Null,
                   'micro_grade'=>Null,
                   'micro_analysed_by'=>Null,
                  ]);
@@ -1329,24 +1354,28 @@ class MicroController extends Controller
 
 
             public function microbialanalysis_update(request $r){
+              // return $r;
               // return $r->get("microbial_loadanalyse_id");
               // dd($r->all());
               // $data = $r->validate([
               //   'date' => 'required',          
               // ]);
                 
-         
-           if ($r->action > 2 ) {
+            $date = (\Carbon\Carbon::parse($r->date));
+            $action = [1,2];
+           if (!in_array($r->action, $action)) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
             return redirect()->back();
              } 
-              if ($r->action == 0 && $r->action == null) {
+          
+          if ($r->action ==1) {
+
+            if ($r->microbial_loadanalyse_id == null) {
               Session::flash('message_title', 'error');
-              Session::flash('message', 'Please select required product and submit.');
+              Session::flash('message', 'Please select required parameter and submit.');
               return redirect()->back();
             } 
-          if ($r->action ==1) {
 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->load_analysis_options = json_encode($r->get("microbial_loadanalyse_id"));
@@ -1354,7 +1383,6 @@ class MicroController extends Controller
  
             $data = ([ 
               'action' => $r->action,
-              'date' => $r->date,
               'added_by_id' => Auth::guard('admin')->id(),
               'updated_at' => \Carbon\Carbon::now(),
               ]);
@@ -1373,7 +1401,7 @@ class MicroController extends Controller
                     'result'=>$r->result[$l],
                     'acceptance_criterion'=>$r->acceptance_criterion[$l],
                     'definition'=>$r->definition[$l],
-                    'date'=>$r->loadanalysisdate[$l],
+                    'date'=>$date,
                     'location'=>$r->location[$l],
                     'action'=> 1,
                     'added_by_id'=> Auth::guard('admin')->id(),
@@ -1392,20 +1420,20 @@ class MicroController extends Controller
 
            public function microbialefficacy_update(request $r){
               // dd($r->all());
-            if ($r->action > 2 ) {
-             Session::flash('message_title', 'error');
-             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
-             return redirect()->back();
-           } 
-               if ($r->action == 0 && $r->action == null) {
+              $action = [1,2];
+              if (!in_array($r->action, $action)) {
                Session::flash('message_title', 'error');
-               Session::flash('message', 'Please select required feature and submit.');
+               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
                return redirect()->back();
-           } 
-               
-       
-          
+               } 
+
            if ($r->action ==1) {
+
+            if ($r->microbial_efficacy_id == null) {
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Please select required feature and submit.');
+              return redirect()->back();
+            } 
 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->efficacy_analysis_options = json_encode($r->get("microbial_efficacy_id"));
@@ -1649,9 +1677,9 @@ class MicroController extends Controller
 
             $pdf->save(storage_path().'_filename.pdf');
 
-            // return $pdf->download('microreport_'.$p->code.'.pdf',$id);
+            return $pdf->download('microreport_'.$p->code.'.pdf',$id);
 
-            return view('admin.micro.downloads.report',$data);
+            // return view('admin.micro.downloads.report',$data);
 
 
            }

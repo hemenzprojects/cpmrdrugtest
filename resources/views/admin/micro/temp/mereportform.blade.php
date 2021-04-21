@@ -45,5 +45,8 @@
                 </table>
             </div>
         </div>
+
+        @include('admin.micro.temp.meconclusioninput') 
+
     </div>
 </div> 

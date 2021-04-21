@@ -25,7 +25,6 @@ $product = \App\Product::find($report_id);
                     @include('admin.micro.temp.mereportform')
                     @include('admin.micro.temp.mereportformat')
 
-
                    <div class="row">
                      @if ( $product->micro_hod_evaluation > 0)
                      <div class="col-sm-8">
@@ -35,7 +34,7 @@ $product = \App\Product::find($report_id);
                            </div>
                      </div>
                      @endif
-                    <div class="col-sm-3" style="margin-top:30px">
+                    <div class="col-sm-3" style="margin-bottom:3%">
                         <div class="form-group">
                             <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
                             <select name="micro_grade" required class="form-control" id="exampleSelectGender">
@@ -47,8 +46,8 @@ $product = \App\Product::find($report_id);
                     </div>
                 </div>
                    
-               </div>
-
+               
+                @include('admin.micro.temp.signaturetemplate')
             <div class="row">
                 <div class="col-7">
                     <div class="row">
@@ -103,6 +102,8 @@ $product = \App\Product::find($report_id);
             </div>
         </form>
         </div>
+
+
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document"> 
           

@@ -7,11 +7,15 @@
 </div>
 @endif
 @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0) 
-<div class="table-responsive">  
-     <div class="card-heade" style="margin: 2%">
-     <h6>Microbial Efficacy Analysis</h6>
-     </div>
-     
+<div class="table-responsive" style="margin-top:2% ">  
+    @if (count($show_microbial_loadanalyses) > 0)
+    
+        <h5>B) Efficacy Analysis</h5>
+        </div>
+    @else
+        <h5> Efficacy Analysis</h5>
+    @endif
+    
       <table class="table table-striped table-bordered nowrap dataTable">
          <thead class="meatablehead">
              <tr class="table-info">
@@ -60,8 +64,9 @@
     {!! $show_microbial_efficacyanalyses[0]->ref !!}
      @endif
      @endfor
+     @include('admin.micro.temp.meconclusioninput') 
+
 </div>
 
-@include('admin.micro.temp.meconclusioninput') 
 
 @endif
