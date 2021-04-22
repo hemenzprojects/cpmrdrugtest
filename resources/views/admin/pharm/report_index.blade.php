@@ -700,7 +700,7 @@
                 </div>
               <form action="{{route('admin.pharm.sampleprep_animalhouse.store')}}" method="post">
                 {{ csrf_field() }}
-                <div class="card-body">
+                <div class="card-body" style="overflow-x: scroll" >
                     <div class="dt-responsive">
                         <table id="scr-vtr-dynamic" class="table table-striped table-bordered nowrap" >
                             <thead>
@@ -709,7 +709,9 @@
                                 <th>Product</th>
                                 <th>Measurement</th>
                                 <th>Remarks</th>
+                                <th>Test to Conduct</th>
                                 <th>Created By</th>
+
                                 <th>#</th>
                             </tr>
                             </thead>
@@ -742,6 +744,9 @@
                             <td class="font">
                                 <input type="text" class="form-control" name="remarks[]" placeholder="Remarks">
                             </td> 
+                            <td class="font">
+                                <strong>{{\App\PharmTestconducted::find($item->pharm_testconducted_id)->name}}</strong> 
+                            </td>
                             <td class="font">
                                 {{ucfirst(\App\Admin::find($item->created_by)? \App\Admin::find($item->created_by)->full_name:'null')}}
                             </td>

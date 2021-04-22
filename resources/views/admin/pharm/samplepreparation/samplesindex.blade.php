@@ -58,7 +58,7 @@
                
             </div><br>
             
-            <div class="dt-responsive">
+            <div class="dt-responsive" style="overflow-x: scroll" >
                
                     <table id="order-table1" class="table table-striped table-bordered nowrap">
                     <thead>
@@ -68,8 +68,11 @@
                         <th>Weight</th>
                         <th>Dosage</th>
                         <th>Yield</th>
-                        <th>Created By</th>
+                        <th>Test to Conduct</th>
+                         <th>Created By</th>
                         <th>Created At</th>
+                        <th>#</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -97,12 +100,19 @@
                                 {{$recordbook->yield}}
                             </td>
                             <td class="font">
+                               <strong>{{\App\PharmTestconducted::find($recordbook->pharm_testconducted_id)->name}}</strong> 
+                            </td>
+                            <td class="font">
                                 {{\App\Admin::find($recordbook->created_by)? \App\Admin::find($recordbook->created_by)->full_name:'null'}}
                             </td> 
                             <td class="font">
                                 {{ Carbon\Carbon::parse($recordbook->created_at)->format('jS \\ F Y')}}
                             </td> 
-                      
+                              <td>
+                                  @if ($admin ==  \App\Admin::find($recordbook->created_by)->id)
+                                  <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>
+                                  @endif
+                              </td>
                         </tr>
                         <div class="modal fade" id="demoModal{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -154,6 +164,55 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="modal fade" id="exampleModalLong{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="{{route('admin.pharm.samplepreparation.update')}}" method="post">
+                                        {{ csrf_field() }}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongLabel">Edit sample of {{$product->code}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Weight</label>
+                                            <input type="text" class="form-control" name="weight"  placeholder="Weight" value="{{$recordbook->weight}} ">
+                                            <input type="hidden" name="recordbook_id" value="{{$recordbook->id}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Dosage</label>
+                                            <input type="text" class="form-control" name="dosage"  placeholder="Dosage" value="{{$recordbook->dosage}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">Yield</label>
+                                            <input type="text" class="form-control" name="yield"  placeholder="Yield" value="{{$recordbook->yield}}">
+                                        </div>
+                                       
+                                        <div class="form-group">
+                                           <select  name="pharm_testconducted" style="" class="form-control select2" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option value="">Select Test</option>
+                                            @foreach(\App\PharmTestconducted::all() as $pharm_testconducted)
+                                                                
+                                            <option value="{{$pharm_testconducted->id}}" {{$pharm_testconducted->id == $recordbook->pharm_testconducted_id ? "selected":""}}>{{$pharm_testconducted->name}}</option>
+                                            
+                                            @endforeach
+                                            </select>
+                                    
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+           
                        @endforeach
                        @endforeach
                  </tbody>

@@ -221,6 +221,7 @@
    Route::post('pharm/samplepreparation/store','AdminAuth\Pharmacology\PharmController@samplepreparation_store')->name('admin.pharm.samplepreparation.store');
    Route::post('pharm/sampleprepanimalhouse/store','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse')->name('admin.pharm.sampleprep_animalhouse.store');
    Route::post('pharm/samplepreparation/search','AdminAuth\Pharmacology\PharmController@samplepreparation_search')->name('admin.pharm.samplepreparation.search');
+   Route::post('pharm/samplepreparation/update','AdminAuth\Pharmacology\PharmController@samplepreparation_update')->name('admin.pharm.samplepreparation.update');
 
    Route::get('pharm/samplepreparation/delete/{id}','AdminAuth\Pharmacology\PharmController@samplepreparation_delete')->name('admin.pharm.samplepreparation.delete');
    Route::get('pharm/samplepreparation/animalhouse/delete/{id}','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse_delete')->name('admin.pharm.samplepreparation.animalhouse.delete');

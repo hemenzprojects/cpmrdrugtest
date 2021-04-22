@@ -147,17 +147,34 @@ class PharmController extends Controller
               Session::flash('message', 'Sorry Product(s) is/are now in a work process mode..');
               return redirect()->back();
             } 
-                        
-            $data = 
-            [ 
-            'status' => $status,
-            'received_by' => $adminId,
-            'delivered_by' => $delivered_by,
-            'received_at' => \Carbon\Carbon::now(),
-            ];
-      
-            ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 2)->where("status", '<', 3)->update($data);
 
+            if ($status == 1) {
+              $data = 
+              [ 
+              'status' => $status,
+              'received_by' => Null,
+              'delivered_by' => NULL,
+              'received_at' => Null,
+              ];
+        
+              ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 2)->where("status", '<', 3)->update($data);
+            
+            }
+            
+            if ($status == 2) {
+              $data = 
+              [ 
+              'status' => $status,
+              'received_by' => $adminId,
+              'delivered_by' => $delivered_by,
+              'received_at' => \Carbon\Carbon::now(),
+              ];
+        
+              ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 2)->where("status", '<', 3)->update($data);
+            
+            }
+          
+          
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
             return redirect()->route('admin.pharm.receiveproduct')
@@ -225,6 +242,7 @@ class PharmController extends Controller
                 $data['product_type_id'] = 0;
                 $data['list'] = 0;
                 $data['date'] = Null;
+           
 
                 $data['product_types'] = \App\ProductType::all();
                 $data['pharm_testconducteds'] = PharmTestConducted::all();
@@ -357,9 +375,33 @@ class PharmController extends Controller
                 return redirect()->route('admin.pharm.samplepreparation.create');
              }
 
+             public function samplepreparation_update(Request $r){
+
+              
+               $r->validate([
+                'weight' => 'required',
+                'dosage' => 'required',
+                'yield' => 'required',
+                'pharm_testconducted' => 'required',
+                ]);
+                 
+                $data = ([
+                  'weight'=>$r->weight,
+                  'dosage'=>$r->dosage,
+                  'yield'=>$r->yield, 
+                  'pharm_testconducted_id'=>$r->pharm_testconducted, 
+                  'updated_at' => \Carbon\Carbon::now(),
+                ]);
+
+                PharmSamplePreparation::where('id',$r->recordbook_id)->update($data);
+
+                Session::flash("message", "Product sample data updated successfully");
+                Session::flash("message_title", "success");
+                return redirect()->back();
+             }
+
              public function sampleprep_animalhouse(Request $r){
               // dd(($r->all()));
-              
               if ($r->product_id == Null) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please select required product.');
@@ -458,6 +500,7 @@ class PharmController extends Controller
  
               public function samplepreparation_samplesindex(){
 
+              $data['admin'] = Auth::guard('admin')->id();
                $data['year'] = \Carbon\Carbon::now('y');
                $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
 

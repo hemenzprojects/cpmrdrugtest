@@ -389,9 +389,9 @@
                                                 <div class="table-actions">
                                                 {!! $product->show_tag !!}
 
-                                                {{-- @if ($product->overall_status <1) --}}
+                                                @if ($product->overall_status <1)
                                                 {!! $product->edit_tag !!}
-                                                {{-- @endif --}}
+                                                @endif
                                                 <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
                                                 <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
                                                 </a>

@@ -61,7 +61,7 @@
                 </div>
                
             </div><br>
-            <div class="dt-responsive">
+            <div class="dt-responsive" style="overflow-x: scroll" >
                
                     <table id="order-table3" class="table table-striped table-bordered nowrap">
                     
@@ -71,8 +71,7 @@
                     
                         <th>Product</th>
                         <th>Measurement</th>
-                        {{-- <th>Dosage</th>
-                        <th>Yield</th> --}}
+                        <th>Test to Conduct</th>
                         <th>Status</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
@@ -98,10 +97,10 @@
                             <td class="font">
                                 {{$recordbook->measurement}}
                             </td>
-                            {{-- <td class="font">
-                                {{$recordbook->dosage}}
-                            </td>
                             <td class="font">
+                                <strong>{{\App\PharmTestconducted::find($recordbook->pharm_testconducted_id)->name}}</strong> 
+                            </td>
+                            {{-- <td class="font">
                                 {{$recordbook->yield}}
                             </td> --}}
                             <td class="font">
