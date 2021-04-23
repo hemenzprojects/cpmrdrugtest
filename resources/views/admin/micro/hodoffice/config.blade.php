@@ -346,6 +346,52 @@
                 </div>
             </div>
         </div>
+
     </div>
 
+    <div class="row">
+            <div class="card">
+                <div class="card-header"><h3>General Conclusions</h3></div>
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col-md-8">
+                        <div class="card-body p-0 table-border-style">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Conclusion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($micro_report_conclusions as $item)
+                                        <tr>
+                                            <td class="font">{{$item->title}}</td>
+                                            <td class="font">{{$item->default_conclusion}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                     <form  class="forms-sample" action="{{url('admin/micro/config/conclusions/create')}}" method="post">
+                            {{ csrf_field() }}           
+                          <div class="form-group">
+                            <label for="exampleInputName1">Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Conclusion</label>
+                            <textarea class="form-control"  name="conclusion" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Save</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

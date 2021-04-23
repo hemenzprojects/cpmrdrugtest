@@ -1,16 +1,30 @@
 <div class="alert bg-light alert-light" style="margin-bottom: 10px">
- <strong><span>General Comment</span></strong><br><br>
+
  <div class="input-grou">
     <div class="row">
-      <div class="col-md-4">
-        <div class="form-check mx-sm-2">
+      <div class="col-md-3">
+        <strong><span>General Conclusion</span></strong><br><br>
+    <div class="form-check">
+    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault1"  {{$product->micro_ea_conclusion == 1 ? "checked":""}}  value="1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      Meet required specification 
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault2"  {{$product->micro_ea_conclusion == 2 ? "checked":""}}  value="2">
+    <label class="form-check-label" for="flexRadioDefault2">
+      Did not meet required specification
+    </label>
+  </div>
+      </div>
+      <div class="col-md-3">
+        <strong><span>General Comment</span></strong><br><br>
         <label class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="me_general_conclusion" name="me_general_comment" value="432">
             <span class="custom-control-label">&nbsp;Please check to type </span>
         </label>
-     </div>
   </div>
-      <div class="col-md-8">
+      <div class="col-md-6">
         <div class="form-group 432">
         <select  name="micro_ea_comment_option" class="form-control" id="micro_ea_comment_option">
           <option value="{{$product->micro_ea_comment}}">{{$product->micro_ea_comment == Null ?'Please select option':$product->micro_ea_comment}}</option>
@@ -29,3 +43,4 @@
 
 
 </div>
+

@@ -726,7 +726,7 @@ $product = \App\Product::where('id',7)->first();
                             </small>
                             @enderror
                         </div>
-                        <div class="col-sm-3">
+                        {{-- <div class="col-sm-3">
                             <div class="form-group">
                                 <select name="micro_grade" class="form-control">
                                     <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
@@ -740,21 +740,7 @@ $product = \App\Product::where('id',7)->first();
                                     <strong style="color:#fff">{{$message}}</strong>
                                 </small>
                                 @enderror
-
-                                {{-- <div class="form-group">
-                                    <select name="micro_grade" class="form-control">
-                                        <label for="exampleInputEmail3"> <strong><span style="color: red">Microbial Activity</span></strong>  </label>
-                                        <option value="">Microbial Activity</option>
-                                        <option value="1">Showed microbial activity</option>
-                                        <option value="2">Did not showed microbial activity</option>
-                                    </select>                                
-                                    </div>
-                                    @error('micro_grade')
-                                    <small class="form-text text-danger" role="alert">
-                                        <strong style="color:#fff">{{$message}}</strong>
-                                    </small>
-                                    @enderror --}}
-                        </div>
+                        </div> --}}
                      
                         <div class="col-sm-3">
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
@@ -865,7 +851,7 @@ $product = \App\Product::where('id',7)->first();
                     @endfor
                 </div>
                 @include('admin.micro.temp.meconclusioninput') 
-                <div class="col-sm-3" style="margin-top: 5%">
+                {{-- <div class="col-sm-3" style="margin-top: 5%">
                     <div class="form-group">
                         <select name="micro_grade" class="form-control">
                         <label for="exampleInputEmail3"> <strong><span style="color: red">Product Evaluation</span></strong>  </label>
@@ -879,7 +865,7 @@ $product = \App\Product::where('id',7)->first();
                             <strong style="color:#fff">{{$message}}</strong>
                         </small>
                         @enderror
-                </div>
+                </div> --}}
             </div>
         </div> 
 
@@ -896,7 +882,7 @@ $product = \App\Product::where('id',7)->first();
         </div>
          
         <div class="col-md-3 3" style="display: none">
-            <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
+            <button type="submit" style="float:right" class="btn btn-primary mb-2">Save Report </button>
         </div>
   
      </div>

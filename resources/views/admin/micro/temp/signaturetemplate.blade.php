@@ -1,4 +1,16 @@
-<div class="row invoice-info" style="margin: 15px; margin-top:60px">
+<div class="col-md-12" style="margin-top: 2%">
+    <div class="form-group">
+        <label for="exampleTextarea1"> <strong>General Conclusion:</strong></label>
+        <textarea class="form-control" id="exampleTextarea1" rows="4"> {{$product->micro_general_conclusion}}     
+ </textarea>
+    </div>
+</div>
+<div class="col-sm-3" style="margin-bottom:3%">
+    <div class="form-group">
+        <p><strong>Evaluation:</strong> {!! $product->micro_grade_report !!} </p>
+    </div>
+</div>
+<div class="row invoice-info" style="margin: 15px; margin-top:30px">
     <?php
     $micro_approved_by = ($product? $product->micro_approved_by:'');
     $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');

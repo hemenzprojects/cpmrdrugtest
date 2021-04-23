@@ -343,6 +343,7 @@ tr:nth-child(even) {
 
   @endif
 
+  {{$product->micro_general_conclusion}}
 <table style="margin-top:2%">
   
   <tr class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses) < 1 ?'space':'space1'}}">

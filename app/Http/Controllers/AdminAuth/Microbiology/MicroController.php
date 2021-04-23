@@ -15,6 +15,7 @@ use App\MicrobialLoadReport;
 use App\MicrobialEfficacyReport;
 use App\MicrobialEfficacyAnalyses;
 use App\MicrobialLoadAnalyses;
+use App\MicroReportConclusion;
 use Carbon\Carbon;
 use \Session;
 use \Hash;
@@ -221,8 +222,8 @@ class MicroController extends Controller
            //********************* Micro Report Processes ****************** */
 
               public function report_create(){
-                     
-            
+                
+               
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(15)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -289,23 +290,24 @@ class MicroController extends Controller
               }
 
               public function test_create(MicroTestCreateRequest $r){
-                            
+
+
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-                 $micro_grades = [1,2];
-                 if(!in_array($r->micro_grade, $micro_grades)){
-                  Session::flash('message_title', 'error');
-                  Session::flash('message', 'Sorry! System Error.');
-                    return redirect()->back();
-                 }
+                //  $micro_grades = [1,2];
+                //  if(!in_array($r->micro_grade, $micro_grades)){
+                //   Session::flash('message_title', 'error');
+                //   Session::flash('message', 'Sorry! System Error.');
+                //     return redirect()->back();
+                //  }
                
                 $input = $r->all();
                 $mp_id = $input['micro_product_id'];
-                $products= Product::where('id',$mp_id);
+                $products = Product::where('id',$mp_id);
                 if(count($products->get()) < 1){
                     return redirect()->back();
                 }
@@ -430,11 +432,27 @@ class MicroController extends Controller
                    }else {
                      $micro_la_comment = $r->micro_la_comment_option;
                    }
- 
                      $product = $products->first();
                      $product->micro_la_comment = $micro_la_comment;
                      $product->update();
+
+                     if ($r->load_default_conclusion == 1) {
+                      $conclustions = MicroReportConclusion::findorFail(1); 
+                      $product = $products->first();
+                      $product->micro_grade = 2;
+                      $product->micro_la_conclusion = $r->load_default_conclusion;
+                      $product->micro_general_conclusion = $conclustions->default_conclusion;
+                      $product->update();
                     }
+                    if($r->load_default_conclusion == 2) {
+                      $conclustions = MicroReportConclusion::findorFail(2); 
+                      $product = $products->first();
+                      $product->micro_grade = 1;
+                      $product->micro_la_conclusion = $r->load_default_conclusion;
+                      $product->micro_general_conclusion = $conclustions->default_conclusion;
+                      $product->update();
+                    }
+                 }
                   
                   if($r->efficacyanalyses){
 
@@ -484,36 +502,83 @@ class MicroController extends Controller
                        }
 
                        $micro_ea_comment = Null;  
-
                      if ($r->me_general_comment) {
                        $micro_ea_comment = $r->micro_ea_comment_text;
                      }else {
                        $micro_ea_comment= $r->micro_ea_comment_option;
                      }
-
                        $product = $products->first();
                        $product->micro_ea_comment = $micro_ea_comment;
                        $product->update(); 
-                   }
-
-                $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
-                if(count($productdepts->get()) < 1){
-                    
-                    return redirect()->back();
+                       
+                if ($r->efficacy_default_conclusion ==1) {
+                  $conclustions = MicroReportConclusion::findorFail(3); 
+                  $product = $products->first();
+                  $product->micro_grade = 2;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
                 }
-    
-                $productdept = $productdepts->first();
-                $productdept->status = 3;
-                $productdept->update();
+                if ($r->efficacy_default_conclusion ==2) {
+                  $conclustions = MicroReportConclusion::findorFail(4); 
+                  $product->micro_grade = 1;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product = $products->first();
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
+                }
+               }
 
-           
-                $product = $products->first();
-                $product->micro_dateanalysed =$r->date_analysed;
-                $product->micro_analysed_by = Auth::guard('admin')->id();
-                $product->micro_grade = $r->micro_grade;
 
-                $product->update();
-              
+                  $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
+                  $productdept = $productdepts->first();
+                  $productdept->status = 3;
+                  $productdept->update();
+            
+                  $product = $products->first();
+                  $product->micro_dateanalysed =$r->date_analysed;
+                  $product->micro_analysed_by = Auth::guard('admin')->id();
+                  $product->update();
+
+               if ($r->test_conducted_id && $r->efficacyanalyses){
+                 
+                if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 1) {
+                  $conclustions = MicroReportConclusion::findorFail(5); 
+                  $product = $products->first();
+                  $product->micro_grade = 2;
+                  $product->micro_la_conclusion = $r->load_default_conclusion;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
+                }
+                if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 2) {
+                  $conclustions = MicroReportConclusion::findorFail(6); 
+                  $product = $products->first();
+                  $product->micro_grade = 2;
+                  $product->micro_la_conclusion = $r->load_default_conclusion;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
+                  }
+                if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 1) {
+                  $conclustions = MicroReportConclusion::findorFail(7); 
+                  $product = $products->first();
+                  $product->micro_grade = 1;
+                  $product->micro_la_conclusion = $r->load_default_conclusion;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
+                  }
+                if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 2) {
+                  $conclustions = MicroReportConclusion::findorFail(8); 
+                  $product = $products->first();
+                  $product->micro_grade = 1;
+                  $product->micro_la_conclusion = $r->load_default_conclusion;
+                  $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                  $product->micro_general_conclusion = $conclustions->default_conclusion;
+                  $product->update();
+                  }
+               }
                   Session::flash("message", "Report Successfully Stored, Proceed to complete.");
                   Session::flash("message_title", "success");
                   return redirect()->route('admin.micro.report.create');
@@ -551,6 +616,8 @@ class MicroController extends Controller
 
               public function report_update(request $r, $id)
               {
+
+                // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(18)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -576,18 +643,9 @@ class MicroController extends Controller
                 if(count($productdepts->get()) < 1){     
                     return redirect()->back();
                 }
-                // $productdept = $productdepts->first();
-                // $productdept->status = 3;
-                // $productdept->update();
               
                    if($r->test_conducted_update){
-                    $micro_grades = [1,2];
-                    if(!in_array($r->micro_grade, $micro_grades)){
-                     Session::flash('message_title', 'error');
-                     Session::flash('message', 'Sorry! System Error.');
-                       return redirect()->back();
-                    }
-
+                
                     for ($i =0; $i < count($r->result); $i++){ 
                           if ($i<2) {
                             $results= explode(' ',$r->result[$i]);
@@ -627,6 +685,23 @@ class MicroController extends Controller
                               ]);
                               }
                        }
+                         
+                        if ($r->load_default_conclusion == 1) {
+                          $conclustions = MicroReportConclusion::findorFail(1); 
+                          $product = $products->first();
+                          $product->micro_grade = 2;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                        }
+                        if($r->load_default_conclusion == 2) {
+                          $conclustions = MicroReportConclusion::findorFail(2); 
+                          $product = $products->first();
+                          $product->micro_grade = 1;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                        }
                       
                      }
                 
@@ -658,6 +733,24 @@ class MicroController extends Controller
                             $product = $products->first();
                             $product->micro_ea_comment = $micro_ea_comment;
                             $product->update(); 
+                            
+                       
+                          if ($r->efficacy_default_conclusion ==1) {
+                            $conclustions = MicroReportConclusion::findorFail(3); 
+                            $product = $products->first();
+                            $product->micro_grade = 2;
+                            $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                            $product->micro_general_conclusion = $conclustions->default_conclusion;
+                            $product->update();
+                          }
+                          if ($r->efficacy_default_conclusion ==1) {
+                            $conclustions = MicroReportConclusion::findorFail(4); 
+                            $product = $products->first();
+                            $product->micro_grade = 2;
+                            $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                            $product->micro_general_conclusion = $conclustions->default_conclusion;
+                            $product->update();
+                          }
 
                        }
 
@@ -679,7 +772,66 @@ class MicroController extends Controller
                               );
                           $l++;
                         }
+
+                        
+                            
+                      if ($r->efficacy_default_conclusion ==1) {
+                        $conclustions = MicroReportConclusion::findorFail(3); 
+                        $product = $products->first();
+                        $product->micro_grade = 2;
+                        $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                        $product->micro_general_conclusion = $conclustions->default_conclusion;
+                        $product->update();
                       }
+                      if ($r->efficacy_default_conclusion ==1) {
+                        $conclustions = MicroReportConclusion::findorFail(4); 
+                        $product = $products->first();
+                        $product->micro_grade = 2;
+                        $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                        $product->micro_general_conclusion = $conclustions->default_conclusion;
+                        $product->update();
+                      }
+                    }
+
+
+                      if ($r->test_conducted_update && $r->efficacyanalyses_update){
+                        if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 1) {
+                          $conclustions = MicroReportConclusion::findorFail(5); 
+                          $product = $products->first();
+                          $product->micro_grade = 2;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                        }
+                        if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 2) {
+                          $conclustions = MicroReportConclusion::findorFail(6); 
+                          $product = $products->first();
+                          $product->micro_grade = 2;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                          }
+                        if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 1) {
+                          $conclustions = MicroReportConclusion::findorFail(7); 
+                          $product = $products->first();
+                          $product->micro_grade = 1;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                          }
+                        if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 2) {
+                          $conclustions = MicroReportConclusion::findorFail(8); 
+                          $product = $products->first();
+                          $product->micro_grade = 1;
+                          $product->micro_la_conclusion = $r->load_default_conclusion;
+                          $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
+                          $product->micro_general_conclusion = $conclustions->default_conclusion;
+                          $product->update();
+                          }
+                       }
 
                    if ($r->efficacyanalyses_update || $r->test_conducted_update) {
                         $micro_la_comment = Null;
@@ -703,7 +855,6 @@ class MicroController extends Controller
                       $product = $products->first();
                       $product->micro_ea_comment = $micro_ea_comment;
                       $product->micro_la_comment = $micro_la_comment;
-                      $product->micro_grade = $r->micro_grade;
                       $product->micro_hod_remarks = $r->micro_hod_remarks;
                       $product->micro_dateanalysed =$r->date_analysed;
                       $product->micro_dateapproved =\Carbon\Carbon::now();
@@ -711,13 +862,12 @@ class MicroController extends Controller
   
                       $product->update();
     
-                  }
+                   }
                  
                     if ($r->complete_report) {
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                       return $q->where("dept_id", 1)->where("status", 3);
-                      });
-                    
+                    });
                     $product = $products->first();
                     $product->micro_hod_evaluation = 0;
 
@@ -1298,6 +1448,7 @@ class MicroController extends Controller
              $admin_loadselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
               $admin_efficacyselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
 
+              $data['micro_report_conclusions'] = MicroReportConclusion::all();
               $data['microbial_efficacys'] = MicrobialEfficacyAnalyses::all();
              $data['microbial_efficacyanalyses_admin'] = MicrobialEfficacyAnalyses::whereIn('id',$admin_efficacyselection)->get();
 
@@ -1472,6 +1623,24 @@ class MicroController extends Controller
            return redirect()->back();
             }
 
+            public function conclusion_create(Request $r){
+              // return $r;
+              $r->validate([
+                'title' => 'required', 
+                'conclusion' => 'required', 
+              ]);
+             
+              $data = ([
+                'title' => $r->title, 
+                'default_conclusion' => $r->conclusion, 
+                'added_by_id'=> Auth::guard('admin')->id(),
+              ]);
+
+              MicroReportConclusion::create($data);
+              Session::flash("message", "Conclusion Template updated successfully");
+              Session::flash("message_title", "success");  
+              return redirect()->back();
+            }
             
            // ********************************* General Report Section *********************************//
 
