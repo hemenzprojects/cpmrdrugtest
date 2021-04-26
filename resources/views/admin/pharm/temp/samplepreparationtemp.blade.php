@@ -18,7 +18,7 @@
         <input type="text" class="form-control" name="weight_{{$pharmproduct->id}}"  placeholder="Weight" >
     </td>
     <td class="font">
-        <input type="text" class="form-control" name="dosage_{{$pharmproduct->id}}"  placeholder="Dosage">
+        <input type="text" class="form-control" name="dosage_{{$pharmproduct->id}}"  placeholder="Dosage" value="{{$pharmproduct->dosage}}">
     </td>
     <td class="font">
         <input type="text" class="form-control" name="yield_{{$pharmproduct->id}}"  placeholder="Yield">

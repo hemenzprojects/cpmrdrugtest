@@ -125,7 +125,7 @@ class PhytoController extends Controller
 
     public function acceptproduct(AcceptPhytoProductRequest $request)
       {   
-        //  dd($request->all()); 
+            // dd($request->all()); 
             $adminId = Auth::guard('admin')->id();
             $deptproduct_id = $request->deptproduct_id;
             $status = $request->status;
@@ -142,7 +142,6 @@ class PhytoController extends Controller
               Session::flash('message', 'Please select required product and submit.');
               return redirect()->back();
           }  
-
             $productdeptstatus = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '>',2)->first();
             if ($status < (!empty($productdeptstatus->status) ? $productdeptstatus->status: '')) {
               Session::flash('message_title', 'error');

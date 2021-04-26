@@ -377,7 +377,7 @@ class PharmController extends Controller
 
              public function samplepreparation_update(Request $r){
 
-              
+
                $r->validate([
                 'weight' => 'required',
                 'dosage' => 'required',
@@ -988,6 +988,7 @@ class PharmController extends Controller
 
                     if ($r->complete_report) {
                       $product->pharm_hod_evaluation = 0;
+                      $product->pharm_datecompleted = \Carbon\Carbon::now();
                       $product->update();
                       Session::flash("message", "Report has been submitted to the Head of Department");
                       Session::flash("message_title", "success");
@@ -1019,13 +1020,22 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
+          
                return view('admin.pharm.hodoffice.evaluation',$data);
 
             }
 
              public function evaluate_one_index($id){
              
-            
+              $data['evaluations'] = Product::where('pharm_hod_evaluation','>=',0)->where('pharm_process_status','<',6)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+              $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+
               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",7);
                if(count($productdepts->get()) < 1){     
                  return redirect()->route('admin.pharm.hod_office.approval');
@@ -1041,16 +1051,18 @@ class PharmController extends Controller
              }
 
             public function evaluate(Request $r){
-              $input = $r->all();
+                $input = $r->all();
               // dd($r->all()) ;
-              if ($r->evaluation == null) {
-                Session::flash('message_title', 'error');
-                  Session::flash('message', 'Please select options to evaluate report');
-                return redirect()->back();
-              }
+       
               if ($r->pharm_evaluated_product == null) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please select required reports for evaluation');
+                return redirect()->back();
+              }
+              $p = Product::whereIn('id',$r->pharm_evaluated_product )->where('pharm_process_status',"<",8)->get();
+              if (count($p) > 0 ) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry product cant be completed');
                 return redirect()->back();
               }
               $productdept =  Product::whereIn('id',$r->pharm_evaluated_product )->with('departments')->whereHas("departments", function($q){
@@ -1129,7 +1141,7 @@ class PharmController extends Controller
           }
 
           public function evaluate_one_edit(Request $r, $id){
-
+            
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -1151,14 +1163,19 @@ class PharmController extends Controller
             }
             
 
-            $p = Product::find($id);
+            $p = Product::findOrFail($id);
             $p->update([
               'pharm_hod_evaluation'=> $r->evaluate,
               'pharm_approved_by'=>$r->adminid,
+              'pharm_dateapproved'=>\Carbon\Carbon::now(),
             ]); 
 
             if ($r->evaluate ==1) {
-              $p->update(['pharm_process_status'=> 5, 'pharm_approved_by'=> Null]);
+              $p->update([
+                'pharm_process_status'=> 5,
+                'pharm_approved_by'=>Null,
+                'pharm_dateapproved'=>Null,
+              ]); 
             }
 
             // if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
@@ -1173,6 +1190,7 @@ class PharmController extends Controller
            }
             
            public function finalhodevaluate_one_edit(Request $r, $id){
+             
               // dd($r->all());
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
@@ -1201,14 +1219,19 @@ class PharmController extends Controller
               $evaluate = 8;//*** 8 means Approved */
             }  
          
-           $p = Product::find($id);
+            $p = Product::findOrFail($id);
             $p->update([
               'pharm_process_status'=> $evaluate,
               'pharm_finalapproved_by'=>$r->adminid,
+              'pharm_finaldateapproved'=>\Carbon\Carbon::now(),
             ]); 
             
             if ($r->evaluate ==1) {
-              $p->update(['pharm_finalapproved_by'=> Null]);
+              $p->update([
+                'pharm_process_status'=> 7,
+                'pharm_finalapproved_by'=>Null,
+                'pharm_finaldateapproved'=>Null,
+              ]); 
             }
 
             if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
@@ -1225,7 +1248,8 @@ class PharmController extends Controller
 
            public function hod_editreport(Request $r, $id){
             //  dd($r->all());
-            $products =Product::where('id', $id)->where("pharm_process_status", 5)->with("departments")->whereHas("departments", function($q){
+
+            $products =Product::where('id', $id)->where("pharm_process_status", ">",4)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 2);
               });
              if(count($products->get()) < 1){    
@@ -1308,6 +1332,10 @@ class PharmController extends Controller
 
            public function hod_finalreport_show($id){
            
+            $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2)->where("status", 7);
+            })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
             $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",7);
              if(count($productdepts->get()) < 1){     
                return redirect()->route('admin.pharm.hod_office.approval');

@@ -99,7 +99,7 @@
                             <div class="text-center">
                                         <h2 class="mb-0 d-inline-block text-red">{{count($pharm_sample_products)}}</h2>
                                         <p class="mb-0 d-inline-block"> Pending </p>                                   
-                                <p class="mb-0 mt-15"><i class="fas fa-caret-down mr-10 f-18 text-red"></i>From the begining of this Month</p>
+                                <p class="mb-0 mt-15"><i class="fas fa-caret-down mr-10 f-18 text-red"></i>From the begining of this Year</p>
                             </div>
                         </div>
                     </div>

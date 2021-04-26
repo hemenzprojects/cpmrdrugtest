@@ -6,6 +6,10 @@
       font-size: 13px;
       font-family: "Times New Roman";
     }
+.font1{
+  font-size: 14.5px;
+  font-family: "Times New Roman";
+}
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -15,7 +19,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 3px;
+  padding: 5px;
 }
 
 tr:nth-child(even) {
@@ -42,7 +46,7 @@ tr:nth-child(even) {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 55% 60%;
+    background-size: 55% 58%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -98,7 +102,7 @@ tr:nth-child(even) {
 
     </tr>
 </table>
-<table style="margin-top:-2.0%" >
+<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:-1.5% ':'margin-top:-1%'}}">
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:38%;border: 0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
@@ -121,16 +125,16 @@ tr:nth-child(even) {
 
 <table >
     <tr>
-        <th class="font">Product Code</th>
-        <th class="font">Product Form</th>
-        <th class="font">Date Received</th>
-        <th class="font">Date Analysed</th>
+        <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Product Code</th>
+        <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Product Form</th>
+        <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Date Received</th>
+        <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Date Analysed</th>
     </tr>
   <tr>
-    <td class="font">{{$product->code}}</td>
-    <td class="font">{{$product->productType->name}}</td>
-    <td class="font">{{ $product->departmentById(1)->pivot->updated_at->format('jS \\, F Y') }}</td>
-    <td class="font">{{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{$product->code}}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{$product->productType->name}}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{ $product->departmentById(1)->pivot->updated_at->format('jS \\, F Y') }}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>
 
   </tr>
  
@@ -141,31 +145,28 @@ tr:nth-child(even) {
     <table>
         <tr>
             @if (count($microbial_efficacyanalyses) > 0)
-            <th class="font" style="border: #fff">A) Microbial Load Analysis</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: #fff">A) Microbial Load Analysis</th>
             @else
-            <th class="font" style="border: #fff"> Microbial Load Analysis</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: #fff"> Microbial Load Analysis</th>
             @endif
         </tr>
         <tr>
-            <th class="font">Test Conducted</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Test Conducted</th>
             @if ($product->productType->state ==2)
-            <th class="font">Result (CFU/ml)</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/ml)</th>
             @endif
             @if ($product->productType->state ==1)
-            <th class="font">Result (CFU/g)</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/g)</th>
             @endif
-            <th class="font">Acceptance Criterion BP
-              (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
-              {{Carbon\Carbon::parse($item->date)->format('Y')}}
-              <input type="hidden" name="date_template" value="{{$item->date}}">
-            @endforeach)
-            </th class="font">
-            <th class="font">Compliance</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Acceptance Criterion BP
+              (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item){{Carbon\Carbon::parse($item->date)->format('Y')}}@endforeach)
+            </th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Compliance</th>
         </tr>
 
         @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
       <tr>
-        <td style="font-style: italic;" class="font" >
+        <td style="font-style: italic; " class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" >
             <?php
             if ($i<2) {
             $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
@@ -181,7 +182,7 @@ tr:nth-child(even) {
         </td>
       
 
-        <td class="font">
+        <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">
 
           @if ($microbial_loadanalyses[$i]->rs_total <1 || $microbial_loadanalyses[$i]->rs_total == 9900000000)
             <?php 
@@ -221,7 +222,7 @@ tr:nth-child(even) {
 
 
         </td>
-        <td class="font">
+        <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">
             <?php 
             if ($i<2) {
               $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
@@ -238,7 +239,7 @@ tr:nth-child(even) {
             {{-- {{($item->acceptance_criterion)}} --}}
         </td>
 
-        <td class="font">
+        <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">
             {!! $microbial_loadanalyses[$i]->micro_compliance_report !!}
         </td>                        
       </tr>
@@ -286,13 +287,15 @@ tr:nth-child(even) {
 </tr>
 </table>
 
-<span style="font-size:14px; " > 
+<span class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1 '}}"> 
   <strong> General Comment:</strong>
   {{$product->micro_la_comment}}
 </span>
 </div>
+@if (count($microbial_efficacyanalyses)<1)
+    <br>
 @endif
-
+@endif
 
 
 
@@ -337,14 +340,18 @@ tr:nth-child(even) {
   @endif
   @endfor
 
-  <span style="font-size: 14px;margin-top:2%" >
-    <span style="font-size:14px"><strong>General Comment:</strong> </span>
-    {{$product->micro_ea_comment}}</span>
-
+  <span style="font-size: 14px;margin-top:2%" ><strong>General Comment:</strong></span> 
+  <span style="font-size:14px">{{$product->micro_ea_comment}}</span><br><br>
   @endif
 
-  {{$product->micro_general_conclusion}}
-<table style="margin-top:2%">
+  <span class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">
+    <strong>General Conclusion:</strong> 
+    </span>
+    
+    <span style="font-size:15px">  {{$product->micro_general_conclusion}}</span>
+  
+
+<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:1%':'margin-top:10%'}}" >
   
   <tr class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses) < 1 ?'space':'space1'}}">
     <td class="font " style="border: #fff" >
@@ -354,7 +361,7 @@ tr:nth-child(even) {
       ?>
         <span>Analyzed By</span><br>
         @if ($product->micro_hod_evaluation >1)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="21%"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="15%"><br>
         @endif
         -----------------------------<br>
       
@@ -371,12 +378,12 @@ tr:nth-child(even) {
         ?>
         <span>Supervisor</span><br>
         @if ($product->micro_hod_evaluation ==2)
-        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="21%"><br>
+        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="15%"><br>
         @endif
 
         ------------------------------<br> 
         
-        <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->full_name:'')}}</span>
+        <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->full_name:'')}}</span><br>
         <span>{{ucfirst(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->position:'')}}</span>
 
     </td>

@@ -34,7 +34,7 @@
      </div>
       <div class="form-group 432" style="display: none">
         <label for="exampleTextarea1">Textarea</label>
-      <textarea class="form-control" name="micro_ea_comment_text" rows="4">{{$product->micro_ea_conclution}}</textarea>
+      <textarea class="form-control" name="micro_ea_comment_text" rows="4">{{$product->micro_ea_comment}}</textarea>
       
      </div>
       </div>

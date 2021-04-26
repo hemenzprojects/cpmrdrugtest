@@ -10,7 +10,7 @@ class Product extends Model
 {
     protected $fillable = ['code','name','customer_id','product_type_id','price','receipt_num','quantity','overall_status','micro_grade','pharm_grade','phyto_grade','mfg_date','exp_date','indication','single_multiple_lab','dosage',
     'micro_la_conclusion','micro_ea_conclusion','micro_general_conclusion','micro_la_comment','micro_ea_comment','micro_dateanalysed','micro_overall_status','micro_process_status','micro_hod_evaluation','micro_hod_remarks','micro_approved_by','micro_analysed_by','micro_finalapproved_by',
-    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_process_status','pharm_comment','pharm_result','pharm_approved_by','pharm_finalapproved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
+    'pharm_testconducted','pharm_overall_status','pharm_hod_evaluation','pharm_datecompleted','pharm_dateanalysed','pharm_dateapproved','pharm_finaldateapproved','pharm_process_status','pharm_comment','pharm_result','pharm_approved_by','pharm_finalapproved_by','pharm_analysed_by','pharm_experiment_by','pharm_hod_remarks',
     'phyto_overall_status','phyto_hod_evaluation','phyto_process_status','phyto_hod_remarks','phyto_comment','phyto_dateanalysed','phyto_approved_by','phyto_analysed_by','phyto_finalapproved_by','failed_tag','added_by_id','updated_by_id'];
 
     protected $appends = [
@@ -69,7 +69,7 @@ class Product extends Model
         return count($this->animalExperiment->where("death",1));
     }
 
-    public static function generateCode(ProductType $product_type){
+    public static function generateCode(ProductType $product_type, $customer){
         $products_count = count(
             self::where("product_type_id", $product_type->id)
             ->where("created_at", ">=", date("y") . "-01-01 00:00:00")->get()
@@ -79,7 +79,7 @@ class Product extends Model
         
         do {
             $products_count++;
-            $code = $product_type->code."/".str_pad($products_count,  3, "0", STR_PAD_LEFT) . "/" . date("y");
+            $code = $customer->code."".$product_type->code."/".str_pad($products_count,  3, "0", STR_PAD_LEFT) . "/" . date("y");
             $already_existing = count(self::where("code", $code)->get());
         } while($already_existing);
 
@@ -406,32 +406,32 @@ class Product extends Model
     public function getHodPharmEvaluationAttribute()
     {
         if($this->pharm_hod_evaluation === 0){
-       return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>';
-          } 
+            return '<span style="color:#ff0000; font-size:11.5px">Pending</span>';  
+                } 
         if($this->pharm_hod_evaluation === 1){
-            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Report Withheld </button>';
-          }
+            return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
+        }
         if ($this->pharm_hod_evaluation === 2 &&  $this->pharm_process_status < 6) {
-            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>';
-         } 
-           if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
-            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Final Approval Process </button>';
-         }
+            return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
+        } 
+   
+
 
     }
 
     public function getFinalHodPharmEvaluationAttribute()
     {
-           if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
-            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Pending</button>';
+        if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
+
+            return '<span style="color:#ff0000; font-size:11.5px">Final Report Pending</span>';  
          }
          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 7) {
-            return '<button type="button" class="btn btn-outline-danger"><i class="ik ik-check"></i>Final Report Withheld</button>';
+            return '<span style="color:#ff0000; font-size:11.5px">Final Report Withheld</span>';
          }
          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 8) {
-            return '<button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Final Report Approved</button>';
-         }
+            return '<span style="color:#0d8205; font-size:11.5px">Final Report Approved</span>';
 
+         }
     }
 
 

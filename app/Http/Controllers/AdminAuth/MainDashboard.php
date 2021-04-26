@@ -110,8 +110,8 @@ class MainDashboard extends Controller
 
           $month_start = date('Y-m-01 00:00:00');
 
-          $data['pharm_sample_products'] = Product::whereHas("departments", function ($q) use ($month_start) {
-            return $q->where("dept_id", 2)->where("status", '<',3)->where('product_depts.received_at','>=',$month_start);
+          $data['pharm_sample_products'] = Product::whereHas("departments", function ($q) use ($data) {
+            return $q->where("dept_id", 2)->where("status", '<',3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
 
            $data['prepared_samples'] = Product::whereHas("departments", function ($q){

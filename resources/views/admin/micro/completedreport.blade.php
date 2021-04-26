@@ -102,7 +102,7 @@ $product = \App\Product::find($report_id);
                                 </td>
                                 <td class="font">
                                  
-                                <p class="manycount{{$i}}" id="manycount{{$i}}" style="font-size: 13.4px">
+                                <p id="manycount_{{$i}}" style="font-size: 13.4px">
                                     <?php 
                                     if ($i<2) {
                                         $results= explode(' ',$microbial_loadanalyses[$i]->result);
@@ -167,7 +167,7 @@ $product = \App\Product::find($report_id);
 
                             </p>
                             @endif
-                       @endfor
+                         @endfor
                            </div>
                            <div class="col-md=-6">
                                

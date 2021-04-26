@@ -69,6 +69,15 @@ function disableclick(event)
     }
   })
 
+  $('#pharmsubmitreport').change(function(){
+    if($(this).is(':checked')){
+    $(".pharmsubmitreport1").hide(); 
+    $(".pharmsubmitreport2").toggle();
+    }else{
+      $(".pharmsubmitreport1").toggle(); 
+      $(".pharmsubmitreport2").hide();
+    }
+  })
  </script>
  <script>
   $('#check_singlelab').change(function(){
@@ -1035,7 +1044,7 @@ console.log(animalmodel);
 
 {{-- Hod Evaluation --}}
 
-<script>
+{{-- <script>
   $(document).ready(function() {
     var pharm_hod_evaluation = $('input[id="pharm_hod_evaluation"]').attr("value");
     if (pharm_hod_evaluation === '1') {
@@ -1049,7 +1058,7 @@ console.log(animalmodel);
     }
     });
   
-  </script>
+</script> --}}
 
 
 

@@ -99,9 +99,7 @@ $product = \App\Product::where('id',7)->first();
                                             <h6>Product Type </h6>
                                             <small class="text-muted ">{{ucfirst($microproduct->productType->name)}}</small>
                                             <h6>Quantity</h6>
-                                            @foreach ($microproduct->departments->where('id',1) as $product)
-                                            <small class="text-muted ">{{$product->pivot->quantity}}</small>
-                                            @endforeach
+                                            <small class="text-muted ">{{$microproduct->departmentById(1)->pivot->quantity}}</small>
                                             <small class="text-muted "></small>
                                             <h6>Indication</h6>
                                             <p class="text-muted"> {{ ucfirst($microproduct->indication)}}<br></p>
@@ -111,18 +109,12 @@ $product = \App\Product::where('id',7)->first();
                                             <hr><h5>Distribution Details</h5>
 
                                             <h6>Received By </h6>
-                                            @foreach ($microproduct->departments->where('id',1) as $product)
-                                            <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                                            @endforeach
+                                            <small class="text-muted">{{\App\Admin::find($microproduct->departmentById(1)->pivot->received_by)? \App\Admin::find($microproduct->departmentById(1)->pivot->received_by)->full_name:'null'}}</small>
                                             <h6>Distributed By </h6>
-                                            @foreach ($microproduct->departments->where('id',1) as $product)
-                                            <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                                            @endforeach
+                                            <small class="text-muted">{{\App\Admin::find($microproduct->departmentById(1)->pivot->distributed_by)?\App\Admin::find($microproduct->departmentById(1)->pivot->distributed_by)->full_name:'null'}}</small>
                                             <h6>Delivered By </h6>
-       
-                                            @foreach ($microproduct->departments->where('id',1) as $product)
-                                            <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                            @endforeach
+                                            <small class="text-muted">{{\App\Admin::find($microproduct->departmentById(1)->pivot->delivered_by)?\App\Admin::find($microproduct->departmentById(1)->pivot->delivered_by)->full_name:'null'}}</small>
+                                            
                                          
                                             {{-- 
                                             <hr><h5>Customer Details</h5>
@@ -145,11 +137,7 @@ $product = \App\Product::where('id',7)->first();
                                             <h6> product delivery period</h6>
 
                                             <small class="text-muted ">
-                                                @foreach ($microproduct->departments as $product)
-                                                {{-- Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small><br>
-                                                Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small> 
-                                                --}}
-                                                @endforeach
+                                                {{ $microproduct->departmentById(1)->pivot->updated_at->format(' F j,  Y') }}                                        
                                             </small>
 
                                         </div> 
@@ -259,6 +247,7 @@ $product = \App\Product::where('id',7)->first();
                                                 </span>
                                               <span>
                                               <small class="float-right font" style="margin-left: 5px"> 
+
                                                   <strong>Evaluation: </strong> {!! $microproduct_withtest->report_evaluation !!}</small>
                                               </span>
                                                   @if ($microproduct_withtest->micro_grade != null )
@@ -344,8 +333,7 @@ $product = \App\Product::where('id',7)->first();
                                                    
                                                  </small>
                                                 </span><br>   
-
-                                           <span>
+                                             <span>
                                                       
                                                <small class="float-right font"><strong>Assigned: </strong>
                                                    {{\App\Admin::find($auth_microproduct_withtest->micro_analysed_by)? \App\Admin::find($auth_microproduct_withtest->micro_analysed_by)->full_name:'null'}}
@@ -369,11 +357,10 @@ $product = \App\Product::where('id',7)->first();
 
                                        </div>
                                    </a>
-                                   <span class="float-right font" style="margin-top:10px">
+                                    <span class="float-right font" style="margin-top:10px">
                                        <a onclick="return confirm('Are you sure of deleting record?')" href="{{route('admin.micro.report.delete',['id' =>$auth_microproduct_withtest->id ])}}">
                                          <i style="color: rgb(200, 8, 8)" class="ik ik-trash-2"> delete </i>
                                        </a>
-                                        
                                    </span>
                                    <span style="font-size:10px" style="margin-top:10px">
                                        @foreach($auth_microproduct_withtest->loadAnalyses as $temp)

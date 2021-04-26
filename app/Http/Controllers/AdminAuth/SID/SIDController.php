@@ -338,7 +338,8 @@ class SIDController extends Controller
         //   return $data;
         
         $product_type = ProductType::findOrFail($data['product_type_id']);
-        $data["code"] = Product::generateCode($product_type);
+        $customer = Customer::findOrFail($request->customer_id);
+        $data["code"] = Product::generateCode($product_type,$customer);
         Product::create($data);
 
         Session::flash("message", "Product Successfully Created.");

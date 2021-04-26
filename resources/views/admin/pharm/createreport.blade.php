@@ -11,53 +11,10 @@
             <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
             <p class="card-subtitle">Pharmacology & Toxicology Department</p>
            </div>
-     <form action="{{url('admin/pharm/report/create',['id' => $pharmreports->id])}}" method="post">
+     <form action="{{url('admin/pharm/report/create',['id' => $product->id])}}" method="post">
         {{ csrf_field() }} 
-        <div class="card">
-            <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> PRODUCT DETAILS</strong></h4>
-            <div class="table-responsive">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td class="font"> <strong>Name of Product:</strong></td>
-                            <td class="font">
-                                {{$pharmreports->code}} 
-                            </td>
-                        </tr>
-                        <tr>
-                        <td class="font"><strong>Date Recievied:</strong></td>
-                            <td class="font">
-                                @foreach (\App\ProductDept::where('product_id',$pharmreports->id)->where('dept_id',2)->get() as $item)
-                                {{$item->updated_at->format('d/m/Y')}}
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>                                    
+        @include('admin.pharm.temp.productformat') 
 
-                            <td class="font"><strong>Date of Report:</strong></td> 
-                            <td class="font">
-                                <div>
-                                   
-                                <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="" placeholder=" {{Carbon\Carbon::parse($pharmreports['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
-
-                                </div>
-                             {{-- <input class="form-control" required type="date" name="date_analysed" data-date-format="DD-MM-YYYY"  style="width:250px"> --}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font"><strong>Test Conducted</strong></td>
-                            <td class="font">{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->name}}</td>
-                            <input type="hidden" id="pharm_test_conducted" value="{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->id}}">  
-                            
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         @if ($pharmreports->pharm_testconducted ==1)
         <div class="card">
         <div class="row">
@@ -120,9 +77,7 @@
                         </textarea> 
                         @endif
                         @if ( $product->pharm_comment === Null)
-                        <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" >
-                             {{$pharmreports->code}} appears to be safe / not safe when applied to the skin.
-                        </textarea> 
+                        <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" > {{$pharmreports->code}} appears to be safe / not safe when applied to the skin.</textarea> 
                         @endif
                     
                 </div>

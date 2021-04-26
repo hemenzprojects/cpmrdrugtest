@@ -15,11 +15,11 @@ class MicrobialLoadReport extends Model
     public function getMicroComplianceAttribute(){
 
         if ($this->compliance === 1) {
-            return  '<span style="color:#ff0000; font-size:11.5px">Failed</span>';
+            return  '<span style="color:#ff0000; font-size:14.5px">Failed</span>';
          }
 
         if ($this->compliance === 2) {
-            return '<span style="color:#0d8205; font-size:11.5px">Passed</span>';
+            return '<span style="color:#0d8205; font-size:14.5px">Passed</span>';
         }
 
     }
@@ -27,11 +27,11 @@ class MicrobialLoadReport extends Model
     public function getMicroComplianceReportAttribute(){
 
         if ($this->compliance === 1) {
-            return  '<span style="color:#000; font-size:11.5px">Failed</span>';
+            return  '<span style="color:#000; font-size:14.5px">Failed</span>';
          }
 
         if ($this->compliance === 2) {
-            return '<span style="color:#000; font-size:11.5px">Passed</span>';
+            return '<span style="color:#000; font-size:14.5px">Passed</span>';
         }
 
     }

@@ -30,17 +30,20 @@
             <tr>
                 <td class="font"><strong>No. of Groups</strong></td> 
                 <td  class="font">
-                    @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                     {{$item->group}} Group
+                    @foreach ($pharmreports->animalExperiment->groupBy('group') as $item)
+                    2(N = {{count($item) / 2}})
                     @endforeach
                 </td>
             </tr>
             <tr>
                 <td class="font"><strong>Route of Administration</strong></td> 
                 <td  class="font">
-                    @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
+                    {{-- @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
                 {{ucfirst($item->animal_method)}},
-                    @endforeach
+                    @endforeach --}}
+                    @foreach ($pharmreports->animalExperiment as $item)
+                    {{($item->animal_method)}},
+                     @endforeach
                 </td>
             </tr>
          

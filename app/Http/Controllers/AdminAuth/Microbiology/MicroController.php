@@ -870,7 +870,6 @@ class MicroController extends Controller
                     });
                     $product = $products->first();
                     $product->micro_hod_evaluation = 0;
-
                     $product->update();
                     
                     Session::flash("message", "Report has been submitted to the Head of Department");
@@ -1140,7 +1139,6 @@ class MicroController extends Controller
 
               $input = $r->all(); 
           
-      
                if ($r->evaluated_product == null) {
                  Session::flash('message_title', 'error');
                    Session::flash('message', 'Please select required reports for evaluation');
