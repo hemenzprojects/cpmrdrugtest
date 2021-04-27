@@ -362,6 +362,8 @@
                                         <tr>
                                             <th>Title</th>
                                             <th>Conclusion</th>
+                                            <th>#</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -369,7 +371,40 @@
                                         <tr>
                                             <td class="font">{{$item->title}}</td>
                                             <td class="font">{{$item->default_conclusion}}</td>
+                                        <td class="font">
+                                        <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalCenter{{$item->id}}"></i>
+                                        </td>
+
                                         </tr>
+                                    <div class="modal fade" id="exampleModalCenter{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <form  class="forms-sample" action="{{url('admin/micro/config/conclusions/update')}}" method="post">
+                                                    {{ csrf_field() }}  
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterLabel">Default Conclusion</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                                 <input type="hidden" name="item_id" value="{{$item->id}}">
+                                                          <div class="form-group">
+                                                            <label for="exampleInputName1">Title</label>
+                                                            <input type="text" class="form-control" name="title" placeholder="Title" value="{{$item->title}}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Conclusion</label>
+                                                        <textarea class="form-control"  name="conclusion" rows="4">{{$item->default_conclusion}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                              </form>
+
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>

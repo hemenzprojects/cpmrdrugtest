@@ -21,7 +21,7 @@
                     <td class="font">
                         <div>
                            
-                        <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="" placeholder=" {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
+                        <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="{{$product->pharm_dateanalysed}}" placeholder=" {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
 
                         </div>
                      {{-- <input class="form-control" required type="date" name="date_analysed" data-date-format="DD-MM-YYYY"  style="width:250px"> --}}
@@ -30,8 +30,7 @@
                 <tr>
                     <td class="font"><strong>Test Conducted</strong></td>
                     <td class="font">{{\App\PharmTestConducted::find($product->pharm_testconducted)->name}}</td>
-                    <input type="hidden" id="pharm_test_conducted" value="{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->id}}">  
-                    
+                    <input type="hidden" id="pharm_test_conducted" name="pharm_testconducted"  value="{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->id}}">  
                 </tr>
                 <tr>
                     <td></td>

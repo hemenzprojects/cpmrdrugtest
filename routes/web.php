@@ -168,6 +168,7 @@
   Route::post('micro/config/microbialefficacy/create','AdminAuth\Microbiology\MicroController@microbialefficacy_create')->name('admin.micro.config.microbialefficacy.create');
   Route::post('micro/config/microbialefficacy/update','AdminAuth\Microbiology\MicroController@microbialefficacy_update')->name('admin.micro.config.microbialefficacy.update');
   Route::post('micro/config/conclusions/create','AdminAuth\Microbiology\MicroController@conclusion_create')->name('admin.micro.config.conclusion.create');
+  Route::post('micro/config/conclusions/update/','AdminAuth\Microbiology\MicroController@conclusion_update')->name('admin.micro.config.conclusion.edit');
 
   //report evaluation (quality control)
   Route::post('/micro/evaluation/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.evaluation.checkhodsign');

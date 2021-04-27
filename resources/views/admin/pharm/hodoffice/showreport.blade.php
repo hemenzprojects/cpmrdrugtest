@@ -25,21 +25,19 @@
                {{ csrf_field() }} 
                @include('admin.pharm.temp.productformat') 
 
-                   <div class="row test1" style="display: none;">
+                   <div class="row test1 test3" style="display: none;">
                        <div class="col-sm-8">
                            <div class="card">
                                @include('admin.pharm.temp.finalreportform')
                            <div class="" style="padding: 1%">
                            <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
                                <p style="font-size: 16px">
-                                   <textarea class="form-control" name="pharm_comment_acute"  rows="6"> {{$pharmreports->pharm_comment}} </textarea>
-               
+                                   <textarea class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
                                </p>       
                            </div>  
                            </div>
                        </div>
                        <div class="col-sm-4">
-                           
                                @include('admin.pharm.temp.acuteanimalexpreport') 
                        </div>
    
@@ -48,7 +46,7 @@
    
                         {{-- This section is for Dermal test --}}
    
-                       <div class="card test2" style="display: none;padding: 2%">
+                       <div class="card test2 test3" style="display: none;padding: 2%">
                            <div class="row">
                                <div class="col-sm-7">
                                    {{-- <p style="font-size:16px; margin:4px; "></p> --}}
@@ -62,7 +60,7 @@
                                    <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
                            
                                    <p >
-                                       <textarea name="pharm_comment_dermal" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_comment}} </textarea>
+                                       <textarea name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
                                        
                                    </p>
                                </div>

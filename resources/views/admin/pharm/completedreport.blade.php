@@ -49,7 +49,7 @@
             </table>
         </div>
 
-         @if ($completed_report->pharm_testconducted == 1)
+         @if ($completed_report->pharm_testconducted == 1 || $completed_report->pharm_testconducted == 3)
 
          <div class="" style="">
             <div class=""> 
@@ -133,17 +133,19 @@
                         </tr>
                     </tbody>
               </table> 
-                <div class="card" style="padding: 2%">
+                <div class="" style="padding: 2%">
                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
 
                     <p style="font-size: 16px; text-align: justify ">
-                    {{$completed_report->pharm_comment}}   
+                    {{$completed_report->pharm_acute_comment}}   
                     </p>       
                 </div>      
           </div>   
          @endif
        
-         @if ($completed_report->pharm_testconducted == 2)
+         @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
+
+         
             <p style="font-size:16px; text-align: justify ">{{$completed_report->pharm_standard}}</p>
 
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
@@ -154,7 +156,7 @@
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
             <p style="font-size: 15px; text-align: justify ">
-                {{$completed_report->pharm_comment}}   
+                {{$completed_report->pharm_dermal_comment}}   
             </p> 
          @endif
 

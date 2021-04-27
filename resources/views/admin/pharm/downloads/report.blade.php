@@ -3,7 +3,8 @@
 <head>
 <style>
 .font{
-      font-size: 13.1px;
+      font-size: 15.1px;
+      font-family: "Times New Roman";
     }
 table {
   font-family: arial, sans-serif;
@@ -12,13 +13,13 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #cacaca47;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #cacaca47;
 }
 .center {
   display: block;
@@ -51,46 +52,52 @@ tr:nth-child(even) {
     background-position: center;
     background-repeat: no-repeat;
 }
+.watermarked3{
+    background-image: url('{{ asset('admin/img/logo.jpg')}}');
+    background-size: 50% 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 </style>
 </head>
 
 <body >
 
-<div class="{{$completed_report->pharm_testconducted == 1 ?'watermarked2':'watermarked1'}}">
+<div class="{{$completed_report->pharm_testconducted == 1 ?'watermarked':'watermarked'}}">
     <div style=" background-color: #ffffffeb;">
 <table>
-    <tr style="border: #fff">
-        <td style="width:45%;border: #fff"></td>
-        <td style="width:50%; border: #fff" >
+    <tr style="border: 0px #fff">
+        <td style="width:45%;border: 0px #fff"></td>
+        <td style="width:50%; border: 0px #fff" >
             <img src="{{asset('admin/img/logo.jpg')}}" width="22%">
         </td>
-        <td style="width:10%; border: #fff"></td>
+        <td style="width:10%; border: 0px #fff"></td>
 
     </tr>
 
 </table>
 <table style="">
-    <tr style="border:#fff; padding:4%">
-        <td style="width:30.5%;border: #fff" ></td>
-        <td style="border: #fff" >
+    <tr style="border: 0px #fff; padding:4%">
+        <td style="width:30.5%;border: 0px #fff" ></td>
+        <td style="border: 0px #fff" >
         <span class="font" style="font-size: 16px;"> Centre for Plant Medicine Research </span>
         </td>
-        <td style="width:30%;border: #fff"></td>
+        <td style="width:30%;border: 0px #fff"></td>
 
     </tr>
 </table>
 <table style="margin-top:-2.0%; padding:1%">
     <tr style="border: #fff">
-        <td style="width:31%;border: #fff"></td>
-        <td style="width:59%; border: #fff" >
-        <span style="font-size: 13px;">Pharmacology & Toxicology Department</span>
+        <td style="width:31%;border: 0px #fff"></td>
+        <td style="width:59%; border: 0px #fff" >
+        <span style="font-size: 14px;">Pharmacology & Toxicology Department</span>
         </td>
-        <td style="width:10%; border: #fff"></td>
+        <td style="width:10%; border: 0px #fff"></td>
 
     </tr>
 </table>
 
-<table style="margin-bottom: 3%;margin-top:1%">
+<table style="margin-bottom: 2%;margin-top:1%">
     <tr>
         <th class="font">Product Code</th>
         <th class="font">Product Form</th>
@@ -109,13 +116,13 @@ tr:nth-child(even) {
  
 </table>
 
-@if ($completed_report->pharm_testconducted == 1)
+@if ($completed_report->pharm_testconducted == 1 || $completed_report->pharm_testconducted == 3)
 
 <table style="margin-bottom:1%">
     
     <tr>
-        <th class="font" style="border: #fff"><span style="font-size:15px">RESULTS: </span><br>
-          <span style="font-size:13px">Table showing Result of Acute Toxicity on {{$completed_report->code}} in  {{$pharm_finalreports->pharm_animal_model}}</span>  
+        <th class="font" style="border:0px #fff"><span style="font-size:15px">RESULTS: </span><br><br>
+          <span style="font-size:13px">Table showing Result of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} {{$completed_report->code}} in  {{$pharm_finalreports->pharm_animal_model}}</span>  
          </th>
     </tr>
     <tr>
@@ -196,23 +203,31 @@ tr:nth-child(even) {
   </tbody>                        
 </table>
 
- <p style="font-size: 15px"><span style="font-size:16px">  <span style="font-size:15px">REMARKS:  </span><br></span>{{$completed_report->pharm_comment}}   </p>
-
+ <p style="font-size: 15px"><span style="font-size:16px">
+      <span style="font-size:15px"><strong>REMARKS:  </strong>
+    </span><br><br>
+    </span>{{$completed_report->pharm_acute_comment}}   </p>
  @endif
 
+@if ($completed_report->pharm_testconducted == 3)
+<div style="page-break-after:always;"></div> 
+@endif
 
- @if ($completed_report->pharm_testconducted == 2)
+ @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
+ @if ($completed_report->pharm_testconducted == 3)
+ <span style="font-size:15px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
+ @endif
  <p style="font-size:16px; text-align: justify ">{{$completed_report->pharm_standard}}</p>
 
- <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
+ <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
  <p style="font-size: 15px; text-align: justify">
      {{$completed_report->pharm_result}}   
  </p> 
  
- <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+ <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
  <p style="font-size: 15px; text-align: justify ">
-     {{$completed_report->pharm_comment}}   
+     {{$completed_report->pharm_dermal_comment}}   
  </p> 
 @endif
 

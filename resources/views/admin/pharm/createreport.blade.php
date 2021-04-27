@@ -15,7 +15,7 @@
         {{ csrf_field() }} 
         @include('admin.pharm.temp.productformat') 
 
-        @if ($pharmreports->pharm_testconducted ==1)
+        @if ($pharmreports->pharm_testconducted ==1  || $pharmreports->pharm_testconducted ==3)
         <div class="card">
         <div class="row">
             <div class="col-md-7">
@@ -25,12 +25,12 @@
         <div class="" style="padding: 2%">
 
         <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-        @if ( $product->pharm_comment !== Null)
-        <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_comment" >{{$pharmreports->pharm_comment}}
+        @if ( $product->pharm_acute_comment !== Null)
+        <textarea  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_acute_comment" >{{$pharmreports->pharm_acute_comment}}
         </textarea>
         @endif
-        @if ( $product->pharm_comment === Null)
-        <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose (two tablespoonful thrice daily equivalent to 53.63 mg/kg), as indicated by the manufacturer. Thus, (P-CODE)  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+        @if ( $product->pharm_acute_comment === Null)
+        <textarea style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > LD/50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose ({{$pharmreports->dosage}}), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
         </textarea> 
         @endif
         </div> 
@@ -47,7 +47,7 @@
         </div>
         @endif
       
-       @if ($pharmreports->pharm_testconducted ==2)
+       @if ($pharmreports->pharm_testconducted ==2 || $pharmreports->pharm_testconducted ==3)
      <div class="row">
          <div class="col-md-7">
           <div class="card" style="padding: 2%">
@@ -59,10 +59,10 @@
             @if ( $product->pharm_standard === Null)
             <textarea name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6">{{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </textarea>
             @endif
-
+ 
             <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
                  @if ($pharmreports->pharm_result ===Null)
-                 <textarea class="form-control" style="font-size: 16px"name="pharm_result" rows="10">Experimental (Animal Model) in groups 1 and 2 that received 0.1ml (Route of administration) of the (product type) dissolved in glycerol at 1% and 5% w/v respectively, showed  at the site of injection. This indicates that even at a high level of 5% w/v the (product type) did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.</textarea> 
+                 <textarea class="form-control" style="font-size: 16px"name="pharm_result" rows="10">Experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in groups 1 and 2 that received 0.1ml @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{$item->animal_method}} @endforeach of the {{$pharmreports->productType->name}} dissolved in glycerol at 1% and 5% w/v respectively, showed no ulceration, irritation and/or inflammation  at the site of injection. This indicates that even at a high level of 5% w/v the {{$pharmreports->productType->name}} did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.</textarea> 
                  @endif
                  @if ($pharmreports->pharm_result !== Null)
                 <textarea style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
@@ -72,12 +72,12 @@
                 <div class="card" style="padding: 2%">
                     
                         <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                        @if ( $product->pharm_comment !== Null)
-                        <textarea  style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" >{{$pharmreports->pharm_comment}}
+                        @if ( $product->pharm_dermal_comment !== Null)
+                        <textarea  style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" >{{$pharmreports->pharm_dermal_comment}}
                         </textarea> 
                         @endif
-                        @if ( $product->pharm_comment === Null)
-                        <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_comment" > {{$pharmreports->code}} appears to be safe / not safe when applied to the skin.</textarea> 
+                        @if ( $product->pharm_dermal_comment === Null)
+                        <textarea style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" > {{$pharmreports->code}} appears to be safe / not safe when applied to the skin.</textarea> 
                         @endif
                     
                 </div>

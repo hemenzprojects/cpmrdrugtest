@@ -1639,6 +1639,23 @@ class MicroController extends Controller
               Session::flash("message_title", "success");  
               return redirect()->back();
             }
+
+            public function conclusion_update(Request $r){
+              $r->validate([
+                'title' => 'required', 
+                'conclusion' => 'required', 
+              ]);
+
+              $data = ([
+                'title' => $r->title, 
+                'default_conclusion' => $r->conclusion, 
+                'updated_at' => \Carbon\Carbon::now(),
+              ]);
+              MicroReportConclusion::findOrFail($r->item_id)->update($data);
+              Session::flash("message", "Conclusion Template updated successfully");
+              Session::flash("message_title", "success");  
+              return redirect()->back();
+            }
             
            // ********************************* General Report Section *********************************//
 

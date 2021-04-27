@@ -10,7 +10,7 @@
     <table class="table">
         <tbody>
             <tr>
-                <input type="hidden" class="" name="pharm_testconducted" value="1">
+              
 
                 <td class="font"><strong>Animal Model</strong></td>
                 <td class="font">

@@ -1067,10 +1067,10 @@ console.log(animalmodel);
     $(document).ready(function() {    
   var test_conducted = $('input[id="pharm_test_conducted"]').attr("value");
   console.log(test_conducted);
-  if (test_conducted == 1) {
+  if (test_conducted == 1 || test_conducted == 3) {
     $(".test" + test_conducted).toggle();
   }
-  else if (test_conducted == 2) {
+  else if (test_conducted == 2 || test_conducted == 3) {
     $(".test" + test_conducted).toggle();
   }
     });

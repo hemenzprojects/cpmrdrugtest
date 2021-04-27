@@ -67,7 +67,7 @@
                                 {{ucfirst(\App\Admin::find($approval->pharm_appoved_by)? \App\Admin::find($approval->pharm_appoved_by)->full_name:'Null')}}
                              </span><br>
                              <span style="font-size:10px" style="margin-top:10px">
-                                <strong>Date sent</strong>   {{($approval->pharm_dateapproved ? $approval->pharm_dateapproved->format(' F j,  Y'):'Null')}}
+                                <strong>Date sent</strong>   {{($approval->pharm_dateapproved ? (\Carbon\Carbon::parse($approval->pharm_dateapproved)->format(' F j,  Y')):'Null')}}
                              </span> 
                         </div>                                 
                     </div>  

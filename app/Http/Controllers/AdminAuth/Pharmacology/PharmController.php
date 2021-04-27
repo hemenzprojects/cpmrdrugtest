@@ -230,8 +230,7 @@ class PharmController extends Controller
 
            $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", 8);
-           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
-             return $q->where("created_by", Auth::guard('admin')->id()); })->get();
+           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation")->get();
 
            return View('admin.pharm.report_index', $data); 
          }
@@ -950,11 +949,14 @@ class PharmController extends Controller
                  $products =Product::where('id', $id)->where("pharm_process_status", 5)->with("departments")->whereHas("departments", function($q){
                   return $q->where("dept_id", 2);
                   });
-                    if(count($products->get()) < 1){     
+                    if(count($products->get()) < 1){    
+                      Session::flash('message_title', 'error');
+                      Session::flash('message', 'System Error! Product is not ready for report preparation'); 
                       return redirect()->back();
                     } 
                     $product = $products->first();
-                    $product->pharm_comment = $r->pharm_comment;
+                    $product->pharm_acute_comment = $r->pharm_acute_comment;
+                    $product->pharm_dermal_comment = $r->pharm_dermal_comment;
                     $product->pharm_result = $r->pharm_result;
                     $product->pharm_standard = $r->pharm_standard;
                     $product->pharm_analysed_by = Auth::guard('admin')->id();
@@ -979,7 +981,6 @@ class PharmController extends Controller
                     'estimated_dose'=>$r->estimated_dose,
                     'signs_toxicity'=>$r->signs_toxicity,
                     'added_by_id'=> Auth::guard('admin')->id(),
-                    'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
                     ]);
                     PharmFinalReport::where('product_id', $id)->update($data);
@@ -1258,7 +1259,7 @@ class PharmController extends Controller
                return redirect()->back();
               }
           
-            if ($r->pharm_testconducted == 1) {
+            if ($r->pharm_testconducted == 1 || $r->pharm_testconducted == 3) {
             
               $data = ([
                 'product_id'=>$id,
@@ -1282,20 +1283,22 @@ class PharmController extends Controller
   
                 PharmFinalReport::where('product_id', $id)->update($data);
                 $product = $products->first();
-                $product->pharm_comment = $r->pharm_comment_acute;
+                $product->pharm_acute_comment = $r->pharm_acute_comment;
                 $product->update();
             }
-              if ($r->pharm_testconducted == 2) {
+              if ($r->pharm_testconducted == 2 || $r->pharm_testconducted == 3) {
                 $product = $products->first();
                 $product->pharm_result = $r->pharm_result;
                 $product->pharm_standard = $r->pharm_standard;
-                $product->pharm_comment = $r->pharm_comment_dermal;
+                $product->pharm_acute_comment = $r->pharm_acute_comment;
+                $product->pharm_dermal_comment = $r->pharm_dermal_comment;
                 $product->update();
               }
 
               $product = $products->first();
               $product->pharm_grade = $r->pharm_grade;
               $product->pharm_hod_remarks = $r->pharm_hod_remarks;
+              $product->pharm_dateanalysed = (\Carbon\Carbon::parse($r->date_analysed));
               $product->update();
 
               Session::flash("message", "Report updated successfully");
