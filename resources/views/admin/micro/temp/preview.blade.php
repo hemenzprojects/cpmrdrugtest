@@ -180,9 +180,9 @@
     <table class="table table-striped table-bordered nowrap dataTable">
     <tr>
         <th class="font">Pathogen</th>
-        <th class="font">Product Inhibition Zone</th>
-        <th class="font">Ciprofloxacin Inhibition Zone</th>
-        <th class="font">Fluconazole Inhibition Zone</th>
+        <th class="font">Product Inhibition Zone (mm)</th>
+        <th class="font">Ciprofloxacin Inhibition Zone (mm)</th>
+        <th class="font">Fluconazole Inhibition Zone (mm)</th>
     </tr>
 
     @foreach($show_microbial_efficacyanalyses as $efficacyanalyses)
