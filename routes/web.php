@@ -274,6 +274,11 @@
    Route::get('pharm/animalexperimentation/fetchtanimal_model','AdminAuth\Pharmacology\PharmController@animalexperimentation_fetchanimalmodel');
    Route::post('pharm/animalexperiment/send_animaltest','AdminAuth\Pharmacology\PharmController@send_animaltest')->name('admin.pharm.animalexperiment.send_animaltest');
 
+   Route::get('pharm/animalexperimentation/config/index','AdminAuth\Pharmacology\PharmController@animalexpe_config_index')->name('admin.pharm.animalexperimentation.config.index');
+   Route::post('pharm/animalexperimentation/config/create','AdminAuth\Pharmacology\PharmController@animalexpe_config_create')->name('admin.pharm.animalexperimentation.config.create');
+   Route::post('pharm/animalexperimentation/config/update','AdminAuth\Pharmacology\PharmController@animalexpe_config_update')->name('admin.pharm.animalexperimentation.config.update');
+
+  
    });
 
   Route::group(['middleware'=>['pharmdepthod']],function(){

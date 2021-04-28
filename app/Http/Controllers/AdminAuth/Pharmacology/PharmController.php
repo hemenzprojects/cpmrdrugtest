@@ -1394,6 +1394,51 @@ class PharmController extends Controller
              }
 
           
+              public function animalexpe_config_index(){
+
+                $data['toxicity'] = PharmToxicity::all();
+
+                return view('admin.pharm.config.index',$data);
+              }
+
+              public function animalexpe_config_create(Request $r){
+                $r->validate([
+                  'name' => 'required', 
+                ]);
+               
+                $data = ([
+                  'name' => $r->name, 
+                  'added_by_id'=> Auth::guard('admin')->id(),
+                ]);
+  
+                PharmToxicity::create($data);
+                Session::flash("message", "Toxicity Template created successfully");
+                Session::flash("message_title", "success");  
+                return redirect()->back();
+              }
+
+              public function animalexpe_config_update(Request $r){
+
+                $r->validate([
+                  'name' => 'required', 
+                ]);
+
+                    $l = 0;
+                $count1 = count($r->pharm_toxicity_id);
+                while($l < $count1){
+                DB::table('pharm_toxicities')->where('id', $r->pharm_toxicity_id[$l])
+                      ->update([
+                        'name' => $r->name[$l],
+                        'added_by_id'=> Auth::guard('admin')->id(),
+                        'updated_at' => \Carbon\Carbon::now(),
+                      ]  
+                      );
+                  $l++;
+                }
+                  Session::flash("message", "Toxicity Template updated successfully");
+                Session::flash("message_title", "success");  
+                return redirect()->back();
+              }
 
              //*************************************************** General Report Section ************************** */\
              

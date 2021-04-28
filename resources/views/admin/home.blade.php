@@ -250,7 +250,7 @@
                      <div class="widget-body">
                          <div class="d-flex justify-content-between align-items-center">
                              <div class="state">
-                                 <h6>Acute Toxicity Tets</h6>
+                                 <h6>Acute Toxicity Tests</h6>
                                  <h2>{{count($acute_toxicty_total)}}</h2>
                              </div>
                              <div class="icon">
@@ -269,7 +269,7 @@
                      <div class="widget-body">
                          <div class="d-flex justify-content-between align-items-center">
                              <div class="state">
-                                 <h6>Dermal Toxicity Tets</h6>
+                                 <h6>Dermal Toxicity Tests</h6>
                                  <h2>{{count($dermal_toxicty_total)}}</h2>
                              </div>
                              <div class="icon">
