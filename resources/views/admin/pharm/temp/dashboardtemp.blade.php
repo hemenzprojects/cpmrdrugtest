@@ -90,11 +90,11 @@
     <div class="col-md-4">
         <div class="card" style="min-height: 422px;">
             <div class="card-header"><h3> Sample Preparations</h3></div>
-            <div class="card-body">
+            <div class="card-body"  style=" overflow-x: hidden;overflow-y: auto; height:450px; margin-bottom: 10px">
                 
                     <div class="card ticket-card">
                         <div class="card-body">
-                            <p class="mb-30 bg-red lbl-card"><i class="ik ik-activity"></i>  Recent Data </p>
+                            <p class="mb-30 bg-red lbl-card"><i class="ik ik-activity"></i>  Anual Data </p>
 
                             <div class="text-center">
                                         <h2 class="mb-0 d-inline-block text-red">{{count($pharm_sample_products)}}</h2>
@@ -106,7 +106,7 @@
                         <div class="card ticket-card">
                             
                             <div class="card-body">
-                                <p class="mb-30 bg-green lbl-card"><i class="fas fa-database"></i> Recent Data </p>
+                                <p class="mb-30 bg-green lbl-card"><i class="fas fa-database"></i> Anual Data </p>
 
                                 <div class="text-center">
     
@@ -122,7 +122,30 @@
                                         <p class="mb-0 d-inline-block">Samples @ Animal House</p>
                                         </div>
                                     </div>
-                                    <p class="mb-0 mt-15"><i class="fas fa-caret-up mr-10 f-18 text-green"></i>From the begining of this Month</p>
+                                    <p class="mb-0 mt-15"><i class="fas fa-caret-up mr-10 f-18 text-green"></i>From the begining of this Year</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card ticket-card">
+                            
+                            <div class="card-body">
+                                <p class="mb-30 bg-red lbl-card"><i class="ik ik-activity"></i>  Anual Data </p>
+
+                                <div class="text-center">
+    
+                                    <div class="row">
+                            
+                                        <div class="col-md-6">
+                                        <h2 class="mb-0 d-inline-block text-red">{{count($samples_notsubmited)}}</h2><br>
+                                            <p class="mb-0 d-inline-block">Completed but measurement to animal house not recorded / submited</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                               
+                                        <h2 class="mb-0 d-inline-block text-red">{{count($samples_submited_pending)}}</h2><br>
+                                        <p class="mb-0 d-inline-block"> Completed but pending samples at animal house </p>
+                                        </div>
+                                    </div>
+                                <p class="mb-0 mt-15"><i class="fas fa-caret-up mr-10 f-18 text-red"></i> <span class="mb-0 d-inline-block text-red">{{count($samples_animalhouse_pending)}} pending samples</span><br> from the begining of this Year</p>
                                 </div>
                             </div>
                         </div>

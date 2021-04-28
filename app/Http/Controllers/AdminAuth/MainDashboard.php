@@ -90,7 +90,7 @@ class MainDashboard extends Controller
         //****************************************** PHARM */
 
          $data['pharm_products'] = Product::whereHas("departments", function ($q) use ($data) {
-            return $q->where("dept_id", 2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("dept_id", 2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
 
           $data['pharm_pendingproduct'] = Product::whereHas("departments", function ($q) use ($data) {
@@ -111,20 +111,37 @@ class MainDashboard extends Controller
           $month_start = date('Y-m-01 00:00:00');
 
           $data['pharm_sample_products'] = Product::whereHas("departments", function ($q) use ($data) {
-            return $q->where("dept_id", 2)->where("status", '<',3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
-          })->get();
+            return $q->where("dept_id", 2)->where("status", '>',1)->where("status", '<',3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
+          })->whereDoesntHave("samplePreparation")->get();
 
            $data['prepared_samples'] = Product::whereHas("departments", function ($q){
             return $q->where("dept_id", 2)->where("status", '>',1);
-           })->whereHas("samplePreparation", function ($q) use($month_start){
-            return $q->where('pharm_sample_preparations.created_at','>=',$month_start);
+           })->whereHas("samplePreparation", function ($q) use($data){
+            return $q->whereRaw('YEAR(pharm_sample_preparations.created_at)= ?', array($data['year']));
            })->get();
 
             $data['prepared_samples_animalhouse'] = Product::where('pharm_process_status','>',3)->whereHas("departments", function ($q){
             return $q->where("dept_id", 2)->where("status", '>',1);
-           })->whereHas("samplePreparation", function ($q) use($month_start) {
-            return $q->where("samplestatus",1)->where('pharm_sample_preparations.created_at','>=',$month_start);
+           })->whereHas("samplePreparation", function ($q) use($data) {
+            return $q->whereNotNull("measurement")->whereRaw('YEAR(pharm_sample_preparations.created_at)= ?', array($data['year']));
            })->get();
+
+   
+
+           $data['samples_notsubmited'] = Product::whereHas("departments", function ($q){
+            return $q->where("dept_id", 2)->where("status", '>',1);
+           })->with("samplePreparation")->whereHas("samplePreparation", function ($q) use($data) {
+            return $q->where("measurement",Null)->whereRaw('YEAR(pharm_sample_preparations.created_at)= ?', array($data['year']));
+           })->get();
+
+           $data['samples_submited_pending'] = Product::where('pharm_process_status','<',4)->whereHas("departments", function ($q){
+            return $q->where("dept_id", 2)->where("status", '>',1);
+           })->with("samplePreparation")->whereHas("samplePreparation", function ($q) use($data) {
+            return $q->whereNotNull("measurement")->whereRaw('YEAR(pharm_sample_preparations.created_at)= ?', array($data['year']));
+           })->get();
+
+           $data['samples_animalhouse_pending'] = $data['samples_notsubmited']->merge($data['samples_submited_pending']);
+
 
           //*************************************************Animal House ************************** */
 

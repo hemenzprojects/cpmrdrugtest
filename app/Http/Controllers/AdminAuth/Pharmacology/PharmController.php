@@ -429,10 +429,10 @@ class PharmController extends Controller
                     );
                 $l++;
               }
-              $data = [ 
-                'samplestatus' => 1,
-               ];
-              PharmSamplePreparation::whereNotNull('measurement')->update($data);
+              // $data = [ 
+              //   'samplestatus' => 1,
+              //  ];
+              // PharmSamplePreparation::whereNotNull('measurement')->update($data);
 
             $data = [ 
             'pharm_process_status' => 3,
@@ -503,7 +503,7 @@ class PharmController extends Controller
                $data['year'] = \Carbon\Carbon::now('y');
                $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
 
-               $data['recordbooks'] = Product::whereHas("departments", function ($q){
+              $data['recordbooks'] = Product::whereHas("departments", function ($q){
                 return $q->where("dept_id", 2)->where("status", '>',1);
                })->whereHas("samplePreparation", function ($q) use($data){
                 return $q->whereRaw('YEAR(created_at)= ?', array($data['year']));
@@ -521,7 +521,7 @@ class PharmController extends Controller
                $data['animalhouse_recordbooks'] = Product::whereHas("departments", function ($q){
                   return $q->where("dept_id", 2)->where("status", '>',1);
                  })->whereHas("samplePreparation", function ($q) use($data){
-                  return $q->where('samplestatus',1)->whereRaw('YEAR(created_at)= ?', array($data['year']));
+                  return $q->whereNotNull("measurement")->whereRaw('YEAR(created_at)= ?', array($data['year']));
                  })->get();
    
                  return View('admin.pharm.samplepreparation.samplestoanimalhouse',$data); 
@@ -560,7 +560,7 @@ class PharmController extends Controller
                       $data['animalhouse_recordbooks'] = Product::whereHas("departments", function ($q){
                         return $q->where("dept_id", 2)->where("status", '>',1);
                        })->whereHas("samplePreparation", function ($q) use($r){
-                        return $q->where('samplestatus',1)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date);
+                        return $q->whereNotNull("measurement")->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date);
                        })->get();
                     }
                   
@@ -568,7 +568,7 @@ class PharmController extends Controller
                     $data['animalhouse_recordbooks'] = Product::whereHas("departments", function ($q){
                       return $q->where("dept_id", 2)->where("status", '>',1);
                      })->whereHas("samplePreparation", function ($q) use($r){
-                      return $q->where('samplestatus',1)->where('distributed_by',$r->pharm_admin)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date);
+                      return $q->whereNotNull("measurement")->where('distributed_by',$r->pharm_admin)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date);
                      })->get();
                   
                    }
@@ -851,7 +851,7 @@ class PharmController extends Controller
              $data['recordbooks'] = Product::whereHas("departments", function ($q){
               return $q->where("dept_id", 2)->where("status", '>',1);
              })->whereHas("samplePreparation", function ($q) use($data){
-              return $q->where('samplestatus',1)->whereRaw('YEAR(created_at)= ?', array($data['year']));
+              return $q->whereNotNull("measurement")->whereRaw('YEAR(created_at)= ?', array($data['year']));
              })->get();
 
               return View('admin.pharm.animalexperiment.recordbook',$data);
@@ -876,7 +876,7 @@ class PharmController extends Controller
                   $data['recordbooks'] = Product::whereHas("departments", function ($q){
                     return $q->where("dept_id", 2)->where("status", '>',1);
                    })->whereHas("samplePreparation", function ($q) use($r){
-                    return $q->where('samplestatus',1)->whereDate('distributed_at', '>=', $r->from_date)->whereDate('distributed_at','<=',$r->to_date);
+                    return $q->whereNotNull("measurement")->whereDate('distributed_at', '>=', $r->from_date)->whereDate('distributed_at','<=',$r->to_date);
                    })->get();
                 }
               
@@ -884,7 +884,7 @@ class PharmController extends Controller
                 $data['recordbooks'] = Product::whereHas("departments", function ($q){
                   return $q->where("dept_id", 2)->where("status", '>',1);
                  })->whereHas("samplePreparation", function ($q) use($r){
-                  return $q->where('samplestatus',1)->where('received_by',$r->pharm_admin)->whereDate('delivered_at', '>=', $r->from_date)->whereDate('delivered_at','<=',$r->to_date);
+                  return $q->whereNotNull("measurement")->where('received_by',$r->pharm_admin)->whereDate('delivered_at', '>=', $r->from_date)->whereDate('delivered_at','<=',$r->to_date);
                  })->get();
               
                }
