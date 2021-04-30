@@ -24,7 +24,7 @@
                                 <tr>
                                     <td class="font">
                                         <input type="hidden" name="pharm_toxicity_id[]" value="{{$item->id}}">
-                                    <input type="text" class="form-control" name="name[]" value="{{$item->name}}">
+                                    <input type="text" required class="form-control" name="name[]" value="{{$item->name}}">
                                     </td>
                                     <td class="font">
                                         {{\App\Admin::find($item->added_by_id)? \App\Admin::find($item->added_by_id)->full_name:'null'}}

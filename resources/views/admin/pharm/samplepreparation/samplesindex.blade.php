@@ -109,8 +109,13 @@
                                 {{ Carbon\Carbon::parse($recordbook->created_at)->format('jS \\ F Y')}}
                             </td> 
                               <td>
+                                  
                                   @if ($admin ==  \App\Admin::find($recordbook->created_by)->id)
-                                  <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>
+                                    @if ($product->pharm_process_status < 4)
+                                    <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
+                                    @else
+                                    <span><i class="ik ik-slash"></i></span>
+                                    @endif
                                   @endif
                               </td>
                         </tr>

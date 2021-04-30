@@ -1418,7 +1418,7 @@ class PharmController extends Controller
               }
 
               public function animalexpe_config_update(Request $r){
-
+                
                 $r->validate([
                   'name' => 'required', 
                 ]);

@@ -61,12 +61,12 @@ class Product extends Model
 
     public function getExperimentalDeathsAttribute()
     {
-        return count($this->animalExperiment->where("death",2));
+        return count($this->animalExperiment->where("death",1));
     }
 
     public function getExperimentalLivesAttribute()
     {
-        return count($this->animalExperiment->where("death",1));
+        return count($this->animalExperiment->where("death",2));
     }
 
     public static function generateCode(ProductType $product_type, $customer){

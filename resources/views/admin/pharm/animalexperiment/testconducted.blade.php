@@ -94,7 +94,7 @@
                         </td> 
                         <td class="font">
                             {{$all_exp_conducted->experimental_deaths}} Deaths <br>
-                            {{$all_exp_conducted->experimental_Lives}} Lives 
+                            {{$all_exp_conducted->experimental_Lives}} Alive 
                         </td> 
                         <td class="font">
                             (  @foreach($all_exp_conducted->animalExperiment as $temp)
