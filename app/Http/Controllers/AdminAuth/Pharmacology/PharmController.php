@@ -565,7 +565,8 @@ class PharmController extends Controller
                     }
                   
                    if ($r->pharm_admin != Null) {
-                    $data['animalhouse_recordbooks'] = Product::whereHas("departments", function ($q){
+                   
+                     $data['animalhouse_recordbooks'] = Product::whereHas("departments", function ($q){
                       return $q->where("dept_id", 2)->where("status", '>',1);
                      })->whereHas("samplePreparation", function ($q) use($r){
                       return $q->whereNotNull("measurement")->where('distributed_by',$r->pharm_admin)->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date);

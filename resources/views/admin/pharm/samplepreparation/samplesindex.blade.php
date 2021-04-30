@@ -110,7 +110,7 @@
                             </td> 
                               <td>
                                   
-                                  @if ($admin ==  \App\Admin::find($recordbook->created_by)->id)
+                                  @if (Auth::guard('admin')->id() ==  \App\Admin::find($recordbook->created_by)->id)
                                     @if ($product->pharm_process_status < 4)
                                     <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
                                     @else
