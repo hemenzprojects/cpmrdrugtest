@@ -56,8 +56,12 @@ class ReportSignedCommand extends Command
           $micro_approval_1 = Product::where('micro_hod_evaluation',0)->where('micro_process_status','<',1)->with('departments')->whereHas("departments", function($q){
             return $q->where("dept_id", 1)->where("status", 3);
           })->count();
+
           $micro_approval1_admin = Admin::findOrFail(12);
+          $system_admin = Admin::findOrFail(2);
+
           if ($micro_approval_1 != 0) {
+            SendSMS::sendMessage('Hi '.$system_admin->full_name.',You have '.$micro_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$system_admin->tell);
             SendSMS::sendMessage('Hi '.$micro_approval1_admin->full_name.',You have '.$micro_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$micro_approval1_admin->tell);
           }
 
@@ -77,7 +81,7 @@ class ReportSignedCommand extends Command
           })->with('animalExperiment')->whereHas("animalExperiment")->count();
 
           $pharm_approval1_admin = Admin::findOrFail(29);
-          $pharm_approval2_admin = Admin::findOrFail(29);
+          $pharm_approval2_admin = Admin::findOrFail(28);
          if ($pharm_approval_1 != 0) {
              SendSMS::sendMessage('Hi '.$pharm_approval1_admin->full_name.',You have '.$pharm_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval1_admin->tell);
              SendSMS::sendMessage('Hi '.$pharm_approval2_admin->full_name.',You have '.$pharm_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval2_admin->tell);
