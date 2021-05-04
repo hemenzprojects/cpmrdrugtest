@@ -718,8 +718,15 @@ class PhytoController extends Controller
   
 
                public function hodoffice_evaluation(){
-              
-                 $data['evaluations'] = Product::where('phyto_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
+
+                //  $evaluations = Product::where('phyto_hod_evaluation',0)->with('departments')->whereHas("departments", function($q){
+                //   return $q->where("dept_id", 3)->where("status",'<', 3);
+                //  })->pluck('id')->toArray();
+
+                //    Product::whereIn('id', $evaluations)->update(['phyto_hod_evaluation' => Null]);
+                //    return $evaluations;
+
+                  $data['evaluations'] = Product::where('phyto_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 3);
                  })->get();
 

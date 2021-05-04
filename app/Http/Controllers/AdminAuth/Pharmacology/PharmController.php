@@ -847,7 +847,7 @@ class PharmController extends Controller
              public function animalexperiment_recordbook(){
 
              $data['year'] = \Carbon\Carbon::now('y');
-             $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
+             $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id',3)->get();
              
              $data['recordbooks'] = Product::whereHas("departments", function ($q){
               return $q->where("dept_id", 2)->where("status", '>',1);
@@ -871,7 +871,7 @@ class PharmController extends Controller
 
               public function animalexperiment_recordbook_report(Request $r){
               
-                $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
+                $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id',3)->get();
                   
                 if ($r->pharm_admin == Null) {
                   $data['recordbooks'] = Product::whereHas("departments", function ($q){
@@ -1380,7 +1380,9 @@ class PharmController extends Controller
 
                $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
 
-               return view('admin.pharm.completedreport',$data);
+               Session::flash("message", "Report successfully completed. Check general report section to view all completed reports.");
+               Session::flash("message_title", "success");  
+               return redirect()->back(); 
 
            }
          

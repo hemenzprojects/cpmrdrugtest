@@ -27,7 +27,7 @@
                     <th>Measurement</th>
                     {{-- <th>Dosage</th>
                     <th>Yield</th> --}}
-                    <th>Test Conducted</th>
+                    <th>Test to conduct</th>
                     <th>Delivery Officer</th>
                     <th>Received By</th>
                     <th>Date Distributed</th>

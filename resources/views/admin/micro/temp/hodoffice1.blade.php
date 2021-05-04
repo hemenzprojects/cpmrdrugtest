@@ -30,7 +30,13 @@
                                         <div class="card-body feeds-widget">
                                         <div class="feed-item">
                                             <a href="{{ route('admin.hod_office.showreport',['id' => $evaluation->id]) }}">
+                                                @if ($evaluation->micro_hod_evaluation < 2)
                                                 <div class="feeds-left"><i class="ik ik-check-square text-warning"></i></div>
+   
+                                                @else
+                                                <div class="feeds-left"><i class="ik ik-check-square text-success"></i></div>
+
+                                                @endif
                                                 <div class="feeds-body">
                                                     <h4 class="">
                                                           
@@ -72,7 +78,7 @@
                                                 
                                                       <span>
                                                       <small class="float-right font" style="margin-left: 5px"> 
-                                                          <strong>Evaluation: </strong> {!! $evaluation->report_evaluation !!}</small>
+                                                      <strong>Evaluation: </strong> {!! $evaluation->report_evaluation !!}</small>
                                                       </span>
                                                           @if ($evaluation->micro_grade != null )
                                                           <span>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="overflow-x: scroll">
             <div class="card">
                 <div class="text-center" style="margin: 2%"> 
                     <h4 class="font" style="font-size:18px">Generate report on received samples</h4>
@@ -59,14 +59,15 @@
                
             </div><br>
             
-            <div class="dt-responsive">
+            <div class="dt-responsive" >
                
-                    <table id="lang-dt" class="table table-striped table-bordered nowrap">
+                    <table id="lang-dt" class="table table-striped table-bordered nowrap" >
                     <thead>
                     <tr>
                         <th>Product</th>
                         <th>Measurement</th>
                         <th>Status</th>
+                        <th>Test to conduct</th>
                         <th>Delivery Officer</th>
                         <th>Received By</th>
                         <th>Date Distributed</th>
@@ -92,6 +93,9 @@
                             <td class="font">
                                 {!! $product->pharm_product_status !!}
                             </td>
+                            <td class="font">
+                                <strong>{{\App\PharmTestconducted::find($recordbook->pharm_testconducted_id)->name}}</strong> 
+                             </td>
                             <td class="font">
                                 {{\App\Admin::find($recordbook->delivered_by)? \App\Admin::find($recordbook->delivered_by)->full_name:'null'}}
                             </td> 

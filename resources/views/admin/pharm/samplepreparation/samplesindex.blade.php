@@ -68,7 +68,7 @@
                         <th>Weight</th>
                         <th>Dosage</th>
                         <th>Yield</th>
-                        <th>Test to Conduct</th>
+                        <th>Test to conduct</th>
                          <th>Created By</th>
                         <th>Created At</th>
                         <th>#</th>

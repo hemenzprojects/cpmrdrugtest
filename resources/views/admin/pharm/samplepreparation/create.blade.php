@@ -94,7 +94,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Product</th>
-                                <th>Weight</th>
+                                <th>Weight / Mass taken</th>
                                 <th>Dosage</th>
                                 <th>Yield</th>
                                 <th>Test Conducted</th>

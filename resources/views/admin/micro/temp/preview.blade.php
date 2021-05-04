@@ -1,6 +1,6 @@
 <div class="modal fade" id="demoModapreview" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width:850px;  margin-left: -110px; ">
+        <div class="modal-content" style="width:950px;  margin-left: -110px; ">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>

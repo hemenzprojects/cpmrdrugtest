@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/sendtest', function () {
+  \App\SMS\SendSMS::sendMessage('Test','0559517550');
+});
+
     Route::get('/', function () {
         return view('welcome');
     });
