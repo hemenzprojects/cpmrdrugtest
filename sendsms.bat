@@ -1,3 +1,3 @@
 @echo off
 
-cd C:\wamp64\www\druganalysis && php artisan report:signed
+cd C:\wamp64\www\cpmrdrugtest && php artisan report:signed
