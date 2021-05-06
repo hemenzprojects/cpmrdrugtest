@@ -23,8 +23,9 @@
             <form action="{{url('admin/pharm/hod_office/editreport',['id' => $pharmreports->id])}}" method="post">
               {{ csrf_field() }} 
                   @include('admin.pharm.temp.productformat') 
+                  @if ($pharmreports->pharm_testconducted ==1  || $pharmreports->pharm_testconducted ==3)
 
-                  <div class="row test1 test3" style="display: none;">
+                  <div class="row" >
                       <div class="col-sm-8">
                           <div class="card">
                               @include('admin.pharm.temp.finalreportform')
@@ -32,7 +33,7 @@
                           <div class="" style="padding: 1%">
                           <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
                           <p style="font-size: 16px">
-                            <textarea class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
+                            <textarea id="summernote" class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
                           </p>       
                           </div>  
                           </div>
@@ -42,37 +43,36 @@
                       </div>
   
                   </div>
-                  
+                  @endif
   
               {{-- This section is for Dermal test --}}
-  
-                      <div class="card test2 test3" style="display: none;padding: 2%">
+              @if ($pharmreports->pharm_testconducted ==2 || $pharmreports->pharm_testconducted ==3)
+                      <div class="card">
                           <div class="row">
                               <div class="col-sm-7">
                                   {{-- <p style="font-size:16px; margin:4px; "></p> --}}
-                                  <textarea name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {{$pharmreports->pharm_standard}} </textarea>  
+                                  <textarea id="summernote" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {{$pharmreports->pharm_standard}} </textarea>  
    
                                   <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
                                   <p >
-                                      <textarea name="pharm_result" style="font-size: 16px; text-align: justify ;" class="form-control" rows="5"> {{$pharmreports->pharm_result}} </textarea>  
+                                      <textarea id="summernote0" name="pharm_result" style="font-size: 16px; text-align: justify ;" class="form-control" rows="5"> {{$pharmreports->pharm_result}} </textarea>  
                                   </p> 
                                   
                                   <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
                           
                                   <p >
-                                      <textarea name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
+                                      <textarea id="summernote1" name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
                                       
                                   </p>
                               </div>
                               <div class="col-sm-5">
                                   <div class="card-body">
                                       @include('admin.pharm.temp.dermalanimalexpreport') 
-  
                                   </div>
                               </div>    
                           </div>  
                       </div>
-  
+               @endif
   
                   <div class="card">
               <div class="row"  style="margin:10px; margin-top:1px">

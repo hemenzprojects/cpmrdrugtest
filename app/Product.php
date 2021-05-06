@@ -58,7 +58,10 @@ class Product extends Model
         $serial_number = $this->productType->code. "".$this->id ."/". $this->micro_hod_evaluation."".$this->micro_grade."/".$this->created_at->format('ymd');
         return $serial_number;
      }
-
+     public function getPharmSerialNumberAttribute(){
+        $serial_number = $this->productType->code. "".$this->id."/". $this->pharm_hod_evaluation."".$this->pharm_grade."/".$this->created_at->format('ymd');
+         return $serial_number;
+     }
     public function getExperimentalDeathsAttribute()
     {
         return count($this->animalExperiment->where("death",1));

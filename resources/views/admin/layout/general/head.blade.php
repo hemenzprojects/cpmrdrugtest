@@ -25,7 +25,9 @@
 
     <link rel="stylesheet" href="{{asset('admin/assets/dist/css/theme.min.css')}}">
     <script src="{{asset('admin/assets/src/js/vendor/modernizr-2.8.3.min.js')}}"></script>
-    
+
+    {{-- summer note--}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <style type="text/css">
         
     .wrapper .page-wrap .app-sidebar .sidebar-content .nav-container .navigation-main .nav-lavel {

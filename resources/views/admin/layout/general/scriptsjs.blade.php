@@ -31,6 +31,11 @@
 <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 
 
+
+{{-- summernote --}}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 @yield('bottom-scripts')
 
 
@@ -43,6 +48,16 @@ $(document).on("click", "a.deleteText", function() {
 });
  
 
+$(document).ready(function() {
+  $('#summernote').summernote();
+  $('#summernote0').summernote();
+  $('#summernote1').summernote();
+  $('#summernote2').summernote();
+  $('#summernote3').summernote();
+  $('#summernote4').summernote();
+  $('#summernote5').summernote();
+
+});
 </script>
 
 {{-- <script language="javascript">

@@ -13,13 +13,15 @@ table {
 }
 
 td, th {
-  border: 1px solid #cacaca47;
+  border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 7px;
+  width: 50%;
 }
 
 tr:nth-child(even) {
-  background-color: #cacaca47;
+  background-color: #dddddd1c;
+  
 }
 .center {
   display: block;
@@ -42,62 +44,57 @@ tr:nth-child(even) {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 60% 50%;
+    background-size: 60% 85%;
     background-position: center;
     background-repeat: no-repeat;
 }
 .watermarked2{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 68% 50%;
+    background-size: 63% 65%;
     background-position: center;
     background-repeat: no-repeat;
 }
-.watermarked3{
-    background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 50% 50%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+
 </style>
 </head>
 
 <body >
 
-<div class="{{$completed_report->pharm_testconducted == 1 ?'watermarked':'watermarked'}}">
-    <div style=" background-color: #ffffffeb;">
+
 <table>
-    <tr style="border: 0px #fff">
-        <td style="width:45%;border: 0px #fff"></td>
-        <td style="width:50%; border: 0px #fff" >
-            <img src="{{asset('admin/img/logo.jpg')}}" width="22%">
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:47%;border:0px solid #d3d3d3;"></td>
+        <td style="width:50%; border: 0px solid #d3d3d3;" >
+            <img src="{{asset('admin/img/logo.jpg')}}" width="30%">
         </td>
-        <td style="width:10%; border: 0px #fff"></td>
+    <td style="width:20%; border: 0px solid #d3d3d3;"> <span style="font-size:9px" >SN - {{$completed_report->pharm_serial_number}}</span> </td>
 
     </tr>
 
 </table>
-<table style="">
-    <tr style="border: 0px #fff; padding:4%">
-        <td style="width:30.5%;border: 0px #fff" ></td>
-        <td style="border: 0px #fff" >
-        <span class="font" style="font-size: 16px;"> Centre for Plant Medicine Research </span>
+<table style="margin-top: -1.0%" >
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:25%;border:0px solid #d3d3d3;"></td>
+        <td style="width:60%; border: 0px solid #d3d3d3;" >
+        <span class="font" style="font-size: 15px;"> <strong>CENTRE FOR PLANT MEDICINE RESEARCH</strong> </span>
         </td>
-        <td style="width:30%;border: 0px #fff"></td>
+        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
     </tr>
 </table>
-<table style="margin-top:-2.0%; padding:1%">
-    <tr style="border: #fff">
-        <td style="width:31%;border: 0px #fff"></td>
-        <td style="width:59%; border: 0px #fff" >
-        <span style="font-size: 14px;">Pharmacology & Toxicology Department</span>
+<table style="margin-top:-1.2%" >
+    <tr style="border: 0px solid #d3d3d3;">
+        <td style="width:23%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:60%; border: 0px solid #d3d3d3;" >
+        <span class="font" style="font-size: 15px;">PHARMACOLOGY & TOXICOLOGY DEPARTMENT</span>
         </td>
-        <td style="width:10%; border: 0px #fff"></td>
+        <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
     </tr>
 </table>
 
-<table style="margin-bottom: 2%;margin-top:1%">
+
+<table style="margin-bottom: 1%;">
     <tr>
         <th class="font">Product Code</th>
         <th class="font">Product Form</th>
@@ -118,95 +115,108 @@ tr:nth-child(even) {
 
 @if ($completed_report->pharm_testconducted == 1 || $completed_report->pharm_testconducted == 3)
 
-<table style="margin-bottom:1%">
-    
-    <tr>
-        <th class="font" style="border:0px #fff"><span style="font-size:15px">RESULTS: </span><br><br>
-          <span style="font-size:13px">Table showing Result of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} {{$completed_report->code}} in  {{$pharm_finalreports->pharm_animal_model}}</span>  
-         </th>
-    </tr>
-    <tr>
-        <th></th>
-        <th></th>
-    </tr>
+<div class="watermarked2">
+<div style=" background-color: #fffffff7;">
 
-    <tbody>   
+<table>
+<tr>
+    <th class="font" style="border:0px #fff">
+        <span style="font-size:15px">RESULTS: </span><br>
+    </th>
+</tr>
+<tbody>
+    <tr>
+        <td class="font"  style="border:0px;width:100%">
+        <span style="font-size:15px">Table showing Result of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} ({{$completed_report->code}}) in {{$pharm_finalreports->pharm_animal_model}}</span>  
+        </td>
+    </tr> 
+</tbody>
+</table>
+<table style="margin-bottom:1%">
+    <tbody>    
       <tr>
-          <td class="font"><strong>Animal Model</strong></td>
+          <td class="font">Animal Model</td>
           <td class="font">
               {{$pharm_finalreports->pharm_animal_model}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>No. of Animals</strong></td>
+          <td class="font">No. of Animals</td>
           <td class="font">
               {{$pharm_finalreports->num_of_animals}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>Sex</strong></td> 
+          <td class="font">Sex</td> 
           <td  class="font">
               {{$pharm_finalreports->animal_sex}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>No. of Groups</strong></td> 
+          <td class="font">No. of Groups</td> 
           <td  class="font">
               {{$pharm_finalreports->no_group}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>Route of Administration</strong></td> 
+          <td class="font">Route of Administration</td> 
           <td  class="font">
               {{$pharm_finalreports->method_of_admin}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>Formulation</strong></td> 
+          <td class="font">Formulation</td> 
           <td  class="font">{{$pharm_finalreports->formulation}}</td>
       </tr>
       <tr>
-          <td class="font"><strong>Preparation</strong></td> 
+          <td class="font">Preparation</td> 
       <td  class="font">{{$pharm_finalreports->preparation}}</td>
       </tr>
       <tr>
-          <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
+          <td class="font">Dose Administered (mg/kg)</td> 
           <td  class="font">
               {{$pharm_finalreports->dosage}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>Period of Observation</strong></td> 
+          <td class="font">Period of Observation</td> 
           <td  class="font">
               {{$pharm_finalreports->no_days}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>No. of Death Recorded</strong></td> 
+          <td class="font">No. of Death Recorded</td> 
           <td  class="font">
               {{$pharm_finalreports->no_death}}
           </td>
       </tr>
       <tr>
-          <td class="font"><strong>Estimated Median Lethal Dose (LD<sub>50</sub>)</strong></td> 
+          <td class="font">Estimated Median Lethal Dose (LD<sub>50</sub>)</td> 
           <td  class="font">{{$pharm_finalreports->estimated_dose}}</td>
       </tr>
       <tr>
-          <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
+          <td class="font">Physical Sign of Toxicity</td> 
           <td  class="font">
               {{$pharm_finalreports->signs_toxicity}}
           </td>
       </tr>
       <tr>
-    
+    <td></td>
+    <td></td>
       </tr>
   </tbody>                        
 </table>
 
- <p style="font-size: 15px"><span style="font-size:16px">
-      <span style="font-size:15px"><strong>REMARKS:  </strong>
-    </span><br><br>
-    </span>{{$completed_report->pharm_acute_comment}}   </p>
+    <p style="font-size: 15px">
+        <span style="font-size:16px">
+        <span style="font-size:15px"><strong>REMARKS:  </strong>
+        </span><br>
+        {!! $completed_report->pharm_acute_comment !!}   
+
+        </span>
+    </p>
+</div>
+</div>
  @endif
 
 @if ($completed_report->pharm_testconducted == 3)
@@ -214,25 +224,29 @@ tr:nth-child(even) {
 @endif
 
  @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
+ <div class="watermarked1" style="height: 450px">
+    <div style=" background-color: #fffffff2;height: 450px" >
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
  @endif
- <p style="font-size:16px; text-align: justify ">{{$completed_report->pharm_standard}}</p>
+ <p style="font-size:16px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
 
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
  <p style="font-size: 15px; text-align: justify">
-     {{$completed_report->pharm_result}}   
+     {!! $completed_report->pharm_result !!}   
  </p> 
  
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
  <p style="font-size: 15px; text-align: justify ">
-     {{$completed_report->pharm_dermal_comment}}   
- </p> 
+    {!! $completed_report->pharm_dermal_comment !!}   
+</p> 
+ </div>
+ </div>
 @endif
 
 
-  <table style="margin-top:1%">
+  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:1%'}}">
   
   <tr>
     <td class="font" style="border: #fff" >
@@ -251,7 +265,7 @@ tr:nth-child(even) {
     <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->full_name:'')}}</span><br>
      <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->position:'')}}</span>
       </td>
-    <td class="font" style="width: 150%;border: #fff"> </td>
+    <td class="font" style="width: 130%;border: #fff"> </td>
     
     <td class="font" style="border: #fff">
       <?php
@@ -274,7 +288,6 @@ tr:nth-child(even) {
   </tr>
  
 </table>
-</div>
-</div>
+
 </body>
 </html>

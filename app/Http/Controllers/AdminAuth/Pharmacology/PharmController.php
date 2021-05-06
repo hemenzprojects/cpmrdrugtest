@@ -1594,12 +1594,12 @@ class PharmController extends Controller
              public function pharmreport_pdf ($id){
 
             
-           
+             
               $productdepts = ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status",'>',6);
               if(count($productdepts->get()) < 1){     
                return redirect()->back(); 
                }
-
+               $p = Product::Find($id);
               $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", '>',6);
              })->with('animalExperiment')->whereHas("animalExperiment")->first();
@@ -1613,7 +1613,7 @@ class PharmController extends Controller
   
               $pdf->save(storage_path().'_filename.pdf');
   
-              return $pdf->download('pharmreport.pdf');
+              return $pdf->download('pharmreport_'.$p->code.'.pdf');
   
               // return view('admin.micro.downloads.report',$data);
   

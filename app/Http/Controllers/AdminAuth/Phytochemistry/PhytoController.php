@@ -1374,11 +1374,20 @@ class PhytoController extends Controller
            'phyto_hod_evaluation'=>Null,
            'phyto_dateanalysed'=>Null,
            'phyto_grade'=>Null,
+           'phyto_finalapproved_by'=>Null,
+           'phyto_datecompleted'=>Null,
+           'phyto_finaldateapproved'=>Null,
+           'phyto_dateapproved'=>Null,
+           'phyto_comment'=>Null,
            'phyto_analysed_by'=>Null,
+           'phyto_hod_evaluation'=>Null,
+           'phyto_hod_remarks'=>Null,
           ]);
           
           Product::where('id',$id)->update($data);
 
+          Session::flash("message", "Report deleted successfully");
+            Session::flash("message_title", "success"); 
           return redirect()->back();
        }
 

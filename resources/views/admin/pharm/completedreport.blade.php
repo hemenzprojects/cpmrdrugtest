@@ -137,7 +137,7 @@
                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
 
                     <p style="font-size: 16px; text-align: justify ">
-                    {{$completed_report->pharm_acute_comment}}   
+                    {!! $completed_report->pharm_acute_comment !!}   
                     </p>       
                 </div>      
           </div>   
@@ -146,17 +146,17 @@
          @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
 
          
-            <p style="font-size:16px; text-align: justify ">{{$completed_report->pharm_standard}}</p>
+            <p style="font-size:16px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
 
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
             <p style="font-size: 15px; text-align: justify">
-                {{$completed_report->pharm_result}}   
+                {!! $completed_report->pharm_result !!}   
             </p> 
             
             <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
             <p style="font-size: 15px; text-align: justify ">
-                {{$completed_report->pharm_dermal_comment}}   
+                {!! $completed_report->pharm_dermal_comment !!}   
             </p> 
          @endif
 
