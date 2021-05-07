@@ -981,6 +981,34 @@ $('#checkusertoacceptproduct').submit(function(e){
       $('#pharmtest').find('option[value="2"]').attr("selected",false);
       $("." + 'methodapp').hide();
     }
+
+    if (product_ma == 1) {
+      $('#pharmtest').find('option[value="1"]').attr("selected",true);
+      $("." + 'methodapp').toggle();  
+    }
+    else{
+      $('#pharmtest').find('option[value="1"]').attr("selected",false);
+      $("." + 'methodapp').hide();
+    }
+  
+    if (product_ma == 3) {
+      $('#pharmtest').find('option[value="3"]').attr("selected",true);
+      $("." + 'methodapp').toggle();  
+    }
+    else{
+      $('#pharmtest').find('option[value="3"]').attr("selected",false);
+      $("." + 'methodapp').hide();
+    }
+
+    if (product_ma == 2) {
+      $('#pharmtest0').val('Dermal Toxicity Test');
+    }
+    if (product_ma == 1) {
+      $('#pharmtest0').val('Acute Toxicity Test');
+    }
+    if (product_ma == 3) {
+      $('#pharmtest0').val('Acute / Dermal Toxicity Test');
+    }
   })
 </script>
 

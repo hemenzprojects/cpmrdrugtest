@@ -26,11 +26,11 @@
 
         <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
         @if ( $product->pharm_acute_comment !== Null)
-        <textarea id="summernote"  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_acute_comment" >{{$pharmreports->pharm_acute_comment}}
+        <textarea id="summernote0"  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_acute_comment" >{{$pharmreports->pharm_acute_comment}}
         </textarea>
         @endif
         @if ( $product->pharm_acute_comment === Null)
-        <textarea id="summernote" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > LD50 is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale (1) and also 93 times more than the recommended dose ({{$pharmreports->dosage}}), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
+        <textarea id="summernote1" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > LD <sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to the level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}}), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Stoermer Scale) at the recommended dose.
         </textarea> 
         @endif
         </div> 

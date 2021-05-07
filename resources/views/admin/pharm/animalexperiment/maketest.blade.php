@@ -67,12 +67,19 @@
                   </div>            
                
                    <div class="col-sm-4">
-                 
+
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Test to be conducted</label>
+                        <input type="text" class="form-control" id="pharmtest0" value="" placeholder="Test" onkeypress="return false;">
+                    </div>
+
                     <div class="form-group" style="display: none">
                         <label for="exampleSelectGender">Testconducted</label>
                         <select class="form-control" id="pharmtest" name="pharm_testconducted">
                             <option  value="1">Acute Toxicity Test</option>
                             <option value="2">Dermal  Toxicity Test</option>
+                            <option value="3">Acute / Dermal  Toxicity Test</option>
+
                         </select>
                     </div>
                
@@ -149,7 +156,7 @@
 
                 <div class="col-md-4">
                     <label for=""></label>
-                    <input type="text" required placeholder="Group" class="form-control" name="group" value="">   
+                    <input type="number" required placeholder="Group" class="form-control" name="group" value="">   
                 </div>
             </div>
             </div>
