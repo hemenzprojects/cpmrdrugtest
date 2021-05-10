@@ -33,7 +33,7 @@
                     <tr>
                     <td class="font"><strong>Date Recievied:</strong></td>
                         <td class="font">
-                            {{ $phytoshowreport->departmentById(3)->pivot->updated_at->format('d/m/Y') }}
+                            {{   Carbon\Carbon::parse($product->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
                         </td>
                     </tr>
                     <tr>

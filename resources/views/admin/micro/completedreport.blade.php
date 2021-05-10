@@ -42,7 +42,9 @@ $product = \App\Product::find($report_id);
                                      <td class="font">  {{$completedproduct->code}}</td>
                                     <td class="font">  {{$completedproduct->productType->name}}</td>
                                     <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
-                                     <td class="font"> {{ $product->departmentById(1)->pivot->updated_at->format('jS \\, F Y') }}                                        
+                                     <td class="font"> 
+                                       {{   Carbon\Carbon::parse($product->departmentById(1)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                                        
                                     </td>
 
                                     <td class="font"> {{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>

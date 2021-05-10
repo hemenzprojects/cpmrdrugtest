@@ -31,7 +31,8 @@
                     </tr>
                     <tr>
                     <td style="border-top: 1px solid #fff;"><strong>Date Recievied:</strong></td>
-                        <td style="border-top: 1px solid #fff;">{{\App\ProductDept::where('product_id',$completed_report->id)->where('dept_id',2)->first()->updated_at->format('d/m/Y')}}</td>
+                        <td style="border-top: 1px solid #fff;">  {{   Carbon\Carbon::parse($completed_report->departmentById(2)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                        </td>
                     </tr>
                     <tr>
                         <td style="border-top: 1px solid #fff;"><strong>Date of Report:</strong></td> 

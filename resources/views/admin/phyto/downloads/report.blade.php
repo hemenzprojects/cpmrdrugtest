@@ -112,7 +112,8 @@ $product = \App\Product::find($report_id);
   <tr>
     <td class="font">{{$product->code}}</td>
     <td class="font">{{$product->productType->name}}</td>
-    <td class="font">{{ $product->departmentById(3)->pivot->updated_at->format('jS \\ F Y') }}</td>
+    <td class="font">{{   Carbon\Carbon::parse($product->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
+    </td>
     <td class="font">{{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\ F Y')}}</td>
   </tr>
  

@@ -12,7 +12,7 @@
                 <tr>
                 <td class="font"><strong>Date Recievied:</strong></td>
                     <td class="font">
-                        {{ $product->departmentById(1)->pivot->updated_at->format(' F j,  Y') }}                                        
+                        {{ Carbon\Carbon::parse($product->departmentById(2)->pivot->received_at)->format('jS \\ F Y')}}                                        
                     </td>
                 </tr>
                 <tr>                                    
