@@ -190,7 +190,6 @@ class SIDController extends Controller
     //**************************************** */ PRODUCT SECTION ******************************************
     public function product_index()
     {
-      return  Product::find(184);
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
