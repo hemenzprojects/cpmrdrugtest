@@ -6,7 +6,7 @@ namespace App\SMS;
          
 
           public static function sendMessage($message,$phoneNumber){
-            $senderName='CPMR-DAMS';
+            $senderName='CPMR SID';
              $clientId='98048e7c-9425-46fd-aad0-d1f61ee72b76';
             $apiKey='$2y$10$jL0uCMffFkGEnLcJhvmnW.k2nicUM/m3JAbWfIUMwVHWHLfBi/WmO';
             $headers = ['Content-Type: application/json'];
