@@ -725,7 +725,7 @@ class PhytoController extends Controller
 
                 //    Product::whereIn('id', $evaluations)->update(['phyto_hod_evaluation' => Null]);
                 //    return $evaluations;
-
+                 
                   $data['evaluations'] = Product::where('phyto_hod_evaluation','>=',0)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 3)->where("status", 3);
                  })->get();

@@ -224,15 +224,15 @@
                                                      <div class="col-md-6" >
                                                     
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == NULL ?'checked':''}}>
+                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_grade == NULL ?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp;Microbiology</span>
                                                      </label>
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == NULL ?'checked':''}}>
+                                                         <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_grade == NULL ?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp; Pharmacology</span>
                                                      </label>
                                                      <label class="custom-control custom-checkbox">
-                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == NULL?'checked':''}}>
+                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_grade == NULL?'checked':''}}>
                                                          <span class="custom-control-label">&nbsp; Phytochemistry</span>
                                                      </label>
                                                  </div>
@@ -250,21 +250,21 @@
                                                    <div class="col-md-6" >
                                                   
                                                    <label class="custom-control custom-checkbox">
-                                                       <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_hod_evaluation == NULL ?'checked':''}}>
+                                                       <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input" {{$p->micro_grade == NULL ?'checked':''}}>
                                                        <span class="custom-control-label">&nbsp;Microbiology</span>
                                                    </label>
                                                    <label class="custom-control custom-checkbox">
-                                                       <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_hod_evaluation == NULL ?'checked':''}}>
+                                                       <input type="checkbox" name="pharm_hod_evaluation" value="1" class="custom-control-input" {{$p->pharm_grade == NULL ?'checked':''}}>
                                                        <span class="custom-control-label">&nbsp; Pharmacology</span>
                                                    </label>
                                                    <label class="custom-control custom-checkbox">
-                                                       <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_hod_evaluation == NULL?'checked':''}}>
+                                                       <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input" {{$p->phyto_grade == NULL?'checked':''}}>
                                                        <span class="custom-control-label">&nbsp; Phytochemistry</span>
                                                    </label>
                                                </div>
                                                 @endif
                                                 </div>                                              
-                                                @if ($p->micro_hod_evaluation == Null && $p->pharm_hod_evaluation == Null  && $p->phyto_hod_evaluation == Null)
+                                                @if ($p->micro_grade == Null && $p->pharm_grade == Null  && $p->phyto_grade == Null)
                                                 <div class="row">
                                                   <div class="col-md-5">
                                                     <label class="custom-control custom-checkbox singlelabcheck">

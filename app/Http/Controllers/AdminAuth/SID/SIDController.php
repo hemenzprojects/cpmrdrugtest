@@ -190,6 +190,7 @@ class SIDController extends Controller
     //**************************************** */ PRODUCT SECTION ******************************************
     public function product_index()
     {
+      return  Product::find(184);
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(3)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -410,14 +411,12 @@ class SIDController extends Controller
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
-        $micro_hod_evaluation =Null;
-        $pharm_hod_evaluation =Null;
-        $phyto_hod_evaluation =Null;
-        
+    
+   
         if ($request->single_multiple_lab ==1) {
             if ($check_lab <1) {
                 Session::flash('message_title', 'error');
-                Session::flash('message', 'No lab selected. Please check lab before submission');
+                Session::flash('message', 'Please select single lab');
                 return redirect()->back();
             }
             if ($check_lab >1) {
@@ -430,27 +429,20 @@ class SIDController extends Controller
             if ($request->micro_hod_evaluation) {
             
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
 
             if ($request->pharm_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
 
             if ($request->phyto_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
             }
         
        }
-
        if ($request->single_multiple_lab ==2) {
         
         if ($check_lab <2) {
@@ -462,16 +454,14 @@ class SIDController extends Controller
 
             if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation) {
                 $phyto_grade =2;
-                $phyto_hod_evaluation =2;
             }
             if ($request->micro_hod_evaluation && $request->phyto_hod_evaluation) {
                 $pharm_grade =2;
-                $pharm_hod_evaluation =2;
             }
             if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
                 $micro_grade =2;
-                $micro_hod_evaluation =2;
             }
+     
          
        }
         $data = ([
@@ -485,9 +475,6 @@ class SIDController extends Controller
             'dosage' => $request->dosage,
             'indication' => $request->indication,
             'single_multiple_lab' => $single_multiple_lab,
-            'micro_hod_evaluation' => $micro_hod_evaluation,
-            'pharm_hod_evaluation' => $pharm_hod_evaluation,
-            'phyto_hod_evaluation' => $phyto_hod_evaluation,
             'micro_grade' => $micro_grade,
             'pharm_grade' => $pharm_grade,
             'phyto_grade' => $phyto_grade,

@@ -93,7 +93,7 @@ class ReportSignedCommand extends Command
         })->with('animalExperiment')->whereHas("animalExperiment")->count();
 
 
-       $pharm_approval3_admin = Admin::findOrFail(4);
+       $pharm_approval3_admin = Admin::findOrFail(35);
        if ($pharm_approval_3 != 0) {
            SendSMS::sendMessage('Hi '.$pharm_approval3_admin->full_name.',You have '.$pharm_approval_3.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval3_admin->tell);
        }
