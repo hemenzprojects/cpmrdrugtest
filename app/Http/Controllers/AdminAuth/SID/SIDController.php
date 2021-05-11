@@ -266,6 +266,7 @@ class SIDController extends Controller
         
        
         if ($request->single_multiple_lab ==1) {
+             
             if ($check_lab <1) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please select single lab');

@@ -163,7 +163,7 @@
                                     @endif
                                     @if ($product->pharm_grade == Null || $product->pharm_analysed_by != Null)
                                     <li> Pharmachology Lab</li>
-                                    @endif @if ($product->phyto_grade == Null ||$product->phyto_analysed_by != Null)
+                                    @endif @if ($product->phyto_grade == Null || $product->phyto_analysed_by != Null)
                                     <li> Phytochemistry Lab<li>
                                     @endif
                                @endif
@@ -182,8 +182,6 @@
                                @endif
                             </div>
                           </div>
-                            
-                          
                             
                         </div>
                     </div>

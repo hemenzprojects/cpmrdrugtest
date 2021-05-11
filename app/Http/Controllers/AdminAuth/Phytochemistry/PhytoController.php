@@ -208,6 +208,7 @@ class PhytoController extends Controller
           
               $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
               $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
+              
 
              $data['phytoproducts'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 2);

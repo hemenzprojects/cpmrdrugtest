@@ -367,7 +367,7 @@ tr:nth-child(even) {
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
     </td>
-    <td class="font" style="width: 130%;border: #fff"> </td>
+    <td class="font" style="width: 50%;border: #fff"> </td>
     
     <td class="font" style="border: #fff">
         <?php
