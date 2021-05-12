@@ -102,11 +102,11 @@
                   @endif
                    
                    </div>
-   
+                   @include('admin.pharm.temp.signaturetemp') 
+
           </form>
    
-   
-          @include('admin.pharm.temp.signaturetemp') 
+
    
    
            <div class="col-12">

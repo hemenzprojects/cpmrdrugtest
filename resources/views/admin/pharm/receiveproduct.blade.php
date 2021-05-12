@@ -156,7 +156,7 @@
                                     {{ucfirst(\App\Admin::find($pharmacology->pivot->received_by)? \App\Admin::find($pharmacology->pivot->received_by)->full_name:'null')}}
                                 </td>
                                 <td class="font" style="font-size: 11px"> 
-                                    {{($pharmacology->pivot->received_at ? $pharmacology->pivot->received_at : 'Null')}}
+                                    {{($pharmacology->pivot->received_at ?  Carbon\Carbon::parse($pharmacology->pivot->received_at)->format('jS \\, F Y') : 'Null')}}
 
                                 </td> 
                                 <td>
@@ -263,7 +263,7 @@
                                 {{ucfirst(\App\Admin::find($pharmacology->pivot->received_by)? \App\Admin::find($pharmacology->pivot->received_by)->full_name:'null')}}
                             </td>
                             <td class="font" style="font-size: 11px"> 
-                                {{($pharmacology->pivot->received_at ? $pharmacology->pivot->received_at : 'Null')}}
+                                {{($pharmacology->pivot->received_at ?  Carbon\Carbon::parse($pharmacology->pivot->received_at)->format('jS \\, F Y') : 'Null')}}
 
                             </td> 
                             <td>

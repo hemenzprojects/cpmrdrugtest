@@ -117,12 +117,12 @@
 
                             </td>
                             <td class="font">
-                                {{ Carbon\Carbon::parse($recordbook->updated_at)->format('jS \\, F Y')}}
+                                {{ Carbon\Carbon::parse($recordbook->distributed_at)->format('jS \\, F Y')}}
 
                             </td> 
                             <td class="font">
                                 {{-- {{ Carbon\Carbon::parse($recordbook->delivered_at)->format('jS \\, F Y')}} --}}
-                                {{Carbon\Carbon::parse($recordbook->delivered_at)->format('jS \\, F Y')? $recordbook->delivered_at:'null'}}
+                                {{Carbon\Carbon::parse($recordbook->delivered_at) ? Carbon\Carbon::parse($recordbook->delivered_at)->format('jS \\, F Y'):'null'}}
 
                            </td> 
                         </tr>
@@ -144,29 +144,16 @@
                                         <small class="text-muted "></small>
                                         <h6>Indication</h6>
                                         <p class="text-muted">{{ucfirst($product->indication)}}<br></p>
-        
+                                        <small class="text-muted "></small>
+                                        <h6>Dosage</h6>
+                                        <p class="text-muted">{{ucfirst($product->dosage)}}<br></p>
+
                                                 <h6>Delivery Officer </h6>
                                                 <small class="text-muted">{{\App\Admin::find($recordbook->delivered_by)?\App\Admin::find($recordbook->delivered_by)->full_name:'null'}}</small>
                                                 <h6>Received By </h6>
                                                 <small class="text-muted">{{\App\Admin::find($recordbook->received_by)?\App\Admin::find($recordbook->received_by)->full_name:'null'}}</small>
                                               
-                                               
-                                                <hr><h5>Distribution Periods</h5>
-                                                <div  style="margin-bottom: 5px">
-                                                <p>
-                                                    <h6 >Distribution Period</h6>
-                                                    Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small>
-                                                   
-                                                </p>
-                                                 <p>
-                                                    <h6 >Date Analysed</h6>
-                                                   {{--                                                   
-                                                    Date: <small class="text-muted ">{{$recordbook->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$recordbook->updated_at->format('H:i:s')}}</small> --}}
-                                                   
-                                                </p>
-                                                </div>
+                                         
                                             
                                                 <hr><h5>Preparation Details</h5>
                                                 <p><strong>Volume/Mass/Weight :</strong> {{$recordbook->measurement}} </p>

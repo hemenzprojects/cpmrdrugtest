@@ -2,7 +2,7 @@
     <div class=""> 
         <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"><strong> RESULTS: </strong></h4>
 
-        <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table showing Result of Acute Toxicity on {{$pharmreports->code}} in 
+        <p class="font" style="font-size:14px; margin:20px; margin-top:10px"> Table Showing Results of {{\App\PharmTestConducted::find(1)->name}} on {{$pharmreports->code}} in 
             {{$pharm_finalreports->pharm_animal_model}}
         </p>
     </div>

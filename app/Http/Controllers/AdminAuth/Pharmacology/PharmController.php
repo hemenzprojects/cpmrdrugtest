@@ -963,6 +963,8 @@ class PharmController extends Controller
                     $product->pharm_analysed_by = Auth::guard('admin')->id();
                     $product->pharm_grade = $r->pharm_grade;
                     $product->pharm_dateanalysed = $date_analysed;
+                    $product->pharm_reference = $r->pharm_reference;
+
                     $product->update();
 
              
@@ -1282,7 +1284,7 @@ class PharmController extends Controller
                 'updated_at' => \Carbon\Carbon::now(),
                 ]);
   
-                PharmFinalReport::where('product_id', $id)->update($data);
+                PharmFinalReport::where('product_id', $id)->update($data); 
                 $product = $products->first();
                 $product->pharm_acute_comment = $r->pharm_acute_comment;
                 $product->update();
@@ -1294,11 +1296,13 @@ class PharmController extends Controller
                 $product->pharm_acute_comment = $r->pharm_acute_comment;
                 $product->pharm_dermal_comment = $r->pharm_dermal_comment;
                 $product->update();
+
               }
 
               $product = $products->first();
               $product->pharm_grade = $r->pharm_grade;
               $product->pharm_hod_remarks = $r->pharm_hod_remarks;
+              $product->pharm_reference = $r->pharm_reference;
               $product->pharm_dateanalysed = (\Carbon\Carbon::parse($r->date_analysed));
               $product->update();
 

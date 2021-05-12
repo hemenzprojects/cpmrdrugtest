@@ -33,7 +33,7 @@
                     <tr>
                     <td class="font"><strong>Date Recievied:</strong></td>
                         <td class="font">
-                            {{   Carbon\Carbon::parse($product->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                            {{   Carbon\Carbon::parse($phytoshowreport->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
                         </td>
                     </tr>
                     <tr>
@@ -111,48 +111,8 @@
    </div>
 
 
-   <div class="row invoice-info" style="margin: 15px;margin-top: 20px">
-    <?php
-    $phyto_analysed_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_analysed_by:'');
-    $user_type         = (\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->user_type_id:'');
-    ?>
-    <div class="col-sm-4 invoice-col">
-        <p>Analyzed By</p><br>
-        @if (\App\Product::find($report_id)->phyto_hod_evaluation >null)
-        <img src="{{asset(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->sign_url:'')}}" class="" width="42%"><br>
-        @endif
-        -----------------------------<br>
-      
-        <span>{{ucfirst(\App\Admin::find($phyto_analysed_by)? \App\Admin::find($phyto_analysed_by)->full_name:'')}}</span>
-        <p>{{ucfirst(\App\UserType::find($user_type )? \App\UserType::find($user_type )->name:'')}}</p>
+   @include('admin.phyto.temp.signaturetemplate')
 
-    </div> 
-    <div class="col-sm-4 invoice-col">
-         
-    </div>
-    <div class="col-sm-4 invoice-col">
-        <?php
-        $phyto_appoved_by = (\App\Product::find($report_id)? \App\Product::find($report_id)->phyto_appoved_by:'');
-        $hod_user_type = (\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->user_type_id:'');
-
-        ?>
-        <p>Supervisor</p><br>
-
-        @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
-
-        <img src="{{asset(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->sign_url:'')}}" class="" width="42%"><br>
-        @endif
-
-        ------------------------------<br> 
-
-      <span>{{ucfirst(\App\Admin::find($phyto_appoved_by)? \App\Admin::find($phyto_appoved_by)->full_name:'')}}</span>
-      <p>{{ucfirst(\App\UserType::find($hod_user_type)? \App\UserType::find($hod_user_type)->name:'')}}</p>
-
-    </div>
-
-     </div>
-
-  </div>
  
 </div>
 

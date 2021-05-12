@@ -72,7 +72,12 @@
                 <td class="font"><strong>No. of Death Recorded</strong></td> 
                 <td  class="font">
                   
-                        {{$pharmreports->experimental_deaths}} Death <br>
+                        {{$pharmreports->experimental_deaths}} Death
+                </td>
+            </tr>
+            <tr>
+                <td class="font"><strong>No. Alive</strong></td> 
+                <td  class="font">
                         {{$pharmreports->experimental_Lives}} Lives 
                 </td>
             </tr>

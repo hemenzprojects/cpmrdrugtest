@@ -19,7 +19,7 @@
         
         <p>Analyzed By</p><br>
         @if (($product->micro_hod_evaluation === 0 && $product->micro_approved_by != Null) || $product->micro_hod_evaluation === 2)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="28%"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="38%"><br>
         @endif
         -----------------------------<br>
       
@@ -38,7 +38,7 @@
         ?>
         <p>Approved by</p><br>
         @if ($product->micro_finalapproved_by === 2)
-        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="28%"><br>
+        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="38%"><br>
         @endif
 
         ------------------------------<br> 

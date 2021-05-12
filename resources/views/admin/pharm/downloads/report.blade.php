@@ -15,7 +15,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 7px;
+  padding: 6px;
   width: 50%;
 }
 
@@ -106,8 +106,8 @@ tr:nth-child(even) {
   <tr>
     <td class="font">{{$completed_report->code}}</td>
     <td class="font">{{$completed_report->productType->name}}</td>
-    <td class="font">{{ $completed_report->departmentById(2)->pivot->updated_at->format('jS \\, F Y') }}</td>
-    <td class="font">{{ Carbon\Carbon::parse($completed_report->pharm_dateanalysed)->format('jS \\, F Y')}}</td>
+    <td class="font">{{ Carbon\Carbon::parse($completed_report->departmentById(2)->pivot->received_at)->format('jS\\, F Y') }}</td>
+    <td class="font">{{ Carbon\Carbon::parse($completed_report->pharm_dateanalysed)->format('jS\\, F Y')}}</td>
     <td class="font">{{\App\PharmTestConducted::find($completed_report->pharm_testconducted)->name}}</td>
   </tr>
  
@@ -127,7 +127,7 @@ tr:nth-child(even) {
 <tbody>
     <tr>
         <td class="font"  style="border:0px;width:100%">
-        <span style="font-size:15px">Table showing Result of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} ({{$completed_report->code}}) in {{$pharm_finalreports->pharm_animal_model}}</span>  
+        <span style="font-size:15px">Table Showing Results of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} ({{$completed_report->code}}) in {{$pharm_finalreports->pharm_animal_model}}</span>  
         </td>
     </tr> 
 </tbody>
@@ -216,6 +216,8 @@ tr:nth-child(even) {
         </span>
     </p>
 </div>
+
+ 
 </div>
  @endif
 
@@ -288,6 +290,13 @@ tr:nth-child(even) {
   </tr>
  
 </table>
-
+ 
+@if ($completed_report->pharm_testconducted == 1)
+<div class="col-md-12" style="padding: 1%">
+    <p style="font-size: 13px; text-align: justify ">
+        <strong> Reference: </strong>  {{$completed_report->pharm_reference}}
+    </p>  
+</div>
+@endif
 </body>
 </html>

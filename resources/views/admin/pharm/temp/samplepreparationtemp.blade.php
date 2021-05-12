@@ -35,7 +35,8 @@
             </select>
     </td>
     <td class="font">
-        {{ $pharmproduct->departmentById(2)->pivot->received_at }}                                        
+        {{  Carbon\Carbon::parse($pharmproduct->departmentById(2)->pivot->received_at)->format('jS \\, F Y')  }}                                        
+       
 
     </td>
 
