@@ -38,6 +38,6 @@ class ProductPriceLimit implements Rule
      */
     public function message()
     {
-        return 'the :attribute must range from 250 to GH 450.';
+        return 'the :attribute must range from 250 to GHC 450.';
     }
 }
