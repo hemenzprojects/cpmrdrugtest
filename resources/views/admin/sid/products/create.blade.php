@@ -347,7 +347,7 @@
 									        <tr>
                                                 <th></th>
 									            <th>Code</th>
-									            <th  style="width:50px">Product Name</th>
+									            <th style="width:50px">Product Name</th>
 									            <th>Product Type</th>
 									            <th>Customer</th>
                                                 <th>Amt Paid</th>
@@ -391,7 +391,7 @@
 
                                         
                                                 {!! $product->edit_tag !!}
-                                              
+                                                
                                                 <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
                                                 <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
                                                 </a>
