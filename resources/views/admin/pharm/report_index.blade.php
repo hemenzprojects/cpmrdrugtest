@@ -10,7 +10,7 @@
                     <i class="ik ik-server bg-blue"></i>
                     <div class="d-inline">
                         <h5>Taskboard</h5>
-                        <span>Pharmacology product experimentation processes </span>
+                        <span>Pharmacology / Toxicology product experimentation processes </span>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                        {{count($sample_prep)}} 
                     </label>
                     @endforeach
-                    <h3>Sample preparations @ animal house</h3>
+                    <h3>Sample preparations @ animal exp. unit</h3>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="ik ik-chevron-left action-toggle"></i></li>

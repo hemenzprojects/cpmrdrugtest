@@ -9,7 +9,7 @@
                     <i class="ik ik-server bg-blue"></i>
                     <div class="d-inline">
                         <h5>Taskboard</h5>
-                        <span>Pharmacology product experimentation processes </span>
+                        <span>Pharmacology / Toxicology product experimentation processes </span>
                     </div>
                 </div>
             </div>
