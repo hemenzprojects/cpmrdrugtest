@@ -20,6 +20,7 @@ use App\Admin;
 use App\Customer;
 use App\Department;
 use App\ProductType;
+use App\ProductPriceList;
 use App\Product;
 use App\Account;
 use App\UserType;
@@ -198,6 +199,7 @@ class SIDController extends Controller
         } 
 
         $data['year'] = \Carbon\Carbon::now('y');
+        $data['price_list'] = ProductPriceList::where('action',1)->first();
 
         $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
              return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -206,9 +208,13 @@ class SIDController extends Controller
         //  $p = Product::whereHas("departments", function ($q) use ($data) {
         //     return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         // })->pluck('id')->toArray();
-
+  
+        // Product::where('single_multiple_lab',1)->update(['actual_price' => 252]);
+        // Product::where('single_multiple_lab',2)->update(['actual_price' => 504]);
+        // Product::where('single_multiple_lab',Null)->update(['actual_price' => 460]);
       
-        //  Product::whereIn('id', $p)->update(['phyto_hod_evaluation' => Null]);
+        // $data['all_products'] = Product::where('single_multiple_lab',1)->get();
+      
 
        
     //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
@@ -238,21 +244,23 @@ class SIDController extends Controller
         }
 
         $check_lab = $request->micro_hod_evaluation + $request->pharm_hod_evaluation + $request->phyto_hod_evaluation;
-        
+        $price_list = ProductPriceList::where('action',1)->first();
+
         if ($check_lab ==1) {
-            $singleprice = 252;
+            $singleprice = $price_list->singlelab_price;
+
           if ($request->price > $singleprice) {
             Session::flash('message_title', 'error');
-            Session::flash('message', 'Total price of single Lad test must not be above Gh252.00');
+            Session::flash('message', 'Total price of single Lab test must not be above '.$price_list->singlelab_price.' ');
             return redirect()->back();
 
           }
         }
         if ($check_lab ==2) {
-            $multiprice = 504;
+            $multiprice = $price_list->mutilabs_price;
             if ($request->price > $multiprice) {
                 Session::flash('message_title', 'error');
-                Session::flash('message', 'Total price of single Lad test must not be above Gh504.00');
+                Session::flash('message', 'Total price of multiple lab test must not be above '.$price_list->mutilabs_price.' ');
                 return redirect()->back();
 
               }
@@ -263,6 +271,8 @@ class SIDController extends Controller
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
+        $actual_price = $price_list->alllabs_price;
+
         
        
         if ($request->single_multiple_lab ==1) {
@@ -294,7 +304,7 @@ class SIDController extends Controller
                 $micro_grade =2;
                 $pharm_grade =2;
             }
-        
+           $actual_price = $price_list->singlelab_price;
        }
 
        if ($request->single_multiple_lab ==2) {
@@ -315,9 +325,11 @@ class SIDController extends Controller
             if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
                 $micro_grade =2;
             }
-         
+            $actual_price = $price_list->mutilabs_price;
+
        }
           
+      
         $data = ([
             'name' => $request->name,
             'product_type_id' => $request->product_type_id,
@@ -333,7 +345,7 @@ class SIDController extends Controller
             'micro_grade' => $micro_grade,
             'pharm_grade' => $pharm_grade,
             'phyto_grade' => $phyto_grade,
-
+            'actual_price'=> $actual_price,
             'added_by_id' => Auth::guard('admin')->id(),
         ]);
         //   return $data;
@@ -343,7 +355,7 @@ class SIDController extends Controller
         $data["code"] = Product::generateCode($product_type,$customer);
         Product::create($data);
 
-        Session::flash("message", "Product Successfully Created.");
+        Session::flash("message", "Product Successfully Created.  ");
         Session::flash("message_title", "success");
         return redirect()->route('admin.sid.product.create')
             ->with('success', 'Product Created successfully');
@@ -359,6 +371,7 @@ class SIDController extends Controller
 
         } 
         $data['products'] = Product::orderBy('id', 'DESC')->get();
+        $data['price_list'] = ProductPriceList::where('action',1)->first();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
         $data['p'] = $id;
@@ -406,12 +419,14 @@ class SIDController extends Controller
             return redirect()->back();
         }
         $check_lab = $request->micro_hod_evaluation + $request->pharm_hod_evaluation + $request->phyto_hod_evaluation;
+        $price_list = ProductPriceList::where('action',1)->first();
 
         $single_multiple_lab =Null;
         $micro_grade =Null;
         $pharm_grade =Null;
         $phyto_grade =Null;
-    
+        $actual_price = $price_list->alllabs_price;
+
    
         if ($request->single_multiple_lab ==1) {
             if ($check_lab <1) {
@@ -441,7 +456,7 @@ class SIDController extends Controller
                 $micro_grade =2;
                 $pharm_grade =2;
             }
-        
+            $actual_price = $price_list->singlelab_price;
        }
        if ($request->single_multiple_lab ==2) {
         
@@ -461,6 +476,7 @@ class SIDController extends Controller
             if ($request->phyto_hod_evaluation && $request->pharm_hod_evaluation) {
                 $micro_grade =2;
             }
+            $actual_price = $price_list->mutilabs_price;
      
          
        }
@@ -478,6 +494,8 @@ class SIDController extends Controller
             'micro_grade' => $micro_grade,
             'pharm_grade' => $pharm_grade,
             'phyto_grade' => $phyto_grade,
+            'actual_price'=> $actual_price,
+
             'updated_by_id' => Auth::guard('admin')->id(),
         ]);
 
@@ -675,16 +693,17 @@ class SIDController extends Controller
 
         } 
         //   dd($r->all(), $id);
-  
+        $price_list = ProductPriceList::where('action',1)->first();
+
         $data = $r->validate([
             'amt_paid' => 'required',
             'customer' => 'required',
             'receipt_num' => 'required'
 
         ]);
-        if ($r->amt_paid > 460) {
+        if ($r->amt_paid >  $price_list->alllabs_price) {
             Session::flash('message_title', 'error');
-            Session::flash('message', 'Amount should not be more than 460');
+            Session::flash('message', 'Amount should not be more than '.$price_list->alllabs_price.' ');
             return redirect()->back();
         }
         $product =  product::find($id);
@@ -700,9 +719,10 @@ class SIDController extends Controller
         }
 
         $actualamt = $r->amt_paid + $r->initial_amt;
-        if ($actualamt > 460) {
+        
+        if ($actualamt > $price_list->alllabs_price) {
             Session::flash('message_title', 'error');
-            Session::flash('message', 'Ammount Exceeds actual fee. NB: Product fee is GH 460');
+            Session::flash('message', 'Amount Exceeds actual fee. NB: Product fee for all labs is GH '.$price_list->alllabs_price.'');
             return redirect()->back();
         }
 
@@ -977,11 +997,16 @@ class SIDController extends Controller
         $product_dept = ProductDept::where('product_id', $id)->where('dept_id', $dept_id)->first();
         if ($product_dept->status == 1) {
             $product_dept->delete();
-
             $p = Product::find($id)->whereDoesntHave('productDept');
             if ($p) {
                 $data = ([
-                    'overall_status' => 0
+                    'overall_status' => 0,
+                    'single_multiple_lab' => Null,
+                    'micro_grade' => Null,
+                    'phyto_grade' => Null,
+                    'pharm-grade' => Null,
+
+
                 ]);
                 $p->update($data);
             }

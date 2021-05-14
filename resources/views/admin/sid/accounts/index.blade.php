@@ -69,7 +69,7 @@
                                 @if ($product->single_multiple_lab ==0)
                                 <div class="text-center" style="margin: "> 
                                     <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
-                                    <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{460 - $product->price }}.00</span></h5> 
+                                    <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{$product->actual_price - $product->price }}.00</span></h5> 
   
                               </div> 
                                 @endif
@@ -77,7 +77,7 @@
                             @if ($product->single_multiple_lab ==1)
                             <div class="text-center" style="margin: "> 
                                 <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
-                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{252 - $product->price }}.00</span></h5> 
+                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{$product->actual_price - $product->price }}.00</span></h5> 
 
                            </div>
                             @endif
@@ -86,7 +86,7 @@
                            
                             <div class="text-center" style="margin:3px "> 
                                 <h5><span style="font-size: 17px">Total Amount Paid: </span><span style="color: #2dce89;font-size: 20px; font-weight: 900; "><br>GH {{$product->price}}.00</span></h5> 
-                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{504 - $product->price }}.00</span></h5> 
+                                <h5> <span style="font-size: 17px">Total Amount Due :</span> <span style="color: #e80808;font-size: 20px; font-weight: 900; "><br>GH {{$product->actual_price - $product->price }}.00</span></h5> 
 
                            </div>
                             @endif

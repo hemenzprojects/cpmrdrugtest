@@ -98,3 +98,13 @@
         <i class="ik ik-x"></i>
     </button>
 </div>
+<div class="alert alert-secondary" role="alert">
+    <strong>Product sample prepared</strong> 
+    @foreach ($pharmreports->samplePreparation as $item)
+    <li><strong>Weight: </strong>{{$item->weight}}</li>
+    <li><strong>Dosage: </strong>{{$item->dosage}}</li>
+    <li><strong>Yield:</strong> {{$item->yield}}</li>
+    <li><strong>Measurement to animal exp unit:</strong> {{$item->measurement}}</li>
+
+    @endforeach
+  </div>

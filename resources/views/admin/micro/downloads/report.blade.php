@@ -376,7 +376,7 @@ tr:nth-child(even) {
 
         ?>
         <span>Supervisor</span><br>
-        @if ($product->micro_hod_evaluation ==2)
+        @if ($product->micro_process_status ==3)
         <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="15%"><br>
         @endif
 

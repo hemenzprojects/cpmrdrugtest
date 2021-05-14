@@ -99,11 +99,6 @@
                                     <br>
                                     <p class="text-muted">{{$product->code}}</p>
                                 </div>
-                            
-                             </div>
-                             <hr>
-                            <div class="row">
-                                
                                 <div class="col-md-3 col-6"> <strong>Poduct Name</strong>
                                     <br>
                                     <p class="text-muted">{{ucfirst($product->name)}}</p>
@@ -112,10 +107,22 @@
                                     <br>
                                     <p class="text-muted">{{ucfirst($product->productType->name)}}</p>
                                 </div>
+                             </div>
+                             <hr>
+                            <div class="row">
                                 
+                            
+                                <div class="col-md-3 col-6"> <strong>Quantity</strong>
+                                    <br>
+                                    <p class="text-muted">{{$product->quantity}}</p>
+                                </div>
                                 <div class="col-md-3 col-6"> <strong>Amount Paid</strong>
                                     <br>
                                     <p class="text-muted">{{$product->price}}</p>
+                                </div>
+                                <div class="col-md-3 col-6"> <strong>Actual Price</strong>
+                                    <br>
+                                    <p class="text-muted">{{$product->actual_price}}</p>
                                 </div>
                                 <div class="col-md-3 col-6"> <strong>Receipt Number</strong>
                                     <br>

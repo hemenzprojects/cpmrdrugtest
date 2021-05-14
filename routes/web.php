@@ -111,6 +111,11 @@ Route::get('/sendtest', function () {
    Route::get('sid/print_pharmreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.sid.print_pharmreport');
    Route::get('sid/print_phytoreport/show/{id}','AdminAuth\Phytochemistry\PhytoController@completedreport_show')->name('admin.sid.print_phytoreport');
 
+   // Download all reports
+   Route::get('sid/microreport/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.sid.microreport.pdf');
+   Route::get('sid/pharmreport/pdf/{id}','AdminAuth\Pharmacology\PharmController@pharmreport_pdf')->name('admin.sid.pharmreport.pdf');
+   Route::get('sid/phytoreport/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.sid.phytoreport.pdf');
+
   });
 
    // SID Configurations

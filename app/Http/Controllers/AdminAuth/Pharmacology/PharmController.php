@@ -1222,7 +1222,6 @@ class PharmController extends Controller
             if ($r->evaluate ==2) {
               $evaluate = 8;//*** 8 means Approved */
             }  
-         
             $p = Product::findOrFail($id);
             $p->update([
               'pharm_process_status'=> $evaluate,
@@ -1232,16 +1231,38 @@ class PharmController extends Controller
             
             if ($r->evaluate ==1) {
               $p->update([
-                'pharm_process_status'=> 7,
                 'pharm_finalapproved_by'=>Null,
                 'pharm_finaldateapproved'=>Null,
+                'overall_status'=> 1,
               ]); 
             }
+            if ($r->evaluate ==2) {
+              $complete = ($p->micro_hod_evaluation + $p->pharm_hod_evaluation + $p->phyto_hod_evaluation);
 
-            if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
-              $p->update(['overall_status'=> 2]);
-            }else {
-              $p->update(['overall_status'=> 1]);
+               if ($p->single_multiple_lab == Null) {
+                 if ($complete == 6 ) {
+                   $p->update(['overall_status'=> 2]);
+                 }else {
+                   $p->update(['overall_status'=> 1]);
+                 }
+               } 
+
+               if ($p->single_multiple_lab == 1) {
+                 if ($complete == 2 ) {
+                   $p->update(['overall_status'=> 2]);
+                 }else {
+                   $p->update(['overall_status'=> 1]);
+                 }
+               } 
+
+               if ($p->single_multiple_lab == 2) {
+              
+                 if ($complete == 4 ) {
+                   $p->update(['overall_status'=> 2]);
+                 }else {
+                   $p->update(['overall_status'=> 1]);
+                 }
+               } 
             }
 
            Session::flash("message", "Report Evaluation completed.");
@@ -1596,11 +1617,11 @@ class PharmController extends Controller
              }
 
              public function pharmreport_pdf ($id){
-
-            
              
-              $productdepts = ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status",'>',6);
-              if(count($productdepts->get()) < 1){     
+              $productdepts = ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status",'>',7);
+              if(count($productdepts->get()) < 1){   
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry report can not be downloaded. Report must be completed by the Hod');
                return redirect()->back(); 
                }
                $p = Product::Find($id);

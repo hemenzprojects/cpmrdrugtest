@@ -34,10 +34,9 @@
         <?php
         $micro_finalapproved_by = ($product? $product->micro_finalapproved_by:'');
         $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
-
         ?>
         <p>Approved by</p><br>
-        @if ($product->micro_finalapproved_by === 2)
+        @if ($product->micro_process_status === 3)
         <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="38%"><br>
         @endif
 

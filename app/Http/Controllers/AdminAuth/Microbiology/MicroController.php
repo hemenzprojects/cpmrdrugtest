@@ -1342,20 +1342,45 @@ class MicroController extends Controller
               $p->update([
                 'micro_process_status'=> $evaluate,
                 'micro_finalapproved_by'=>$r->adminid,
+                'micro_finaldateapproved'=>\Carbon\Carbon::now(),
               ]);
 
               if ($r->evaluate ==1) {
-                $p->update(['micro_finalapproved_by'=> Null]);
-              }
-              
+                $p->update([
+                  'micro_finalapproved_by'=> Null,
+                  'overall_status'=> 1,
+                  ]);
+                 }
+
               if ($r->evaluate ==2) {
-                if ($p->micro_hod_evaluation == 2 && $p->pharm_hod_evaluation == 2 && $p->phyto_hod_evaluation ==2 ) {
-                  $p->update(['overall_status'=> 2]);
-                }else {
-                  $p->update(['overall_status'=> 1]);
-                }
-              }
-              
+               $complete = ($p->micro_hod_evaluation + $p->pharm_hod_evaluation + $p->phyto_hod_evaluation);
+
+                if ($p->single_multiple_lab == Null) {
+                  if ($complete == 6 ) {
+                    $p->update(['overall_status'=> 2]);
+                  }else {
+                    $p->update(['overall_status'=> 1]);
+                  }
+                } 
+
+                if ($p->single_multiple_lab == 1) {
+                  if ($complete == 2 ) {
+                    $p->update(['overall_status'=> 2]);
+                  }else {
+                    $p->update(['overall_status'=> 1]);
+                  }
+                } 
+
+                if ($p->single_multiple_lab == 2) {
+               
+                  if ($complete == 4 ) {
+                    $p->update(['overall_status'=> 2]);
+                  }else {
+                    $p->update(['overall_status'=> 1]);
+                  }
+                } 
+             }
+
              Session::flash("message", "Report Evaluation completed.");
              Session::flash("message_title", "success");  
              return redirect()->back();
@@ -1836,10 +1861,12 @@ class MicroController extends Controller
            public function microreport_pdf ($id){
 
             
-            $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",'>',2);
+            $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",'>',3);
             if(count($productdepts->get()) < 1){  
-                 
-              return redirect()->route('admin.micro.report.create');
+              Session::flash('message_title', 'error');
+              Session::flash('message', 'Sorry report can not be downloaded. Report must be completed by the Hod');
+              return redirect()->back();
+              // return redirect()->route('admin.micro.report.create');
             }  
 
             $data['report_id'] = $id; 

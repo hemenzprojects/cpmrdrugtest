@@ -232,7 +232,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-7 singlelab" style="display: none">
-                                                    <p>Please check approved lab(s)</p>
+                                                    <p>Please check approved lab. Actual Price <span class="badge badge-info">  {{$price_list->singlelab_price}}</span></p>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
@@ -245,9 +245,11 @@
                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label"style="">Phytochemistry</span>
                                                     </label>
+                                                    <input type="hidden" name="singlelab_actual_price" value=" {{$price_list->singlelab_price}}">
+                                                   
                                                 </div>
                                                 <div class="col-md-7 multilab" style="display: none">
-                                                    <p>Please check approved lab(s)</p>
+                                                    <p>Please check approved labs. Actual Price <span class="badge badge-info">  {{$price_list->mutilabs_price}}</span></p>
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
@@ -260,6 +262,8 @@
                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label"style="">Phytochemistry</span>
                                                     </label>
+                                                    <input type="hidden" name="multilab_actual_price" value="{{$price_list->mutilabs_price}}">
+
                                                 </div>
                                                </div>                                              
 
@@ -424,11 +428,7 @@
 
 
                 </div>
-            </div>
-
-             </div>
-          
-            
+            </div> 
 
 
 @endsection
