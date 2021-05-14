@@ -209,9 +209,9 @@ class SIDController extends Controller
         //     return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         // })->pluck('id')->toArray();
   
-        // Product::where('single_multiple_lab',1)->update(['actual_price' => 252]);
-        // Product::where('single_multiple_lab',2)->update(['actual_price' => 504]);
-        // Product::where('single_multiple_lab',Null)->update(['actual_price' => 460]);
+        Product::where('single_multiple_lab',1)->update(['actual_price' => 252]);
+        Product::where('single_multiple_lab',2)->update(['actual_price' => 504]);
+        Product::where('single_multiple_lab',Null)->update(['actual_price' => 460]);
       
         // $data['all_products'] = Product::where('single_multiple_lab',1)->get();
       
