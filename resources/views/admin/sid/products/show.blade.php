@@ -343,7 +343,7 @@
                             @if($item->status ==4)
                             <h6 class="mt-30">Phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span>
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>   
                             @endif
                             @endforeach
@@ -392,7 +392,7 @@
                         </div>
                     </div>
                 </div>
-                @if ($product->overall_status == 2)
+                {{-- @if ($product->overall_status == 2)
                 @if ($product->failed_final_grade)
                 <div class="card-body template-demo">
                     <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
@@ -400,7 +400,7 @@
                     </a>
                 </div>  
                 @endif
-                @endif
+                @endif --}}
               
                 {{-- <div class="card-body template-demo">
                     <a   href="{{route('admin.sid.product.review', ['id' => $product->id])}}">
@@ -410,7 +410,6 @@
             </div>
         </div>
  
-
        
         
     </div>

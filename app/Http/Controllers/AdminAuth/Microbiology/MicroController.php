@@ -857,9 +857,7 @@ class MicroController extends Controller
                       $product->micro_la_comment = $micro_la_comment;
                       $product->micro_hod_remarks = $r->micro_hod_remarks;
                       $product->micro_dateanalysed =$r->date_analysed;
-                      $product->micro_dateapproved =\Carbon\Carbon::now();
-                      $product->micro_analysed_by = Auth::guard('admin')->id();
-  
+                      $product->micro_dateapproved =\Carbon\Carbon::now();  
                       $product->update();
     
                    }

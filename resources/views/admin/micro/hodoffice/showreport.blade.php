@@ -258,7 +258,7 @@ $product = \App\Product::find($report_id);
                                      </div>
                                
                                 </div>
-                                <div class="row" style="margin-bottom:2%">
+                                   <div class="row" style="margin-bottom:2%">
                                     <div class="col-md-4">
                                         <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
                                             <i class="fa fa-chevron-right "></i> 

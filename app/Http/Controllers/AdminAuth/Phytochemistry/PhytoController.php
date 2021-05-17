@@ -1037,7 +1037,7 @@ class PhytoController extends Controller
    
             $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
-          $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
+           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id",3)->where('status','>',2);
             })->get();
 
