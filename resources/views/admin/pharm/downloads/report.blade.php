@@ -259,7 +259,7 @@ tr:nth-child(even) {
       ?>
       <span>Analysed by</span><br>
       @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
-      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="15%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="35%"><br>
       @endif
 
       ------------------------------<br> 
@@ -277,7 +277,7 @@ tr:nth-child(even) {
       ?>
       <span>Approved by</span><br>
     @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
-      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="15%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="35%"><br>
       @endif
 
       ------------------------------<br> 
