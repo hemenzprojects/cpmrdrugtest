@@ -154,7 +154,7 @@
 
                 <div class="row" style="margin-top: 11;margin-bottom: 11;">
                 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         @if ($product->pharm_hod_evaluation <2)
                         <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>
                         @endif
