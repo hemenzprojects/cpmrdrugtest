@@ -546,7 +546,7 @@ class Product extends Model
 
         $item1 =   Carbon::parse($this->departmentById(1)->pivot->received_at)->format('j');
         $item2 =     Carbon::parse($this->departmentById(1)->pivot->received_at)->format('S');
-        $item3 =      Carbon::parse($this->departmentById(1)->pivot->received_at)->format('\\ F Y');
+        $item3 =      Carbon::parse($this->departmentById(1)->pivot->received_at)->format('\\ F, Y');
     
             return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
         }
@@ -554,7 +554,7 @@ class Product extends Model
 
     $item1 =   Carbon::parse($this->micro_dateanalysed)->format('j');
     $item2 =     Carbon::parse($this->micro_dateanalysed)->format('S');
-    $item3 =      Carbon::parse($this->micro_dateanalysed)->format('\\ F Y');
+    $item3 =      Carbon::parse($this->micro_dateanalysed)->format('\\ F, Y');
 
         return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
     }
@@ -564,7 +564,7 @@ class Product extends Model
 
     $item1 =   Carbon::parse($this->departmentById(2)->pivot->received_at)->format('j');
     $item2 =     Carbon::parse($this->departmentById(2)->pivot->received_at)->format('S');
-    $item3 =      Carbon::parse($this->departmentById(2)->pivot->received_at)->format('\\ F Y');
+    $item3 =      Carbon::parse($this->departmentById(2)->pivot->received_at)->format('\\ F, Y');
 
         return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
     }
@@ -572,7 +572,7 @@ class Product extends Model
 
     $item1 =   Carbon::parse($this->pharm_dateanalysed)->format('j');
     $item2 =     Carbon::parse($this->pharm_dateanalysed)->format('S');
-    $item3 =      Carbon::parse($this->pharm_dateanalysed)->format('\\ F Y');
+    $item3 =      Carbon::parse($this->pharm_dateanalysed)->format('\\ F, Y');
 
       return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
     }
