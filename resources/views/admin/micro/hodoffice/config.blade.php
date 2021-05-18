@@ -140,8 +140,20 @@
                                                         <span class="custom-control-label">&nbsp;</span>
                                                     </label>
                                             </td>
-                                                <td class="font"><input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" {{$microbial_loadanalyses[$i]->location == 0 || $microbial_loadanalyses[$i]->location == 1 ? "readonly" : "" }}></td>
-                    
+                                                {{-- <td class="font"><input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" {{$microbial_loadanalyses[$i]->location == 0 || $microbial_loadanalyses[$i]->location == 1 ? "readonly" : "" }}></td> --}}
+                                                <td class="font">
+                                                    @if ($i == 0)
+                                                    <textarea id="summernote" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
+                                                    @endif
+                                                    @if ($i == 1)
+                                                    <textarea id="summernote0" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
+                                                    @endif
+                                                    @if ($i > 1)
+                                                    <input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" >
+                                                    @endif
+
+                                                </td>
+
                                                 <td class="font"><input class="form-control" type="text" name="result[{{$i}}]" value="{{$microbial_loadanalyses[$i]->result}}"></td>
                                             
                                                 <td class="font"><input class="form-control" type="text" name="acceptance_criterion[{{$i}}]" value="{{$microbial_loadanalyses[$i]->acceptance_criterion}} "></td>

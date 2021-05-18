@@ -30,13 +30,13 @@
                         </td>
                     </tr>
                     <tr>
+                        
                     <td style="border-top: 1px solid #fff;"><strong>Date Recievied:</strong></td>
-                        <td style="border-top: 1px solid #fff;">  {{   Carbon\Carbon::parse($completed_report->departmentById(2)->pivot->received_at)->format('jS \\ F Y')}}                                        
-                        </td>
+                        <td style="border-top: 1px solid #fff;"> {!! $completed_report->pharm_date_received !!}</td>
                     </tr>
                     <tr>
                         <td style="border-top: 1px solid #fff;"><strong>Date of Report:</strong></td> 
-                        <td style="border-top: 1px solid #fff;">{{$completed_report->pharm_dateanalysed}} </td>
+                        <td style="border-top: 1px solid #fff;">{!! $completed_report->pharm_analysed_date !!} </td>
                     </tr>
                     <tr>
                         <td style="border-top: 1px solid #fff;"><strong>Test Conducted</strong></td>
@@ -207,7 +207,7 @@
             <h4 class="font" style="font-size:15px;"><strong> REFERENCE: </strong></h4>
         </div>
         <div class="col-sm-9">
-            <p> 1- Canadian Centre for Occupational Health and Safety (2019)</p>
+            <p> {{$completed_report->pharm_reference}}</p>
 
         </div>
     </div>

@@ -21,9 +21,9 @@
             <td class="font2">{{$product->code}}</td>
             <td class="font2">{{$product->productType->name}}</td>
             <td class="font2">
-              {{   Carbon\Carbon::parse($product->departmentById(1)->pivot->received_at)->format('jS\\, F Y')}}                                        
+              {!! $product->micro_date_received !!}                                       
             </td>
-            <td class="font2">{{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS\\, F Y')}}</td>
+            <td class="font2">{!! $product->micro_analysed_date !!}</td>
             </tr>
 
             </table>
@@ -60,15 +60,17 @@
                   <tr>
                     <td style="font-style: italic;" class="font" >
                         <?php
-                         if ($i<2) {
-                        $test_conducted= explode(' ',$show_microbial_loadanalyses[$i]->test_conducted);
+                        //  if ($i<2) {
+                        // $test_conducted= explode(' ',$show_microbial_loadanalyses[$i]->test_conducted);
                 
-                        echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                         }else {
-                            $test_conducted =  $show_microbial_loadanalyses[$i]->test_conducted;
-                            print_r($test_conducted); 
-                         }   
+                        // echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
+                        //  }else {
+                        //     $test_conducted =  $show_microbial_loadanalyses[$i]->test_conducted;
+                        //     print_r($test_conducted); 
+                        //  }   
                        ?>
+                             <p>{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</p>
+
                            <input type="hidden" id="rstotal_{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 
                     </td>
@@ -123,20 +125,8 @@
                  
                    @if ($i<1)
                   <p style="font-style: italic;margin:5px; font-size:12.5px;"> 
-                    <?php
-                    if ($i<2) {
-                 $definition= explode(' ',$show_microbial_loadanalyses[0]->definition);
-                
-                    echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
-                    
-                
-                    $definition= explode(' ',$show_microbial_loadanalyses[1]->definition);
-                
-                        echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);echo ' ';  print_r($definition[7]);
-                        }
-                    ?>
-                
-                    </p>
+                      {!! $show_microbial_loadanalyses[0]->definition !!}  {!! $show_microbial_loadanalyses[1]->definition !!}
+                  </p>
                 @endif
                 @endfor
                   </td>

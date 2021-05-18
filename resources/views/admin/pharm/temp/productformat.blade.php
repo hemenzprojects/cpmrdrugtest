@@ -12,7 +12,7 @@
                 <tr>
                 <td class="font"><strong>Date Recievied:</strong></td>
                     <td class="font">
-                        {{ Carbon\Carbon::parse($product->departmentById(2)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                        {!! $product->pharm_date_received !!}                                       
                     </td>
                 </tr>
                 <tr>                                    
@@ -20,9 +20,8 @@
                     <td class="font"><strong>Date of Report:</strong></td> 
                     <td class="font">
                         <div>
-                            {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('jS \\ F Y')}} 
+                            {!! $product->pharm_analysed_date !!}
                         <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="{{$product->pharm_dateanalysed}}" placeholder=" {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
-
                         </div>
                      {{-- <input class="form-control" required type="date" name="date_analysed" data-date-format="DD-MM-YYYY"  style="width:250px"> --}}
                     </td>

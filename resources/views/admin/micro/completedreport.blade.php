@@ -43,11 +43,11 @@ $product = \App\Product::find($report_id);
                                     <td class="font">  {{$completedproduct->productType->name}}</td>
                                     <input type="hidden" name="micro_product_id" value="{{$completedproduct->id}}">
                                      <td class="font"> 
-                                       {{   Carbon\Carbon::parse($product->departmentById(1)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                                        {!! $completedproduct->micro_date_received !!}                                       
                                         
                                     </td>
 
-                                    <td class="font"> {{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS \\, F Y')}}</td>
+                                    <td class="font"> {!! $completedproduct->micro_analysed_date !!}</td>
                                     
                                 </tr>
                                {{-- {{ $dept->pivot}} --}}
@@ -88,18 +88,8 @@ $product = \App\Product::find($report_id);
                             @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
                             <tr>
                                 <td class="font">
-                                    <?php
-                                     if ($i<2) {
-                                    $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
-
-                                    echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                                     }else {
-                                        $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
-                                        print_r($test_conducted); 
-                                     }   
-                                   ?>
-                                    
-                                    {{-- {{$microbial_loadanalyses[$i]->test_conducted}} --}}
+                              
+                               <p>{!! $microbial_loadanalyses[$i]->test_conducted !!}</p>
                                     <input type="hidden" class="form-control" name="loadanalyses" placeholder="Result" value="{{$microbial_loadanalyses[$i]->test_conducted}}">
                                 </td>
                                 <td class="font">
@@ -154,19 +144,7 @@ $product = \App\Product::find($report_id);
  
                             @if ($i<1)
                             <p style="font-style: italic; margin:5px"> 
-                                <?php
-                                if ($i<2) {
-                            $definition= explode(' ',$microbial_loadanalyses[0]->definition);
-
-                                echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
-                                
-
-                                $definition= explode(' ',$microbial_loadanalyses[1]->definition);
-
-                                    echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]);
-                                    }
-                                ?>
-
+                                {!! $microbial_loadanalyses[0]->definition !!}  {!! $microbial_loadanalyses[1]->definition !!}
                             </p>
                             @endif
                          @endfor

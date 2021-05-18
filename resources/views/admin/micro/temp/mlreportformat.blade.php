@@ -6,7 +6,7 @@
 <h5> Microbial Load Analysis </h5>
 @endif
 <div class="table-responsive ">
-    <table class="table table-striped table-bordered nowrap dataTable">
+    <table class="table table-striped table-bordered nowrap ">
         <thead>
             <tr  class="table-info">
                 
@@ -30,19 +30,27 @@
           <tr>
             <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
     
-            <td class="font" style="font-style: italic; margin:5px">
-                <?php
-                if ($i<2) {
-               $test_conducted= explode(' ',$show_microbial_loadanalyses[$i]->test_conducted);
-
-               echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                }else {
-                   $test_conducted =  $show_microbial_loadanalyses[$i]->test_conducted;
-                   print_r($test_conducted); 
-                }   
-              ?>
-                <input type="hidden" class="form-control" name="test_conducted[]"  value="{{$show_microbial_loadanalyses[$i]->test_conducted}}">     
-            </td> 
+            <td class="font" style="font-style: italic; margin:5px; width:30%">
+              @if ($i<2)
+             <p>{!! $show_microbial_loadanalyses[$i]->test_conducted !!}
+                  
+             <button type="button"  id="summernoteshow{{$i}}">
+                 <i class="ik ik-edit-2"></i> 
+             </button>
+            </p> 
+             @endif
+             @if ($i ==0 )
+             <span style="display: none" class="summernoteshow1">
+                 <textarea style="width: 10%" name="test_conducted[]" id="summernote" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+             </span>
+             @endif
+             @if ($i ==1)
+             <span style="display: none" class="summernoteshow2">
+                 <textarea name="test_conducted[]" id="summernote0" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+             </span>                                                    @endif
+             @if ($i>1)
+             <input type="text" required class="form-control" name="test_conducted[]" placeholder="Result" value="{!! $show_microbial_loadanalyses[$i]->test_conducted !!}">
+             @endif 
             <td class="font">
               
              

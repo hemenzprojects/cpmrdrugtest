@@ -72,6 +72,16 @@ function disableclick(event)
    }
 }
 </script> --}}
+<script>
+
+  $('#summernoteshow0').on('click',function(){
+   $(".summernoteshow1").toggle(); 
+ })
+ $('#summernoteshow1').on('click',function(){
+   $(".summernoteshow2").toggle(); 
+
+ })
+</script>
 
 <script>
   $('#submitreport').change(function(){

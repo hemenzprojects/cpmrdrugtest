@@ -63,9 +63,13 @@
                              <span><strong>approval:</strong> 
                                 {!! $approval->final_hod_pharm_evaluation !!}
                             </span><br>
-                            <span><strong>Approved By:</strong> 
-                                {{ucfirst(\App\Admin::find($approval->pharm_appoved_by)? \App\Admin::find($approval->pharm_appoved_by)->full_name:'Null')}}
+                            <span><strong>Approval 1:</strong> 
+                                {{ucfirst(\App\Admin::find($approval->pharm_approved_by)? \App\Admin::find($approval->pharm_approved_by)->full_name:'Null')}}
                              </span><br>
+                             <span><strong>Approval 2:</strong> 
+                                {{ucfirst(\App\Admin::find($approval->pharm_finalapproved_by)? \App\Admin::find($approval->pharm_finalapproved_by)->full_name:'Null')}}
+                             </span>
+                             <br>
                              <span style="font-size:10px" style="margin-top:10px">
                                 <strong>Date sent</strong>   {{($approval->pharm_dateapproved ? (\Carbon\Carbon::parse($approval->pharm_dateapproved)->format(' F j,  Y')):'Null')}}
                              </span> 

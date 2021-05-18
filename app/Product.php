@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\ProductDept;
 use App\ProductType;
+use Carbon\Carbon;
+
+
 
 class Product extends Model
 {
@@ -538,5 +541,42 @@ class Product extends Model
         }
 
     }
-  
+
+    public function getMicroDateReceivedAttribute (){
+
+        $item1 =   Carbon::parse($this->departmentById(1)->pivot->received_at)->format('j');
+        $item2 =     Carbon::parse($this->departmentById(1)->pivot->received_at)->format('S');
+        $item3 =      Carbon::parse($this->departmentById(1)->pivot->received_at)->format('\\ F Y');
+    
+            return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+        }
+    public function getMicroAnalysedDateAttribute (){
+
+    $item1 =   Carbon::parse($this->micro_dateanalysed)->format('j');
+    $item2 =     Carbon::parse($this->micro_dateanalysed)->format('S');
+    $item3 =      Carbon::parse($this->micro_dateanalysed)->format('\\ F Y');
+
+        return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+    }
+ 
+
+    public function getPharmDateReceivedAttribute (){
+
+    $item1 =   Carbon::parse($this->departmentById(2)->pivot->received_at)->format('j');
+    $item2 =     Carbon::parse($this->departmentById(2)->pivot->received_at)->format('S');
+    $item3 =      Carbon::parse($this->departmentById(2)->pivot->received_at)->format('\\ F Y');
+
+        return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+    }
+    public function getPharmAnalysedDateAttribute (){
+
+    $item1 =   Carbon::parse($this->pharm_dateanalysed)->format('j');
+    $item2 =     Carbon::parse($this->pharm_dateanalysed)->format('S');
+    $item3 =      Carbon::parse($this->pharm_dateanalysed)->format('\\ F Y');
+
+      return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+    }
+
+
+
 }  

@@ -222,8 +222,20 @@ class MicroController extends Controller
            //********************* Micro Report Processes ****************** */
 
               public function report_create(){
-                
-               
+
+           
+            //    $mlr = MicrobialLoadReport::where('load_analyses_id',1);
+            //    $mlr->update([
+            //     'test_conducted'=> '1 TAMC/ 37 <sup>0</sup>C /24hrs/PCA',
+            //     'definition'=> '<sup>1</sup> TAMC = Total Aerobic Microbial Count',
+            //   ]);
+
+            //   $mlr = MicrobialLoadReport::where('load_analyses_id',2);
+            //   $mlr->update([
+            //    'test_conducted'=> '2 TYMC/ 25 <sup>0</sup>C /5Days/MEA',
+            //    'definition'=> '<sup>2</sup> TYMC = Total Yeast and Molds Counts',
+            //  ]);
+
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(15)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -290,7 +302,6 @@ class MicroController extends Controller
               }
 
               public function test_create(MicroTestCreateRequest $r){
-
 
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');

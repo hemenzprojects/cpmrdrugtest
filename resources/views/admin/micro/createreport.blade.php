@@ -549,21 +549,30 @@ $product = \App\Product::where('id',7)->first();
                                                             <span class="custom-control-label">&nbsp;</span>
                                                         </label> 
                                                     </td>
-                                                    <td class="font" style="font-style: italic; margin:5px">
-                                                    <span style="font-size: 10px">  
-                                                          <?php
-                                                        if ($i<2) {
-                                                       $test_conducted= explode(' ',$MicrobialLoadAnalysis[$i]->test_conducted);
-                                        
-                                                       echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-                                                        }
-                                                        // else {
-                                                        //    $test_conducted =  $MicrobialLoadAnalysis[$i]->test_conducted;
-                                                        //    print_r($test_conducted); 
-                                                        // }   
-                                                      ?></span>
-                                                      <input type="text" required class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{{$MicrobialLoadAnalysis[$i]->test_conducted}}">
-                                                    </td>
+                                                    <td class="font" style="font-style: italic; margin:5px; width:30%">
+                                                     @if ($i<2)
+                                                    <p>{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}
+                                                         
+                                                    <button type="button"  id="summernoteshow{{$i}}">
+                                                        <i class="ik ik-edit-2"></i> 
+                                                    </button>
+                                                   </p> 
+                                                    @endif
+                                                    @if ($i ==0 )
+                                                    <span style="display: none" class="summernoteshow1">
+                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="summernote" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
+                                                    </span>
+                                                    @endif
+                                                    @if ($i ==1)
+                                                    <span style="display: none" class="summernoteshow2">
+                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="summernote0" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
+                                                    </span>                                                    @endif
+                                                    @if ($i>1)
+                                                    <input type="text" required class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}">
+                                                    @endif
+
+                                                </td>
+
                                                     <td class="font">
                                                     <input type="text" id="inputmask_{{$i}}" class="form-control {{$i<2?'date-inputmask':''}}"  name="result_{{$MicrobialLoadAnalysis[$i]->id}}"  placeholder="{{$i>1?'Result':''}}" value="{{$MicrobialLoadAnalysis[$i]->result}}">
 

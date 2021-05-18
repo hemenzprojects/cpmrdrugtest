@@ -51,9 +51,13 @@
                              <span><strong>Evaluation:</strong> 
                                 {!! $evaluation->hod_pharm_evaluation !!}
                             </span><br>
-                            <span><strong>Approved By:</strong> 
-                                {{ucfirst(\App\Admin::find($evaluation->pharm_appoved_by)? \App\Admin::find($evaluation->pharm_appoved_by)->full_name:'Null')}}
+                            <span><strong>Approval 1:</strong> 
+                                {{ucfirst(\App\Admin::find($evaluation->pharm_approved_by)? \App\Admin::find($evaluation->pharm_approved_by)->full_name:'Null')}}
                              </span><br>
+                             <span><strong>Approval 2:</strong> 
+                                {{ucfirst(\App\Admin::find($evaluation->pharm_finalapproved_by)? \App\Admin::find($evaluation->pharm_finalapproved_by)->full_name:'Null')}}
+                             </span>
+                             <br>
                              <span style="font-size:10px" style="margin-top:10px">
                                 <strong>Date sent</strong>   {{($evaluation->pharm_datecompleted ? \Carbon\Carbon::parse($evaluation->pharm_datecompleted)->format(' F j,  Y') :'Null')}}
                              </span>

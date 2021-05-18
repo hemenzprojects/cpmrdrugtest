@@ -21,9 +21,9 @@ td, th {
   padding: 5px;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color:#dddddd6b;
-}
+} */
 .center {
   display: block;
   margin-left: auto;
@@ -84,7 +84,7 @@ tr:nth-child(even) {
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:58%;border: 0px solid #d3d3d3;"></td>
         <td style="width:50%; border: 0px solid #d3d3d3;" >
-            <img src="{{asset('admin/img/logo.jpg')}}" width="20%">
+            <img src="{{asset('admin/img/logo.jpg')}}" width="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'23%':'30%'}}">
         </td>
         <td style="width:20%; border: 0px solid #d3d3d3;"> <span style="font-size:9px" >SN - {{$product->micro_serial_number}}</span></td>
 
@@ -132,8 +132,8 @@ tr:nth-child(even) {
   <tr>
     <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{$product->code}}</td>
     <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{$product->productType->name}}</td>
-    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}"> {{ Carbon\Carbon::parse($product->departmentById(1)->pivot->received_at)->format('jS\\, F Y')}}     </td>
-    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS\\, F Y')}}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{!! $product->micro_date_received !!}</td>
+    <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">{!! $product->micro_analysed_date !!}</td>
 
   </tr>
  
@@ -167,15 +167,18 @@ tr:nth-child(even) {
       <tr>
         <td style="font-style: italic; " class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" >
             <?php
-            if ($i<2) {
-            $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
+            // if ($i<2) {
+            // $test_conducted= explode(' ',$microbial_loadanalyses[$i]->test_conducted);
 
-            echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
-            }else {
-                $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
-                print_r($test_conducted); 
-            }   
+            // echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
+            // }else {
+            //     $test_conducted =  $microbial_loadanalyses[$i]->test_conducted;
+            //     print_r($test_conducted); 
+            // }  
+             
           ?>
+           <span> {!! $microbial_loadanalyses[$i]->test_conducted !!}</span>
+
               <input type="hidden" id="rstotal{{$i}}" value="{{$microbial_loadanalyses[$i]->rs_total}}">
 
         </td>
@@ -255,18 +258,7 @@ tr:nth-child(even) {
     
     @if ($i<1)
     <span > 
-        <?php
-        if ($i<2) {
-    $definition= explode(' ',$microbial_loadanalyses[0]->definition);
-
-        echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
-        
-
-        $definition= explode(' ',$microbial_loadanalyses[1]->definition);
-
-            echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ' ';  print_r($definition[7]);
-            }
-        ?>
+      {!! $microbial_loadanalyses[0]->definition !!}  {!! $microbial_loadanalyses[1]->definition !!}
 
       </span>
 @endif
@@ -364,7 +356,7 @@ tr:nth-child(even) {
         @endif
         -----------------------------<br>
       
-        <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span>
+        <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span><br>
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
     </td>
     <td class="font" style="width: 50%;border: #fff"> </td>

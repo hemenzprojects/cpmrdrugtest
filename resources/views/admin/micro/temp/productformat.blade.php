@@ -18,14 +18,10 @@ $product = \App\Product::find($report_id);
                   <td class="font"> {{$product->code}}</td>
                   <td class="font"> {{$product->productType->name}}</td>
                   <td class="font">  
-                                                 
-                    {{ Carbon\Carbon::parse($product->departmentById(1)->pivot->received_at)->format('jS\\, F Y')}}                                        
-                                       
+                    {!! $product->micro_date_received !!}                                       
                   </td>
                   <td class="font">
-                      
-                      <span> {{ Carbon\Carbon::parse($product->micro_dateanalysed)->format('jS\\, F Y')}} 
-                         {{-- 'jS \\, F Y' --}}
+                      <span> {!! $product->micro_analysed_date !!}
                     </span>
                     <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="{{$product->micro_dateanalysed}}">
                     

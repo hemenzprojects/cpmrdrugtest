@@ -23,8 +23,8 @@
                   <tr>
                     <td class="font">{{$product->code}}</td>
                     <td class="font">{{$product->productType->name}}</td>
-                    <td class="font">{{ Carbon\Carbon::parse($product->departmentById(2)->pivot->received_at)->format('jS\\, F Y') }}</td>
-                    <td class="font">{{ Carbon\Carbon::parse($product->pharm_dateanalysed)->format('jS\\, F Y')}}</td>
+                    <td class="font">{!! $product->pharm_date_received !!}</td>
+                    <td class="font">{!! $product->pharm_analysed_date !!}</td>
                     <td class="font">{{\App\PharmTestConducted::find($product->pharm_testconducted)->name}}</td>
                   </tr>
                  

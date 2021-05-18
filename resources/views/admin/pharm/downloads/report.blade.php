@@ -19,10 +19,10 @@ td, th {
   width: 50%;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color: #dddddd1c;
   
-}
+} */
 .center {
   display: block;
   margin-left: auto;
@@ -106,8 +106,8 @@ tr:nth-child(even) {
   <tr>
     <td class="font">{{$completed_report->code}}</td>
     <td class="font">{{$completed_report->productType->name}}</td>
-    <td class="font">{{ Carbon\Carbon::parse($completed_report->departmentById(2)->pivot->received_at)->format('jS\\, F Y') }}</td>
-    <td class="font">{{ Carbon\Carbon::parse($completed_report->pharm_dateanalysed)->format('jS\\, F Y')}}</td>
+    <td class="font">{!! $completed_report->pharm_date_received !!}</td>
+    <td class="font">{!! $completed_report->pharm_analysed_date !!}</td>
     <td class="font">{{\App\PharmTestConducted::find($completed_report->pharm_testconducted)->name}}</td>
   </tr>
  
