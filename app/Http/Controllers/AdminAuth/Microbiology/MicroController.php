@@ -224,17 +224,17 @@ class MicroController extends Controller
               public function report_create(){
 
            
-            //    $mlr = MicrobialLoadReport::where('load_analyses_id',1);
-            //    $mlr->update([
-            //     'test_conducted'=> '1 TAMC/ 37 <sup>0</sup>C /24hrs/PCA',
-            //     'definition'=> '<sup>1</sup> TAMC = Total Aerobic Microbial Count',
-            //   ]);
+               $mlr = MicrobialLoadReport::where('load_analyses_id',1);
+               $mlr->update([
+                'test_conducted'=> '1 TAMC/ 37 <sup>0</sup>C /24hrs/PCA',
+                'definition'=> '<sup>1</sup> TAMC = Total Aerobic Microbial Count',
+              ]);
 
-            //   $mlr = MicrobialLoadReport::where('load_analyses_id',2);
-            //   $mlr->update([
-            //    'test_conducted'=> '2 TYMC/ 25 <sup>0</sup>C /5Days/MEA',
-            //    'definition'=> '<sup>2</sup> TYMC = Total Yeast and Molds Counts',
-            //  ]);
+              $mlr = MicrobialLoadReport::where('load_analyses_id',2);
+              $mlr->update([
+               'test_conducted'=> '2 TYMC/ 25 <sup>0</sup>C /5Days/MEA',
+               'definition'=> '<sup>2</sup> TYMC = Total Yeast and Molds Counts',
+             ]);
 
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(15)) {
                 Session::flash('messagetitle', 'warning');
