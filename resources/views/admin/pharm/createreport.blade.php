@@ -30,7 +30,7 @@
         </textarea>
         @endif
         @if ( $product->pharm_acute_comment === Null)
-        <textarea id="summernote1" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" >The LD <sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}}), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Sterner Scale) at the recommended dose.
+        <textarea id="summernote1" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" >The LD <sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}} equivalent to 5.0 mg/kg ), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Sterner Scale) at the recommended dose.
         </textarea> 
         @endif
         </div> 
