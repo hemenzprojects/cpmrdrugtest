@@ -54,11 +54,12 @@
                             </span><br>
                                <span> <strong>Animal Exp :</strong> 
                                 @foreach ($approval->animalExperiment->groupBy('id')->first() as $item)
-                                {{\App\Admin::find($item->added_by_id)->full_name}}
+                                {{ucfirst(\App\Admin::find($item->added_by_id)? \App\Admin::find($item->added_by_id)->full_name:'Null')}}
                                 @endforeach
                              </span><br>
                              <span> <strong>Report Analyst:</strong>
-                                {{\App\Admin::find($approval->pharm_analysed_by)->full_name}}
+                                {{ucfirst(\App\Admin::find($approval->pharm_analysed_by)? \App\Admin::find($approval->pharm_analysed_by)->full_name:'Null')}}
+
                              </span><br>
                              <span><strong>approval:</strong> 
                                 {!! $approval->final_hod_pharm_evaluation !!}
