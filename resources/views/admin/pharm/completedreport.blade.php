@@ -200,7 +200,7 @@
             </div>
         </div>
         
-         
+       @if ($completed_report->pharm_testconducted == 1)
        <div class="" style="margin-top: 5%;"></div>
        <div class="row" style="margin:0.1px">
         <div class="col-sm-2">
@@ -211,6 +211,8 @@
 
         </div>
     </div>
+       @endif  
+ 
    </div>
 </div>
 

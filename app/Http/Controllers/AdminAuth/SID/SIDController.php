@@ -204,16 +204,6 @@ class SIDController extends Controller
         $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
              return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
          })->get();
-         
-        //  $p = Product::whereHas("departments", function ($q) use ($data) {
-        //     return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        // })->pluck('id')->toArray();
-  
-        // Product::where('single_multiple_lab',1)->update(['actual_price' => 255]);
-        // Product::where('single_multiple_lab',2)->update(['actual_price' => 510]);
-        // Product::where('single_multiple_lab',Null)->update(['actual_price' => 464]);
-      
-        // $data['all_products'] = Product::where('single_multiple_lab',1)->get();
       
 
        

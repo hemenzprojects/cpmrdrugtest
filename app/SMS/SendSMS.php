@@ -3,7 +3,6 @@
 namespace App\SMS;
     class SendSMS{
 
-         
 
           public static function sendMessage($message,$phoneNumber){
             $senderName='CPMR SID';
@@ -35,13 +34,12 @@ namespace App\SMS;
                return null;
             }else{
               $resp = json_decode($server_output);
-              return $resp;
+              return $resp;  
             }
              
 }
         
-
-
+      // public static function sendCustomerMessage()
 
        public static function status($result){
                   switch($result){

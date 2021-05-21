@@ -141,14 +141,17 @@ td, th {
 
 @if (($microbial_loadanalyses) && count($microbial_loadanalyses)>0)
 <div>
+  <table style="margin: margin-top:4px">
+    <tr>
+      @if (count($microbial_efficacyanalyses) > 0)
+      <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: 0px solid #d3d3d3;">A) Microbial Load Analysis</th>
+      @else
+      <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: 0px solid #d3d3d3;"> Microbial Load Analysis</th>
+      @endif
+  </tr>
+  </table>
     <table>
-        <tr>
-            @if (count($microbial_efficacyanalyses) > 0)
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: #fff">A) Microbial Load Analysis</th>
-            @else
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}" style="border: #fff"> Microbial Load Analysis</th>
-            @endif
-        </tr>
+      
         <tr>
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Test Conducted</th>
             @if ($product->productType->state ==2)
@@ -296,9 +299,9 @@ td, th {
 
     <tr>
       @if (count($microbial_loadanalyses) > 0 )
-      <th class="font" style="border: #fff">B) Microbial Efficacy Analysis</th>
+      <th class="font" style="border: 0px solid #d3d3d3;">B) Microbial Efficacy Analysis</th>
       @else
-      <th class="font" style="border: #fff">  Microbial Efficacy Analysis</th>
+      <th class="font" style="border: 0px solid #d3d3d3;">  Microbial Efficacy Analysis</th>
       @endif
     </tr>
 
@@ -352,7 +355,7 @@ td, th {
       ?>
         <span>Analyzed By</span><br>
         @if ($product->micro_hod_evaluation >1)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="15%"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="17%"><br>
         @endif
         -----------------------------<br>
       

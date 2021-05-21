@@ -48,6 +48,6 @@
             <p style="font-size: 13px; text-align: justify ">
                 {{$product->pharm_reference}}
             </p>  
-            <input type="hidden" name="pharm_reference" value="1. Canadian Centre for Occupation Health and Safety (2019)">     
+            <input type="hidden" name="pharm_reference" value="1- Canadian Centre for Occupation Health and Safety (2019)">     
         </div> 
         @endif
