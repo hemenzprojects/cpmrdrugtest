@@ -5,14 +5,14 @@
       <div class="col-md-3">
         <strong><span>General Conclusion</span></strong><br><br>
     <div class="form-check">
-    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault1"  {{$product->micro_ea_conclusion == 1 ? "checked":""}}  value="1">
-    <label class="form-check-label" for="flexRadioDefault1">
+    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault_1"  {{$product->micro_ea_conclusion == 1 ? "checked":""}}  value="1">
+    <label class="form-check-label" for="flexRadioDefault_1">
       Meet required specification 
     </label>
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault2"  {{$product->micro_ea_conclusion == 2 ? "checked":""}}  value="2">
-    <label class="form-check-label" for="flexRadioDefault2">
+    <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault_2"  {{$product->micro_ea_conclusion == 2 ? "checked":""}}  value="2">
+    <label class="form-check-label" for="flexRadioDefault_2">
       Did not meet required specification
     </label>
   </div>
@@ -28,8 +28,8 @@
         <div class="form-group 432">
         <select  name="micro_ea_comment_option" class="form-control" id="micro_ea_comment_option">
           <option value="{{$product->micro_ea_comment}}">{{$product->micro_ea_comment == Null ?'Please select option':$product->micro_ea_comment}}</option>
-          <option value="The product did not show antimicrobial activity">The product did not show antimicrobial activity</option>
-          <option value="The product showed antimicrobial activity">The product showed antimicrobial activity</option>
+          <option tag2="1" value="The product did not show antimicrobial activity">The product did not show antimicrobial activity</option>
+          <option tag2="2" value="The product showed antimicrobial activity">The product showed antimicrobial activity</option>
       </select>
      </div>
       <div class="form-group 432" style="display: none">

@@ -97,7 +97,9 @@
                         
                             <ul class="list-group" id="myList1">
                                 <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Select product / check to archive</a><hr>
-                                    @foreach (App\Product::where('overall_status',2)->get() as $product)
+                                   
+                                @foreach (App\Product::where('overall_status',2)->get() as $product)
+                                   
                                     <label class="custom-control custom-checkbox" style="margin-bottom: -12%;     margin-left: -6%;">
                                         <input type="checkbox" class="custom-control-input" id="item_checkbox" name="item_checkbox" value="option1">
                                         <span class="custom-control-label">&nbsp;</span>
@@ -109,7 +111,7 @@
                                     </a>
                                     
                                     <hr>
-                                   </li>
+                                   </li> 
                                
                                     @endforeach
                         

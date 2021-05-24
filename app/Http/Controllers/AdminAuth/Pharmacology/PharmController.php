@@ -656,7 +656,7 @@ class PharmController extends Controller
 
               $data['completed_reports'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
-                })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(100)->get();
+                })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(99)->get();
 
               
               return View('admin.pharm.animalexperiment.maketest',$data); 

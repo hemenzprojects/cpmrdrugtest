@@ -239,7 +239,10 @@
               <div class="card-header" style="border-color: #26c281;" >
                   @foreach($completed_reports->groupBy('product_id') as $completed)
                   <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">
-                     {{count($completed)}} 
+                     {{count($completed)}}
+                      @if (count($completed) == 99)
+                         +
+                     @endif
                   </label>
                   @endforeach
                   <h3>Completed</h3>

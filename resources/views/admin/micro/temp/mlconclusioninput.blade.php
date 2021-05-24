@@ -28,10 +28,10 @@
      </div>
         <div class="col-md-6">
           <div class="form-group 321">
-          <select required  name="micro_la_comment_option" class="form-control" id="micro_la_conclution_option">
+          <select required  name="micro_la_comment_option" class="form-control micro_la_comment" id="micro_la_conclution_option" >
             <option value="{{$product->micro_la_comment}}">{{$product->micro_la_comment == Null ?'Please select option':$product->micro_la_comment}}</option>
-            <option value="The sample meets the microbial load requirements as per BP specifications">The sample meets the microbial load requirements as per BP specifications</option>
-            <option value="The sample does not meet the microbial load requirements as per BP specifications">The sample does not meet the microbial load requirements as per BP specifications</option>
+            <option tag="1" value="The sample meets the microbial load requirements as per BP specifications">The sample meets the microbial load requirements as per BP specifications</option>
+            <option tag="2" value="The sample does not meet the microbial load requirements as per BP specifications">The sample does not meet the microbial load requirements as per BP specifications</option>
         </select>
        </div>
         <div class="form-group 321" style="display: none">

@@ -501,6 +501,7 @@ class SIDController extends Controller
         $data['from_date'] = Null;
         $data['to_date'] = Null;
         $data['products'] = Product::orderBy('id', 'DESC')->where('product_type_id',$id)->get();
+        $data['price_list'] = ProductPriceList::where('action',1)->first();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
         return View('admin.sid.products.create', $data);
