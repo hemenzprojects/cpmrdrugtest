@@ -526,25 +526,6 @@ class SIDController extends Controller
 
      }
 
-     public function deliverysheet_pdf(Request $r){
-        $product_id = $r->product_id;
-    if ($product_id == Null) {
-        Session::flash('message_title', 'error');
-        Session::flash('message', 'Sorry! Delivery sheet has no produ
-        ct(s)');
-        return redirect()->route('admin.sid.product.create');
-    }
-      $data['products'] = Product::whereIn('id',$r->product_id)->orderBy('id', 'DESC')->get();
-
-     $pdf = \PDF::loadView('admin.sid.downloads.deliverysheet',$data);
-
-     $pdf->save(storage_path().'_filename.pdf');
-
-     return $pdf->download('deliverysheet.pdf');
-
-     // return view('admin.micro.downloads.report',$data)
-
-     }
 
 
     //*********************************************Product Category*****************************************************/
@@ -1303,7 +1284,6 @@ class SIDController extends Controller
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
-
         } 
  
         $data['depts'] = \App\Department::all();
@@ -1580,5 +1560,54 @@ class SIDController extends Controller
   
          return redirect()->back();
       }
+
+
+      //*************************************************************** All Downloads ********************************************************* */
+
+      
+     public function deliverysheet_pdf(Request $r){
+        $product_id = $r->product_id;
+    if ($product_id == Null) {
+        Session::flash('message_title', 'error');
+        Session::flash('message', 'Sorry! Delivery sheet has no product(s)');
+        return redirect()->route('admin.sid.product.create');
+    }
+      $data['products'] = Product::whereIn('id',$r->product_id)->orderBy('id', 'DESC')->get();
+
+     $pdf = \PDF::loadView('admin.sid.downloads.deliverysheet',$data);
+
+     $pdf->save(storage_path().'_filename.pdf');
+
+     return $pdf->download('deliverysheet.pdf');
+
+     // return view('admin.micro.downloads.report',$data)
+
+     }
+
+     public function reportindex_pdf($from_date, $to_date){
+
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+
+        
+        $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($from_date,$to_date){
+            $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+            return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+             });
+         },
+        'completed'=>function($query) use ($from_date,$to_date){
+            $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                        return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                    });
+         }])->get();
+         
+
+        $pdf = \PDF::loadView('admin.sid.downloads.reportindexsheet',$data);
+
+        $pdf->save(storage_path().'_filename.pdf');
+   
+        return $pdf->download('generalreport.pdf');
+
+    }
 
 }

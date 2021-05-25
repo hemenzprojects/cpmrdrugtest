@@ -115,6 +115,7 @@ Route::get('/sendtest', function () {
    Route::get('sid/microreport/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.sid.microreport.pdf');
    Route::get('sid/pharmreport/pdf/{id}','AdminAuth\Pharmacology\PharmController@pharmreport_pdf')->name('admin.sid.pharmreport.pdf');
    Route::get('sid/phytoreport/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.sid.phytoreport.pdf');
+   Route::get('sid/reportindex/pdf/{from_date}/{to_date}','AdminAuth\SID\SIDController@reportindex_pdf')->name('admin.sid.reportindex.pdf');
 
   });
 
