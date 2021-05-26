@@ -22,10 +22,20 @@ class ProductType extends Model
         return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->whereHas('departments');
 
     }
+    public function singlelabpending()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->where('single_multiple_lab',1)->whereHas('departments');
+
+    }
 
     public function completed()
     {
         return $this->hasMany('App\Product', 'product_type_id')->where('overall_status',2);
+
+    }
+    public function singlelabcompleted()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status',2)->where('single_multiple_lab',1);
 
     }
 

@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="page-header">
         <div class="row align-items-end">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                     <div class="page-header-title" style="margin-bottom: 10px">
                         <div class="d-inline">
                             <h5>REPORT STATISTICS</h5>
@@ -21,26 +21,35 @@
                         </div>
                    {{ Form::close() }}  --}}
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-9">
                 <form action="{{route('admin.sid.general_report.between_months')}}" method="POST">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <span style="margin: 5px">From</span>  <input type="date" name="from_date" class="form-control" value="2020-01-10">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <span style="margin: 5px">To</span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
                         </div>
-                        <div class="col-md-4">
-                          
+                        <div class="col-md-2">
+                            <span style="margin: 5px">Lab</span>  
+                            <div class="form-group">
+                                <select name="single_multiple_lab" class="form-control">
+                                    <option value="1">Single Lab</option>
+                                    <option value="2">Multiple Lab</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
                             <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
+
                         </div>
                     </div>
                     
                 </form>
                
             </div>
-            <div class="col-lg-2">
+            {{-- <div class="col-lg-2">
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -50,7 +59,7 @@
                         <li class="breadcrumb-item active" aria-current="page"></li>
                     </ol>
                 </nav>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="text-center" style="padding: 10px"> 

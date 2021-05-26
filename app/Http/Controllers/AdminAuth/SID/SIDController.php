@@ -504,6 +504,7 @@ class SIDController extends Controller
         $data['price_list'] = ProductPriceList::where('action',1)->first();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
+
         return View('admin.sid.products.create', $data);
 
     }
@@ -518,6 +519,7 @@ class SIDController extends Controller
 
         $data['from_date'] = $r->from_date;
         $data['to_date'] = $r->to_date;
+        $data['price_list'] = ProductPriceList::where('action',1)->first();
 
         $data['products'] = Product::orderBy('id', 'DESC')->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->doesnthave('departments')->get();
         $data['product_types'] = ProductType::all();
@@ -1076,22 +1078,19 @@ class SIDController extends Controller
                     });
          }])->get();
 
-                // return $data;
-                // die();
-
-
-
-        // $data['pending_reports'] = Product::pendingReports($r->from_date, $r->to_date);
-        // // return Product::whereHas("departments", function($q)use($r){
-        // //     return $q->with("departments")->where("status", '>=', 2)->where('product_depts.created_at', '>=', $r->from_date)->where('product_depts.created_at','<=',$r->to_date);
-        // //   })->where('micro_hod_evaluation','<',2)->orWhere("pharm_hod_evaluation",'<',2)->orWhere('phyto_hod_evaluation','<',2)->get();
-
-        // $data['completed_reports'] = Product::where('micro_hod_evaluation', 2)->where("pharm_hod_evaluation", 2)->where('phyto_hod_evaluation', 2)
-        //     ->whereHas("departments", function ($q) use ($r) {
-        //         return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
-        //     })->get();
-
-
+         if ($single_multiple_lab = 1) {
+             
+            $data['product_types'] = \App\ProductType::with(['singlelabpending'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                 });
+             },
+            'singlelabcompleted'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                        });
+             }])->get();
+         }
         return view('admin.sid.generalreport.index', $data);
     }
 
