@@ -1027,7 +1027,6 @@ class SIDController extends Controller
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
-
         } 
 
         $data = $r->all();
@@ -1073,6 +1072,12 @@ class SIDController extends Controller
         //  $data['to_date'] =$r->from_date;
 
         $data = $r->all();
+        $data['year'] = \Carbon\Carbon::now('y');
+        $data['products'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['multiple_labs'] = \App\Product::where('single_multiple_lab',2)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+
 
         if ($r->single_multiple_lab >0) {
             $data['single_multiple_lab'] = $r->single_multiple_lab;
