@@ -89,23 +89,84 @@
             <th>Number of Product Analysed</th>
         </tr>
 
-       <tbody>
-        @php $i=0; @endphp
-        @foreach ($product_types as $product_type)                                    
-         <tr>
-         <td class="font">{{$i}} </td>
-         <td class="font"> {{$product_type->name}} </td>
-         <td class="font"> 
-            {{count($product_type['pending'])}}
-         </td>
-         <td class="font"> 
-            {{count($product_type['completed'])}}
-         </td>
-         </tr>
-        @php
-           $i++; 
-        @endphp
-        @endforeach
+        <tbody>
+          @if ($single_multiple_lab == Null)
+          @php $i=0; @endphp
+          @foreach ($product_types as $product_type)                                    
+           <tr>
+           <td class="font">{{$i}} </td>
+           <td class="font"> {{$product_type->name}} </td>
+           <td class="font"> 
+              {{count($product_type['pending'])}}
+           </td>
+           <td class="font"> 
+              {{count($product_type['completed'])}}
+           </td>
+           </tr>
+          @php
+             $i++; 
+          @endphp
+          @endforeach
+          @endif 
+
+
+          @if ($single_multiple_lab == 1)
+                    @php $i=0; @endphp
+          @foreach ($product_types as $product_type)                                    
+           <tr>
+           <td class="font">{{$i}} </td>
+           <td class="font"> {{$product_type->name}} </td>
+           <td class="font"> 
+              {{count($product_type['singlelabpending'])}}
+           </td>
+           <td class="font"> 
+              {{count($product_type['singlelabcompleted'])}}
+           </td>
+           </tr>
+          @php
+             $i++; 
+          @endphp
+          @endforeach
+          @endif 
+
+          @if ($single_multiple_lab == 2)
+                   @php $i=0; @endphp
+          @foreach ($product_types as $product_type)                                    
+           <tr>
+           <td class="font">{{$i}} </td>
+           <td class="font"> {{$product_type->name}} </td>
+           <td class="font"> 
+              {{count($product_type['multiplelabpending'])}}
+           </td>
+           <td class="font"> 
+              {{count($product_type['multiplelabcompleted'])}}
+           </td>
+           </tr>
+          @php
+             $i++; 
+          @endphp
+          @endforeach
+          @endif
+
+          @if ($single_multiple_lab == 3)
+           @php $i=0; @endphp
+          @foreach ($product_types as $product_type)                                    
+           <tr>
+           <td class="font">{{$i}} </td>
+           <td class="font"> {{$product_type->name}} </td>
+           <td class="font"> 
+              {{count($product_type['all_labpending'])}}
+           </td>
+           <td class="font"> 
+              {{count($product_type['all_labcompleted'])}}
+           </td>
+           </tr>
+          @php
+             $i++; 
+          @endphp
+          @endforeach
+          @endif
+           
        </tbody>
     </table>
 </body>

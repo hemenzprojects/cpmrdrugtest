@@ -520,7 +520,6 @@ class SIDController extends Controller
         $data['from_date'] = $r->from_date;
         $data['to_date'] = $r->to_date;
         $data['price_list'] = ProductPriceList::where('action',1)->first();
-
         $data['products'] = Product::orderBy('id', 'DESC')->whereDate('created_at', '>=', $r->from_date)->whereDate('created_at','<=',$r->to_date)->doesnthave('departments')->get();
         $data['product_types'] = ProductType::all();
         $data['customers'] = Customer::orderBy('id', 'DESC')->get();
@@ -999,7 +998,6 @@ class SIDController extends Controller
 
     public function report_index()
     {
-
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -1008,6 +1006,14 @@ class SIDController extends Controller
 
         $data['from_date'] = "2020-01-01";
         $data['to_date'] = now();
+        $data['single_multiple_lab'] = 0;
+        $data['year'] = \Carbon\Carbon::now('y');
+
+       $data['products'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['multiple_labs'] = \App\Product::where('single_multiple_lab',2)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+       $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+
 
         $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
 
@@ -1029,7 +1035,7 @@ class SIDController extends Controller
 
         //  $data['from_date'] =$r->from_date;
         //  $data['to_date'] =$r->from_date;
-
+        $data['single_multiple_lab'] = Null;
         $data['pending_reports'] = Product::where('overall_status', 1)->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ? ', array($data['year']));
         })->get();
@@ -1048,8 +1054,8 @@ class SIDController extends Controller
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
-
         } 
+
         $data = $r->all();
         if ($r->from_date == null) {
             Session::flash('message_title', 'error');
@@ -1062,24 +1068,37 @@ class SIDController extends Controller
             Session::flash('message', 'Please select required date to end report');
             return redirect()->route('admin.sid.general_report.index');
         }
+
         //  $data['from_date'] =$r->from_date;
         //  $data['to_date'] =$r->from_date;
 
         $data = $r->all();
 
-        $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($r){
-            $query->whereHas("departments",function ($q) use ($r) {
-            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
-             });
-         },
-        'completed'=>function($query) use ($r){
-            $query->whereHas("departments",function ($q) use ($r) {
-                        return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
-                    });
-         }])->get();
+        if ($r->single_multiple_lab >0) {
+            $data['single_multiple_lab'] = $r->single_multiple_lab;
+        }
 
-         if ($single_multiple_lab = 1) {
-             
+        if ($r->single_multiple_lab <1) {
+            $data['single_multiple_lab'] = 0;        }
+    
+
+        $single_multiple_lab = Null;
+
+        if ($r->single_multiple_lab == Null) {
+            $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                 });
+             },
+            'completed'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                        });
+             }])->get();
+    
+        }
+
+        if ($r->single_multiple_lab == 1) {
             $data['product_types'] = \App\ProductType::with(['singlelabpending'=>function($query) use ($r){
                 $query->whereHas("departments",function ($q) use ($r) {
                 return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
@@ -1090,13 +1109,45 @@ class SIDController extends Controller
                             return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
                         });
              }])->get();
-         }
+    
+        }
+     
+        if ($r->single_multiple_lab == 2) {
+            $data['product_types'] = \App\ProductType::with(['multiplelabpending'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                 });
+             },
+            'multiplelabcompleted'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                        });
+             }])->get();
+    
+        }
+        if ($r->single_multiple_lab== 3) {
+
+            $data['product_types'] = \App\ProductType::with(['all_labpending'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                 });
+             },
+            'all_labcompleted'=>function($query) use ($r){
+                $query->whereHas("departments",function ($q) use ($r) {
+                            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+                        });
+             }])->get();
+    
+        }
+     
+
         return view('admin.sid.generalreport.index', $data);
     }
 
 
-    public function completedreports_index($id)
+    public function completedreports_index(Request $r)
     {
+      
        
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
@@ -1104,8 +1155,14 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
         } 
 
-        $data['ptype_id'] = $id;
-        $data['final_reports'] = \App\ProductType::where('id',$id)->first();
+        $data['ptype_id'] = $r->product_type_id;
+        $data['single_multiple_lab'] = $r->single_multiple_lab;
+        $data['singlelab_completed'] = $r->singlelabcompleted;
+        $data['multiple_labcompleted'] = $r->multiplelabcompleted;
+        $data['all_labcompleted'] = $r->all_labcompleted;
+
+
+        $data['final_reports'] = \App\ProductType::where('id',$r->product_type_id)->first();
 
         return view('admin.sid.generalreport.finalreports', $data);
     }
@@ -1365,7 +1422,6 @@ class SIDController extends Controller
             'organolepticts_options' => $organolepticts_option, 
             'physicochemical_options' => $physicochemical_option, 
             'chemical_constituents_options' => $chemical_constituents_option,   
-
             'password' => bcrypt($r->password),
             'pin' => bcrypt($r->pin),
 
@@ -1389,6 +1445,7 @@ class SIDController extends Controller
     }
 
     public function user_permisions_edit($id){
+
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(23)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -1516,8 +1573,6 @@ class SIDController extends Controller
                 'physicochemical_options' => $physicochemical_option, 
                 'chemical_constituents_options' => $chemical_constituents_option,             
                 'tell' => $r->tell,
-
-                 
             ]);
          Admin::where('id',$id)->update($data);
 
@@ -1583,22 +1638,73 @@ class SIDController extends Controller
 
      }
 
-     public function reportindex_pdf($from_date, $to_date){
+     public function reportindex_pdf($from_date, $to_date, $smlab){
 
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
+                
+        $data['single_multiple_lab'] = $smlab;
 
-        
-        $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($from_date,$to_date){
-            $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
-            return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
-             });
-         },
-        'completed'=>function($query) use ($from_date,$to_date){
-            $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
-                        return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+            if ($smlab == Null) {
+              
+                $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                    return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
                     });
-         }])->get();
+                },
+                'completed'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                                return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                            });
+                }])->get();
+                
+            }
+
+            
+            if ($smlab == 1) {
+                $data['product_types'] = \App\ProductType::with(['singlelabpending'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                    return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                        });
+                    },
+                'singlelabcompleted'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                                return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                            });
+                    }])->get();
+
+            }
+            
+            if ($smlab== 2) {
+                
+                $data['product_types'] = \App\ProductType::with(['multiplelabpending'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                    return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                        });
+                    },
+                'multiplelabcompleted'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                                return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                            });
+                    }])->get();
+
+            }
+            if ($smlab == 3) {
+
+                $data['product_types'] = \App\ProductType::with(['all_labpending'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                    return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                        });
+                    },
+                'all_labcompleted'=>function($query) use ($from_date,$to_date){
+                    $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
+                                return $q->whereDate('product_depts.created_at', '>=', $from_date)->whereDate('product_depts.created_at', '<=', $to_date);
+                            });
+                    }])->get();
+
+            }
+
+
          
 
         $pdf = \PDF::loadView('admin.sid.downloads.reportindexsheet',$data);

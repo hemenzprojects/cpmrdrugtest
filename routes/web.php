@@ -101,7 +101,7 @@ Route::get('/sendtest', function () {
    Route::get('sid/report/index','AdminAuth\SID\SIDController@report_index')->name('admin.sid.general_report.index');
    Route::post('sid/general_report/yearly','AdminAuth\SID\SIDController@generalyearly_report')->name('sid.generalyearlyreport');
    Route::post('sid/general_report/between_month','AdminAuth\SID\SIDController@between_months')->name('admin.sid.general_report.between_months');
-   Route::get('sid/final_reports/index/{id}','AdminAuth\SID\SIDController@completedreports_index')->name('admin.sid.final_reports.index');
+   Route::post('sid/final_reports/index','AdminAuth\SID\SIDController@completedreports_index')->name('admin.sid.final_reports.index');
    Route::get('sid/final_reports/show/{id}','AdminAuth\SID\SIDController@completedreports_show')->name('admin.sid.final_reports.show');
 
    Route::post('sid/pending_reports/index/{id}','AdminAuth\SID\SIDController@pendingreports_index')->name('admin.sid.pending_reports.index');
@@ -115,7 +115,7 @@ Route::get('/sendtest', function () {
    Route::get('sid/microreport/pdf/{id}','AdminAuth\Microbiology\MicroController@microreport_pdf')->name('admin.sid.microreport.pdf');
    Route::get('sid/pharmreport/pdf/{id}','AdminAuth\Pharmacology\PharmController@pharmreport_pdf')->name('admin.sid.pharmreport.pdf');
    Route::get('sid/phytoreport/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.sid.phytoreport.pdf');
-   Route::get('sid/reportindex/pdf/{from_date}/{to_date}','AdminAuth\SID\SIDController@reportindex_pdf')->name('admin.sid.reportindex.pdf');
+   Route::get('sid/reportindex/pdf/{from_date}/{to_date}/{smlab}','AdminAuth\SID\SIDController@reportindex_pdf')->name('admin.sid.reportindex.pdf');
 
   });
 

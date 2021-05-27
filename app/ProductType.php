@@ -27,6 +27,17 @@ class ProductType extends Model
         return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->where('single_multiple_lab',1)->whereHas('departments');
 
     }
+    public function multiplelabpending()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->where('single_multiple_lab',2)->whereHas('departments');
+
+    }
+    public function all_labpending()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status','<',2)->where('single_multiple_lab',NULL)->whereHas('departments');
+
+    }
+    
 
     public function completed()
     {
@@ -38,6 +49,17 @@ class ProductType extends Model
         return $this->hasMany('App\Product', 'product_type_id')->where('overall_status',2)->where('single_multiple_lab',1);
 
     }
+    public function multiplelabcompleted()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status',2)->where('single_multiple_lab',2);
+
+    }
+    public function all_labcompleted()
+    {
+        return $this->hasMany('App\Product', 'product_type_id')->where('overall_status',2)->where('single_multiple_lab',null);
+
+    }
+
 
 
     public function getMicrobialFormAttribute(){
