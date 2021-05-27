@@ -977,7 +977,7 @@ class SIDController extends Controller
                     'single_multiple_lab' => Null,
                     'micro_grade' => Null,
                     'phyto_grade' => Null,
-                    'pharm-grade' => Null,
+                    'pharm_grade' => Null,
 
 
                 ]);
