@@ -30,7 +30,7 @@ class PhytoController extends Controller
         $this->middleware('admin');
     }
 
-    //********************* Micro Receive Product ****************** */
+    //*********************  Receive Product ****************** */
 
     public function receiveproduct_index(){
           
@@ -215,13 +215,13 @@ class PhytoController extends Controller
               })->get();
               
              //********************* section for authusers who perform repot ***** */
-             $data['auth_phytoreports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+            $data['auth_phytoreports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 3);
-             })->get();
+             })->orderBy('phyto_hod_evaluation', 'asc')->get();
              //********************* section for the dept offcie only ***** */
              $data['phytoreports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 3);
-             })->get();
+             })->orderBy('phyto_hod_evaluation', 'asc')->get();
 
              $data['phytocompleted_reports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 4);
@@ -415,6 +415,7 @@ class PhytoController extends Controller
               $product->phyto_comment = $r->comment;
               $product->phyto_dateanalysed = $date_analysed;
               $product->phyto_grade = $r->phyto_grade;
+              $product->phyto_hod_evaluation = Null;
               $product->phyto_analysed_by = Auth::guard('admin')->id();
               $product->update();
 
@@ -424,7 +425,7 @@ class PhytoController extends Controller
             }
 
             public function makereport_show ($id){
-
+              // return Product::find($id);
                $phytoshowreport = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 3);
                })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -434,6 +435,7 @@ class PhytoController extends Controller
                 return redirect()->back();
                }
                $data['report_id'] = $id; 
+              
                $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
                $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();
                $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
@@ -1412,13 +1414,13 @@ class PhytoController extends Controller
            'phyto_hod_evaluation'=>Null,
            'phyto_dateanalysed'=>Null,
            'phyto_grade'=>Null,
+           'phyto_approved_by'=>Null,
            'phyto_finalapproved_by'=>Null,
            'phyto_datecompleted'=>Null,
            'phyto_finaldateapproved'=>Null,
            'phyto_dateapproved'=>Null,
            'phyto_comment'=>Null,
            'phyto_analysed_by'=>Null,
-           'phyto_hod_evaluation'=>Null,
            'phyto_hod_remarks'=>Null,
           ]);
           

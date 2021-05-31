@@ -979,7 +979,6 @@ class SIDController extends Controller
                     'phyto_grade' => Null,
                     'pharm_grade' => Null,
 
-
                 ]);
                 $p->update($data);
             }

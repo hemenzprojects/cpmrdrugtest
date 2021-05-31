@@ -65,40 +65,27 @@
                 <h6>Indication</h6>
                 <p class="text-muted"> {{ ucfirst($pharmproduct->indication)}}<br></p>
 
-                <hr><h5>Distribution Details</h5>
-                <h6>Received By </h6>
-                @foreach ($pharmproduct->departments->where('id',2) as $product)
-                <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                @endforeach
-                <h6>Distributed By </h6>
-                @foreach ($pharmproduct->departments->where('id',2) as $product)
-                <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                @endforeach
-                <h6>Delivered By </h6>
-                @foreach ($pharmproduct->departments->where('id',2) as $product)
-                <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                @endforeach
-                
+                <div class="col-sm-6">
+                    <hr><h5>Distribution Details</h5>
+                    <h6>Received By </h6>
 
+                    <small class="text-muted">{{\App\Admin::find($pharmproduct->departmentById(2)->pivot->received_by)?\App\Admin::find($pharmproduct->departmentById(2)->pivot->received_by)->full_name:'null'}}</small>
 
-                <hr><h5>Distribution Periods</h5>
-                <div  style="margin-bottom: 5px">
-                <h6 >product distribution period</h6>
-                    <small class="text-muted">
-                    @foreach ($pharmproduct->departments as $product)
-                    Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
-                    Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
-                    @endforeach
-                </small>
+                    <h6>Distributed By </h6>
+               
+                    <small class="text-muted">{{\App\Admin::find($pharmproduct->departmentById(2)->pivot->distributed_by)?\App\Admin::find($pharmproduct->departmentById(2)->pivot->distributed_by)->full_name:'null'}}</small>
+
+                    <h6>Delivered By </h6>
+                    
+                    <small class="text-muted">{{\App\Admin::find($pharmproduct->departmentById(2)->pivot->delivered_by)?\App\Admin::find($pharmproduct->departmentById(2)->pivot->delivered_by)->full_name:'null'}}</small>
+                    <h6> product delivery date</h6>
+                    <small class="text-muted ">
+                        {{   Carbon\Carbon::parse($pharmproduct->departmentById(2)->pivot->received_at)->format('jS \\ F Y')}}  
+                    </small>
                 </div>
-                <h6> product delivery period</h6>
-                <small class="text-muted ">
-                    @foreach ($pharmproduct->departments as $product)
-                    Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                    Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
-                    @endforeach
-                
-                </small>
+               
+
+
             </div> 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

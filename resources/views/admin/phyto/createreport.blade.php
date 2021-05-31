@@ -67,17 +67,16 @@
 
                                         <hr><h5>Distribution Details</h5>
                                         <h6>Received By </h6>
-                                        @foreach ($phytoproduct->departments->where('id',1) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->received_by)? \App\Admin::find($product->pivot->received_by)->full_name:'null'}}</small>
-                                        @endforeach
+
+                                        <small class="text-muted">{{\App\Admin::find($phytoproduct->departmentById(3)->pivot->received_by)?\App\Admin::find($phytoproduct->departmentById(3)->pivot->received_by)->full_name:'null'}}</small>
+
                                         <h6>Distributed By </h6>
-                                        @foreach ($phytoproduct->departments->where('id',1) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->distributed_by)?\App\Admin::find($product->pivot->distributed_by)->full_name:'null'}}</small>
-                                        @endforeach
+                                   
+                                        <small class="text-muted">{{\App\Admin::find($phytoproduct->departmentById(3)->pivot->distributed_by)?\App\Admin::find($phytoproduct->departmentById(3)->pivot->distributed_by)->full_name:'null'}}</small>
+
                                         <h6>Delivered By </h6>
-                                        @foreach ($phytoproduct->departments->where('id',1) as $product)
-                                        <small class="text-muted">{{\App\Admin::find($product->pivot->delivered_by)?\App\Admin::find($product->pivot->delivered_by)->full_name:'null'}}</small>
-                                        @endforeach
+                                        
+                                        <small class="text-muted">{{\App\Admin::find($phytoproduct->departmentById(3)->pivot->delivered_by)?\App\Admin::find($phytoproduct->departmentById(3)->pivot->delivered_by)->full_name:'null'}}</small>
                                      
                                         {{-- <hr><h5>Customer Details</h5>
                                         
@@ -86,23 +85,10 @@
                                         <h6>Tell</h6>
                                         <small class="text-muted ">{{ucfirst($phytoproduct->customer->tell)}}</small>
                                          --}}
-                                        <hr><h5>Distribution Periods</h5>
-                                        <div  style="margin-bottom: 5px">
-                                        <h6 >product distribution period</h6>
-                                            <small class="text-muted">
-                                            @foreach ($phytoproduct->departments as $product)
-                                            Date: <small class="text-muted ">{{$product->pivot->created_at->format('Y-m-d')}}</small>
-                                            Time: <small class="text-muted ">{{$product->pivot->created_at->format('H:i:s')}}</small>
-                                            @endforeach
-                                        </small>
-                                        </div>
-                                        <h6> product delivery period</h6>
+                                     
+                                        <h6> product delivery date</h6>
                                         <small class="text-muted ">
-                                            @foreach ($phytoproduct->departments as $product)
-                                            Date: <small class="text-muted ">{{$product->pivot->updated_at->format('Y-m-d')}}</small>
-                                            Time: <small class="text-muted ">{{$product->pivot->updated_at->format('H:i:s')}}</small>
-                                            @endforeach
-                                        
+                                            {{   Carbon\Carbon::parse($phytoproduct->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}  
                                         </small>
                                     </div> 
                                     <div class="modal-footer">
@@ -162,7 +148,7 @@
                     <ul class="dd-list" id="myList2">
                         @if (count($auth) >0)
                         @if ($auth_id->user_type_id < 4)
-                        @foreach($phytoreports->sortBy('phyto_hod_evaluation') as $phytoreport)
+                        @foreach($phytoreports as $phytoreport)
                         <li class="dd-item" data-id="1">
                             <a href="{{url('admin/phyto/makereport/show',['id'=>$phytoreport->id])}}">
                             <div class="dd-handle">
