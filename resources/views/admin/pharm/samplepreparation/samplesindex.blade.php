@@ -133,7 +133,11 @@
                                            </small>
                                         <h6>Product Type </h6>
                                         <small class="text-muted ">{{ucfirst($product->productType->name)}}</small>
-                                                                     
+                                              
+                                        <small class="text-muted "></small>
+                                        <h6>Dosage</h6>
+                                        <p class="text-muted">{{ucfirst($product->dosage)}}<br></p>
+
                                         <small class="text-muted "></small>
                                         <h6>Indication</h6>
                                         <p class="text-muted">{{ucfirst($product->indication)}}<br></p>
