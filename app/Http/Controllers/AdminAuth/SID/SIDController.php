@@ -946,6 +946,10 @@ class SIDController extends Controller
 
         ProductDept::create($data);
 
+        if (Product::where('overall_status', 0)) {
+            Product::where('id',  $request->product_id)->update(['overall_status' => 1]);
+        }
+
         Session::flash("message", "Product Successfully Distributed.");
         Session::flash("message_title", "success");
         return redirect()->route('admin.sid.distribution.create')

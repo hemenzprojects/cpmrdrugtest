@@ -62,6 +62,9 @@
                 <small class="text-muted ">{{$product->pivot->quantity}}</small>
                 @endforeach
                 <small class="text-muted "></small>
+                <h6>Dosage</h6>
+                <p class="text-muted"> {{ ucfirst($pharmproduct->dosage)}}<br></p>
+                <small class="text-muted "></small>
                 <h6>Indication</h6>
                 <p class="text-muted"> {{ ucfirst($pharmproduct->indication)}}<br></p>
 
