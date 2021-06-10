@@ -818,7 +818,8 @@ $product = \App\Product::where('id',7)->first();
                                         </label> 
                                     </td>
                                     <td class="font" style="font-style: italic; margin:5px;">
-                                        <input type="text" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
+                                        {{$metest->pathogen}}
+                                        <input type="hidden" class="form-control" name="pathogen_{{$metest->id}}" value="{{$metest->pathogen}}">
                                     </td>
 
                                     <td class="font">

@@ -42,12 +42,12 @@
                             <form  action="{{url('admin/sid/hod_office/phyto_completed_report/update')}}" class="forms-sample" method="POST">
                                 {{ csrf_field() }}
 
-                             <table id="order-table2" class="table table-striped table-bordered nowrap dataTable">
+                             <table id="scr-vtr-dynamic" class="table table-striped table-bordered nowrap dataTable">
                                 <thead>
                                     <tr>
                                         <th>Code</th>
                                         <th>Name</th>
-                                     
+                                        <th>download</th>
                                         <th>Actions</th>
 
                                    </tr>
@@ -58,7 +58,16 @@
                                       
                                     <td class="font">{{$product->code}}</td>
                                     <td class="font">{{$product->name}}</td>
-                               
+                                    <td class="font">
+                                        @if ($product->phyto_hod_evaluation == 2)
+                                        <a  target="_blank" href="{{route('admin.sid.print_phytoreport',['id' => $product->id])}}">
+                                          <button type="button" class="btn btn-outline-success btn-rounded">Print Report</button>
+                                      </a><br><br>
+                                      <a href="{{route('admin.sid.phytoreport.pdf',['id' => $product->id])}}">
+                                          <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                                        </a>   
+                                        @endif
+                                    </td>
                                     <td class="font">
                                         <div class="form-check mx-sm-2">
                                             <label class="custom-control custom-checkbox">

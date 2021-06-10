@@ -27,16 +27,18 @@
                                 
                             </td>
                             <td class="font">{{$metest->pathogen}}</td>
-                            <input type="hidden" class="form-control" name="pathogen_form[]" value="{{$metest->pathogen}}">
+                            <input type="hidden" class="form-control" name="pathogen_form_{{$metest->id}}" value="{{$metest->pathogen}}">
 
                             <td class="font">
-                                <input type="number" class="form-control" required name="pi_zoneform[]" placeholder="PI Zone" value="{{$metest->pi_zone}}">
+                                <input type="text" class="form-control" required name="pi_zoneform_{{$metest->id}}" placeholder="PI Zone" value="{{$metest->pi_zone}}">
                             </td>
                             <td class="font" class="form-control">                                                    
-                                <input type="number" class="form-control" name="ci_zoneform[]"  value="{{$metest->ci_zone}}">
+                                <input type="text" class="form-control" name="ci_zoneform_{{$metest->id}}" value="{{$metest->ci_zone}}">
+
                             </td>
                             <td class="font">
-                                <input type="text" class="form-control" name="fi_zoneform[]"  value="{{$metest->fi_zone}}">
+                                <input type="hidden" class="form-control" name="reference_{{$metest->id}}"  value="{{$metest->reference}}">
+                                <input type="text" class="form-control" name="fi_zoneform_{{$metest->id}}"  value="{{$metest->fi_zone}}">
                             </td>
 
                         </tr>
@@ -46,7 +48,7 @@
             </div>
         </div>
 
-        @include('admin.micro.temp.meconclusioninput') 
+        {{-- @include('admin.micro.temp.meconclusioninput')  --}}
 
     </div>
 </div> 

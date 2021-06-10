@@ -150,7 +150,7 @@
                                 
                                   @include('admin.phyto.temp.signaturetemplate')
 
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-6" style="margin-top:7% ">
                                     @if ( $product->phyto_hod_evaluation === 0 ||  $product->phyto_hod_evaluation ===1 )
                                     <button  type="submit" class="btn btn-success pull-right submitreport1" >
                                     <i class="fa fa-credit-card "></i> 

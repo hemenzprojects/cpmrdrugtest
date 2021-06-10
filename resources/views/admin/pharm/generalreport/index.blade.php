@@ -113,9 +113,9 @@
         </div>
         @endforeach
     </div>
-<div class="card">
+<div class="card" style="overflow-x: scroll">
     <div class="text-center"> 
-        <h4 class="font" style="font-size:18px; margin-top:20px">Number of Drug Analysis Report Completed from to </h4>
+        <h4 class="font" style="font-size:18px; margin-top:20px">Number of Drug Analysis Report Completed from {{ date("F Y", strtotime($from_date)) }} to {{ date("F Y", strtotime($to_date)) }}</h4>
 
          {{-- @foreach ($pending_products->groupBy('id')->first() as $item)
         {{($item->created_at)}}

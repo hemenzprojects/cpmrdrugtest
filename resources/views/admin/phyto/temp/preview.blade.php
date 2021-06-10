@@ -20,9 +20,8 @@
             <tr>
             <td class="font2">{{$product->code}}</td>
             <td class="font2">{{$product->productType->name}}</td>
-            <td class="font2">{{   Carbon\Carbon::parse($product->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
-            </td>
-            <td class="font2">{{ Carbon\Carbon::parse($product->phyto_dateanalysed)->format('jS \\ F Y')}}</td>
+            <td class="font">{!! $product->phyto_date_received !!}</td>
+             <td class="font">{!! $product->phyto_analysed_date !!}</td>
             </tr>
 
             </table>

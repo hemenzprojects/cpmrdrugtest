@@ -290,6 +290,7 @@ class MicroController extends Controller
 
               public function test_create(MicroTestCreateRequest $r){
 
+                dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -704,19 +705,57 @@ class MicroController extends Controller
                      }
                 
                         if($r->efficacyanalyses_form){
+                          $pathogen_form = [];
+                          $pi_zoneform = [];
+                          $ci_zoneform = [];
+                          $fi_zoneform = [];
+                          $reference = [];
+                         
+                        foreach ($r->metestform_id as $key => $value) {
+                          if(!isset($r->{'pathogen_form_'.$value}) or $r->{'pathogen_form_'.$value}==null){
+                            Session::flash('message_title', 'error');
+                            Session::flash('message', 'pathogen field is required.');
+                            return redirect()->back();
+                          }
+                          if(!isset($r->{'pi_zoneform_'.$value}) or $r->{'pi_zoneform_'.$value}==null){
+                            Session::flash('message_title', 'error');
+                            Session::flash('message', 'pi_zone field is required.');
+                            return redirect()->back();
+                          }
+                          if(!isset($r->{'ci_zoneform_'.$value}) or $r->{'ci_zoneform_'.$value}==null){
+                            Session::flash('message_title', 'error');
+                            Session::flash('message', 'ci_zone field is required.');
+                            return redirect()->back();
+                          }
+                          if(!isset($r->{'fi_zoneform_'.$value}) or $r->{'fi_zoneform_'.$value}==null){
+                            Session::flash('message_title', 'error');
+                            Session::flash('message', 'fi_zone field is required.');
+                            return redirect()->back();
+                          }
+          
+                          array_push($pathogen_form,$r->{'pathogen_form_'.$value});
+                          array_push($pi_zoneform,$r->{'pi_zoneform_'.$value});
+                          array_push($ci_zoneform,$r->{'ci_zoneform_'.$value});
+                          array_push($fi_zoneform,$r->{'fi_zoneform_'.$value});
+                          array_push($reference,$r->{'reference_'.$value});
+          
+                        }
 
-
+                       
                          for ($k=0; $k < count($r->metestform_id); $k++) { 
                          $data1 = ([
                           'efficacy_analyses_id'=>$r->metestform_id[$k],
                           'product_id'=>$r->micro_product_id,
-                          'pathogen'=>$r->pathogen_form[$k],
-                          'pi_zone'=>$r->pi_zoneform[$k],
-                          'ci_zone'=>$r->ci_zoneform[$k], 
-                          'fi_zone'=>$r->fi_zoneform[$k],
+                          'pathogen'=>$pathogen_form[$k],
+                          'pi_zone'=>$pi_zoneform[$k],
+                          'ci_zone'=>$ci_zoneform[$k], 
+                          'fi_zone'=>$fi_zoneform[$k],
+                          'reference'=>$reference[$k],
+
                           'added_by_id' => Auth::guard('admin')->id(),
                           'created_at' => \Carbon\Carbon::now(),
                             ]);
+
                           DB::table('microbial_efficacy_reports')->insert($data1);
                           }
 

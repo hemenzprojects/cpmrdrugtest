@@ -175,7 +175,7 @@
                                  
                                   </td>
                                     <td class="font">
-                                     @if ($final_report->phyto_hod_evaluation == 2)
+                                     @if ($final_report->pharm_hod_evaluation == 2)
                                      <a  target="_blank" href="{{route('admin.sid.print_pharmreport',['id' => $final_report->id])}}">
                                        <button type="button" class="btn btn-outline-success btn-rounded">Print Report</button>
                                    </a><br><br>
@@ -186,7 +186,7 @@
                                           
                                    </td>
                                     <td class="font">
-                                     @if ($final_report->pharm_hod_evaluation == 2)
+                                     @if ($final_report->phyto_hod_evaluation == 2)
                                      <a  target="_blank" href="{{route('admin.sid.print_phytoreport',['id' => $final_report->id])}}">
                                        <button type="button" class="btn btn-outline-success btn-rounded"></i>Print Report</button>
                                       </a><br><br>

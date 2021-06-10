@@ -7,13 +7,13 @@
       <div class="form-check">
       <input class="form-check-input" type="radio" name="load_default_conclusion" id="flexRadioDefault1"   {{$product->micro_la_conclusion == 1 ? "checked":""}}  value="1">
       <label class="form-check-label" for="flexRadioDefault1">
-        Meet required specification 
+        Meet required specification.
       </label>
     </div>
     <div class="form-check">
       <input class="form-check-input" type="radio" name="load_default_conclusion" id="flexRadioDefault2" {{$product->micro_la_conclusion == 2 ? "checked":""}}  value="2">
       <label class="form-check-label" for="flexRadioDefault2">
-        Did not meet required specification
+        Did not meet required specification.
       </label>
     </div>
         </div>
@@ -30,8 +30,8 @@
           <div class="form-group 321">
           <select required  name="micro_la_comment_option" class="form-control micro_la_comment" id="micro_la_conclution_option" >
             <option value="{{$product->micro_la_comment}}">{{$product->micro_la_comment == Null ?'Please select option':$product->micro_la_comment}}</option>
-            <option tag="1" value="The sample meets the microbial load requirements as per BP specifications">The sample meets the microbial load requirements as per BP specifications</option>
-            <option tag="2" value="The sample does not meet the microbial load requirements as per BP specifications">The sample does not meet the microbial load requirements as per BP specifications</option>
+            <option tag="1" value="The sample meets the microbial load requirements as per BP specifications.">The sample meets the microbial load requirements as per BP specifications.</option>
+            <option tag="2" value="The sample does not meet the microbial load requirements as per BP specifications.">The sample does not meet the microbial load requirements as per BP specifications.</option>
         </select>
        </div>
         <div class="form-group 321" style="display: none">

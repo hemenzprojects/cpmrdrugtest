@@ -1155,7 +1155,7 @@ class SIDController extends Controller
 
     public function completedreports_index(Request $r)
     {
-      
+       
        
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(27)) {
             Session::flash('messagetitle', 'warning');
@@ -1169,6 +1169,7 @@ class SIDController extends Controller
         $data['multiple_labcompleted'] = $r->multiplelabcompleted;
         $data['all_labcompleted'] = $r->all_labcompleted;
 
+        $data['completed_reports'] = $r->completed_reports;
 
         $data['final_reports'] = \App\ProductType::where('id',$r->product_type_id)->first();
 
@@ -1177,7 +1178,6 @@ class SIDController extends Controller
 
     public function pendingreports_index(Request $r, $id)
     {
-        // dd($r->all());
         if ($r->pending_report_ids == Null) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'Sorry there are no record to view');

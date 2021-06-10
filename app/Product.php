@@ -577,6 +577,25 @@ class Product extends Model
       return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
     }
 
+    
+    public function getPhytoDateReceivedAttribute (){
+
+        $item1 =   Carbon::parse($this->departmentById(3)->pivot->received_at)->format('j');
+        $item2 =     Carbon::parse($this->departmentById(3)->pivot->received_at)->format('S');
+        $item3 =      Carbon::parse($this->departmentById(3)->pivot->received_at)->format('\\ F, Y');
+    
+            return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+        }
+
+    public function getPhytoAnalysedDateAttribute (){
+
+    $item1 =   Carbon::parse($this->phyto_dateanalysed)->format('j');
+    $item2 =     Carbon::parse($this->phyto_dateanalysed)->format('S');
+    $item3 =      Carbon::parse($this->phyto_dateanalysed)->format('\\ F, Y');
+
+        return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
+    }
+    
 
 
 }  

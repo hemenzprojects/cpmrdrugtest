@@ -31,14 +31,15 @@
                         </td>
                     </tr>
                     <tr>
+                    
                     <td class="font"><strong>Date Recievied:</strong></td>
                         <td class="font">
-                            {{   Carbon\Carbon::parse($phytoshowreport->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}                                        
+                            {!! $phytoshowreport->phyto_date_received !!}
                         </td>
                     </tr>
                     <tr>
                         <td class="font"><strong>Date of Report:</strong></td> 
-                        <td class="font">{{$phytoshowreport->phyto_dateanalysed}}</td>
+                        <td class="font">{!! $phytoshowreport->phyto_analysed_date !!}</td>
                     </tr>
                     <tr>
                         <td></td>

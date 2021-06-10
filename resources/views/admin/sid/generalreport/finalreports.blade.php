@@ -22,14 +22,15 @@
          </thead>
          <tbody>
 
-           @if ($single_multiple_lab == Null)
-           @foreach ($final_reports['completed']  as $final_report) 
+           @if ($single_multiple_lab == 0)
+        
+           @foreach ($final_reports['completed']->whereIN('id',$completed_reports)  as $final_report) 
                @include('admin.sid.temp.finalreporttemp')
            @endforeach
            @endif
             
            @if ($single_multiple_lab == 1)
-          @foreach ($final_reports['singlelabcompleted']->whereIN('id',$singlelab_completed) as $final_report) 
+           @foreach ($final_reports['singlelabcompleted']->whereIN('id',$singlelab_completed) as $final_report) 
                @include('admin.sid.temp.finalreporttemp')
            @endforeach
            @endif

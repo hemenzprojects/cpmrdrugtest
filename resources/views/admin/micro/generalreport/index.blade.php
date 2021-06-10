@@ -104,7 +104,7 @@
         </div>
         @endforeach
     </div>
-    <div class="card">
+    <div class="card" style="overflow-x: scroll">
         <div class="text-center"> 
             <div class="text-center" style="padding: 10px"> 
                 <h4 class="font" style="font-size:18px; ">Number of Drugs Analysed from {{ date("F Y", strtotime($from_date)) }} to {{ date("F Y", strtotime($to_date)) }} </h4>

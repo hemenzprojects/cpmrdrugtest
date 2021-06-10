@@ -1560,7 +1560,7 @@ class PharmController extends Controller
 
              public function between_months(Request $r){
 
-              // $data = $r->all();
+              $data = $r->all();
               if ($r->from_date == null) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please select required date to begin begin');
