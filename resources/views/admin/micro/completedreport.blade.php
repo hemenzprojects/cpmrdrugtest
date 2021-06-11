@@ -65,7 +65,7 @@ $product = \App\Product::find($report_id);
                         <table class="table table-striped table-bordered nowrap dataTable">
                             <thead>
                                 <tr  class="table-warning">
-                                    <th>Test Conducted</th>
+                                    <th>Test </th>
                                     @if ($completedproduct->productType->state ==2)
                                     <th>Result (CFU/ml)</th>
                                     @endif

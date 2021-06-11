@@ -10,7 +10,7 @@
         <thead>
             <tr  class="table-info">
                 
-                <th>Test Conducted</th>
+                <th>Test </th>
                 <th class="77772" style="display: none">Result (CFU/ml)</th>
                 <th class="77771" style="display: none">Result (CFU/g)</th>
                 <th>Acceptance Criterion

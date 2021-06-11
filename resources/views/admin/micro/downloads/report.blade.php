@@ -153,7 +153,7 @@ td, th {
     <table>
       
         <tr>
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Test Conducted</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Test </th>
             @if ($product->productType->state ==2)
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/ml)</th>
             @endif

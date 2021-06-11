@@ -532,7 +532,7 @@ class MicroController extends Controller
                   $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
                   $productdept = $productdepts->first();
                   $productdept->status = 3;
-                  $productdept->update();
+                  $productdept->update(); 
             
                   $product = $products->first();
                   $product->micro_dateanalysed =$r->date_analysed;
@@ -896,6 +896,11 @@ class MicroController extends Controller
                       $product->micro_dateanalysed =$r->date_analysed;
                       $product->micro_dateapproved =\Carbon\Carbon::now();  
                       $product->update();
+
+                      $productdepts = ProductDept::where('product_id',$r->micro_product_id)->where("dept_id", 1)->where("status",3);
+                      $productdept = $productdepts->first();
+                      $productdept->received_at = $r->date_received;
+                      $productdept->update(); 
     
                    }
                  

@@ -13,12 +13,13 @@ $product = \App\Product::find($report_id);
             </tr>
         </thead>
         <tbody>
-          
+           
               <tr>
                   <td class="font"> {{$product->code}}</td>
                   <td class="font"> {{$product->productType->name}}</td>
                   <td class="font">  
-                    {!! $product->micro_date_received !!}                                       
+                    {!! $product->micro_date_received !!}  
+                  <input class="form-control" required="required" type="date" placeholder="Date" name="date_received" value="{{($product->departmentById(1)->pivot->received_at)}}">                                     
                   </td>
                   <td class="font">
                       <span> {!! $product->micro_analysed_date !!}

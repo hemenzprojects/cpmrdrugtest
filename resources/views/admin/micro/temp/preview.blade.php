@@ -40,7 +40,7 @@
                 <table class="table table-striped table-bordered nowrap dataTable"  >
                  
                     <tr>
-                        <th class="font">Test Conducted</th>
+                        <th class="font">Test </th>
                         @if ($product->productType->state ==2)
                         <th class="font">Result (CFU/ml)</th>
                         @endif
