@@ -660,6 +660,7 @@ $(document).ready(function(){
       console.log(selectedItems)
     })
 
+  
 $('#acceptmicroproductform').submit(function(e){
   
     e.preventDefault();
@@ -871,8 +872,48 @@ $('#checkusertoacceptproduct').submit(function(e){
 })    
   // Continue the form submit
   // e.currentTarget.submit();
+
+
 </script>
+ 
+<script>
+    $('#checksinglemultlab').submit(function(e){
+    e.preventDefault();
+    console.log('attempted to submit form');
+    var amount = $('#amount').val();
+    var singlelab_actual_price = $('#singlelab_actual_price').val();
+    var multilab_actual_price  = $('#multilab_actual_price').val();
+
+     if ((Number(amount) == Number(singlelab_actual_price)) && (!$('#check_singlelab').is(':checked'))) {
+       var answer = confirm("The price inputed indicates that product is to a single lab. Please check single lab or click OK to confirm price and continue.");
+        console.log(answer);
+
+        if (answer == true) {
+             e.currentTarget.submit();
+        }else{
+            e.preventDefault();
+        }
   
+     }
+      if ((Number(amount) == Number(multilab_actual_price)) && (!$('#check_multilab').is(':checked'))) {
+      var answer1 = confirm("The price inputed indicates that product is to a multiple lab. Please check multi lab or click OK to confirm price and continue.");
+        if (answer1 == true) {
+             e.currentTarget.submit();
+        }else{
+            e.preventDefault();
+        }
+     }
+     if((Number(amount) != Number(singlelab_actual_price)) || (Number(amount) != Number(multilab_actual_price)) ){
+      var answer1 = confirm("Click OK to confirm product registation or Cancel to make changes");
+        if (answer1 == true) {
+             e.currentTarget.submit();
+        }else{
+            e.preventDefault();
+        }
+     }
+     
+    })
+</script>
 
 
 {{-- pharmacology scripts --}}

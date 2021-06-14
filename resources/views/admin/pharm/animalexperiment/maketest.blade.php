@@ -110,6 +110,7 @@
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
                                       <label class="custom-control custom-checkbox">
+                                          
                                           <input type="checkbox" id="toxicity1" class="custom-control-input" value="1"><span></span>
                                       <span class="custom-control-label">All Nill</span>
                                   </label>

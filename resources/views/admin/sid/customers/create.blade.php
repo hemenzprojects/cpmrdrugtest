@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach($customers as $customer)
                         <tr>
-                            <td style="display: non">C-{{$customer->created_at->format('His')}}{{$customer->id}}</td>
+                            <td class="font" style="display: non">C{{$customer->code}}-{{$customer->created_at->format('His')}}{{$customer->id}}</td>
 
                             <td class="font">{{$customer->name}}</td>
                             {{-- <td class="font">{{$customer->email}}</td> --}}
@@ -88,10 +88,10 @@
                             <label for="exampleSelectGender">Title</label>   <span style="color:red">*</span>
 
                             <select name="title" class="form-control" id="exampleSelectGender" value="{{old('title')? old('title'): ''}}">
-                                <option>Mr</option>
-                                <option>Mrs</option>
-                                <option>Miss</option>
-                                <option>Dr</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
                             </select>
                         </div>
                                       
@@ -173,6 +173,16 @@
                         </small>
                         @enderror
                     </div>
+
+                    <div class="form-group" style="background-color:#d40a0a; padding:3%">
+                        <label for="exampleSelectGender" style="color: #fff"> Special Clients</label>
+
+                        <select name="code" class="form-control" id="exampleSelectGender" value="{{old('title')? old('title'): ''}}">
+                            <option value="">General Customer</option>
+                            <option value="G">Gaftram Office</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                 </form>

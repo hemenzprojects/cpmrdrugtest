@@ -37,14 +37,14 @@
                                         <h3>Input Data</h3>
                                     </div>
                                     <div class="card-body">
-                    	     <form action="{{url('admin/sid/create_product')}}" class="form-inline" method="POST">
+                    	     <form id="checksinglemultlab" action="{{url('admin/sid/create_product')}}" class="form-inline" method="POST">
                                 {{ csrf_field() }}
                             <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-group row">
-                            
+                        
                                             <div class="col-sm-4">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2"></label>
                                                 <div class="input-group mb-2 mr-sm-2">
@@ -188,14 +188,14 @@
                                                     </small>
                                                     @enderror
                                                 </div>
-                                             </div>
+                                             </div> 
                                              <div class="col-sm-3">
                                                 <label class="sr-only" for="inlineFormInputGroupUsername2">Amount Paid</label>
                                                 <div class="input-group mb-2 mr-sm-2">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Amt</div>
                                                     </div>
-                                                    <input required type="number" class="form-control" id="" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
+                                                    <input required type="number" class="form-control" id="amount" name="price" placeholder="Amount" value="{{old('price')? old('price'): ''}}">
                                                 </div>
                                                 <div>
                                                     @error('price')
@@ -233,6 +233,7 @@
                                                 </div>
                                                 <div class="col-md-7 singlelab" style="display: none">
                                                     <p>Please check approved lab. Actual Price <span class="badge badge-info">  {{$price_list->singlelab_price}}</span></p>
+        
                                                     <label class="custom-control custom-checkbox">
                                                         <input type="checkbox" name="micro_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label" style="margin-right:5%">Microbiology</span>
@@ -245,7 +246,7 @@
                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label"style="">Phytochemistry</span>
                                                     </label>
-                                                    <input type="hidden" name="singlelab_actual_price" value=" {{$price_list->singlelab_price}}">
+                                                    <input type="hidden" id="singlelab_actual_price" name="singlelab_actual_price" value=" {{$price_list->singlelab_price}}">
                                                    
                                                 </div>
                                                 <div class="col-md-7 multilab" style="display: none">
@@ -262,7 +263,7 @@
                                                         <input type="checkbox" name="phyto_hod_evaluation" value="1" class="custom-control-input">
                                                         <span class="custom-control-label"style="">Phytochemistry</span>
                                                     </label>
-                                                    <input type="hidden" name="multilab_actual_price" value="{{$price_list->mutilabs_price}}">
+                                                    <input type="hidden" id="multilab_actual_price" name="multilab_actual_price" value="{{$price_list->mutilabs_price}}">
 
                                                 </div>
                                                </div>                                              

@@ -955,6 +955,7 @@ class PharmController extends Controller
                       Session::flash('message', 'System Error! Product is not ready for report preparation'); 
                       return redirect()->back();
                     } 
+
                     $product = $products->first();
                     $product->pharm_acute_comment = $r->pharm_acute_comment;
                     $product->pharm_dermal_comment = $r->pharm_dermal_comment;
@@ -966,8 +967,11 @@ class PharmController extends Controller
                     $product->pharm_reference = $r->pharm_reference;
 
                     $product->update();
-
-             
+                    $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",'>',5);
+                    $productdept = $productdepts->first();
+                    $productdept->received_at = $r->date_received;
+                    $productdept->update(); 
+                
                   $data = ([
                     'product_id'=>$id,
                     'pharm_testconducted_id'=>$r->pharm_testconducted,

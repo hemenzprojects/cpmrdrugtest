@@ -20,7 +20,8 @@ $product = \App\Product::find($report_id);
                   <td class="font">  
                     {!! $product->micro_date_received !!}  
                   <input class="form-control" required="required" type="date" placeholder="Date" name="date_received" value="{{($product->departmentById(1)->pivot->received_at)}}">                                     
-                  </td>
+                
+                </td>
                   <td class="font">
                       <span> {!! $product->micro_analysed_date !!}
                     </span>

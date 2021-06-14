@@ -12,7 +12,9 @@
                 <tr>
                 <td class="font"><strong>Date Recievied:</strong></td>
                     <td class="font">
-                        {!! $product->pharm_date_received !!}                                       
+                        {!! $product->pharm_date_received !!}  
+                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_received" value="{{($product->departmentById(2)->pivot->received_at)}}" style="width:250px">                                     
+                                                            
                     </td>
                 </tr>
                 <tr>                                    

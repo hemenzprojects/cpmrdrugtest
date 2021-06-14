@@ -87,6 +87,7 @@ class SIDController extends Controller
 
         $data = ([
             'title' => $request->title,
+            'code' => $request->code,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -147,6 +148,7 @@ class SIDController extends Controller
 
         $data = ([
             'title' => $request->title,
+            'code' => $request->code,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -219,7 +221,6 @@ class SIDController extends Controller
 
     public function product_store(StoreProductRequest $request)
     {
-        // dd($request->all());
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(4)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');

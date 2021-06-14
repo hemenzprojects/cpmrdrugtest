@@ -168,6 +168,15 @@
                         </small>
                         @enderror
                     </div>
+
+                    <div class="form-group" style="background-color:#d40a0a; padding:3%">
+                        <label for="exampleSelectGender" style="color: #fff"> Special Clients</label>
+                        <select name="code" class="form-control" id="exampleSelectGender">
+                            <option value="">General Customer</option>
+                            <option value="G">Gaftram Office</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
                 </form>

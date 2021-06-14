@@ -694,6 +694,11 @@ class PhytoController extends Controller
                 $product->phyto_analysed_by = Auth::guard('admin')->id();
 
                 $product->update();
+
+                $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 3)->where("status",3);
+                $productdept = $productdepts->first();
+                $productdept->received_at = $r->date_received;
+                $productdept->update(); 
               }
              
 
