@@ -53,10 +53,10 @@ class Admin extends Authenticatable
     public function getAdminPrevilageAttribute(){
 
         if ($this->user_type_id == 1) {
-           return"Snr. Research Scientist";
+           return"1st Approval ";
         }
         if ($this->user_type_id == 2) {
-            return"Research Scientist";
+            return"2nd Approval ";
          } 
     }
 
