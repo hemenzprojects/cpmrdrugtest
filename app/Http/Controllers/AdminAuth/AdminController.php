@@ -128,7 +128,6 @@ class AdminController extends Controller
         'title' => $r->title,
         'first_name' => $r->first_name,
         'last_name' => $r->last_name,
-        'sign_url' => $r->sign_url,
         'email' => $r->email,
         'tell' => $r->tell,
         'user_type_id' => $r->user_type_id,
