@@ -50,6 +50,16 @@ class Admin extends Authenticatable
         return $this->title.'. '.$this->first_name.' '.$this->last_name;
     }
 
+    public function getAdminPrevilageAttribute(){
+
+        if ($this->user_type_id == 1) {
+           return"Snr. Research Scientist";
+        }
+        if ($this->user_type_id == 2) {
+            return"Research Scientist";
+         } 
+    }
+
     public function type()
     {
         return $this->belongsTo('App\UserType', "user_type_id");

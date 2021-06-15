@@ -113,16 +113,26 @@
                                     <input type="text" class="form-control" name="tell" placeholder="Telephone" value="{{$user->tell}}">
                                 </div>
                             </div>
-                           
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            @if ($user->dept_id == 2 && $user->user_type_id < 3 )
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Administrative Privilage</div>
+                                </div>
+                                <select class="form-control" name="user_type_id">
+                                <option value="{{$user->user_type_id}}">{{$user->admin_previlage}}</option>
+                                    <option value="1">Snr. Research Scientist</option>
+                                    <option  value="2">Research Scientist</option>
+                                </select>
+                            </div>
+                            @endif
+                      
+                            <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
                         </form>
                     </div>
                 </div>
                 </form>
             </div>
-            <div class="col-md-6">
-                
-            </div>
+
         </div>
 
         <div class="row">

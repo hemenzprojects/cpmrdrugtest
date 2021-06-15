@@ -115,6 +115,7 @@ class AdminController extends Controller
     }
 
     public function updateprofile_admin(Request $r, $id){
+
         $user = Admin::find($id);
         $data = $r->validate([
             'first_name' => 'required|max:255|min:3',
@@ -130,12 +131,14 @@ class AdminController extends Controller
         'sign_url' => $r->sign_url,
         'email' => $r->email,
         'tell' => $r->tell,
+        'user_type_id' => $r->user_type_id,
         ]);  
 
         Admin::where('id',$id)->update($data);
         Session::flash("message", "User Successfully updated.");
         Session::flash("message_title", "success");
         return redirect()->back();
+
   }
 
 }
