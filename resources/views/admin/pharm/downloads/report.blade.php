@@ -6,6 +6,10 @@
       font-size: 15.1px;
       font-family: "Times New Roman";
     }
+.fonthd{
+      font-size: 14.1px;
+      font-family: "Times New Roman";
+    }
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -84,9 +88,9 @@ td, th {
 </table>
 <table style="margin-top:-1.2%" >
     <tr style="border: 0px solid #d3d3d3;">
-        <td style="width:23%;border: 0px solid #d3d3d3;"></td>
+        <td style="width:26.5%;border: 0px solid #d3d3d3;"></td>
         <td style="width:60%; border: 0px solid #d3d3d3;" >
-        <span class="font" style="font-size: 15px;">PHARMACOLOGY & TOXICOLOGY DEPARTMENT</span>
+        <span class="fonthd">PHARMACOLOGY & TOXICOLOGY DEPARTMENT</span>
         </td>
         <td style="width:10%; border: 0px solid #d3d3d3;"></td>
 
@@ -127,7 +131,7 @@ td, th {
 <tbody>
     <tr>
         <td class="font"  style="border:0px;width:100%">
-        <span style="font-size:15px">Table Showing Results of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} ({{$completed_report->code}}) in {{$pharm_finalreports->pharm_animal_model}}</span>  
+        <span style="font-size:15px">Table Showing Results of {{\App\PharmTestConducted::find(1)->name}} on {{$completed_report->productType->name}} ({{$completed_report->code}}) in {{$pharm_finalreports->pharm_animal_model}}.</span>  
         </td>
     </tr> 
 </tbody>
@@ -229,18 +233,18 @@ td, th {
  <div class="watermarked1" style="height: 450px">
     <div style=" background-color: #fffffff2;height: 450px" >
  @if ($completed_report->pharm_testconducted == 3)
- <span style="font-size:15px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
+ <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
  @endif
- <p style="font-size:16px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
+ <p style="font-size:17px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
 
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
- <p style="font-size: 15px; text-align: justify">
+ <p style="font-size: 16px; text-align: justify">
      {!! $completed_report->pharm_result !!}   
  </p> 
  
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
- <p style="font-size: 15px; text-align: justify ">
+ <p style="font-size: 16px; text-align: justify ">
     {!! $completed_report->pharm_dermal_comment !!}   
 </p> 
  </div>

@@ -238,9 +238,13 @@
                                             {{\App\Admin::find($item->added_by_id)->full_name}}
                                             @endforeach
                                            
+                                         </span><br>
+                                         <span> <strong>Report Analyst:</strong>
+                                            {{ucfirst(\App\Admin::find($inprogress->pharm_analysed_by)? \App\Admin::find($inprogress->pharm_analysed_by)->full_name:'Null')}}
                                          </span>
+
                                          <span><strong>Evaluation:</strong> 
-                                           {!! $inprogress->pharm_report_evaluation !!}
+                                           {!! $inprogress->pharm_general_report_evaluation !!}
                                         </span>
                                     </div>
                                     <a href="{{url('admin/pharm/report/show',['id' => $inprogress->id])}}">
@@ -468,6 +472,9 @@
                                             {{\App\Admin::find($item->added_by_id)->full_name}}
                                             @endforeach
                                            
+                                         </span><br>
+                                         <span> <strong>Report Analyst:</strong>
+                                            {{ucfirst(\App\Admin::find($exp_completed->pharm_analysed_by)? \App\Admin::find($exp_completed->pharm_analysed_by)->full_name:'Null')}}
                                          </span>
                                     </div>
                                    <a href="{{url('admin/pharm/completedreport/show',['id' => $exp_completed->id])}}">

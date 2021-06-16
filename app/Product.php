@@ -429,13 +429,13 @@ class Product extends Model
     {
         if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
 
-            return '<span style="color:#ff0000; font-size:11.5px">Final Report Pending</span>';  
+            return '<span style="color:#ff0000; font-size:11.5px">Second Approval Pending</span>';  
          }
          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 7) {
-            return '<span style="color:#ff0000; font-size:11.5px">Final Report Withheld</span>';
+            return '<span style="color:#ff0000; font-size:11.5px">Second Approval Withheld</span>';
          }
          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 8) {
-            return '<span style="color:#0d8205; font-size:11.5px">Final Report Approved</span>';
+            return '<span style="color:#0d8205; font-size:11.5px">Second Approval completed</span>';
 
          }
     }
@@ -452,6 +452,29 @@ class Product extends Model
         return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
       }
 
+    }
+
+    public function getPharmGeneralReportEvaluationAttribute(){
+        if($this->pharm_hod_evaluation === 0){
+            return '<span style="color:#ff0000; font-size:11.5px">Pending</span>';
+          } if($this->pharm_hod_evaluation === 1){
+            return '<span style="color:#ff0000; font-size:11.5px">Withheld</span>';
+          }
+          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status < 6) {
+            return '<span style="color:#0d8205; font-size:11.5px">First Approval completed</span>';
+          }
+
+          if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 6) {
+
+            return '<span style="color:#ff0000; font-size:11.5px">Second Approval Pending</span>';  
+         }
+         if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 7) {
+            return '<span style="color:#ff0000; font-size:11.5px">Second Approval Withheld</span>';
+         }
+         if ($this->pharm_hod_evaluation === 2 && $this->pharm_process_status === 8) {
+            return '<span style="color:#0d8205; font-size:11.5px">Second Approval completed</span>';
+
+         }
     }
 
       //*******************************Phytochemistry*********************** */

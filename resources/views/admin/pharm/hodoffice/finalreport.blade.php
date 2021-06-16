@@ -8,6 +8,7 @@
 
 <div class="container-fluid">
     @include('admin.pharm.temp.preview') 
+    @include('admin.pharm.temp.hodstatistics2')
 
 <div class="row">
     <div class="col-md-3">
@@ -154,7 +155,7 @@
                 </div>
                <div class="row" style="margin-top: 11;margin-bottom: 11;">
 
-                    <div class="col-md-7" style="margin-right: 1%">
+                    <div class="col-md-6" style="margin-right: 1%">
                         @if (($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===6) || $product->pharm_process_status ===7 ) 
                         <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>
                         @endif
@@ -164,7 +165,7 @@
                         </button>
                         
                       </div>
-                  <div class="col-md-4">  
+                  <div class="col-md-5">  
                       @if ($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===8 ) 
                       
                     <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>

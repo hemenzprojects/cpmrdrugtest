@@ -7,7 +7,8 @@
 
 @endphp
 <div class="container-fluid">
-    @include('admin.pharm.temp.preview') 
+    @include('admin.pharm.temp.preview')
+    @include('admin.pharm.temp.hodstatistics1')
 
    <div class="row">
        <div class="col-md-3">
@@ -230,7 +231,7 @@
             </div>
         </div>
        </div>
-   </div>
+   
 </div>
 
 @endsection

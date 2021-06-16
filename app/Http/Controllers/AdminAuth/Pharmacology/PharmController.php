@@ -1020,6 +1020,14 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
+              $data['final_hod_withhelds'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status',7)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+              $data['final_hod_approvals'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status',8)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
               $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 8);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
@@ -1027,13 +1035,26 @@ class PharmController extends Controller
                $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
-
-          
+           
                return view('admin.pharm.hodoffice.evaluation',$data);
 
             }
 
              public function evaluate_one_index($id){
+
+              
+              $data['withhelds'] = Product::where('pharm_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+              $data['approvals'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 7);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+              $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 2)->where("status", 8);
+              })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
              
               $data['evaluations'] = Product::where('pharm_hod_evaluation','>=',0)->where('pharm_process_status','<',6)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
@@ -1057,6 +1078,7 @@ class PharmController extends Controller
               $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
                return view('admin.pharm.hodoffice.showreport',$data);
              }
+
 
             public function evaluate(Request $r){
                 $input = $r->all();
@@ -1199,6 +1221,7 @@ class PharmController extends Controller
             
            public function finalhodevaluate_one_edit(Request $r, $id){
              
+            
               // dd($r->all());
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
@@ -1365,6 +1388,18 @@ class PharmController extends Controller
 
            public function hod_finalreport_show($id){
            
+            $data['final_hod_withhelds'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status',7)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2)->where("status", 7);
+            })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+            $data['final_hod_approvals'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status',8)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2)->where("status", 7);
+            })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
+            $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
+              return $q->where("dept_id", 2)->where("status", 8);
+            })->with('animalExperiment')->whereHas("animalExperiment")->get();
+
             $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 2)->where("status", 7);
             })->with('animalExperiment')->whereHas("animalExperiment")->get();
