@@ -1679,7 +1679,7 @@ class PharmController extends Controller
   
               return $pdf->download('pharmreport_'.$p->code.'.pdf');
   
-              // return view('admin.micro.downloads.report',$data);
+              // return view('admin.pharm.downloads.report',$data);
   
   
              }

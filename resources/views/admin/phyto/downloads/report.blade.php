@@ -13,7 +13,7 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #000;
   text-align: left;
   padding: 8px;
 }
@@ -42,7 +42,7 @@ tr:nth-child(even) {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 60% 40%;
+    background-size: 65% 40%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -62,14 +62,14 @@ tr:nth-child(even) {
 </style>
 </head>
 
-<body >
 <?php 
 $product = \App\Product::find($report_id); 
-
 ?>
 
-<div class="{{count($phyto_organolepticsreport) > 4 || count($phyto_physicochreport) > 4? 'watermarked2': 'watermarked1' }}">
-    <div style=" background-color: #ffffffe7;">
+<body class="watermarked1">
+    <div>
+        <div style="background-color: #ffffffeb; height:70%">
+
 <table>
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:47%;border:0px solid #d3d3d3;"></td>
@@ -199,7 +199,7 @@ $product = \App\Product::find($report_id);
     </tr>
 </table>
  
-<table style="margin-top:5%"> 
+<table style="margin-top:%"> 
       
 
   <tr>
@@ -242,9 +242,9 @@ $product = \App\Product::find($report_id);
   </tr>
  
 </table>
-</div>
-</div>
 
 </span>
+</div>
+</div>
 </body>
 </html>

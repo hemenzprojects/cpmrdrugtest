@@ -17,7 +17,7 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #000;
   text-align: left;
   padding: 6px;
   width: 50%;
@@ -48,7 +48,7 @@ td, th {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 60% 85%;
+    background-size: 65% 40%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -62,9 +62,9 @@ td, th {
 </style>
 </head>
 
-<body >
-
-
+<body class="watermarked1">
+    <div>
+        <div style="background-color: #ffffffeb; height:70%">
 <table>
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:47%;border:0px solid #d3d3d3;"></td>
@@ -119,8 +119,6 @@ td, th {
 
 @if ($completed_report->pharm_testconducted == 1 || $completed_report->pharm_testconducted == 3)
 
-<div class="watermarked2">
-<div style=" background-color: #fffffff7;">
 
 <table>
 <tr>
@@ -219,10 +217,7 @@ td, th {
 
         </span>
     </p>
-</div>
 
- 
-</div>
  @endif
 
 @if ($completed_report->pharm_testconducted == 3)
@@ -230,8 +225,7 @@ td, th {
 @endif
 
  @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
- <div class="watermarked1" style="height: 450px">
-    <div style=" background-color: #fffffff2;height: 450px" >
+ 
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
  @endif
@@ -247,15 +241,14 @@ td, th {
  <p style="font-size: 16px; text-align: justify ">
     {!! $completed_report->pharm_dermal_comment !!}   
 </p> 
- </div>
- </div>
+ 
 @endif
 
 
   <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:1%'}}">
   
   <tr>
-    <td class="font" style="border: #fff" >
+    <td class="font" style="border:0px solid" >
       <?php
       $pharm_approved_by = (\App\Product::find($completed_report->id)? \App\Product::find($completed_report->id)->pharm_approved_by:'');
       $hod_user_type = (\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->user_type_id:'');
@@ -271,9 +264,9 @@ td, th {
     <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->full_name:'')}}</span><br>
      <span>{{ucfirst(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->position:'')}}</span>
       </td>
-    <td class="font" style="width: 130%;border: #fff"> </td>
+    <td class="font" style="width: 130%;border: 0px solid"> </td>
     
-    <td class="font" style="border: #fff">
+    <td class="font" style="border:0px solid">
       <?php
       $pharm_finalapproved_by = (\App\Product::find($completed_report->id)? \App\Product::find($completed_report->id)->pharm_finalapproved_by:'');
       $hod_user_type = (\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->user_type_id:'');
@@ -302,5 +295,8 @@ td, th {
     </p>  
 </div>
 @endif
+
+</div>
+</div>
 </body>
 </html>

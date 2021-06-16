@@ -16,7 +16,7 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #000;
   text-align: left;
   padding: 5px;
 }
@@ -45,13 +45,13 @@ td, th {
 
 .watermarked1{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 55% 58%;
+    background-size: 65% 40%;
     background-position: center;
     background-repeat: no-repeat;
 }
 .watermarked2{
     background-image: url('{{ asset('admin/img/logo.jpg')}}');
-    background-size: 69% 45%;
+    background-size: 50% 50%;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -67,7 +67,7 @@ td, th {
 </style>
 </head>
 
-<body >
+<body class="watermarked1">
     <?php 
     $product = \App\Product::find($report_id); 
     
@@ -78,8 +78,8 @@ td, th {
 <h5 class="title"> Microbiology Department Centre for Plant Medicine Research </h5>
 <p style="font-size: 16px">Microbial Analysis Report on Herbal Product</p>
 </div> --}}
-<div class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'watermarked2':'watermarked1'}}">
-    <div style=" background-color: #ffffffeb;">
+<div >
+    <div style=" background-color: #ffffffeb; height:70%">
 <table>
     <tr style="border: 0px solid #d3d3d3;">
         <td style="width:58%;border: 0px solid #d3d3d3;"></td>
@@ -345,10 +345,10 @@ td, th {
     <span style="font-size:15px">  {{$product->micro_general_conclusion}}</span>
   
 
-<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:1%':'margin-top:10%'}}" >
+<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:1%':'margin-top:9%'}}" >
   
   <tr class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses) < 1 ?'space':'space1'}}">
-    <td class="font " style="border: #fff" >
+    <td class="font " style="border: 0px solid">
         <?php
         $micro_approved_by = ($product? $product->micro_approved_by:'');
         $user_type         = (\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->user_type_id:'');
@@ -362,9 +362,9 @@ td, th {
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->full_name:'')}}</span><br>
         <span>{{ucfirst(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->position:'')}}</span>
     </td>
-    <td class="font" style="width: 50%;border: #fff"> </td>
+    <td class="font" style="width: 53%; border: 0px solid"> </td>
     
-    <td class="font" style="border: #fff">
+    <td class="font" style=" border: 0px solid">
         <?php
         $micro_finalapproved_by = ($product? $product->micro_finalapproved_by:'');
         $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
