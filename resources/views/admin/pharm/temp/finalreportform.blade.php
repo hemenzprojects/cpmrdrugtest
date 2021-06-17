@@ -68,7 +68,7 @@
                </td>
             </tr>
             <tr>
-                <td class="font"><strong>No. of Death Recorded</strong></td> 
+                <td class="font"><strong>No. of Deaths Recorded</strong></td> 
                 <td  class="font">
                     <input type="text" required name="no_death" value="{{$pharm_finalreports->no_death}}" placeholder="None">
 

@@ -97,13 +97,13 @@
                                      </div>
                                      @endif
                              <div class="card">
-                             <div class="row"  style="margin:10px; margin-top:1px">
+                             <div class="row"  style="margin-bottom:5px; margin:1px; margin-top:1px">
                                  <div class="col-sm-8">
-                                     <div class="form-group">
+                           
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Final Remarks: </strong></h4>
                  
-                                     <textarea required name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$pharmreports->pharm_hod_remarks}}</textarea>
-                                     </div>
+                                     <textarea required id="summernote5" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
+                                     
                                  </div>
                                  <div class="col-sm-4">
                                      <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Report Grade</strong></h4>

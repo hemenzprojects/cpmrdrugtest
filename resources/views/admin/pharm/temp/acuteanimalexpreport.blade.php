@@ -69,7 +69,7 @@
             </td>
             </tr>
             <tr>
-                <td class="font"><strong>No. of Death Recorded</strong></td> 
+                <td class="font"><strong>No. of Deaths Recorded</strong></td> 
                 <td  class="font">
                   
                         {{$pharmreports->experimental_deaths}} 

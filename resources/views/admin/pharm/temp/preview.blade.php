@@ -102,7 +102,7 @@
           </td>
       </tr>
       <tr>
-          <td class="font">No. of Death Recorded</td> 
+          <td class="font">No. of Deaths Recorded</td> 
           <td  class="font">
               {{$pharm_finalreports->no_death}}
           </td>

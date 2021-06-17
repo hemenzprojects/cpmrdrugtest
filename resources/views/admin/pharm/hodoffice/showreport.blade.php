@@ -45,9 +45,9 @@
               
                            <form action="{{url('admin/pharm/hod_office/editreport',['id' => $pharmreports->id])}}" method="post">
                              {{ csrf_field() }} 
-                             @include('admin.pharm.temp.productformat') 
+                             @include('admin.pharm.temp.productformat')
               
-                             @if ($pharmreports->pharm_testconducted ==1  || $pharmreports->pharm_testconducted ==3)
+                             @if ($pharmreports->pharm_testconducted ==1 || $pharmreports->pharm_testconducted ==3)
               
                                  <div class="row test1 test3" style="display: none;">
                                      <div class="col-sm-8">
@@ -102,7 +102,7 @@
                                      <div class="form-group">
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Final Remarks: </strong></h4>
                  
-                                     <textarea required name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$pharmreports->pharm_hod_remarks}}</textarea>
+                                     <textarea required id="summernote5" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$pharmreports->pharm_hod_remarks}}</textarea>
                                      </div>
                                  </div>
                                  <div class="col-sm-4">

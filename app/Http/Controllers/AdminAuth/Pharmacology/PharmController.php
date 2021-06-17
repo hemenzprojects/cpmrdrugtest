@@ -1410,11 +1410,11 @@ class PharmController extends Controller
              }  
              $data['report_id'] = $id; 
 
-          $data['pharmreports'] = Product::where('id',$id)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
+             $data['pharmreports'] = Product::where('id',$id)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 2)->where("status", 7);
-            })->with('animalExperiment')->whereHas("animalExperiment")->first();
+             })->with('animalExperiment')->whereHas("animalExperiment")->first();
 
-            $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
+             $data['pharm_finalreports'] = PharmFinalReport::where('product_id',$id)->first();
              return view('admin.pharm.hodoffice.finalreport',$data);
            }
 
