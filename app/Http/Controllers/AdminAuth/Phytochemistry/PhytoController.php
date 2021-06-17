@@ -238,6 +238,15 @@ class PhytoController extends Controller
                $data['phyto_physicochemdata_admin'] = PhytoPhysicochemData::whereIn('id',$admin_physicochemical_options)->get();
                $data['phyto_chemicalconsts_admin'] = PhytoChemicalConstituents::whereIn('id',$admin_chemicalconsts_options)->get();
 
+               $withheld_notify = Product::where('phyto_hod_evaluation',1)->where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+                return $q->where("dept_id", 3)->where("status", 3);
+               })->count();
+  
+               if ($withheld_notify > 0 ) {
+                Session::flash('warning', 'Info');
+                Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld.');
+               }
+             
               return View('admin.phyto.createreport', $data); 
             }
 
