@@ -278,7 +278,7 @@ class MicroController extends Controller
 
                 $data['microproduct_completedtests'] =  Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 4);
-                  })->get();    
+                })->get();
 
                 return View('admin.micro.createreport', $data); 
               }
