@@ -275,16 +275,10 @@ class MicroController extends Controller
 
 
                 //***************************************** All completed report  */
-                $data['microproduct_withloadanalysis_completedtests'] = Product::with('departments')->whereHas("departments", function($q){
+
+                $data['microproduct_completedtests'] =  Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 4);
-                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-
-                $data['microproduct_withefficacyanalysis_completedtests'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 4);
-
-                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
-
-                $data['microproduct_completedtests'] = $data['microproduct_withloadanalysis_completedtests']->merge($data['microproduct_withefficacyanalysis_completedtests']);
+                  })->get();    
 
                 return View('admin.micro.createreport', $data); 
               }
