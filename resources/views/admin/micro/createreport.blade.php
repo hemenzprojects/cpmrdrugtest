@@ -387,11 +387,11 @@ $product = \App\Product::where('id',7)->first();
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header" style="border-color:#26c281; margin:5px">
-                    @foreach($microproduct_completedtests->groupBy('product_id') as $microproduct_completedtest)
+     
                     <label class="badge badge-warning" style="background-color: #26c281; margin-right:5px;">
-                       {{count($microproduct_completedtest)}} 
+                       {{count($microproduct_completedtests)}} 
                     </label>
-                    @endforeach
+                   
                     <h3>Completed Reports</h3>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
