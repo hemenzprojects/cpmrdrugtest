@@ -1590,16 +1590,37 @@ class SIDController extends Controller
         return redirect()->back();
 }
 
-     public function phyto_completed_reports(){
+      public function micro_completed_reports(){
 
-      $data['phytocompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
-        return $q->where("dept_id", 3)->where("status",4);
+      $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status",4);
       })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
 
       ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
 
-      return view('admin.sid.hodoffice.phytocompletedreports',$data);
+      return view('admin.sid.hodoffice.microcompletedreports',$data);
     }
+      public function pharm_completed_reports(){
+
+        $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 2)->where("status",8);
+        })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+  
+        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+  
+        return view('admin.sid.hodoffice.pharmcompletedreports',$data);
+      }
+
+      public function phyto_completed_reports(){
+
+        $data['phytocompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 3)->where("status",4);
+        })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+  
+        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+  
+        return view('admin.sid.hodoffice.phytocompletedreports',$data);
+      }
 
 
     public function phyto_completedreport_update(Request $r){

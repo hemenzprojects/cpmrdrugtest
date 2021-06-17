@@ -171,7 +171,6 @@ class PharmController extends Controller
               ];
         
               ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 2)->where("status", '<', 3)->update($data);
-            
             }
           
           
@@ -231,6 +230,17 @@ class PharmController extends Controller
            $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", 8);
            })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation")->get();
+
+           $exp_inprogress = Product::where('pharm_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
+            return $q->where("dept_id", 2)->where("status", 7);
+          })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation", function($q){
+            return $q->where("created_by", Auth::guard('admin')->id()); })->count();
+
+           if ($exp_inprogress > 0 ) {
+            Session::flash('warning', 'Info');
+            Session::flash('message', 'You have '.$exp_inprogress.'. report(s) withheld.');
+           }
+         
 
            return View('admin.pharm.report_index', $data); 
          }

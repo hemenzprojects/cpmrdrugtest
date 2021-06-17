@@ -130,7 +130,11 @@ Route::get('/sendtest', function () {
    Route::get('sid/user/{id}/edit','AdminAuth\SID\SIDController@user_editadmin')->name('admin.sid.user.edit');
    Route::post('sid/user/{id}/update','AdminAuth\SID\SIDController@user_updateadmin')->name('admin.sid.user.update');
 
+   Route::get('sid/hod_office/micro_completed_reports','AdminAuth\SID\SIDController@micro_completed_reports')->name('admin.sid.micro_completed_reports');
    Route::get('sid/hod_office/phyto_completed_reports','AdminAuth\SID\SIDController@phyto_completed_reports')->name('admin.sid.phyto_completed_reports');
+   Route::get('sid/hod_office/pharm_completed_reports','AdminAuth\SID\SIDController@pharm_completed_reports')->name('admin.sid.pharm_completed_reports');
+
+
    Route::post('sid/hod_office/phyto_completed_report/update','AdminAuth\SID\SIDController@phyto_completedreport_update')->name('admin.sid.phyto_completed_report.update');
 
   });
