@@ -256,7 +256,7 @@ td, th {
       ?>
       <span>Analysed by</span><br>
       @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
-      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="35%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="35%"  style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 
@@ -274,7 +274,7 @@ td, th {
       ?>
       <span>Approved by</span><br>
     @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
-      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="35%"><br>
+      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="35%" style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 
