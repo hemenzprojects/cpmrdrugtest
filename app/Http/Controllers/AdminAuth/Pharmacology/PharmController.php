@@ -961,7 +961,7 @@ class PharmController extends Controller
                
                 //  dd($r->all());
                  $date_analysed = (\Carbon\Carbon::parse($r->date_analysed));
-                 if ($r->date_analysed > \Carbon\Carbon::now()) {
+                 if ($date_analysed > \Carbon\Carbon::now()) {
                   Session::flash('message_title', 'error');
                   Session::flash('message', 'Please check date field. Date must not exceed todays date');
                   return redirect()->back();
