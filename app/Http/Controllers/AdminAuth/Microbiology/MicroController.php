@@ -285,7 +285,7 @@ class MicroController extends Controller
 
               public function test_create(MicroTestCreateRequest $r){
 
-                dd($r->all());
+                // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
