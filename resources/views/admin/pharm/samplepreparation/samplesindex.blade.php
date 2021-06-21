@@ -110,20 +110,22 @@
                             </td> 
                               <td>
                                   
-                                  @if (Auth::guard('admin')->id() ==  \App\Admin::find($recordbook->created_by)->id)
+                                  {{-- @if (Auth::guard('admin')->id() ==  \App\Admin::find($recordbook->created_by)->id)
                                     @if ($product->pharm_process_status < 4)
                                     <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
                                     @else
                                     <span><i class="ik ik-slash"></i></span>
                                     @endif
-                                  @endif
+                                  @endif --}}
+                                  <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
+
                               </td>
                         </tr>
                         <div class="modal fade" id="demoModal{{$recordbook->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="demoModalLabel"> Microbiology Product Details </h5>
+                                        <h5 class="modal-title" id="demoModalLabel">  Product Details </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="card-body"> 
@@ -180,6 +182,7 @@
                                 <div class="modal-content">
                                     <form action="{{route('admin.pharm.samplepreparation.update')}}" method="post">
                                         {{ csrf_field() }}
+                                        <input type="hidden" name="product_id" value="{{$product->id}}">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLongLabel">Edit sample of {{$product->code}}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>

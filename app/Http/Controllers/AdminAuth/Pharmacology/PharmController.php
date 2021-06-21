@@ -386,7 +386,7 @@ class PharmController extends Controller
 
              public function samplepreparation_update(Request $r){
 
-
+              
                $r->validate([
                 'weight' => 'required',
                 'dosage' => 'required',
@@ -402,7 +402,17 @@ class PharmController extends Controller
                   'updated_at' => \Carbon\Carbon::now(),
                 ]);
 
-                PharmSamplePreparation::where('id',$r->recordbook_id)->update($data);
+                  PharmSamplePreparation::where('id',$r->recordbook_id)->update($data);
+                  $psp_data = [ 
+                  'pharm_testconducted' => $r->pharm_testconducted,
+                  ];
+                  Product::where('id',$r->product_id)->update($psp_data);
+
+                   $pfr_data = [ 
+                    'pharm_testconducted_id' => $r->pharm_testconducted,
+                    ];
+                  PharmFinalReport::where('product_id',$r->product_id)->update($pfr_data);
+
 
                 Session::flash("message", "Product sample data updated successfully");
                 Session::flash("message_title", "success");

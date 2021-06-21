@@ -1397,7 +1397,7 @@ class MicroController extends Controller
                     $p->update(['overall_status'=> 1]);
                   }
                 } 
-
+ 
                 if ($p->single_multiple_lab == 1) {
                   if ($complete == 2 ) {
                     $p->update(['overall_status'=> 2]);
