@@ -52,11 +52,11 @@ class Admin extends Authenticatable
 
     public function getAdminPrevilageAttribute(){
 
-        if ($this->user_type_id == 1) {
-           return"1st Approval ";
-        }
         if ($this->user_type_id == 2) {
-            return"2nd Approval ";
+           return"1st Approval";
+        }
+        if ($this->user_type_id == 1) {
+            return"2nd Approval";
          } 
     }
 

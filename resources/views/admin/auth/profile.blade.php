@@ -120,8 +120,8 @@
                                 </div>
                                 <select class="form-control" name="user_type_id">
                                 <option value="{{$user->user_type_id}}">{{$user->admin_previlage}}</option>
-                                    <option value="1">1st Approval</option>
-                                    <option  value="2">2nd Approval</option>
+                                    <option value="2">1st Approval</option>
+                                    <option  value="1">2nd Approval</option>
                                 </select>
                             </div>
                             @endif
