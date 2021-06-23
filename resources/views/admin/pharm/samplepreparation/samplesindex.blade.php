@@ -117,6 +117,7 @@
                                     <span><i class="ik ik-slash"></i></span>
                                     @endif
                                   @endif
+                                  <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
 
                               </td>
                         </tr>
