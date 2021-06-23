@@ -1643,6 +1643,26 @@ class SIDController extends Controller
          return redirect()->back();
       }
 
+       public function pharm_completedreport_update(Request $r){
+     
+        $pharmcompletedreports = Product::whereIn('id',$r->pharm_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 2)->where("status",8);
+        });
+
+         if(count($pharmcompletedreports->get()) < 1){     
+            return redirect()->back();
+          }
+
+          $data = 
+          [ 
+          'status' => 7,
+          ];   
+
+         ProductDept::whereIN('product_id', $r->pharm_completedproduct_id)->where("dept_id", 2)->where("status",8)->update($data);
+  
+         return redirect()->back();
+      }
+
 
       //*************************************************************** All Downloads ********************************************************* */
 

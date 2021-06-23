@@ -56,7 +56,7 @@
             </td>
             </tr>
             <tr>
-                <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
+                <td class="font"><strong>Dose Administered</strong></td> 
                 <td  class="font">
                     <input type="text" required name="dosage" value="{{$pharm_finalreports->dosage}}" placeholder="None">
                 </td>

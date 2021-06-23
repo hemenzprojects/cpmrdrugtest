@@ -82,7 +82,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                              {{-- <button class="" type="submit"> Reject Reports</button> --}}
+                              <button class="" type="submit"> Reject Reports</button>
                             </form>
          
                         </div>

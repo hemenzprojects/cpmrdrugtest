@@ -136,6 +136,7 @@ Route::get('/sendtest', function () {
 
 
    Route::post('sid/hod_office/phyto_completed_report/update','AdminAuth\SID\SIDController@phyto_completedreport_update')->name('admin.sid.phyto_completed_report.update');
+   Route::post('sid/hod_office/pharm_completed_report/update','AdminAuth\SID\SIDController@pharm_completedreport_update')->name('admin.sid.pharm_completed_report.update');
 
   });
 
