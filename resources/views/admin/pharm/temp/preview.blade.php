@@ -90,7 +90,7 @@
       <td  class="font">{{$pharm_finalreports->preparation}}</td>
       </tr>
       <tr>
-          <td class="font">Dose Administered (mg/kg)</td> 
+          <td class="font">Dose Administered</td> 
           <td  class="font">
               {{$pharm_finalreports->dosage}}
           </td>
