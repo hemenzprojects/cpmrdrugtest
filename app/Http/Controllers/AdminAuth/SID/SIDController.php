@@ -1602,9 +1602,7 @@ class SIDController extends Controller
 
         $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
-        })
-  
-        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+        })->get();
   
         return view('admin.sid.hodoffice.pharmcompletedreports',$data);
       }
