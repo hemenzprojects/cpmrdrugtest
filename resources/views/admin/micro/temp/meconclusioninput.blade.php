@@ -7,13 +7,13 @@
     <div class="form-check">
     <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault_1"  {{$product->micro_ea_conclusion == 1 ? "checked":""}}  value="1">
     <label class="form-check-label" for="flexRadioDefault_1">
-      Meet required specification.
+       The product did not show antimicrobial activity.
     </label>
   </div>
   <div class="form-check">
     <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault_2"  {{$product->micro_ea_conclusion == 2 ? "checked":""}}  value="2">
     <label class="form-check-label" for="flexRadioDefault_2">
-      Did not meet required specification.
+      The product showed antimicrobial activity.
     </label>
   </div>
       </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 <?php 
-$product = \App\Product::where('id',7)->first(); 
+$product = \App\Product::where('id',5)->first(); 
 
 ?>
 <div class="">

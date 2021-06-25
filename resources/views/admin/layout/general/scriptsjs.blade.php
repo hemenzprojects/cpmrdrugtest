@@ -1392,6 +1392,7 @@ console.log(animalmodel);
   
 </script>
 <script>
+
    $("#micro_ea_comment_option").change(function() {
     var tag2 = $('option:selected', this).attr('tag2');
    

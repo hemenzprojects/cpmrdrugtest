@@ -165,11 +165,11 @@ $product = \App\Product::find($report_id);
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="card-heade" style="margin-top: 5%">
-                                    <h6>General Conclusion:</h6>
+                                    <h6>General Comment:</h6>
                                  </div>
                             </div>
                             <div class="col-md-9">
-                            <p style="font-size: 16px"> {{$product->micro_la_conclution}}</p>
+                            <p style="font-size: 13px"> {{$product->micro_la_comment}}</p>
 
                             </div>
 
@@ -226,11 +226,11 @@ $product = \App\Product::find($report_id);
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="card-heade" style="margin-top: 5%">
-                                    <h6>General Conclusion:</h6>
+                                    <h6>General Comment:</h6>
                                  </div>
                             </div>
                             <div class="col-md-9">
-                                <p style="font-size: 16px"> {{$product->micro_la_conclution}}</p>
+                                <p style="font-size: 13px"> {{$product->micro_ea_comment}}</p>
                             </div>
 
                         </div>
