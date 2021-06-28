@@ -280,6 +280,9 @@ class MicroController extends Controller
                   return $q->where("dept_id", 1)->where("status", 4);
                 })->get();
 
+
+         
+               
                 return View('admin.micro.createreport', $data); 
               }
 
@@ -1084,6 +1087,13 @@ class MicroController extends Controller
 
               $data['hod_approvals'] = $data['microproduct_withloadanalysis_hod_approvals']->merge($data['microproduct_withefficacyanalysis_hod_approvals']);
 
+              $withheld_notify = $data['microproduct_withloadanalysis_hod_withhelds']->merge($data['microproduct_withefficacyanalysis_hod_withhelds'])->count();
+
+              
+              if ($withheld_notify > 0 ) {
+                Session::flash('warning', 'Info');
+                Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld. Please check and resubmit for evaluation.');
+               }
 
               return view('admin.micro.hodoffice.evaluation',$data);
 
@@ -1906,6 +1916,10 @@ class MicroController extends Controller
 
             $data['report_id'] = $id; 
             $p = Product::Find($id);
+            $code =   str_replace('/', '_', $p->code);
+            $auth = Admin::Find(Auth::guard('admin')->id());
+            $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+            $period = str_replace(':', '_', $date);
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>',2);
@@ -1921,8 +1935,8 @@ class MicroController extends Controller
 
             $pdf = \PDF::loadView('admin.micro.downloads.report',$data);
 
-            $pdf->save(storage_path().'_filename.pdf');
-
+             $pdf->save(storage_path('pdf\micro\microreport').'_'.$code.'_'.$auth->full_name.'_'.$period.'.pdf');
+            
             return $pdf->download('microreport_'.$p->code.'.pdf',$id);
 
             // return view('admin.micro.downloads.report',$data);

@@ -63,7 +63,7 @@
                                         <a  target="_blank" href="{{route('admin.sid.print_microreport',['id' => $product->id])}}">
                                           <button type="button" class="btn btn-outline-success btn-rounded">Print Report</button>
                                       </a><br><br>
-                                      <a href="{{route('admin.sid.microreport.pdf',['id' => $product->id])}}">
+                                         <a href="{{route('admin.sid.microreport.pdf',['id' => $product->id])}}">
                                           <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
                                         </a>   
                                         @endif

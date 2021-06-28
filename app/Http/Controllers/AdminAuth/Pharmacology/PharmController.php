@@ -238,7 +238,7 @@ class PharmController extends Controller
 
            if ($exp_inprogress > 0 ) {
             Session::flash('warning', 'Info');
-            Session::flash('message', 'You have '.$exp_inprogress.'. report(s) withheld.');
+            Session::flash('message', 'You have '.$exp_inprogress.'. report(s) withheld. Please check and resubmit for evaluation');
            }
          
 
@@ -1684,6 +1684,11 @@ class PharmController extends Controller
                return redirect()->back(); 
                }
                $p = Product::Find($id);
+               $code =   str_replace('/', '_', $p->code);
+               $auth = Admin::Find(Auth::guard('admin')->id());
+               $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+               $period = str_replace(':', '_', $date);
+
               $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", '>',6);
              })->with('animalExperiment')->whereHas("animalExperiment")->first();
@@ -1695,12 +1700,11 @@ class PharmController extends Controller
   
               $pdf = \PDF::loadView('admin.pharm.downloads.report',$data);
   
-              $pdf->save(storage_path().'_filename.pdf');
+             $pdf->save(storage_path('pdf\pharm\pharmreport').'_'.$code.'_'.$auth->full_name.'_'.$period.'.pdf');
   
               return $pdf->download('pharmreport_'.$p->code.'.pdf');
   
               // return view('admin.pharm.downloads.report',$data);
-  
   
              }
 

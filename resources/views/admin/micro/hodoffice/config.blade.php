@@ -201,7 +201,7 @@
                     <div class="col-md-3">
                             <div class="alert alert-warning" role="alert">
                                 @foreach ($microbial_loadanalyses_admin as $item)
-                                <ul><li>{{$item->test_conducted}}</li></ul>  
+                                <ul><li>{!! $item->test_conducted !!}</li></ul>  
                                 @endforeach
                             </div>
                     </div>

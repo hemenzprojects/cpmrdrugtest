@@ -201,8 +201,13 @@
                         
                                     </table>
                             
-                            
+                                         {{--                              
+                                    <div class="form-group">
+                                        <label for="exampleTextarea1"> <strong>Cover Letter:</strong></label>
+                                        <textarea class="form-control" id="summernote" rows="4"> {{$final_report}} </textarea>
+                                    </div> --}}
                             </div>
+
                             @endforeach
 
                           </div>

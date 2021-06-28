@@ -90,7 +90,7 @@
         </tr>
 
         <tbody>
-          @if ($single_multiple_lab == Null)
+          @if ($single_multiple_lab == 0)
           @php $i=0; @endphp
           @foreach ($product_types as $product_type)                                    
            <tr>

@@ -88,6 +88,9 @@
                         <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Product Report Status</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#coverletter" role="tab" aria-controls="pills-setting" aria-selected="false">Cover Letter</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Product History</a>
                     </li>
                 </ul>
@@ -243,11 +246,18 @@
 
                             @endif 
                             @if($item->status ==4)
-                            <h6 class="mt-30">Microbiology <span class="pull-right">100% </span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->micro_grade_report !!}</span>
+                            <h6 class="mt-30">Microbiology <span class="pull-right">100% </span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->micro_grade_report !!}</span> |
+                              <a  target="_blank" href="{{route('admin.sid.print_microreport',['id' => $product->id])}}">
+                                <i style="color: rgb(25, 97, 3)" class="ik ik-eye"> view </i>
+                            </a> |
+                            <a href="{{route('admin.sid.microreport.pdf',['id' => $product->id])}}">
+                                <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                              </a> 
                             <div class="progress  progress-sm">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
                             @endif
+                            
                             @endforeach
 
 
@@ -289,7 +299,13 @@
                             @endif
 
                             @if($item->status ==8)
-                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong>  {!! $product->pharm_grade_report !!}</span>
+                            <h6 class="mt-30">Pharmachology <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong>  {!! $product->pharm_grade_report !!}</span> | 
+                            <a  target="_blank" href="{{route('admin.sid.print_pharmreport',['id' => $product->id])}}">
+                                <i style="color: rgb(25, 97, 3)" class="ik ik-eye"> view </i>
+                            </a> |
+                            <a href="{{route('admin.sid.pharmreport.pdf',['id' => $product->id])}}">
+                                <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                              </a>  
                             <div class="progress progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
                             </div>
@@ -341,10 +357,17 @@
                             </div>
                             @endif 
                             @if($item->status ==4)
-                            <h6 class="mt-30">Phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span>
+                            <h6 class="mt-30">Phytochemistry <span class="pull-right">100%</span></h6><span>Product report completed. <strong>Grade</strong> {!! $product->phyto_grade_report !!}</span> |
+                            <a  target="_blank" href="{{route('admin.sid.print_phytoreport',['id' => $product->id])}}">
+                                <i style="color: rgb(25, 97, 3)" class="ik ik-eye"> view </i>
+                            </a> |
+                            <a href="{{route('admin.sid.phytoreport.pdf',['id' => $product->id])}}">
+                                <i style="color: rgb(200, 8, 8)" class="ik ik-download"> download </i>
+                              </a> 
                             <div class="progress  progress-sm">
                                 <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"> <span class="sr-only">Completed</span> </div>
-                            </div>   
+                            </div> 
+                              
                             @endif
                             @endforeach
                             
@@ -352,6 +375,102 @@
                             
                         </div>
                     </div>
+                   
+                     <div class="tab-pane fade" id="coverletter" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <form action="{{url('admin/sid/report/coverletter/create')}}" class="form-inline" method="POST">
+                            {{ csrf_field() }}  
+                        <div class="card-body">     
+                                 
+                        <div class="form-group">
+                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                            @if ($product->cover_letter == Null)
+                            <textarea class="form-control" id="summernote1" name="coverletter" rows="4">
+
+                                <p class="MsoNormal"><b><u>REPORT ANALYSIS ON {{strtoupper($product->name)}}</u></b></p>
+
+                                <p class="MsoNormal">Please find <span style="background:lime;mso-highlight:lime">attached
+                                results of phytochemical &amp; microbiological analyses and acute toxicity
+                                (LD50) studies</span> on <b>“{{$product->name}}”</b>, an herbal medicinal
+                                product submitted for testing on 20<sup>th</sup> April, 2021.<o:p></o:p></p>
+                                
+                                <p class="MsoNormal"><b>Product Type:</b> {{$product->ProductType->name}} {{$product->code}}<o:p></o:p></p>
+                                
+                                <p class="MsoNormal"><b>Claims on label:</b> {{$product->indication}}</p>
+                                <p class="MsoNormal">Summary of attached results</p>
+                                
+                                <p class="MsoNormal">
+                                 <b>{{$product->name}}</b> contains    @foreach ($phyto_chemicalconstsreport as $key => $value)
+                                 @if( count( $phyto_chemicalconstsreport  ) != $key + 1 )
+                                 {{App\PhytoChemicalConstituents::find($value->name)->name}},
+                                 @else
+                                 {{App\PhytoChemicalConstituents::find($value->name)->name}}
+                                 @endif
+                                 @endforeach
+                                indicating that {{$product->name}} may be plant based. The pH of the
+                                product falls outside/inside the acceptable range.<o:p></o:p></p>
+                                
+                                <p class="MsoNormal"> The
+                                levels of the Total Aerobic Microbial Counts (TAMC) and the Total Yeast and
+                                Mold Counts (TYMC) represent the estimates of overall microbial (germs) and
+                                contaminations found in the product. <span style="background:lime;mso-highlight:
+                                lime">The level of microbial contaminant in the product where above / within the
+                                accepted limit.</span><o:p></o:p></p>
+                                
+                                <p class="MsoNormal"> The
+                                highest dose (5000 mg/kg) of <b>{{$product->name}}</b> orally administered to
+                                the experimental animals did not cause death or any physical signs of toxicity
+                                such as impaired locomotion, &nbsp;&nbsp;&nbsp;labored
+                                breathing or erection of the hair, at the end of the 14 days observational
+                                period. Thus, the oral LD<sub>50</sub> of {{$product->name}} is estimated to
+                                be greater than 5000 mg/kg indicating that it may be toxic and the recommended
+                                dose of {{$product->dosage}} <span style="background:lime;mso-highlight:lime">is
+                                within the accepted margin of safety</span>.<o:p></o:p></p>
+                                
+                                <p class="MsoNormal" style="line-height:5.0pt;mso-line-height-rule:exactly"><o:p>&nbsp;</o:p></p>
+                                
+                                <p class="MsoNormal"><b>Recommendation<o:p></o:p></b></p>
+                                
+                                <p class="MsoListParagraph" style="text-indent:-.25in;mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </span><!--[endif]-->Putting all the results <b>together {{$product->name}}
+                                 could not be recommended for registration by the FDA because the pH of
+                                the product falls <span style="background:lime;mso-highlight:lime">below/above</span> the acceptable range and the microbial contamination
+                                was <span style="background:lime;mso-highlight:lime">above/within</span> the acceptable limit.</b> Thus, the manufacturer is advised to submit
+                                refresh samples to the Centre for re-evaluation.<o:p></o:p></p>
+                                
+                                <p class="MsoNormal"><b>Thank you<o:p></o:p></b></p>
+                                
+                                <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+                                
+                                <p class="MsoNormal"><b>Dr. Alfred Appiah<o:p></o:p></b></p>
+                                
+                                <p class="MsoNormal"><b>(Deputy Executive Director)<o:p></o:p></b></p>
+                                
+                                <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+                                
+                                                            
+                            </textarea>
+                            @endif
+                            @if ($product->cover_letter != Null )
+                              <textarea class="form-control" id="summernote0" name="coverletter" rows="4">
+                                {!! $product->cover_letter !!}
+                              </textarea>
+                            @endif
+                        </div>
+                       
+                      
+                        </div>
+                        
+                            <div class="card-body template-demo">
+                                <button type="submit" class="btn btn-success"><i class="ik ik-check-circle"></i>Save Changes</button>
+                            <a href="{{route('admin.sid.coverletter.pdf',['id' => $product->id])}}">
+                                    <button type="button" class="btn btn-info"><i class="ik ik-share"></i>Download pdf</button>
+                                </a>
+                                
+                            </div>
+                        
+                    </form>
+                    </div>
+               
                     <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
                         <div class="card-body">
                             <div class="card-body">

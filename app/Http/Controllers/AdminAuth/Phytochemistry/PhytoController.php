@@ -244,7 +244,7 @@ class PhytoController extends Controller
   
                if ($withheld_notify > 0 ) {
                 Session::flash('warning', 'Info');
-                Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld.');
+                Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld. Please check and resubmit for evaluation');
                }
              
               return View('admin.phyto.createreport', $data); 
@@ -1461,6 +1461,11 @@ class PhytoController extends Controller
          
          $data['report_id'] = $id; 
          $p = Product::Find($id);
+         $code =   str_replace('/', '_', $p->code);
+            $auth = Admin::Find(Auth::guard('admin')->id());
+            $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+            $period = str_replace(':', '_', $date);
+            
          $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
          $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();
          $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id)->get();
@@ -1469,8 +1474,7 @@ class PhytoController extends Controller
         // Send data to the view using loadView function of PDF facade
 
         $pdf = \PDF::loadView('admin.phyto.downloads.report',$data);
-
-        $pdf->save(storage_path().'_filename.pdf');
+        $pdf->save(storage_path('pdf\phyto\phytoreport').'_'.$code.'_'.$auth->full_name.'_'.$period.'.pdf');
 
         return $pdf->download('phytoreport_'.$p->code.'.pdf');
 

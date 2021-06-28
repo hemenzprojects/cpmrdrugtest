@@ -117,6 +117,10 @@ Route::get('/sendtest', function () {
    Route::get('sid/phytoreport/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.sid.phytoreport.pdf');
    Route::get('sid/reportindex/pdf/{from_date}/{to_date}/{smlab}','AdminAuth\SID\SIDController@reportindex_pdf')->name('admin.sid.reportindex.pdf');
 
+   Route::post('sid/report/coverletter/create','AdminAuth\SID\SIDController@coverletter_create')->name('admin.sid.coverletter.create');
+   Route::get('sid/report/coverletter_pdf/{id}','AdminAuth\SID\SIDController@coverletter_pdf')->name('admin.sid.coverletter.pdf');
+
+  
   });
 
    // SID Configurations

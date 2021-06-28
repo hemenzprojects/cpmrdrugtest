@@ -16,6 +16,7 @@ use App\MicrobialLoadAnalyses;
 use App\PhytoPhysicochemData;
 use App\PhytoOrganoleptics;
 use App\PhytoChemicalConstituents;
+use App\PhytoChemicalConstituentsReport;
 use App\Admin;
 use App\Customer;
 use App\Department;
@@ -384,6 +385,9 @@ class SIDController extends Controller
         } 
 
         $data['product_history']= Product::where('failed_tag',$id->failed_tag)->whereNotNull('failed_tag')->get();
+
+        // Cover Letter //
+        $data['phyto_chemicalconstsreport'] = PhytoChemicalConstituentsReport::where('product_id',$id->id)->get();
         
         return view('admin.sid.products.show', $data);
     }
@@ -1691,7 +1695,7 @@ class SIDController extends Controller
                 
         $data['single_multiple_lab'] = $smlab;
 
-            if ($smlab == Null) {
+            if ($smlab == 0) {
               
                 $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($from_date,$to_date){
                     $query->whereHas("departments",function ($q) use ($from_date,$to_date) {
@@ -1760,5 +1764,29 @@ class SIDController extends Controller
         return $pdf->download('generalreport.pdf');
 
     }
+     
+    public function coverletter_create(Request $r){
 
+        $data = ([
+            'cover_letter' => $r->coverletter,
+        ]);
+        Product::where('id', $r->product_id)->update($data);
+        // Session::flash('activetab', !blank($request->activetab) ? $request->activetab : 0);
+
+        Session::flash("message", "Cover Letter Successfully Saved.");
+        Session::flash("message_title", "success");
+        return redirect()->back();
+    }
+
+    public function coverletter_pdf($id) {
+
+       $data['product_coverletter'] = Product::where('id', $id)->first();
+
+       $pdf = \PDF::loadView('admin.sid.downloads.coverletter', $data);
+
+       $pdf->save(storage_path().'_filename.pdf');
+  
+       return $pdf->download('coverletter.pdf');
+
+    }
 }

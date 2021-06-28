@@ -261,11 +261,13 @@ $("#inputmask_0").on('keyup', function() {
        
        var inputmask_1 = $('#inputmask_0').val();
        var inputmask_2 = $('#inputmask_1').val();
+
        var replace_1 = inputmask_1.replace(/[.X_^]/g, '');
        var replace_2 = inputmask_2.replace(/[.X_^]/g, '');
 
        var  length1 = replace_1.length;
        var  length2 = replace_2.length;
+
 
        if(length1 < 7){
         $('#error-div0').html("Error: Please check Result field and input data properly")
@@ -279,6 +281,7 @@ $("#inputmask_0").on('keyup', function() {
         $('#error-div1').html(" ")
        }
 
+      
       if (length1 + length2 === 14)
      {
        // $('#userid').val(result.user);
