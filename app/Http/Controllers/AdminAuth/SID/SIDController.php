@@ -1066,7 +1066,7 @@ class SIDController extends Controller
         $data = $r->all();
         if ($r->from_date == null) {
             Session::flash('message_title', 'error');
-            Session::flash('message', 'Please select required date to begin begin');
+            Session::flash('message', 'Please select required date to begin');
             return redirect()->route('admin.sid.general_report.index');
         }
 
@@ -1604,10 +1604,20 @@ class SIDController extends Controller
     }
       public function pharm_completed_reports(){
 
+        $pharmcompletedreports = Product::with('departments')->whereHas("departments", function($q){
+            return $q->where("dept_id", 2)->where("status",'<',8);
+          })->get();
+          if (count($pharmcompletedreports) > 0) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Please select required date to begin');
+          }
+
         $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
         })->get();
-  
+
+        Session::flash("message", "Process Successfully completed.");
+        Session::flash("message_title", "success");
         return view('admin.sid.hodoffice.pharmcompletedreports',$data);
       }
 
