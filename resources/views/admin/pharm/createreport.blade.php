@@ -52,7 +52,7 @@
          <div class="col-md-7">
           <div class="card" style="padding: 2%">
             @if ( $product->pharm_standard !== Null )
-                <textarea id="summernote0"  style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" >{{$pharmreports->pharm_standard}}
+                <textarea id="summernote0"  style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" >{!! $pharmreports->pharm_standard !!}
                 </textarea> 
             @endif
 

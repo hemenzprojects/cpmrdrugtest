@@ -74,7 +74,7 @@
                                          <div class="row">
                                              <div class="col-sm-7">
                                                  {{-- <p style="font-size:16px; margin:4px; "></p> --}}
-                                                 <textarea id="summernote0" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {{$pharmreports->pharm_standard}} </textarea>  
+                                                 <textarea id="summernote0" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {!! $pharmreports->pharm_standard !!} </textarea>  
                  
                                                  <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
                                                  <p >
