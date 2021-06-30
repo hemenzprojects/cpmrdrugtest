@@ -27,6 +27,7 @@ Route::get('/sendtest', function () {
   Route::get('/login', 'AdminAuth\LoginController@showLoginForm')->name('admin.login');
   Route::post('login', 'AdminAuth\LoginController@login');
   Route::get('/logout', 'AdminAuth\LoginController@logout')->name('logout');
+  
 
   Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm')->name('register');
   Route::post('/register', 'AdminAuth\RegisterController@register')->name('admin.register');

@@ -283,6 +283,7 @@
                                 <thead>
                                     <tr>
                                     <th></th>
+                                    <th>Logs</th>
                                     <th>Name</th>
                                     <th>Tell.</th>
                                     <th>Email</th>
@@ -296,13 +297,20 @@
                                     @foreach($admins as $admin)
                                 <tr>
                                     <td style="display: ">{{$admin->id}}</td>
-        
+                                    <td class="font">
+                                        @if ($admin->isOnline())
+                                        <li class="text-success">Online</li>
+                                    @else
+                                    <li class="text-danger">Offline</li>
+                                    @endif
+                                     </td>
                                     <td class="font">{{$admin->full_name}}</td>
                                     <td class="font">{{$admin->tell}}</td>
                                     <td class="font">{{$admin->email}}</td>
                                     <td class="font">{{App\Department::find($admin->dept_id)? App\Department::find($admin->dept_id)->name:'null'}}</td>
                                     <td class="font"> {{App\UserType::find($admin->user_type_id)? App\UserType::find($admin->user_type_id)->name:'null'}} </td>
 
+                                    
                                     <td class="font">
                                     <div class="table-actions">
                                         {!! $admin->edit_tag !!}

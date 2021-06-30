@@ -5,7 +5,7 @@ namespace App;
 use App\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Cache;
 class Admin extends Authenticatable
 {
     use Notifiable;
@@ -89,5 +89,8 @@ class Admin extends Authenticatable
             return FALSE;
         }
     }
-
+ 
+    public function isOnline(){
+        return Cache::has('user-is-online-'. $this->id);
+    }
 }
