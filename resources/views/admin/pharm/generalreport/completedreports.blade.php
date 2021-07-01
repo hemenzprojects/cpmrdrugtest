@@ -65,7 +65,7 @@
                     </div> --}}
                 </div>
                       
-                    <div class="card">
+                    <div class="card" style="overflow-x: scroll" >
                             <div class="card-header row">
                                 <div class="card-header">
                                     <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">
@@ -120,11 +120,13 @@
                                             
                                      </td>
                                      <td class="font">
-                                        <span><strong>Approval 1:</strong> 
-                                            {{ucfirst(\App\Admin::find($completed_product->pharm_approved_by)? \App\Admin::find($completed_product->pharm_approved_by)->full_name:'Null')}}
-                                         </span><br>
-                                         <span><strong>Approval 2:</strong> 
-                                            {{ucfirst(\App\Admin::find($completed_product->pharm_finalapproved_by)? \App\Admin::find($completed_product->pharm_finalapproved_by)->full_name:'Null')}}
+                                        <span><strong>Approval 1:</strong> <br>
+                                            <li> {{ucfirst(\App\Admin::find($completed_product->pharm_approved_by)? \App\Admin::find($completed_product->pharm_approved_by)->full_name:'Null')}}
+                                            </li>
+                                         </span>
+                                         <span><strong>Approval 2:</strong> <br>
+                                            <li>{{ucfirst(\App\Admin::find($completed_product->pharm_finalapproved_by)? \App\Admin::find($completed_product->pharm_finalapproved_by)->full_name:'Null')}}
+                                            </li>
                                          </span>
                                      </td>
                                      <td class="font">{!! $completed_product->hod_pharm_evaluation !!}</td>
