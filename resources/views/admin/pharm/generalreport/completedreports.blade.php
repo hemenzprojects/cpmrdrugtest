@@ -82,6 +82,7 @@
                                      <th>Product</th>
                                      <th>Test conducted</th>
                                      <th>Assigned To</th>
+                                     <th>Approved By</th>
                                      <th>Evaluation</th>
                                      <th>Grade</th>
                                      <th>Date Analysed</th>  
@@ -100,9 +101,7 @@
                                             </span>
      
                                          </a>
-                                         <sup style="font-size: 1px">
-                                            {{$completed_product->productType->code}}{{$completed_product->id}}{{$completed_product->created_at->format('y')}}
-                                         </sup> 
+                                      
                                      </td>
                                      <td class="font">
                                          {{\App\PharmTestConducted::find($completed_product->pharm_testconducted)->name}}
@@ -114,10 +113,19 @@
                                        <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($completed_product->animalExperiment->groupBy('id')->first() as $item)
                                          <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                                          @endforeach</li>
-                                         <strong>Report Analyst:</strong>
+                                       <strong>Report Analyst:</strong>
                                            <li>
                                             <span style="color: #023504">{{\App\Admin::find($completed_product->pharm_analysed_by)->full_name}}
-                                         </li>
+                                           </li>
+                                            
+                                     </td>
+                                     <td class="font">
+                                        <span><strong>Approval 1:</strong> 
+                                            {{ucfirst(\App\Admin::find($completed_product->pharm_approved_by)? \App\Admin::find($completed_product->pharm_approved_by)->full_name:'Null')}}
+                                         </span><br>
+                                         <span><strong>Approval 2:</strong> 
+                                            {{ucfirst(\App\Admin::find($completed_product->pharm_finalapproved_by)? \App\Admin::find($completed_product->pharm_finalapproved_by)->full_name:'Null')}}
+                                         </span>
                                      </td>
                                      <td class="font">{!! $completed_product->hod_pharm_evaluation !!}</td>
                                      <td class=""> 

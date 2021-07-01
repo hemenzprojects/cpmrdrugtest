@@ -30,7 +30,7 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
                     <div class="card-body">
-                        @if ($product->pharm_hod_evaluation ===0) 
+                        @if ($product->pharm_hod_evaluation ===2) 
                         Please preview and evaluate <strong>({{$product->code}})</strong>  report 
                         @endif
                     </div>

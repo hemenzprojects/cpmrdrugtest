@@ -420,7 +420,9 @@ class Product extends Model
         if ($this->pharm_hod_evaluation === 2 &&  $this->pharm_process_status < 6) {
             return '<span style="color:#0d8205; font-size:11.5px">Approved</span>';
         } 
-   
+        if ($this->pharm_process_status === 8) {
+            return '<span style="color:#0d8205; font-size:11.5px">Completed</span>';
+        } 
 
 
     }
