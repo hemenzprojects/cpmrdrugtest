@@ -1090,7 +1090,7 @@ class MicroController extends Controller
               $withheld_notify = $data['microproduct_withloadanalysis_hod_withhelds']->merge($data['microproduct_withefficacyanalysis_hod_withhelds'])->count();
 
               
-              if ($withheld_notify > 0 ) {
+              if ( Auth::guard('admin')->user()->user_type_id == 2 && $withheld_notify > 0 ) {
                 Session::flash('warning', 'Info');
                 Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld. Please check and resubmit for evaluation.');
                }
