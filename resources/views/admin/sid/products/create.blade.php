@@ -397,6 +397,9 @@
                                                 @if ($product->overall_status <1)
                                                 {!! $product->edit_tag !!}
                                                 @endif
+                                                @if (Auth::guard('admin')->user()->dept_id == 4 && (Auth::guard('admin')->user()->user_type_id == 1 || Auth::guard('admin')->user()->user_type_id == 7))
+                                                {!! $product->edit_tag !!}
+                                                @endif
                                                 <a href="{{route('admin.sid.product.account.index',['id' => $product->id, 'price' => $product->price])}}"> 
                                                 <button type="button" class="btn btn-icon btn-info"><i class="ik ik-dollar-sign"></i></button>    
                                                 </a>
