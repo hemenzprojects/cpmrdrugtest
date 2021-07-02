@@ -15,8 +15,9 @@
                 </div>
             </div>
             <div class="col-lg-4">
+               
                 <nav class="breadcrumb-container" aria-label="breadcrumb">
-                    @if ($product->overall_status <1)
+                    @if ($product->overall_status <1 || (Auth::guard('admin')->user()->dept_id == 4 && (Auth::guard('admin')->user()->user_type_id == 1 || Auth::guard('admin')->user()->user_type_id == 7)))
                     <a class="btn btn-outline-info" href="{{route('admin.sid.product.edit', ['id' => $product->id])}}">
                         <i class="ik ik-list"></i> Edit Product
                     </a>
