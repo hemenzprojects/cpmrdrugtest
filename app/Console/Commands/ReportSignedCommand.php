@@ -47,7 +47,7 @@ class ReportSignedCommand extends Command
             return $q->where("dept_id", 3)->where("status", 3);
            })->count();
          $admin = Admin::findOrFail(20);
-         if ($phyto_p != 0) {
+         if ($phyto_p > 10) {
              SendSMS::sendMessage('Hi '.$admin->full_name.',You have '.$phyto_p.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$admin->tell);
          }
 
@@ -60,7 +60,7 @@ class ReportSignedCommand extends Command
           $micro_approval1_admin = Admin::findOrFail(12);
           $system_admin = Admin::findOrFail(2);
 
-          if ($micro_approval_1 != 0) {
+          if ($micro_approval_1 > 10) {
             SendSMS::sendMessage('Hi '.$system_admin->full_name.',You have '.$micro_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$system_admin->tell);
             SendSMS::sendMessage('Hi '.$micro_approval1_admin->full_name.',You have '.$micro_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$micro_approval1_admin->tell);
           }
@@ -70,7 +70,7 @@ class ReportSignedCommand extends Command
             return $q->where("dept_id", 1)->where("status", 3);
           })->count();
           $micro_approval2_admin = Admin::findOrFail(32);
-          if ($micro_approval_2 != 0) {
+          if ($micro_approval_2 > 10) {
             SendSMS::sendMessage('Hi '.$micro_approval2_admin->full_name.',You have '.$micro_approval_2.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$micro_approval2_admin->tell);
           }
 
@@ -82,7 +82,7 @@ class ReportSignedCommand extends Command
 
           $pharm_approval1_admin = Admin::findOrFail(29);
           $pharm_approval2_admin = Admin::findOrFail(28);
-         if ($pharm_approval_1 != 0) {
+         if ($pharm_approval_1 > 10) {
              SendSMS::sendMessage('Hi '.$pharm_approval1_admin->full_name.',You have '.$pharm_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval1_admin->tell);
              SendSMS::sendMessage('Hi '.$pharm_approval2_admin->full_name.',You have '.$pharm_approval_1.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval2_admin->tell);
          }
@@ -94,7 +94,7 @@ class ReportSignedCommand extends Command
 
 
        $pharm_approval3_admin = Admin::findOrFail(35);
-       if ($pharm_approval_3 != 0) {
+       if ($pharm_approval_3 > 10) {
            SendSMS::sendMessage('Hi '.$pharm_approval3_admin->full_name.',You have '.$pharm_approval_3.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval3_admin->tell);
        }
 
