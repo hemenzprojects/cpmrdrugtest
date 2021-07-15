@@ -1632,14 +1632,7 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-        $data = 
-        [ 
-        'overall_status' => 2,
-        'pharm_hod_evaluation' => null,
-        'micro_hod_evaluation' => null,
-        ];   
-        Product::whereIn('id', $r->phyto_completedproduct_id)->update($data); 
-        return 0; 
+
         $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -1662,14 +1655,6 @@ class SIDController extends Controller
       }
 
        public function pharm_completedreport_update(Request $r){
-        $data = 
-        [ 
-        'overall_status' => 2,
-        'phyto_hod_evaluation' => null,
-        'micro_hod_evaluation' => null,
-        ]; 
-        return 0;  
-        Product::whereIn('id', $r->pharm_completedproduct_id)->update($data); 
      
          $pharmcompletedreports = Product::whereIn('id',$r->pharm_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
@@ -1694,17 +1679,7 @@ class SIDController extends Controller
 
 
       public function micro_completedreport_update(Request $r){
- 
-        
-        $data = 
-        [ 
-        'overall_status' => 2,
-        'phyto_hod_evaluation' => null,
-        'pharm_hod_evaluation' => null,
-        ];   
-        
-        Product::whereIn('id', $r->micro_completedproduct_id)->update($data); 
-        return 0; 
+
         $microcompletedreports = Product::whereIn('id',$r->micro_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 1)->where("status",4);
         });
