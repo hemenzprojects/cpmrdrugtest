@@ -9,7 +9,7 @@
                         <div class="page-header-title">
                             <i class="ik ik-edit bg-blue"></i>
                             <div class="d-inline">
-                                <h5>Micro Completed Peports </h5>
+                                <h5>Micro Completed Reports </h5>
                                 <span>Bellow shows all completed reports from microbiology</span>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                                     <a href="#"><i class="ik ik-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Micro Completed Rports</li>
+                                <li class="breadcrumb-item active" aria-current="page">Micro Completed Reports</li>
                             </ol>
                         </nav>
                     </div>
@@ -49,14 +49,20 @@
                                         <th>Name</th>
                                         <th>download</th>
                                         <th>Actions</th>
-
                                    </tr>
                                 </thead>
                                 <tbody>                                                
                                     @foreach($microcompletedreports as $product)
                                     <tr>
                                       
-                                    <td class="font">{{$product->code}}</td>
+                                    <td class="font">{{$product->code}}
+                                        @if($product->single_multiple_lab ==1)
+                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
+                                        @endif
+                                        @if($product->single_multiple_lab ==2)
+                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
+                                        @endif
+                                    </td>
                                     <td class="font">{{$product->name}}</td>
                                     <td class="font">
                                         @if ($product->micro_hod_evaluation == 2)
@@ -82,7 +88,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                              {{-- <button class="" type="submit"> Reject Reports</button> --}}
+                              <button onclick="return confirm('Please comfirm selected items.')"  class="" type="submit"> Reject Reports</button>
                             </form>
          
                         </div>

@@ -591,11 +591,10 @@ class MicroController extends Controller
                 return redirect()->route('admin.general.dashboard');
 
                 } 
-                $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
+               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
                 if(count($productdepts->get()) < 1){     
                   return redirect()->route('admin.micro.report.create');
                 }
-
                 $data['report_id'] = $id;     
                 $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);         
                 $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
@@ -1398,7 +1397,7 @@ class MicroController extends Controller
                  }
 
               if ($r->evaluate ==2) {
-               $complete = ($p->micro_hod_evaluation + $p->pharm_hod_evaluation + $p->phyto_hod_evaluation);
+                 $complete = ($p->micro_hod_evaluation + $p->pharm_hod_evaluation + $p->phyto_hod_evaluation);
 
                 if ($p->single_multiple_lab == Null) {
                   if ($complete == 6 ) {

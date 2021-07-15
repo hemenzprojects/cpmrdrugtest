@@ -56,7 +56,13 @@
                                     @foreach($phytocompletedreports as $product)
                                     <tr>
                                       
-                                    <td class="font">{{$product->code}}</td>
+                                    <td class="font">{{$product->code}}
+                                        @if($product->single_multiple_lab ==1)
+                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
+                                        @endif
+                                        @if($product->single_multiple_lab ==2)
+                                        <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
+                                        @endif</td>
                                     <td class="font">{{$product->name}}</td>
                                     <td class="font">
                                         @if ($product->phyto_hod_evaluation == 2)

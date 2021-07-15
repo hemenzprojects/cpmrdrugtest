@@ -1604,20 +1604,18 @@ class SIDController extends Controller
     }
       public function pharm_completed_reports(){
 
-        $pharmcompletedreports = Product::with('departments')->whereHas("departments", function($q){
-            return $q->where("dept_id", 2)->where("status",'<',8);
-          })->get();
-          if (count($pharmcompletedreports) > 0) {
-            Session::flash('message_title', 'error');
-            Session::flash('message', 'Please select required date to begin');
-          }
+        // $pharmcompletedreports = Product::with('departments')->whereHas("departments", function($q){
+        //     return $q->where("dept_id", 2)->where("status",'<',8);
+        //   })->get();
+        //   if (count($pharmcompletedreports) > 0) {
+        //     Session::flash('message_title', 'error');
+        //     Session::flash('message', 'Please select required date to begin');
+        //   }
 
         $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
         })->get();
 
-        Session::flash("message", "Process Successfully completed.");
-        Session::flash("message_title", "success");
         return view('admin.sid.hodoffice.pharmcompletedreports',$data);
       }
 
@@ -1634,7 +1632,14 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-
+        $data = 
+        [ 
+        'overall_status' => 2,
+        'pharm_hod_evaluation' => null,
+        'micro_hod_evaluation' => null,
+        ];   
+        Product::whereIn('id', $r->phyto_completedproduct_id)->update($data); 
+        return 0; 
         $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -1651,17 +1656,28 @@ class SIDController extends Controller
           ];   
 
          ProductDept::whereIN('product_id', $r->phyto_completedproduct_id)->where("dept_id", 3)->where("status",4)->update($data);
-  
+         Session::flash("message", "Report Successfully rejected.");
+         Session::flash("message_title", "success");
          return redirect()->back();
       }
 
        public function pharm_completedreport_update(Request $r){
+        $data = 
+        [ 
+        'overall_status' => 2,
+        'phyto_hod_evaluation' => null,
+        'micro_hod_evaluation' => null,
+        ]; 
+        return 0;  
+        Product::whereIn('id', $r->pharm_completedproduct_id)->update($data); 
      
-        $pharmcompletedreports = Product::whereIn('id',$r->pharm_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+         $pharmcompletedreports = Product::whereIn('id',$r->pharm_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
-        });
+         });
 
-         if(count($pharmcompletedreports->get()) < 1){     
+         if(count($pharmcompletedreports->get()) < 1){  
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Please select required product');   
             return redirect()->back();
           }
 
@@ -1671,10 +1687,42 @@ class SIDController extends Controller
           ];   
 
          ProductDept::whereIN('product_id', $r->pharm_completedproduct_id)->where("dept_id", 2)->where("status",8)->update($data);
-  
+         Session::flash("message", "Report Successfully rejected.");
+         Session::flash("message_title", "success");
          return redirect()->back();
       }
 
+
+      public function micro_completedreport_update(Request $r){
+ 
+        
+        $data = 
+        [ 
+        'overall_status' => 2,
+        'phyto_hod_evaluation' => null,
+        'pharm_hod_evaluation' => null,
+        ];   
+        
+        Product::whereIn('id', $r->micro_completedproduct_id)->get(); 
+        return 0; 
+        $microcompletedreports = Product::whereIn('id',$r->micro_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+          return $q->where("dept_id", 1)->where("status",4);
+        });
+
+         if(count($microcompletedreports->get()) < 1){     
+            return redirect()->back();
+          }
+
+          $data = 
+          [ 
+          'status' => 3,
+          ];   
+
+         ProductDept::whereIN('product_id', $r->micro_completedproduct_id)->where("dept_id", 1)->where("status",4)->update($data);
+         Session::flash("message", "Report Successfully rejected.");
+         Session::flash("message_title", "success");
+         return redirect()->back();
+      }
 
       //*************************************************************** All Downloads ********************************************************* */
 
