@@ -1703,7 +1703,7 @@ class SIDController extends Controller
         'pharm_hod_evaluation' => null,
         ];   
         
-        Product::whereIn('id', $r->micro_completedproduct_id)->get(); 
+        Product::whereIn('id', $r->micro_completedproduct_id)->update($data); 
         return 0; 
         $microcompletedreports = Product::whereIn('id',$r->micro_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 1)->where("status",4);
