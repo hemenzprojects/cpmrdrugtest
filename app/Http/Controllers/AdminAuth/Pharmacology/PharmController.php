@@ -399,6 +399,7 @@ class PharmController extends Controller
                   'dosage'=>$r->dosage,
                   'yield'=>$r->yield, 
                   'pharm_testconducted_id'=>$r->pharm_testconducted, 
+                  'updated_by' => Auth::guard('admin')->id(),
                   'updated_at' => \Carbon\Carbon::now(),
                 ]);
 

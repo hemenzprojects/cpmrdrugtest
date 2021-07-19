@@ -110,14 +110,16 @@
                             </td> 
                               <td>
                                   
-                                  @if (Auth::guard('admin')->id() ==  \App\Admin::find($recordbook->created_by)->id)
+                                  @if (Auth::guard('admin')->id() ==  \App\Admin::find($recordbook->created_by)->id )
                                     @if ($product->pharm_process_status < 4)
                                     <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
                                     @else
                                     <span><i class="ik ik-slash"></i></span>
                                     @endif
                                   @endif
-                                  
+                                  @if (\App\Admin::find(Auth::guard('admin')->id())->dept_office_id == 1 && $product->pharm_process_status != 8)
+                                  <i class="ik ik-edit-2" data-toggle="modal" data-target="#exampleModalLong{{$recordbook->id}}"></i>  
+                                  @endif
 
                               </td>
                         </tr>
@@ -148,6 +150,8 @@
                                                 <small class="text-muted">{{\App\Admin::find($recordbook->delivered_by)?\App\Admin::find($recordbook->delivered_by)->full_name:'null'}}</small>
                                                 <h6>Received By </h6>
                                                 <small class="text-muted">{{\App\Admin::find($recordbook->received_by)?\App\Admin::find($recordbook->received_by)->full_name:'null'}}</small>
+                                                <h6>Updated By </h6>
+                                                <small class="text-muted">{{\App\Admin::find($recordbook->updated_by)?\App\Admin::find($recordbook->updated_by)->full_name:'null'}}</small>
                                               
                                                
                                                 <hr><h5>Distribution Periods</h5>
