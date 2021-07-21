@@ -1595,14 +1595,20 @@ class SIDController extends Controller
 }
 
       public function micro_completed_reports(){
+          
+     $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+     $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status",4);
+      })->orderBy('micro_reportdatecompleted', 'DESC')->get();
 
       $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
         return $q->where("dept_id", 1)->where("status",4);
-      })->get();
-
+      })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+ 
       return view('admin.sid.hodoffice.microcompletedreports',$data);
     }
-      public function pharm_completed_reports(){
+
+       public function pharm_completed_reports(){
 
         // $pharmcompletedreports = Product::with('departments')->whereHas("departments", function($q){
         //     return $q->where("dept_id", 2)->where("status",'<',8);
@@ -1611,21 +1617,27 @@ class SIDController extends Controller
         //     Session::flash('message_title', 'error');
         //     Session::flash('message', 'Please select required date to begin');
         //   }
+        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+        $data['weekly_pharmcompletedreports'] = Product::where('pharm_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+            return $q->where("dept_id", 2)->where("status",8);
+          })->get();
 
         $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
-        })->get();
+        })->orderBy('pharm_reportdatecompleted', 'DESC')->get();
 
         return view('admin.sid.hodoffice.pharmcompletedreports',$data);
       }
 
       public function phyto_completed_reports(){
+        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+        $data['weekly_phytocompletedreports'] = Product::where('phyto_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+            return $q->where("dept_id", 3)->where("status",4);
+          })->get();
 
         $data['phytocompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
-        })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
-  
-        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+        })->orderBy('phyto_reportdatecompleted','DESC')->get();
   
         return view('admin.sid.hodoffice.phytocompletedreports',$data);
       }

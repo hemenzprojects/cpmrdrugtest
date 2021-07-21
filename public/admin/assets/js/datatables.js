@@ -589,7 +589,11 @@ $(document).ready(function() {
         ]
     });
 
-
+    $('#order-table_micro').DataTable({
+        "order": [
+            [4, "asc"]
+        ]
+    });
 
     $('#multi-colum-dt').DataTable({
         columnDefs: [{

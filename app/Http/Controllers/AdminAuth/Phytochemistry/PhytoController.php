@@ -834,7 +834,9 @@ class PhytoController extends Controller
                   $productdept = $productdepts->first();
                   $productdept->status = 4;
                   $productdept->update();
-      
+
+                  Product::where('id',$id)->update(['phyto_reportdatecompleted' => \Carbon\Carbon::now()]);
+
                   $data['phytoshowreport'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
                     return $q->where("dept_id", 3)->where("status",4);
                   })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -871,7 +873,8 @@ class PhytoController extends Controller
                   }
                   
                   $productdepts->update(['status' => 4]);
-                  
+                  Product::whereIn('id',$r->evaluated_product)->update(['phyto_reportdatecompleted' => \Carbon\Carbon::now()]);
+
                   Session::flash("message", "Report Evaluation completed.");
                   Session::flash("message_title", "success");
                 

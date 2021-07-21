@@ -1129,6 +1129,7 @@ class PharmController extends Controller
                 'status' => 8,
               ];
              ProductDept::whereIn('product_id', $r->pharm_evaluated_product)->where("dept_id", 2)->where("status", 7)->update($data);
+             Product::whereIn('id',$r->pharm_evaluated_product)->update(['pharm_reportdatecompleted' => \Carbon\Carbon::now()]);
 
              Session::flash("message", "Evaluation completed for selected reports.");
              Session::flash("message_title", "success");
@@ -1453,7 +1454,9 @@ class PharmController extends Controller
                   'status' => 8,
                 ];
                 ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->update($data2);
-              
+
+                Product::where('id',$id)->update(['pharm_reportdatecompleted' => \Carbon\Carbon::now()]);
+               
                 $productdepts = ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status",'>',6);
                 if(count($productdepts->get()) < 1){     
                  return redirect()->back(); 

@@ -1207,6 +1207,9 @@ class MicroController extends Controller
               Session::flash("message", "Report Evaluation completed.");
               Session::flash("message_title", "success");
               $productdepts->update(['status' => 4]);
+
+              Product::whereIn('id',$p_ids)->update(['micro_reportdatecompleted' => \Carbon\Carbon::now()]);
+
               }
             
               return redirect()->back();
@@ -1430,7 +1433,6 @@ class MicroController extends Controller
              return redirect()->back();
             }
 
-
             public function hod_complete_report($id){
                    
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(22)) {
@@ -1459,7 +1461,6 @@ class MicroController extends Controller
 
               $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
               
-
                return view('admin.micro.completedreport',$data);
 
               }
