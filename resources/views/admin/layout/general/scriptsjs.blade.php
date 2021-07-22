@@ -60,6 +60,12 @@ $(document).ready(function() {
   $('#summernote3').summernote();
   $('#summernote4').summernote();
   $('#summernote5').summernote();
+  $('#summernote6').summernote();
+  $('#summernote7').summernote();
+  $('#summernote8').summernote();
+  $('#summernote9').summernote();
+
+
 
 });
 </script>

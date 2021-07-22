@@ -16,6 +16,7 @@ use App\PharmAnimalExperiment;
 use App\PharmToxicity;
 use App\PharmAnimalModel;
 use App\PharmFinalReport;
+use App\PharmStandards;
 use \Session;
 use \Hash;
 use \Auth;
@@ -1711,6 +1712,25 @@ class PharmController extends Controller
               // return view('admin.pharm.downloads.report',$data);
   
              }
+
+             public function report_config(){
+             
+              $data['reportstandards'] = PharmStandards::all();
+  
+              return view('admin.pharm.config.reportstandard',$data);
+
+              }
+
+              public function reportconfig_update(Request $r){
+
+              PharmStandards::where('id',$r->default_id)->update(['default' => $r->reportdefault,'added_by_id'=> Auth::guard('admin')->id()]);
+
+              Session::flash("message", "default template successfully update.");
+              Session::flash("message_title", "success");
+              return redirect()->back();
+
+              }
+              
 
   
 }
