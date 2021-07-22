@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
     <div class="card">
-        <div class="card-header"><h3>All signs of Toxicity</h3></div>
+        <div class="card-header"><h3>Default standards for report preparation</h3></div>
         <div class="card-body">
           
             <div class="row">
@@ -38,8 +38,8 @@
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="demoModal{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel{{$item->id}}" style="display: none;" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
+                                    <div class="modal-dialog" role="document" >
+                                        <div class="modal-content" style="width: 650px">
                                             <form  class="forms-sample" action="{{route('admin.pharm.reportconfig.update')}}" method="post">
                                                 {{ csrf_field() }}
                                             <div class="modal-header">
