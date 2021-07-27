@@ -73,8 +73,12 @@ $product = \App\Product::where('id',5)->first();
                                                     {{$microproduct->code}}
                                                </span>
                                             </a>  
-                                          <span></span>
+                                            <span><small class="float-right ">  <strong>{{ $microproduct->departmentById(1)->pivot->updated_at->format(' F j,  Y') }}</strong></small></span>
+                                            @if (Carbon\Carbon::parse($microproduct->departmentById(1)->pivot->received_at) >= $week_start)
+                                            <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">NEW</span></sup>
+                                            @endif
                                         </p>
+                                        
                                     </div> 
                                     <div class="col-lg-2 col-md-12">
                                            <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$microproduct->id}}" title="View Product" href=""><i class="ik ik-eye"></i></a>   

@@ -35,7 +35,12 @@
                                     <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                         {{$phytoproduct->code}}
                                     </span>  
+                                    <span><small class="float-right ">  <strong>{{   Carbon\Carbon::parse($phytoproduct->departmentById(3)->pivot->received_at)->format('jS \\ F Y')}}  </strong></small></span>
+                                    @if (Carbon\Carbon::parse($phytoproduct->departmentById(3)->pivot->received_at) >= $week_start )
+                                    <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">NEW</span></sup>
+                                    @endif
                                 </div> 
+
                                 <div class="col-lg-2 col-md-12">
                                        <a data-toggle="modal" data-placement="auto" data-target="#demoModal{{$phytoproduct->id}}" title="View Product" href=""><i class="ik ik-eye"></i></a>   
                                 </div>                                                           

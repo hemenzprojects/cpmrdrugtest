@@ -228,6 +228,9 @@ class MicroController extends Controller
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
                 } 
+
+                 $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+
                  $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
                  $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
 

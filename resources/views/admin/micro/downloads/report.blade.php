@@ -355,7 +355,7 @@ td, th {
       ?>
         <span>Analyzed By</span><br>
         @if ($product->micro_hod_evaluation >1)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="17%" style="margin-bottom: -14px"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="17%" style="margin-bottom: -16px"><br>
         @endif
         -----------------------------<br>
       
