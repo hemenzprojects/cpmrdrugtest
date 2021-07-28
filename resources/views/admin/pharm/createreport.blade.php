@@ -62,8 +62,8 @@
  
                <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>RESULT: </strong></h4>
                @if ($pharmreports->pharm_result ===Null)
-                 <textarea id="summernote2" class="form-control" style="font-size: 16px"name="pharm_result" rows="10">Experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in groups 1 and 2 that received 0.1ml @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{$item->animal_method}} @endforeach of the {{$pharmreports->productType->name}} dissolved in glycerol at 1% and 5% w/v respectively, showed no ulceration, irritation and/or inflammation  at the site of injection. This indicates that even at a high level of 5% w/v the {{$pharmreports->productType->name}} did not appear to cause erythemia to the skin of the animal. A similar observation was made for the topical application.</textarea> 
-                 @endif
+                 <textarea id="summernote2" class="form-control" style="font-size: 16px"name="pharm_result" rows="10">The experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in group 1 and 2 administered with 1% and 5% w/v of the {{$pharmreports->productType->name}} intradermally and topically (0.5-1 g), showed no ulceration, irritation and/or inflammations at the site of injection and shaved area, respectively.</textarea> 
+                 @endif                                                                                               
                  @if ($pharmreports->pharm_result !== Null)
                 <textarea id="summernote3" style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
                 </textarea> 
@@ -76,7 +76,7 @@
                 </textarea> 
                 @endif
                 @if ( $product->pharm_dermal_comment === Null)
-                <textarea id="summernote5" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" > {{$pharmreports->code}} appears to be safe / not safe when applied to the skin.</textarea> 
+                <textarea id="summernote5" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" > {{$pharmreports->code}} appears to be safe when applied to the skin.</textarea> 
                 @endif
                     
                 </div>
