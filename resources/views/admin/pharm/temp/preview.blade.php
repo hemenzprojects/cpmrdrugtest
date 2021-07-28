@@ -148,13 +148,13 @@
   <p style="font-size:16px; text-align: justify ">{!! $product->pharm_standard !!}</p>
  
   <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
-  <p style="font-size: 15px; text-align: justify">
+  <p style="font-size: 16px; text-align: justify">
       {!! $product->pharm_result !!}   
   </p> 
   
   <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
  
-  <p style="font-size: 15px; text-align: justify ">
+  <p style="font-size: 16px; text-align: justify ">
      {!! $product->pharm_dermal_comment !!}   
  </p> 
   </div>

@@ -229,7 +229,7 @@ class MicroController extends Controller
                 return redirect()->route('admin.general.dashboard');
                 } 
 
-                 $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+                 $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-14 days'));
 
                  $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
                  $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();

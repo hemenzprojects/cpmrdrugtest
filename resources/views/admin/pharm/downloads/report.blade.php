@@ -229,7 +229,7 @@ td, th {
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
  @endif
- <p style="font-size:17px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
+ <p style="font-size:16px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
 
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
  

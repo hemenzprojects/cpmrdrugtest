@@ -209,11 +209,11 @@ class PhytoController extends Controller
               $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
               $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
               
-              $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+               $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
 
              $data['phytoproducts'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 2);
-              })->orderBy('id', 'desc')->get();
+              })->orderBy('id', 'desc')->get();;
               
              //********************* section for authusers who perform repot ***** */
             $data['auth_phytoreports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
