@@ -38,8 +38,8 @@
             <tr>
                 <td class="font"><strong>Route of Administration</strong></td> 
                 <td  class="font">
-                    @foreach ($pharmreports->animalExperiment as $item)
-                   {{($item->animal_method)}},
+                    @foreach ($pharmreports->animalExperiment->unique('animal_method') as $item)
+                    {{ucfirst($item->animal_method)}},
                     @endforeach
                 </td>
             </tr>
@@ -86,7 +86,7 @@
                 <td  class="font"> Greater than 5000 mg/kg</td>
             </tr>
             <tr>
-                <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
+                <td class="font"><strong>Physical Signs of Toxicity</strong></td> 
                 <td  class="font">
                     <ul class="list-group">
                     @foreach ($pharmreports->animalExperiment as $item)

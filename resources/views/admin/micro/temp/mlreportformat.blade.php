@@ -41,12 +41,12 @@
              @endif
              @if ($i ==0 )
              <span style="display: none" class="summernoteshow1">
-                 <textarea style="width: 10%" name="test_conducted[]" id="summernote" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+                 <textarea  name="test_conducted[]" id="tinymce1" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
              </span>
              @endif
              @if ($i ==1)
              <span style="display: none" class="summernoteshow2">
-                 <textarea name="test_conducted[]" id="summernote0" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+                 <textarea name="test_conducted[]" id="tinymce0" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
              </span>                                                    @endif
              @if ($i>1)
              <input type="text" required class="form-control" name="test_conducted[]" placeholder="Result" value="{!! $show_microbial_loadanalyses[$i]->test_conducted !!}">

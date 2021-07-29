@@ -47,7 +47,7 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                             </div>
                                             <div class="modal-body">
-                                             <textarea name="reportdefault" id="summernote{{$item->id}}" cols="30" rows="10" >{{$item->default}}</textarea>
+                                             <textarea name="reportdefault" id="tinymce{{$item->id}}" cols="30" rows="10" >{{$item->default}}</textarea>
                                             <input type="hidden" name="default_id" value="{{$item->id}}">
                                             </div>
                                             <div class="modal-footer">

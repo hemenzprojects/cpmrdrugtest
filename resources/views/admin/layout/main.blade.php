@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html class="no-js" lang="en">
+
 @include('admin.layout.general.head')
 <body>
         <!--[if lt IE 8]>

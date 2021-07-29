@@ -56,7 +56,7 @@
                                          <div class="" style="padding: 1%">
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
                                              <p style="font-size: 16px">
-                                                 <textarea id="summernote" class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
+                                                 <textarea id="tinymce" class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
                                              </p>       
                                          </div>  
                                          </div>
@@ -74,17 +74,17 @@
                                          <div class="row">
                                              <div class="col-sm-7">
                                                  {{-- <p style="font-size:16px; margin:4px; "></p> --}}
-                                                 <textarea id="summernote0" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {!! $pharmreports->pharm_standard !!} </textarea>  
+                                                 <textarea id="tinymce" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {!! $pharmreports->pharm_standard !!} </textarea>  
                  
                                                  <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
                                                  <p >
-                                                     <textarea id="summernote1" name="pharm_result" style="font-size: 16px; text-align: justify ;" class="form-control" rows="5"> {{$pharmreports->pharm_result}} </textarea>  
+                                                     <textarea id="tinymce0" name="pharm_result" style="font-size: 16px; text-align: justify ;" class="form-control" rows="5"> {{$pharmreports->pharm_result}} </textarea>  
                                                  </p> 
                                                  
                                                  <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
                                          
                                                  <p >
-                                                     <textarea id="summernote2" name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
+                                                     <textarea id="tinymce1" name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
                                                      
                                                  </p>
                                              </div>
@@ -102,7 +102,7 @@
                            
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Final Remarks: </strong></h4>
                  
-                                     <textarea required id="summernote5" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
+                                     <textarea required id="tinymce2" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
                                      
                                  </div>
                                  <div class="col-sm-4">
@@ -135,7 +135,7 @@
   
   
   
-          <div class="col-12">
+          <div class="col-12" style="padding: 10px">
             
             <div class="row" style="margin-top: 11;margin-bottom: 11;">
                 <div class="col-md-9">

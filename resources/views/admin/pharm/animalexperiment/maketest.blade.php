@@ -106,7 +106,7 @@
                         <th>Dosage</th>
                         <th>Route of Administration </th>
                         <th>Time of Administration</th>
-                        <th>Signs of Toxicity<br>
+                        <th>SignsofToxicity<br>
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
                                       <label class="custom-control custom-checkbox">

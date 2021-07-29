@@ -564,12 +564,12 @@ $product = \App\Product::where('id',5)->first();
                                                     @endif
                                                     @if ($i ==0 )
                                                     <span style="display: none" class="summernoteshow1">
-                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="summernote" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
+                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="tinymce" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
                                                     </span>
                                                     @endif
                                                     @if ($i ==1)
                                                     <span style="display: none" class="summernoteshow2">
-                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="summernote0" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
+                                                        <textarea name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" id="tinymce0" cols="30" rows="10">{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}</textarea> 
                                                     </span>                                                    @endif
                                                     @if ($i>1)
                                                     <input type="text" required class="form-control" name="test_conducted_{{$MicrobialLoadAnalysis[$i]->id}}" placeholder="Result" value="{!! $MicrobialLoadAnalysis[$i]->test_conducted !!}">

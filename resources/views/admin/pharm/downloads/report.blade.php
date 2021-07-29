@@ -197,7 +197,7 @@ td, th {
           <td  class="font">{{$pharm_finalreports->estimated_dose}}</td>
       </tr>
       <tr>
-          <td class="font">Physical Sign of Toxicity</td> 
+          <td class="font">Physical Signs of Toxicity</td> 
           <td  class="font">
               {{$pharm_finalreports->signs_toxicity}}
           </td>
