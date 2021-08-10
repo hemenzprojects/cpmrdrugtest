@@ -55,6 +55,7 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>download</th>
+                                        <th>Lab Status</th>
                                         <th>Date Completed</th>
                                         <th>Actions</th>
 
@@ -66,9 +67,11 @@
                                       
                                     <td class="font">
 
-                                        <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                            {{$product->code}}
-                                        </span>
+                                        <a target="blank" href="{{route('admin.sid.product.show', ['id' => $product->id])}}">
+                                            <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
+                                                {{$product->code}}
+                                            </span>
+                                        </a>
                                         @if($product->single_multiple_lab ==1)
                                         <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
                                         @endif
@@ -99,6 +102,32 @@
 
                                         </div>
                                         @endif
+                                    </td>
+                                    <td>
+                                        
+
+                                       @foreach ($product->ProductDept->where('dept_id',2)->where('status','>', 0) as $item)
+                                        @if ($item->status == 8)
+                                        <a href="#!" title="Pharm"><i class="ik ik-check f-16 mr-15 text-green"></i></a>
+                                        @else
+                                        <a href="#!" title="Pharm"><i class="ik ik-x  f-16 mr-15 text-red"></i></a>
+                                        @endif
+                                       @endforeach
+
+                                        @foreach ($product->ProductDept->where('dept_id',1)->where('status','>', 0) as $item)
+                                        @if ($item->status == 4)
+                                        <a href="#!" title="Micro"><i class="ik ik-check f-16 mr-15 text-green"></i></a>
+                                        @else
+                                        <a href="#!" title="Micro"><i class="ik ik-x  f-16 mr-15 text-red"></i></a>
+                                        @endif
+                                       @endforeach
+                                       @foreach ($product->ProductDept->where('dept_id',3)->where('status','>', 0) as $item)
+                                       @if ($item->status == 4)
+                                       <a href="#!" title="Phyto"><i class="ik ik-check f-16 mr-15 text-green"></i></a>
+                                       @else
+                                       <a href="#!" title="Phyto"><i class="ik ik-x  f-16 mr-15 text-red"></i></a>
+                                       @endif
+                                      @endforeach
                                     </td>
                                     <td class="font">
                                         {{$product->pharm_reportdatecompleted}}

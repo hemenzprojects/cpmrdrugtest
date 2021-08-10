@@ -65,7 +65,7 @@
                     </div> --}}
                 </div>
                       
-                    <div class="card">
+                    <div class="card" style="overflow-x: scroll;">
                             <div class="card-header row">
                                 <div class="card-header">
                                     <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">

@@ -12,9 +12,8 @@
     </div>
     <div class="card-body" style="overflow-x: scroll;">
         <div class="dt-responsive" >
-           
-            <table id="lang-dt"
-                   class="table table-striped table-bordered nowrap">
+            <table id="scr-vtr-dynamic"
+            class="table table-striped table-bordered nowrap">
                   Total Quantity: @foreach($sample_preps->groupBy('product_id') as $sample_prep)
                    <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
                       {{count($sample_prep)}} 
