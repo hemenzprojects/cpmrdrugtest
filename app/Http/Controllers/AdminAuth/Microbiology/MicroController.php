@@ -664,7 +664,6 @@ class MicroController extends Controller
                             'acceptance_criterion'=>$r->acceptance_criterion[$i],
                             'compliance'=>$r->mlcompliance[$i],
                             'ac_total'=>$ac_total,
-                            'added_by_id' => Auth::guard('admin')->id(),
                             'updated_at' => \Carbon\Carbon::now(),
                           ]);
                           
@@ -679,7 +678,6 @@ class MicroController extends Controller
                                 'acceptance_criterion'=>$r->acceptance_criterion[$i],
                                 'compliance'=>$r->mlcompliance[$i],
                                 'ac_total'=>1,
-                                'added_by_id' => Auth::guard('admin')->id(),
                                 'updated_at' => \Carbon\Carbon::now(),
                               ]);
                               }

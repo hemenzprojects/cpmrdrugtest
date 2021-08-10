@@ -76,6 +76,7 @@
                                                 <th>Product</th>
                                                 <th>Test conducted</th>
                                                 <th>Assigned To</th>
+                                                <th>Approvals</th>
                                                 <th>Evaluation</th>
                                                 <th>Grade</th>
                                                 <th>Date Analysed</th>  
@@ -113,19 +114,26 @@
                                                  
                                             </td>
                                             <td class="font">
-                                                @if (count($completed_product->loadAnalyses)>0)
+                                                {{\App\Admin::find($completed_product->micro_analysed_by)? \App\Admin::find($completed_product->micro_analysed_by)->full_name:'null'}} 
+
+                                                {{-- @if (count($completed_product->loadAnalyses)>0)
                                                 @foreach($completed_product->microbialloadReports->groupBy('id')->first() as $report)
                                                 {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}} 
                                                 @endforeach 
-                                                @endif <br>
+                                                @endif 
+                                                <br>
                                                 @if (count($completed_product->efficacyAnalyses)>0)
                                                 @foreach($completed_product->microbialefficacyReports->groupBy('id')->first() as $report)
                                                 {{\App\Admin::find($report->added_by_id)? \App\Admin::find($report->added_by_id)->full_name:'null'}}
                                                 @endforeach 
-                                                @endif
+                                                @endif --}}
                                             </td>
+                                            <td class="font">
+                                               <span style="font-size: 10px"> <strong>Approval 1:</strong> {{\App\Admin::find($completed_product->micro_approved_by)? \App\Admin::find($completed_product->micro_approved_by)->full_name:'null'}} </span><br>
+                                             <span style="font-size: 10px">  <strong>Approval 2:</strong> {{\App\Admin::find($completed_product->micro_finalapproved_by)? \App\Admin::find($completed_product->micro_finalapproved_by)->full_name:'null'}} </span> 
+                                           </td>
                                             <td class="font">{!! $completed_product->hod_evaluation !!}</td>
-                                             
+
                                             
                                             <td class=""> 
                                                 @if ($completed_product->micro_grade != Null)
