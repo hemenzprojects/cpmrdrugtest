@@ -80,7 +80,7 @@
                                         @endif
                                     </td>
                                     <td class="font">{{$product->name}}
-                                        @if ($product->pharmcompletedreports >= $week_start )
+                                        @if ($product->pharm_reportdatecompleted >= $week_start)
                                         <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">NEW</span></sup>
                                         @endif
 
