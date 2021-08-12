@@ -102,7 +102,7 @@
                            
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Final Remarks: </strong></h4>
                  
-                                     <textarea required id="tinymce2" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
+                                     <textarea  id="tinymce2" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
                                      
                                  </div>
                                  <div class="col-sm-4">
