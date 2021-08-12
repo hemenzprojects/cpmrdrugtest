@@ -253,21 +253,28 @@ td, th {
 
 
 
-
-    <table style="border:#e8efec2b">
-      <tr style="border:#e8efec2b">
-      <td style="font-style: italic;font-size:11px;border:#e8efec2b ">
+    <table style="border:0px" >
+      <tr style="border:0px ">
+      <td style="font-style: italic;font-size:11px;border:0px; width:200px ">
         @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
-    
-    @if ($i<1)
+      @if ($i<1)
     <span > 
-      {!! $microbial_loadanalyses[0]->definition !!}  {!! $microbial_loadanalyses[1]->definition !!}
+      {!! $microbial_loadanalyses[0]->definition !!} 
 
       </span>
-@endif
-@endfor
+      @endif
+      @endfor
   </td>
-  <td style="font-style: italic; font-size:11px;border:#e8efec2b">
+  <td style="font-style: italic;font-size:11px;border:0pxwidth:200px ">
+    @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
+  @if ($i<1)
+<span > 
+  {!! $microbial_loadanalyses[1]->definition !!}  
+  </span>
+  @endif
+  @endfor
+</td>
+  <td style="font-style: italic; font-size:11px;border:0px">
     
 @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
 @if ($i < 1)
@@ -276,9 +283,9 @@ td, th {
   @endif 
 @endif 
 @endfor
-
   </td>
 </tr>
+
 </table>
 
 <span class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1 '}}"> 

@@ -34,6 +34,34 @@ class MicroController extends Controller
 
     public function receiveproduct_index(){
       
+    
+    
+      $d= Product::with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status", 3);
+      })->with('loadAnalyses')->whereHas("loadAnalyses")->pluck("id");
+     
+      $data = 
+      [ 
+      'test_conducted' => "<sup>1</sup>TAMC/ 37 <sup>0</sup>C /24h/PCA",
+      'definition' => "<sup>1</sup>TAMC = Total Aerobic Microbial Count",
+     
+      ];
+  
+      MicrobialLoadReport::whereIn("product_id",$d)->where("load_analyses_id",1)->update($data);
+      
+      $d= Product::with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status", 3);
+      })->with('loadAnalyses')->whereHas("loadAnalyses")->pluck("id");
+      $data = 
+      [ 
+      'test_conducted' => "<sup>2</sup>TYMC/ 25 <sup>0</sup>C /5Days/MEA",
+      'definition' => "<sup>2</sup>TYMC = Total Yeast and Molds Counts",
+     
+      ];
+     
+      MicrobialLoadReport::whereIn("product_id",$d)->where("load_analyses_id",2)->update($data);
+      return 1;
+      return  MicrobialLoadReport::whereIn("product_id",$d)->where("load_analyses_id",2)->get();
     // return  Product::whereHas("productType", function($q){
     //     return $q->where("state", 2);
     //   })->get();

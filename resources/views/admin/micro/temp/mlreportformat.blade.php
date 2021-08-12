@@ -116,39 +116,41 @@
       </div>
     </tbody>
    </table>
-   <div class="row">
-     <div class="col-md-6">
+   <table style="border:#e8efec2b">
+    <tr style="border:#e8efec2b">
+    <td style="border:#e8efec2b; padding:3px">
       @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-    
+   
+     @if ($i<1)
+    <p style="font-style: italic;margin:5px; font-size:12.5px;"> 
+        {!! $show_microbial_loadanalyses[0]->definition !!} 
+    </p>
+  @endif
+  @endfor
+    </td>
+    <td style="border:#e8efec2b; padding:3px">
+      @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+   
       @if ($i<1)
-      <p style="font-style: italic; margin:5px; font-size:12px"> 
-          <?php
-          if ($i<2) {
-         $definition= explode(' ',$show_microbial_loadanalyses[0]->definition);
+     <p style="font-style: italic;margin:5px; font-size:12.5px; margin:3px"> 
+         {!! $show_microbial_loadanalyses[1]->definition !!} 
+     </p>
+   @endif
+   @endfor
+    </td>
+    <td style="border:#e8efec2b">
       
-          echo '<sup>';  print_r($definition[0]); echo '</sup>';   print_r($definition[1]);  echo ' ';  print_r($definition[2]); echo ' ';   print_r($definition[3]); echo ' '; print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ', ';echo ' ';  
-          
-   
-          $definition= explode(' ',$show_microbial_loadanalyses[1]->definition);
-              echo '<sup>';  print_r($definition[0]);echo '</sup>';  print_r($definition[1]); echo ' ';  print_r($definition[2]); echo ' ';    print_r($definition[3]); echo ' ';  print_r($definition[4]); echo ' ';   print_r($definition[5]); echo ' ';  print_r($definition[6]); echo ' ';  print_r($definition[7]); 
-              }
-          ?>
-    
-      </p>
-      @endif
-     @endfor
-     </div>
-     <div class="col-md-6">
-      @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+    @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
       @if ($i < 1)
-      @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
-      <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
-      @endif 
+        @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
+        <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
+        @endif 
       @endif
-     @endfor
-     </div>
-   
-   </div>
+    @endfor
+  
+    </td>
+  </tr>
+  </table>
   
  
    @include('admin.micro.temp.mlconclusioninput') 

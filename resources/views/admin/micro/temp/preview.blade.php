@@ -117,32 +117,44 @@
                   @endfor
                 </table>
                 
-                
-                <table style="border:#e8efec2b">
-                  <tr style="border:#e8efec2b">
-                  <td style="border:#e8efec2b ">
-                    @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+              </table>
+              <table style="border:#e8efec2b">
+               <tr style="border:#e8efec2b">
+               <td style="border:#e8efec2b; padding:3px">
+                 @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+              
+                @if ($i<1)
+               <p style="font-style: italic; margin:5px; font-size:12px"> 
+                   {!! $show_microbial_loadanalyses[0]->definition !!} 
+               </p>
+             @endif
+             @endfor
+               </td>
+               <td style="border:#e8efec2b; padding:3px">
+                 @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+              
+                 @if ($i<1)
+                <p style="font-style: italic; margin:5px; font-size:12px"> 
+                    {!! $show_microbial_loadanalyses[1]->definition !!} 
+                </p>
+              @endif
+              @endfor
+               </td>
+               <td style="border:#e8efec2b; padding:3px">
                  
-                   @if ($i<1)
-                  <p style="font-style: italic;margin:5px; font-size:12.5px;"> 
-                      {!! $show_microbial_loadanalyses[0]->definition !!}  {!! $show_microbial_loadanalyses[1]->definition !!}
+               @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
+                 @if ($i < 1)
+                   @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
+                   <p style="font-style: italic; margin:5px; font-size:12px">
+                    <sup>3</sup>  TNTC = Too Numerous To Count
                   </p>
-                @endif
-                @endfor
-                  </td>
-                  <td style="border:#e8efec2b">
-                    
-                  @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-                    @if ($i < 1)
-                      @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
-                      <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
-                      @endif 
-                    @endif
-                  @endfor
-                
-                  </td>
-                </tr>
-                </table>
+                   @endif 
+                 @endif
+               @endfor
+             
+               </td>
+             </tr>
+             </table>
                 
                 <div style="margin-top: 20px">
                     <span style="font-size:15px"> 
