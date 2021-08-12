@@ -498,15 +498,7 @@ $("#inputmask_0").on('keyup', function() {
       $('#micro_la_conclution_option').prop('required',false)
 
      });
-
-     
-      // if ($('input[id="ml_general_conclusion"]').is(":click")){
-      //   $('#micro_la_comment_text').prop('required',true)
-      // } else {
-      //   $('#micro_la_comment_text').prop('required',false)
-      // }
-
-
+      
   });
 
   $(document).ready(function() {
