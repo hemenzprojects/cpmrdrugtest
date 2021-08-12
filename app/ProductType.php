@@ -87,4 +87,6 @@ class ProductType extends Model
         }
         return "Skin/ Dermal";
     }
+
+    
 }

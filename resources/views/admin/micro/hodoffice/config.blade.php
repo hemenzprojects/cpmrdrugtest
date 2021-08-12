@@ -143,10 +143,10 @@
                                                 {{-- <td class="font"><input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" {{$microbial_loadanalyses[$i]->location == 0 || $microbial_loadanalyses[$i]->location == 1 ? "readonly" : "" }}></td> --}}
                                                 <td class="font">
                                                     @if ($i == 0)
-                                                    <textarea id="summernote" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
+                                                    <textarea id="tinymce0" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
                                                     @endif
                                                     @if ($i == 1)
-                                                    <textarea id="summernote0" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
+                                                    <textarea id="tinymce1" class="form-control" name="name[{{$i}}]"  rows="6"> {{$microbial_loadanalyses[$i]->test_conducted}} </textarea>  
                                                     @endif
                                                     @if ($i > 1)
                                                     <input class="form-control" style="width:220px" type="text" name="name[{{$i}}]" value="{{$microbial_loadanalyses[$i]->test_conducted}}" >

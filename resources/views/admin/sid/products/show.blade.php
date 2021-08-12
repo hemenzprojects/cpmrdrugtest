@@ -385,7 +385,7 @@
                         <div class="form-group">
                             <input type="hidden" name="product_id" value="{{$product->id}}">
                             @if ($product->cover_letter == Null)
-                            <textarea class="form-control" id="summernote1" name="coverletter" rows="4">
+                            <textarea class="form-control" id="tinymce2" name="coverletter" rows="9">
 
                                 <p class="MsoNormal"><b><u>REPORT ANALYSIS ON {{strtoupper($product->name)}}</u></b></p>
 

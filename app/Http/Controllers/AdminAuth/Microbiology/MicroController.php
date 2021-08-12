@@ -33,7 +33,10 @@ class MicroController extends Controller
     //********************* Micro Receive Product ****************** */
 
     public function receiveproduct_index(){
-          
+      
+    // return  Product::whereHas("productType", function($q){
+    //     return $q->where("state", 2);
+    //   })->get();
            
       if(!Admin::find(Auth::guard('admin')->id())->hasPermission(13)) {
         Session::flash('messagetitle', 'warning');
