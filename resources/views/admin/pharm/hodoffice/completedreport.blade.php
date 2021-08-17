@@ -23,7 +23,7 @@
     </div>
     <div class="card">
         <div class="card-header d-block">
-            <h3>Pharmacology Completed Rports</h3>
+            <h3>Pharmacology Completed Rports  </h3>
         </div>
         <div class="card-body">
             <table id="order-table" class="table table-striped table-bordered nowrap">
