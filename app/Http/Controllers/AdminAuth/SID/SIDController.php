@@ -1023,7 +1023,7 @@ class SIDController extends Controller
        $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
 
 
-        $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
+       $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
 
         return View('admin.sid.generalreport.index', $data);
     }

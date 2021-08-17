@@ -1479,7 +1479,7 @@ class PharmController extends Controller
 
                 $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 8);
-                })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(100)->get();
+                })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->get();
 
                 return view('admin.pharm.hodoffice.completedreport',$data);
 
@@ -1599,6 +1599,10 @@ class PharmController extends Controller
                return view('admin.pharm.generalreport.index',$data);
 
               }
+              public function pharm_completed_reports(){
+                return 0;
+              } 
+
 
              public function completedreports_index($id){
 

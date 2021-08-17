@@ -1,4 +1,4 @@
-micro@extends('admin.layout.main')
+@extends('admin.layout.main')
 
 @section('content')
 
