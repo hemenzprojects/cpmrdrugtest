@@ -278,17 +278,28 @@
          <tr>
              <th>#</th>
              <th>Product Type</th>
-             <th>Number of Product Received</th>
+             <th>Number of product Received</th>
+             <th>Number of Product Pending</th>
              <th>Number of Product Analysed</th>
          </tr>
          </thead>
          <tbody>
+
             @if ($single_multiple_lab == Null)
-            @php $i=0; @endphp
+            @php 
+            $i=0; 
+            @endphp
             @foreach ($product_types as $product_type)                                    
              <tr>
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
+             <td class="font"> 
+                 @php
+                     $p = count($product_type['pending']);
+                     $c = count($product_type['completed']);
+                     echo ($p + $c); 
+                 @endphp
+             </td>
              <td class="font"> 
                 {{count($product_type['pending'])}}
              </td>
@@ -296,6 +307,8 @@
                 {{count($product_type['completed'])}}
              </td>
              </tr>
+            
+             
             @php
                $i++; 
             @endphp
@@ -309,6 +322,14 @@
              <tr>
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
+
+             <td class="font"> 
+                @php
+                    $p = count($product_type['singlelabpending']);
+                    $c = count($product_type['singlelabcompleted']);
+                    echo ($p + $c); 
+                @endphp
+            </td>
              <td class="font"> 
                 {{count($product_type['singlelabpending'])}}
              </td>
@@ -329,6 +350,13 @@
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
              <td class="font"> 
+                @php
+                    $p = count($product_type['multiplelabpending']);
+                    $c = count($product_type['multiplelabcompleted']);
+                    echo ($p + $c); 
+                @endphp
+            </td>
+             <td class="font"> 
                 {{count($product_type['multiplelabpending'])}}
              </td>
              <td class="font"> 
@@ -348,6 +376,13 @@
              <td class="font">{{$i}} </td>
              <td class="font"> {{$product_type->name}} </td>
              <td class="font"> 
+                @php
+                    $p = count($product_type['all_labpending']);
+                    $c = count($product_type['all_labcompleted']);
+                    echo ($p + $c); 
+                @endphp
+            </td>
+             <td class="font"> 
                 {{count($product_type['all_labpending'])}}
              </td>
              <td class="font"> 
@@ -362,10 +397,23 @@
              
          </tbody>
          <tr>
-            <th>Total</th>
-            <th></th>
-            <th>Total</th>
-            <th>Total</th>
+            <th>    
+            </th>
+            <th>
+               Total 
+            </th>
+            <th>
+                @include('admin.sid.temp.reportforalltemp')
+               
+            </th>
+           <th>
+               @include('admin.sid.temp.reportpendingtotals')
+
+           </th>
+            <th>
+                @include('admin.sid.temp.reportcompletedtotals')
+
+            </th>
         </tr>
         </table>
         </div>

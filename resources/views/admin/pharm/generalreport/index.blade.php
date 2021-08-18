@@ -136,9 +136,7 @@
          <tr>
          <td class="font">{{$product_type->id}} </td>
          <td class="font"> {{$product_type->name}} </td>
-         <td class="font">
-              
-         </td>
+        
          <td class="font"> 
               @foreach ($pending_products->where('product_type_id',$product_type->id)->groupBy('product_type_id') as $item)
             {{count($item)}}

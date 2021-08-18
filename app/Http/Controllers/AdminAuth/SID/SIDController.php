@@ -1465,7 +1465,8 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
-     $data['all_usertypes'] = UserType::with('permissions')->get();
+
+    $data['all_usertypes'] = UserType::with('permissions')->get();
     $data['user_types'] = UserType::where('id',$id)->with('permissions')->get();
     $data['user_type'] = UserType::where('id',$id)->first();
 
