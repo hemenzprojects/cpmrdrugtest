@@ -61,7 +61,7 @@
  
                <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>RESULT: </strong></h4>
                @if ($pharmreports->pharm_result ===Null)
-                 <textarea id="p" class="form-control" style="font-size: 16px"name="pharm_result" rows="10"> <p style="text-align: justify;"><span style="font-size: 12pt;"> The experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in group 1 and 2 administered with 1% and 5% w/v of the {{$pharmreports->productType->name}} intradermally and topically (0.5-1 g), showed no ulceration, irritation and/or inflammations at the site of injection and shaved area, respectively.</span></p></textarea> 
+                 <textarea id="tinymce3" class="form-control" style="font-size: 16px"name="pharm_result" rows="10"> <p style="text-align: justify;"><span style="font-size: 12pt;"> The experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in group 1 and 2 administered with 1% and 5% w/v of the {{$pharmreports->productType->name}} intradermally and topically (0.5-1 g), showed no ulceration, irritation and/or inflammations at the site of injection and shaved area, respectively.</span></p></textarea> 
                  @endif                                                                                               
                  @if ($pharmreports->pharm_result !== Null)
                 <textarea id="tinymce3" style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
