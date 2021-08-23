@@ -869,7 +869,10 @@ $('#acceptpharmproductform').submit(function(e){
 // e.currentTarget.submit();
 })
 </script>
-
+ 
+<script>
+  
+</script>
 <!-- checkuserphyto-->
 <script>
      var phyto_selectedItems = [];
@@ -1508,8 +1511,83 @@ console.log(animalmodel);
   })
 </script>
 
+<!-- microarchiveproduct -->
+<script>
+  var micro_selectedItems = [];
+$(document).on('change','.microselect',function(){
+  if($(this).is(':checked')){
+    micro_selectedItems.push($(this).val())
+  }else{
+    var index = micro_selectedItems.indexOf($(this).val())
+    if(index != -1)
+    micro_selectedItems.splice(index,1)
+  }
+  console.log(micro_selectedItems)
 
+$('#microarchiveproduct').submit(function(e){
+  e.preventDefault();
+    micro_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='micro_completedproduct_id[]'`)
+      $('#microarchiveproduct').prepend(`<input type='hidden' value='${item}' name='micro_completedproduct_id[]'>`)
+    })
+    micro_selectedItems=[]
+    e.currentTarget.submit();
+})
+});
 
+</script>
+
+<!-- pharmarchiveproduct -->
+<script>
+  var pharm_selectedItems = [];
+$(document).on('change','.pharmselect',function(){
+  if($(this).is(':checked')){
+    pharm_selectedItems.push($(this).val())
+  }else{
+    var index = pharm_selectedItems.indexOf($(this).val())
+    if(index != -1)
+    pharm_selectedItems.splice(index,1)
+  }
+  console.log(pharm_selectedItems)
+
+$('#pharmarchiveproduct').submit(function(e){
+  e.preventDefault();
+  pharm_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='pharm_completedproduct_id[]'`)
+      $('#pharmarchiveproduct').prepend(`<input type='hidden' value='${item}' name='pharm_completedproduct_id[]'>`)
+    })
+    pharm_selectedItems=[]
+    e.currentTarget.submit();
+})
+});
+
+</script>
+
+<!-- phytoarchiveproduct -->
+<script>
+  var phyto_selectedItems = [];
+$(document).on('change','.phytoselect',function(){
+  if($(this).is(':checked')){
+    phyto_selectedItems.push($(this).val())
+  }else{
+    var index = phyto_selectedItems.indexOf($(this).val())
+    if(index != -1)
+    phyto_selectedItems.splice(index,1)
+  }
+  console.log(phyto_selectedItems)
+
+$('#phytoarchiveproduct').submit(function(e){
+  e.preventDefault();
+  phyto_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='phyto_completedproduct_id[]'`)
+      $('#phytoarchiveproduct').prepend(`<input type='hidden' value='${item}' name='phyto_completedproduct_id[]'>`)
+    })
+    phyto_selectedItems=[]
+    e.currentTarget.submit();
+})
+});
+
+</script>
 
 
     

@@ -161,16 +161,16 @@ class PhytoController extends Controller
               ];
             }
 
-              if ($status == 2) {
-                $data = 
-                [ 
-                'status' => 2,
-                'received_by' => $adminId,
-                'delivered_by' => $delivered_by,
-                'received_at' => \Carbon\Carbon::now(),
-                ];
-               
-              }
+            if ($status == 2) {
+              $data = 
+              [ 
+              'status' => 2,
+              'received_by' => $adminId,
+              'delivered_by' => $delivered_by,
+              'received_at' => \Carbon\Carbon::now(),
+              ];
+            }
+            
             ProductDept::whereIN('product_id', $deptproduct_id)->where("dept_id", 3)->where("status", '<',3)->update($data);
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
@@ -213,7 +213,7 @@ class PhytoController extends Controller
 
              $data['phytoproducts'] = Product::with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 2);
-              })->orderBy('id', 'desc')->get();;
+              })->orderBy('id', 'desc')->get();
               
              //********************* section for authusers who perform repot ***** */
             $data['auth_phytoreports'] = Product::where('phyto_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){

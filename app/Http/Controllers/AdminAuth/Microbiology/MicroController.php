@@ -291,7 +291,6 @@ class MicroController extends Controller
 
               public function test_create(MicroTestCreateRequest $r){
 
-                // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -311,6 +310,7 @@ class MicroController extends Controller
                 if(count($products->get()) < 1){
                     return redirect()->back();
                 }
+
                 $productdepts = ProductDept::where('product_id',$r->micro_product_id)->where("dept_id", 1)->where("status",3);
                 if(count($productdepts->get()) > 0){
                   Session::flash('message_title', 'error');
@@ -318,7 +318,12 @@ class MicroController extends Controller
                     return redirect()->back();
                 }
 
-                
+                $productdept = ProductDept::where('product_id',$r->micro_product_id)->where("dept_id", 1)->where("status",2)->first();
+                if ($productdept->received_at > $r->date_analysed ) {
+                  Session::flash('messagetitle', 'warning');
+                  Session::flash('message', ' Please check date analysed. The date should not be greater than product date received at lab');
+                  return redirect()->back();
+                }
                 $test_conducted = [];
                 $result = [];
                 $acceptance_criterion = [];
@@ -642,7 +647,12 @@ class MicroController extends Controller
                 if(count($productdepts->get()) < 1){     
                     return redirect()->back();
                 }
-              
+
+                if ($r->date_received > $r->date_analysed ) {
+                  Session::flash('messagetitle', 'warning');
+                  Session::flash('message', ' Please check date analysed. The date should not be greater than product date received at lab');
+                  return redirect()->back();
+                }
                    if($r->test_conducted_update){
                 
                     for ($i =0; $i < count($r->result); $i++){ 

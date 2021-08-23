@@ -208,7 +208,6 @@ class SIDController extends Controller
              return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
          })->get();
       
-
        
     //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
         $data['from_date'] = Null;
@@ -1417,7 +1416,6 @@ class SIDController extends Controller
             $chemical_constituents_options = PhytoChemicalConstituents::pluck("id")->toArray();
             $chemical_constituents_option = json_encode($chemical_constituents_options);
         }
-      
 
         $data = ([
             'title' => $r->title,
@@ -1645,7 +1643,7 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-
+        
         $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -1655,20 +1653,45 @@ class SIDController extends Controller
          if(count($phytocompletedreports->get()) < 1){     
             return redirect()->back();
           }
+         
+         if ($r->condition == Null) {
+          
+            $data = 
+            [ 
+            'status' => 3,
+            ];   
+            ProductDept::whereIN('product_id', $r->phyto_completedproduct_id)->where("dept_id", 3)->where("status",4)->update($data);
+            Product::with('departments')->whereIN('id',$r->phyto_completedproduct_id)->whereHas("departments", function($q){
+            return $q->where("dept_id", 3);
+           })->update(['archive' => Null]);
 
-          $data = 
-          [ 
-          'status' => 3,
-          ];   
-
-         ProductDept::whereIN('product_id', $r->phyto_completedproduct_id)->where("dept_id", 3)->where("status",4)->update($data);
+           }
+ 
+           if ($r->condition == 1) {   
+              $phytodept = Product::with('departments')->whereIN('id',$r->phyto_completedproduct_id)->whereHas("departments", function($q){
+                return $q->where("dept_id",">",0)->where("status","!=",4)->where("status","!=",8);
+               })->first();
+            
+            if ($phytodept != null) {
+            Session::flash('messagetitle', 'warning');
+            Session::flash('message', 'Sorry all departments must be completed before archiving/Completing report. Please check indications on lab status.');
+            return redirect()->back();
+            }else{
+            Product::with('departments')->whereIN('id',$r->phyto_completedproduct_id)->whereHas("departments", function($q){
+                return $q->where("dept_id", 3)->where("status",4);
+                })->update(['archive' => 1]);
+            }        
+           }
+        
          Session::flash("message", "Report Successfully rejected.");
          Session::flash("message_title", "success");
-         return redirect()->back();
+
+          return redirect()->back();
       }
 
        public function pharm_completedreport_update(Request $r){
-     
+      
+       
          $pharmcompletedreports = Product::whereIn('id',$r->pharm_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
          });
@@ -1679,12 +1702,36 @@ class SIDController extends Controller
             return redirect()->back();
           }
 
-          $data = 
-          [ 
-          'status' => 7,
-          ];   
 
-         ProductDept::whereIN('product_id', $r->pharm_completedproduct_id)->where("dept_id", 2)->where("status",8)->update($data);
+          if ($r->condition == Null) {
+          
+            $data = 
+            [ 
+            'status' => 7,
+            ];   
+  
+           ProductDept::whereIN('product_id', $r->pharm_completedproduct_id)->where("dept_id", 2)->where("status",8)->update($data);
+           Product::with('departments')->whereIN('id',$r->pharm_completedproduct_id)->whereHas("departments", function($q){
+            return $q->where("dept_id", 2);
+           })->update(['archive' => Null]);
+           }
+
+           if ($r->condition == 1) {   
+            $pharmdept = Product::with('departments')->whereIN('id',$r->pharm_completedproduct_id)->whereHas("departments", function($q){
+              return $q->where("dept_id",">",0)->where("status","!=",4)->where("status","!=",8);
+             })->first();
+          
+          if ($pharmdept != null) {
+          Session::flash('messagetitle', 'warning');
+          Session::flash('message', 'Sorry all departments must be completed before archiving/Completing report. Please check indications on lab status.');
+          return redirect()->back();
+          }else{
+          Product::with('departments')->whereIN('id',$r->pharm_completedproduct_id)->whereHas("departments", function($q){
+              return $q->where("dept_id", 2);
+              })->update(['archive' => 1]);
+          }        
+         }
+        
          Session::flash("message", "Report Successfully rejected.");
          Session::flash("message_title", "success");
          return redirect()->back();
@@ -1701,15 +1748,40 @@ class SIDController extends Controller
             return redirect()->back();
           }
 
-          $data = 
-          [ 
-          'status' => 3,
-          ];   
-
-         ProductDept::whereIN('product_id', $r->micro_completedproduct_id)->where("dept_id", 1)->where("status",4)->update($data);
-         Session::flash("message", "Report Successfully rejected.");
-         Session::flash("message_title", "success");
-         return redirect()->back();
+           if ($r->condition == Null) {
+          
+            $data = 
+            [ 
+            'status' => 3,
+            ];   
+  
+           ProductDept::whereIN('product_id', $r->micro_completedproduct_id)->where("dept_id", 1)->where("status",4)->update($data);
+           Product::with('departments')->whereIN('id',$r->micro_completedproduct_id)->whereHas("departments", function($q){
+            return $q->where("dept_id", 1);
+           })->update(['archive' => Null]);   
+            }
+ 
+          
+            if ($r->condition == 1) {   
+                $pharmdept = Product::with('departments')->whereIN('id',$r->micro_completedproduct_id)->whereHas("departments", function($q){
+                  return $q->where("dept_id",">",0)->where("status","!=",4)->where("status","!=",8);
+                 })->first();
+              
+              if ($pharmdept != null) {
+              Session::flash('messagetitle', 'warning');
+              Session::flash('message', 'Sorry all departments must be completed before archiving/Completing report. Please check indications on lab status.');
+              return redirect()->back();
+              }else{
+              Product::with('departments')->whereIN('id',$r->micro_completedproduct_id)->whereHas("departments", function($q){
+                  return $q->where("dept_id", 1);
+                  })->update(['archive' => 1]);
+              }        
+             }
+            
+        
+        Session::flash("message", "Report Successfully rejected.");
+        Session::flash("message_title", "success");
+        return redirect()->back();
       }
 
       //*************************************************************** All Downloads ********************************************************* */

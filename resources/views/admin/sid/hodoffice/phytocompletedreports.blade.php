@@ -46,7 +46,7 @@
                           </div>
                         <div class="col-md-12">
                           
-                            <form  action="{{url('admin/sid/hod_office/phyto_completed_report/update')}}" class="forms-sample" method="POST">
+                            <form id="phytoarchiveproduct"  action="{{url('admin/sid/hod_office/phyto_completed_report/update')}}" class="forms-sample" method="POST">
                                 {{ csrf_field() }}
 
                              <table id="order-table_micro" class="table table-striped table-bordered nowrap dataTable">
@@ -67,9 +67,15 @@
                                       
                                     <td class="font">
                                     <a target="blank" href="{{route('admin.sid.product.show', ['id' => $product->id])}}">
+                                        @if ($product->archive == Null)
                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                             {{$product->code}}
-                                        </span>
+                                        </span>  
+                                        @else
+                                        <span  class="badge  pull-right" style="background-color:#28a745; color:#fff">
+                                            {{$product->code}}
+                                        </span>  
+                                        @endif
                                     </a>
                                         @if($product->single_multiple_lab ==1)
                                         <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#S</span></sup>
@@ -99,6 +105,7 @@
                                             @endif
                                         </div>
                                     </td>
+                                    
                                     <td>
                                         @foreach ($product->ProductDept->where('dept_id',3)->where('status','>', 0) as $item)
                                         @if ($item->status == 4)
@@ -123,7 +130,6 @@
                                         <a href="#!" title="Micro"><i class="ik ik-x  f-16 mr-15 text-red"></i></a>
                                         @endif
                                        @endforeach
-                                      
                                     </td>
                                     <td class="font">
                                         {{$product->phyto_reportdatecompleted}}  
@@ -131,7 +137,7 @@
                                     <td class="font">
                                         <div class="form-check mx-sm-2">
                                             <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input phytoselect" name="phyto_completedproduct_id[]"  value="{{$product->id}}" >
+                                            <input type="checkbox" class="custom-control-input phytoselect"  value="{{$product->id}}" >
                                                 <span class="custom-control-label">&nbsp; </span>
                                             </label>
                                         </div>
@@ -142,7 +148,12 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                              <button onclick="return confirm('Please comfirm selected items.')" class="" type="submit"> Reject Reports</button>
+
+                            <select name="condition" id="">
+                                <option value="1">Complete Report</option>
+                                  <option value="">Rejects Report</option>
+                              </select>
+                              <button onclick="return confirm('Please comfirm selected items.')"  class="" type="submit"> Submit</button>
                             </form>
          
                         </div>
