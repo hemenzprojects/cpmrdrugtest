@@ -498,7 +498,10 @@ $product = \App\Product::where('id',5)->first();
                                             <option value="">Select Product</option>
                                             @foreach($microproducts as $microproduct)
                                         <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
-                                            {{$microproduct->code}} 
+                                            {{$microproduct->code}}
+                                            @if (Carbon\Carbon::parse($microproduct->departmentById(1)->pivot->received_at) >= $week_start)
+                                            <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;"> - New</span></sup>
+                                            @endif
                                         </option>
                                             @endforeach
                                         </select>

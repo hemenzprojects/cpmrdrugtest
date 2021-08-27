@@ -74,7 +74,7 @@
                                             </span>  
                                             @else
                                             <span  class="badge  pull-right" style="background-color:#28a745; color:#fff">
-                                                {{$product->code}}
+                                                <span style="font-size: 0.1px">#completed</span> {{$product->code}}
                                             </span>  
                                             @endif
                                         </a>
@@ -156,7 +156,7 @@
 
                             <select name="condition" id="">
                                 <option value="1">Complete Report</option>
-                                  <option value="">Rejects Report</option>
+                                  <option value="">Reject Report</option>
                               </select>
                               <button onclick="return confirm('Please comfirm selected items.')"  class="" type="submit"> Submit</button>                        </form>
          

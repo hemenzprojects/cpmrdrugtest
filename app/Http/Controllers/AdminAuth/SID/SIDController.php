@@ -1595,7 +1595,9 @@ class SIDController extends Controller
 
       public function micro_completed_reports(){
           
-     $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+    //  $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+     $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
+
      $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
         return $q->where("dept_id", 1)->where("status",4);
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
@@ -1616,7 +1618,7 @@ class SIDController extends Controller
         //     Session::flash('message_title', 'error');
         //     Session::flash('message', 'Please select required date to begin');
         //   }
-        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
         $data['weekly_pharmcompletedreports'] = Product::where('pharm_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
             return $q->where("dept_id", 2)->where("status",8);
           })->get();
@@ -1629,7 +1631,7 @@ class SIDController extends Controller
       }
 
       public function phyto_completed_reports(){
-        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
+        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
         $data['weekly_phytocompletedreports'] = Product::where('phyto_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
             return $q->where("dept_id", 3)->where("status",4);
           })->get();
