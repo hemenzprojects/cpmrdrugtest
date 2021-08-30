@@ -40,8 +40,8 @@
 <script src="{{asset('admin/assets/js/summernote.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/jquery-3.3.1.min.js')}}"></script> --}}
 
-{{-- <script src="https://cdn.tiny.cloud/1/ye11qi2nu99awytar0sckd2bbrvam553haz0lq1idjxojijv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
-<script src="{{asset('admin/assets/js/tinymce.js')}}" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/jhv63yy2v30aop7htw50v6owsspxru2ihykww3jm3wh86f40/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+{{-- <script src="{{asset('admin/assets/js/tinymce.js')}}" referrerpolicy="origin"></script> --}}
 
 <script>
   tinymce.init({
@@ -133,6 +133,8 @@
     tinycomments_author: 'Author name',
  });
 </script>
+
+
 @yield('bottom-scripts')
 
 
