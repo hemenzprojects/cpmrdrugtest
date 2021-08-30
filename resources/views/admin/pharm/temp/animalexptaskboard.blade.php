@@ -36,7 +36,9 @@
                                           <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                               {{$animalexp->code}}
                                           </span>
-                                    
+                                          @foreach ($animalexp->samplePreparation as $product)
+                                           <small class="text-muted ">{{$product->created_at->format(' F j,  Y')}}</small>
+                                          @endforeach
               
                                       </p>
                                      

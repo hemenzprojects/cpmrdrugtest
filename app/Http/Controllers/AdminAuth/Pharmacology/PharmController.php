@@ -670,7 +670,7 @@ class PharmController extends Controller
 
               $data['animalexps'] = Product::where('pharm_process_status',4)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 3);
-              })->with('samplePreparation')->whereHas("samplePreparation")->get();
+              })->with('samplePreparation')->whereHas("samplePreparation")->orderBy('created_at','DESC')->get();
 
               $data['exp_inprogress'] = Product::where('pharm_experiment_by',Auth::guard('admin')->id())->where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 3);
