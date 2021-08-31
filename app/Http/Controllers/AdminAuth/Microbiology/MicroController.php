@@ -1445,7 +1445,8 @@ class MicroController extends Controller
             }
 
             public function hod_complete_report($id){
-                   
+                  
+            
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(22)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -1456,7 +1457,9 @@ class MicroController extends Controller
               $data['report_id'] = $id; 
           
               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-              if(count($productdepts->get()) < 1){     
+              if(count($productdepts->get()) < 1){    
+                Session::flash('messagetitle', 'warning');
+                Session::flash('message', 'Product selected must be approved before completion');
                   return redirect()->back();
               }
               $productdept = $productdepts->first();
@@ -1472,7 +1475,7 @@ class MicroController extends Controller
 
               $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
               
-               return view('admin.micro.completedreport',$data);
+              return redirect()->back();
 
               }
            

@@ -95,6 +95,7 @@ $product = \App\Product::find($report_id);
     @include('admin.micro.temp.preview') 
     <div class="col-md-4">
         @include('admin.micro.temp.hodoffice2') 
+        
     </div>
     <div class="col-md-8">
         <div class="card">
@@ -264,8 +265,9 @@ $product = \App\Product::find($report_id);
                         @if ($product->micro_process_status ===3)
                         <div class="col-md-6">  
                         <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">Reject Report</button>
-        
-                       
+                        <a href="{{url('admin/micro/report/hod_office/complete_report',['id' => $product->id])}}">
+                            <button type="button" onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')" class="btn btn-success pull-right">  Complete Report</button>
+                           </a>                       
                         </div>
                         @endif
                     </div>

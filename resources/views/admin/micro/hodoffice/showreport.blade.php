@@ -101,7 +101,7 @@ $product = \App\Product::find($report_id);
             <div class="row">
                 <div class="col-md-4">
                     @include('admin.micro.temp.hodoffice1') 
-
+                    
                 </div>
 
                 <div class="col-md-8">

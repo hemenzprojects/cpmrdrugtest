@@ -845,7 +845,7 @@ class PhytoController extends Controller
 
                   Session::flash("message", "Report Evaluation completed.");
                   Session::flash("message_title", "success");
-                   return view('admin.phyto.completedreport',$data);
+                  return redirect()->back();
                   }
 
                  public function evaluate(Request $r){
