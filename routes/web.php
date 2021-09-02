@@ -254,6 +254,9 @@ Route::get('/sendtest', function () {
    Route::post('pharm/samplepreparation/report','AdminAuth\Pharmacology\PharmController@samplepreparation_report')->name('admin.pharm.samplepreparation.report');
    Route::post('pharm/samplepreparation/animalhouse/report','AdminAuth\Pharmacology\PharmController@samplepreparation_animalhouse_report')->name('admin.pharm.samplepreparation.animalhouse.report');
 
+   Route::post('/pharm/samplepreparation/animalhouse/rejecttest','AdminAuth\Pharmacology\PharmController@animalhouse_rejecttest')->name('admin.pharm.samplepreparation.animalhouse.rejecttest');
+   Route::post('/pharm/approverejection', 'AdminAuth\Pharmacology\PharmController@approverejection')->name('admin.pharm.animalhouse.approverejection');
+
      //* General Report Section */
      Route::get('pharm/general_report/index','AdminAuth\Pharmacology\PharmController@generalreport_index')->name('admin.pharm.general_report.index');
      Route::post('pharm/pending_reports/index/{id}','AdminAuth\Pharmacology\PharmController@pendingreports_index')->name('admin.pharm.pending_reports.index');

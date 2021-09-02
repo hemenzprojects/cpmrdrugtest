@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
+
     <div class="page-header">
         <div class="row align-items-end">
             <div class="col-lg-8">
@@ -213,8 +214,15 @@
                 <div class="card-body todo-task" style=" overflow-x: hidden;overflow-y: auto; height:350px; margin-bottom: 30px">
                     <div class="dd" data-plugin="nestable" >
                         <ul class="list-group" id="myList2">
+                            
                             @foreach($exp_inprogress->sortBy('products.pharm_hod_evaluation') as $inprogress)
-                          
+                            <div class="form-check mx-sm-2" style="display: none">
+                                <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input pharmtestselect"  value="{{$inprogress->id}}" checked>
+                                    <span class="custom-control-label">&nbsp; </span>
+                                </label>
+                            </div>
+                             
 
                             <li class="list-group-item dd-item" style="padding: 1px;border:1px" data-id="1">
                             <div class="dd-handle">
@@ -247,172 +255,55 @@
                                            {!! $inprogress->pharm_general_report_evaluation !!}
                                         </span>
                                     </div>
-                                    <a href="{{url('admin/pharm/report/show',['id' => $inprogress->id])}}">
                                     <div class="col-lg-2 col-md-12">
+                                        <a href="{{url('admin/pharm/report/show',['id' => $inprogress->id])}}">
                                         <i class="ik ik-eye"></i>
+                                    </a>
+                                    <a href="{{url('admin/pharm/report/show',['id' => $inprogress->id])}}">
+                                        <i class="ik ik-edit-2"></i>
+                                    </a>    
+                                    {{-- <a href="{{url('admin/pharm/samplepreparation/animalhouse/rejecttest',['id' => $inprogress->id ])}}">
+                                    </a> --}}
+                                    <i class="ik ik-trash-2" data-toggle="modal" data-target="#exampleModalCenter{{$inprogress->id}}"></i>
+
                                     </div>
-                                   </a>                                               
-                                </div>  
-                              
+                                   
+                                    </div>  
+                                   
                             </div>
                             </li>
-                        
-                            <div class="modal fade" id="demoModal{{$inprogress->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content" style="width: 160%">
+                             
+                            <div class="modal fade" id="exampleModalCenter{{$inprogress->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="demoModalLabel">
-                                                <hr>Animal Experiment Details </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h5 class="modal-title" id="exampleModalCenterLabel">Reject {{$inprogress->code}} report to animalhouse</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         </div>
-                                        <div class="card-body"> 
-                                        <div class="row">
-                                            <div class="col-md-4 col-12">
-                                                <h6> Product Name </h6>
-                                                <small class="text-muted ">{{$inprogress->code}}</small>
-                                                <h6>Product Type </h6>
-                                                <small class="text-muted ">{{ucfirst($inprogress->productType->name)}}</small> 
-                                                <small class="text-muted "></small>
-                                                <h6>Indication</h6>
-                                                <p class="text-muted"> {{ ucfirst($inprogress->indication)}}<br></p>
-    
-                                               
+                                        <form  id="pharmreportrejectapprovalform{{$inprogress->id}}" approve-user-url="{{route('admin.pharm.animalhouse.approverejection')}}" action="{{route('admin.pharm.samplepreparation.animalhouse.rejecttest')}}" class="" method="POST">
+                                            {{ csrf_field() }}
+                                            <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <h6>Please approve with pin to reject report</h6>
+                                                <div id="error-div{{$inprogress->id}}" style="margin: 5px; color:red;"></div>
+                                                <input required id="userpin{{$inprogress->id}}" type="password" class="form-control" name="pin" placeholder="Approve with PIN">
+                                                <input type="hidden" value="{{$inprogress->id}}" name="product_id">
+                                              <input type="hidden" id="useremail{{$inprogress->id}}" type="email" class="form-control" name="email" placeholder="Enter your email" value="{{App\Admin::find(Auth::guard("admin")->id())->email}}" readonly>
                                             </div>
-                                            <div class="col-md-4 col-12">
-                                                @foreach ($inprogress->samplePreparation as $product)
-                                                <h6>Distributor </h6>
-                                                <small class="text-muted">{{\App\Admin::find($product->distributed_by)? \App\Admin::find($product->distributed_by)->full_name:'null'}}</small>
-                                                <h6>Delivery Officer </h6>
-                                                <small class="text-muted">{{\App\Admin::find($product->delivered_by)?\App\Admin::find($product->delivered_by)->full_name:'null'}}</small>
-                                                <h6>Received By </h6>
-                                                <small class="text-muted">{{\App\Admin::find($product->received_by)?\App\Admin::find($product->received_by)->full_name:'null'}}</small>
-                                              
-                                                @endforeach
-                                            </div>
-                                            <div class="col-md-4 col-12">
-                                                <h5>Distribution Periods</h5>
-                                                <div  style="margin-bottom: 5px">
-                                                <p>
-                                                    <h6 >Distribution Period</h6>
-                                                    @foreach ($inprogress->samplePreparation as $product)
-                                                    Date: <small class="text-muted ">{{$product->created_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$product->created_at->format('H:i:s')}}</small>
-                                                    @endforeach
-                                                </p>
-                                                <p>
-                                                    <h6 >Date Analysed</h6>
-    
-                                                    @foreach ($inprogress->samplePreparation as $product)
-                                                    Date: <small class="text-muted ">{{$product->updated_at->format('Y-m-d')}}</small>
-                                                    Time: <small class="text-muted ">{{$product->updated_at->format('H:i:s')}}</small>
-                                                    @endforeach
-                                                </p>
-                                                </div>
-                                            </div>
+                                          
                                         </div>
-                                            
-                                         
-                                        
-                                              <ul class="nav justify-content-center" style="margin-top: 10px"> 
-                                                <h6> {{\App\PharmTestConducted::find($inprogress->pharm_testconducted)->name}}</h6>                                          
-                                               </ul>
-                                               <ul class="nav justify-content-center" style="margin-top: 5px"> 
-                                                <h6> Group 1</h6>                                          
-                                               </ul>
-                                            <div class="row" style="margin:5px; padding:15px; background:#f7f4f4">
-                                                                
-                                                <div class="col-md-2 col-6"> <strong>Animalmodel</strong>
-                                                    <br>
-                                                @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                <p>{{$product->pharm_animal_model}} </p>
-                                                @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Weight</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                    <p>{{$product->weight}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Volume given</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                    <p>{{$product->volume}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Death</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                    <p>{{$product->death}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Sex</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                    <p>{{$product->sex}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>method</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',1) as $product)
-                                                    <p> {{$product->method}}</p>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
-                                            <ul class="nav justify-content-center" style="margin-top: 15px"> 
-                                                <h6> Group 2</h6>                                          
-                                               </ul>
-                                            <div class="row" style="margin:5px; padding:15px; background:#f7f4f4">
-                                                                
-                                                <div class="col-md-2 col-6"> <strong>Animalmodel</strong>
-                                                    <br>
-                                                @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                <p>{{$product->pharm_animal_model}} </p>
-                                                @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Weight</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                    <p>{{$product->weight}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Volume given</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                    <p>{{$product->volume}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Death</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                    <p>{{$product->death}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>Sex</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                    <p>{{$product->sex}} </p>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-md-2 col-6"> <strong>method</strong>
-                                                    <br>
-                                                    @foreach ($inprogress->animalExperiment->where('group',2) as $product)
-                                                    <p> {{$product->method}}</p>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                           
-                                           
-                                        </div> 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary"></button>
+                                            <button type="submit" class="btn btn-primary">Approve</button>
                                         </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
+
                             @endforeach
-                            
+                       
                         </ul>
                     </div>
 
@@ -815,5 +706,6 @@
             </div>
       
     </div>
+ 
 </div>
 @endsection

@@ -764,6 +764,24 @@ class PharmController extends Controller
                 return redirect()->route('admin.pharm.animalexperimentation.maketest');  
              }
 
+             public function animalhouse_rejecttest(Request $r){
+               
+               $p = Product::where('id', $r->product_id)->where('pharm_hod_evaluation','>=',0)->get();
+              if (count($p) > 0) {
+                Session::flash('message_title', 'error');
+                Session::flash('message', 'Sorry this report can not be rejected. Report under evaluation');
+                return redirect()->back();
+              }
+              $data = [ 
+                'status' => 3,
+               ];
+              ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+
+              Session::flash("message", "Experiment succesfully rejected");
+              Session::flash("message_title", "success");
+              return redirect()->back();
+             }
+
              public function delete_animaltest($id){
 
               $product = Product::where('id',$id)->where("pharm_process_status", 5)->first();
@@ -1165,7 +1183,28 @@ class PharmController extends Controller
             return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
             
           }
+          public function approverejection(Request $request){
+            
+            $userEmail = $request->get('email');
+            $adminPin = $request->get('pin');
 
+            $checkallmail = Admin::where('email', '=', $userEmail)->first();
+            $checkmailonly = Admin::where('dept_id',2)->where('email', '=', $userEmail)->first();
+            $admin = Admin::where('email', '=', $userEmail)->first();
+
+            if (!$checkallmail) {
+              return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
+            }
+            if (!$checkmailonly) {
+              return response()->json(['status' => false, 'message' => "Sorry This section is authorised by the head of department"]);
+            }
+            if(!Hash::check($adminPin, $admin->pin)){
+              return response()->json(['status' => false, 'message' => "Invalid passowrd. Please check and sign "]);
+            }
+            
+            return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
+            
+           }
             
           public function checkhodfinalapprovalsign(Request $request){
          

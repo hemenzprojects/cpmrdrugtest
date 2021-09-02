@@ -105,7 +105,7 @@
                         </td>
                         <td>
                             <a href="{{url('admin/pharm/completedexperiment/show',['id' => $all_exp_conducted->id])}}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
-   
+                           
                         </td> 
                     </tr>
                 

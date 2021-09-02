@@ -160,8 +160,8 @@ $product = \App\Product::find($report_id);
 
                                     <div class="row" style="margin-bottom:2%; margin-top:5%">
                                         <div class="col-sm-3" >
-                                         @if ($product->micro_hod_evaluation ===2 && $product->micro_process_status ===1 )
-                                         <button type="submit" class="btn btn-danger pull-right"> <i class="fa fa-credit-card"></i>Save report</button>
+                                         @if ($product->micro_hod_evaluation ===2 || $product->micro_process_status ===1 )
+                                         <button type="submit" class="btn btn-danger pull-right"> <i class="fa fa-credit-card"></i>Save report </button>
                                          @endif
                                         </div>
                                       
@@ -257,7 +257,7 @@ $product = \App\Product::find($report_id);
                                 Preview
                             </button>
                         </div>
-                        @if ($product->micro_hod_evaluation ===2 && $product->micro_process_status ===1 )
+                        @if ($product->micro_hod_evaluation ===2 && $product->micro_process_status < 3 )
                         <div class="col-md-4">
                             <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>    
                         </div>

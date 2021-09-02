@@ -1386,6 +1386,48 @@ console.log(animalmodel);
     })
   </script>
 
+<script>
+
+   $(document).ready(function(){
+    var pharmtest_selectedItems = [...document.querySelectorAll('.pharmtestselect:checked')].map(e => e.value);
+    pharmtest_selectedItems.forEach((item)=>{
+
+  $('#pharmreportrejectapprovalform'+ `${item}`).submit(function(e){
+ 
+      e.preventDefault();
+      console.log('attempted to submit form')
+      
+      var _token = $('#_token').val()
+      var useremail = $('#useremail'+ `${item}`).val()
+      var userpin = $('#userpin'+ `${item}`).val()
+  
+    var data = {
+    'email' : useremail,
+    'pin' : userpin,
+    '_token': _token
+    }
+    
+    var form = $(this);
+    var url = form.attr('approve-user-url');
+    var url2 = form.attr('action')
+    $.post(url, data, function(result){
+    console.log(result)
+  
+    if (result.status === true)
+    {
+      $('#adminid').val(result.admin);
+      e.currentTarget.submit();
+    }
+      // display the error message some where on the page with result.message
+     $('#error-div'+ `${item}`).html(result.message)
+    })
+    
+      // Continue the form submit
+  // e.currentTarget.submit();
+  })
+})
+})
+</script>
         {{-- phyto hop signin --}}
  
   <script>
@@ -1464,6 +1506,8 @@ console.log(animalmodel);
   // e.currentTarget.submit();
   })
  </script>
+
+
 
 <script>
 
