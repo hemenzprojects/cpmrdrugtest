@@ -1535,9 +1535,13 @@ console.log(animalmodel);
     console.log(tag);
     if (tag == 1) {
       $("#flexRadioDefault1").prop("checked", true);
+      $(".showml1").toggle();
+      $(".showml2").hide();
     }
     if (tag == 2) {
       $("#flexRadioDefault2").prop("checked", true);
+      $(".showml1").hide();
+      $(".showml2").toggle();
     }
   })
   
@@ -1550,9 +1554,13 @@ console.log(animalmodel);
     console.log(tag2);
     if (tag2 == 1) {
       $("#flexRadioDefault_1").prop("checked", true);
+      $(".showme1").toggle();
+      $(".showme2").hide();
     }
     if (tag2 == 2) {
       $("#flexRadioDefault_2").prop("checked", true);
+      $(".showme1").hide();
+      $(".showme2").toggle();
     }
   })
 </script>

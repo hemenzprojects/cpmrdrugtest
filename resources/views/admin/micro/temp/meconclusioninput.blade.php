@@ -4,6 +4,14 @@
     <div class="row">
       <div class="col-md-3">
         <strong><span>General Conclusion</span></strong><br><br>
+
+        <div class="alert bg-success alert-success text-white" role="alert">
+          {{$product->micro_efficacy_con}}
+        </div>
+        <div class="showml1" style="display: none">The product showed antimicrobial activity.</div>
+        <div class="showml2" style="display: none">The product did not show antimicrobial activity.</div>
+
+        <div style="display: none">
     <div class="form-check">
     <input class="form-check-input" type="radio" name="efficacy_default_conclusion" id="flexRadioDefault_1"  {{$product->micro_ea_conclusion == 1 ? "checked":""}}  value="1">
     <label class="form-check-label" for="flexRadioDefault_1">
@@ -16,6 +24,7 @@
         The product did not show antimicrobial activity.
     </label>
   </div>
+</div>
       </div>
       <div class="col-md-3">
         <strong><span>General Comment</span></strong><br><br>

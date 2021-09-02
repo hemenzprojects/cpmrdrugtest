@@ -621,6 +621,30 @@ class Product extends Model
         return $item1 .'<sup>'. $item2 .'</sup>'.$item3;
     }
     
+    public function getMicroLoadConAttribute(){
+       if ($this->micro_la_conclusion == Null) {
+           return ' To be detected';
+       }
+       if ($this->micro_la_conclusion == 1) {
+        return ' Meet required specification.';
+       }
+       if ($this->micro_la_conclusion == 2) {
+        return ' Did not meet required specification.';
 
+    }
+    }
+
+    public function getMicroEfficacyConAttribute(){
+        if ($this->micro_ea_conclusion == Null) {
+            return ' To be detected';
+        }
+        if ($this->micro_ea_conclusion == 1) {
+            return ' The product showed antimicrobial activity.';
+        }
+        if ($this->micro_ea_conclusion == 2) {
+         return ' The product did not show antimicrobial activity.';
+ 
+     }
+     }
 
 }  

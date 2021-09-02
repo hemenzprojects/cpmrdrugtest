@@ -1,9 +1,19 @@
 
+
    <div class="alert bg-light alert-light" style="margin-bottom: 10px">
     <div class="input-grou">
       <div class="row">
         <div class="col-md-3">
           <strong><span>General Conclusion</span></strong><br><br>
+           
+           <div class="alert bg-success alert-success text-white" role="alert">
+            {{$product->micro_load_con}}
+          </div>
+          <div class="showml1" style="display: none">Meet required specification.</div>
+          <div class="showml2" style="display: none">Did not meet required specification.</div>
+
+          <div style="display: none">
+         
       <div class="form-check">
       <input class="form-check-input" type="radio" name="load_default_conclusion" id="flexRadioDefault1"   {{$product->micro_la_conclusion == 1 ? "checked":""}}  value="1">
       <label class="form-check-label" for="flexRadioDefault1">
@@ -15,6 +25,7 @@
       <label class="form-check-label" for="flexRadioDefault2">
         Did not meet required specification.
       </label>
+    </div>
     </div>
         </div>
        <div class="col-md-3">
