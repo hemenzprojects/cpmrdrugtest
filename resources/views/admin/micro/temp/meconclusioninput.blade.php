@@ -8,8 +8,8 @@
         <div class="alert bg-success alert-success text-white" role="alert">
           {{$product->micro_efficacy_con}}
         </div>
-        <div class="showml1" style="display: none">The product showed antimicrobial activity.</div>
-        <div class="showml2" style="display: none">The product did not show antimicrobial activity.</div>
+        <div class="showme1" style="display: none">The product showed antimicrobial activity.</div>
+        <div class="showme2" style="display: none">The product did not show antimicrobial activity.</div>
 
         <div style="display: none">
     <div class="form-check">
@@ -35,17 +35,31 @@
   </div>
       <div class="col-md-6">
         <div class="form-group 432">
-        <select required name="micro_ea_comment_option" class="form-control" id="micro_ea_comment_option">
+        <select  name="micro_ea_comment_optiocn" class="form-control" id="micro_ea_comment_optioncc">
           <option value="{{$product->micro_ea_comment}}">{{$product->micro_ea_comment == Null ?'Please select option':$product->micro_ea_comment}}</option>
           <option tag2="1" value="The product showed antimicrobial activity."> The product showed antimicrobial activity.</option>
           <option tag2="2" value="The product did not show antimicrobial activity.">The product did not show antimicrobial activity.</option>
       </select>
+      <div>
+        @error('micro_ea_comment_option')
+        <small style="margin:15px" class="form-text text-danger" role="alert">
+            <strong>{{$message}}</strong>
+        </small>
+        @enderror
+        </div>
      </div>
       <div class="form-group 432" style="display: none">
         <label for="exampleTextarea1">Textarea</label>
       <textarea class="form-control" name="micro_ea_comment_text" rows="4">{{$product->micro_ea_comment}}</textarea>
       
      </div>
+     <div>
+      @error('micro_ea_comment_text')
+      <small style="margin:15px" class="form-text text-danger" role="alert">
+          <strong>{{$message}}</strong>
+      </small>
+      @enderror
+      </div>
       </div>
     </div>
   </div> 

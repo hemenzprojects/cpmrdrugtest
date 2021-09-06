@@ -1,6 +1,7 @@
 
 
    <div class="alert bg-light alert-light" style="margin-bottom: 10px">
+     
     <div class="input-grou">
       <div class="row">
         <div class="col-md-3">
@@ -44,12 +45,26 @@
             <option tag="1" value="The sample meets the microbial load requirements as per BP specifications.">The sample meets the microbial load requirements as per BP specifications.</option>
             <option tag="2" value="The sample does not meet the microbial load requirements as per BP specifications.">The sample does not meet the microbial load requirements as per BP specifications.</option>
         </select>
+        <div>
+          @error('micro_la_comment_option')
+          <small style="margin:15px" class="form-text text-danger" role="alert">
+              <strong>{{$message}}</strong>
+          </small>
+          @enderror
+          </div>
        </div>
         <div class="form-group 321" style="display: none">
           <label for="exampleTextarea1">Textarea</label>
         <textarea id="micro_la_comment_text"  class="form-control" name="micro_la_comment_text" rows="4">{{$product->micro_la_comment}}</textarea>
     
        </div>
+       <div>
+        @error('micro_la_comment_text')
+        <small style="margin:15px" class="form-text text-danger" role="alert">
+            <strong>{{$message}}</strong>
+        </small>
+        @enderror
+        </div>
         </div>
       </div>
     </div> 

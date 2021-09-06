@@ -902,3 +902,4 @@ $product = \App\Product::where('id',5)->first();
 <script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
     
 @endsection
+

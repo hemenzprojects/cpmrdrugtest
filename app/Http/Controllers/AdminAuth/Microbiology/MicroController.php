@@ -620,7 +620,43 @@ class MicroController extends Controller
 
               public function report_update(request $r, $id)
               {
+              
+                 if ($r->ml_general_comment) {
+                  Session::flash('messagetitle', 'error');
+                  Session::flash('message', 'Please check the error bellow. Microbial Load Comment is required');
+                  $r->validate([
+                    'micro_la_comment_text' => 'required',           
+                  ]);
+                  
+                 }else{
+                   if ($r->micro_la_comment_option == Null) {
+                    Session::flash('messagetitle', 'error');
+                    Session::flash('message', 'Please check the error bellow. Microbial Load Comment Opttion is required');
+                    $r->validate([
+                      'micro_la_comment_option' => 'required',           
+                    ]);
+                   }
+              
+                 }
 
+                 if ($r->me_general_comment) {
+                  Session::flash('messagetitle', 'error');
+                  Session::flash('message', 'Please check the error bellow. Microbial Efficacy Comment is required');
+                  $r->validate([
+                    'micro_ea_comment_text' => 'required',           
+                  ]);
+                  
+                 }else{
+                   if ($r->micro_ea_comment_option == Null) {
+                    Session::flash('messagetitle', 'error');
+                    Session::flash('message', 'Please check the error bellow. Microbial Efficacy Comment Opttion is required');
+                    $r->validate([
+                      'micro_ea_comment_option' => 'required',           
+                    ]);
+                   }
+              
+                 }
+                
                 // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(18)) {
                 Session::flash('messagetitle', 'warning');
