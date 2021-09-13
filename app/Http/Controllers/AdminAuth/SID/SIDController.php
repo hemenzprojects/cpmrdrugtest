@@ -1594,11 +1594,14 @@ class SIDController extends Controller
 }
 
       public function micro_completed_reports(){
-          
+       
+        $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+            return $q->where("dept_id", 1)->where("status",4);
+          })->orderBy('micro_reportdatecompleted', 'DESC')->get();
     //  $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
      $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
 
-     $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+      $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
         return $q->where("dept_id", 1)->where("status",4);
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
 

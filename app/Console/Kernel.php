@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        Commands\ReportSignedCommand::class
+        Commands\ReportSignedCommand::class,
+        Commands\BackupDatabase::class
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('reportsigned')
                  ->hourly();
+         $schedule->command('database:backup')->daily();
     }
 
     /**

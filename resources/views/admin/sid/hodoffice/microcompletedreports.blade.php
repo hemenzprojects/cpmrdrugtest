@@ -69,7 +69,8 @@
                                       
                                     <td class="font">
                                         <a target="blank" href="{{route('admin.sid.product.show', ['id' => $product->id])}}">
-                                           
+                                         
+
                                             @if ($product->archive == Null)
                                             <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                 {{$product->code}}

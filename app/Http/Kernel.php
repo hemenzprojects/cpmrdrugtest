@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\LastUserActivity::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            
         ],
 
         'api' => [
@@ -74,12 +75,6 @@ class Kernel extends HttpKernel
         'phytodepthod' => \App\Http\Middleware\PhytoDeptHodAccess::class,
         'sidept' => \App\Http\Middleware\SIDeptAccess::class,
         'sidepthod' => \App\Http\Middleware\SIDeptHodAccess::class,
-
-
-
-
-
-
 
 
 

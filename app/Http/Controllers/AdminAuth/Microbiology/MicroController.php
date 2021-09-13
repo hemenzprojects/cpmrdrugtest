@@ -620,7 +620,8 @@ class MicroController extends Controller
 
               public function report_update(request $r, $id)
               {
-              
+               
+                  
                  if ($r->ml_general_comment) {
                   Session::flash('messagetitle', 'error');
                   Session::flash('message', 'Please check the error bellow. Microbial Load Comment is required');
@@ -648,8 +649,9 @@ class MicroController extends Controller
                   
                  }else{
                    if ($r->micro_ea_comment_option == Null) {
+                     return 0;
                     Session::flash('messagetitle', 'error');
-                    Session::flash('message', 'Please check the error bellow. Microbial Efficacy Comment Opttion is required');
+                    Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option Opttion is required');
                     $r->validate([
                       'micro_ea_comment_option' => 'required',           
                     ]);
