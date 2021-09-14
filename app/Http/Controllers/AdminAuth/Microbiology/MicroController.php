@@ -650,7 +650,7 @@ class MicroController extends Controller
                     
                    }else{
                      if ($r->micro_ea_comment_option == Null) {
-                       return 0;
+                      
                       Session::flash('messagetitle', 'error');
                       Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option Opttion is required');
                       $r->validate([
