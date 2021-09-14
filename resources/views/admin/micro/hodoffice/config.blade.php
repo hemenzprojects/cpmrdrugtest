@@ -158,7 +158,7 @@
                                             
                                                 <td class="font"><input class="form-control" type="text" name="acceptance_criterion[{{$i}}]" value="{{$microbial_loadanalyses[$i]->acceptance_criterion}} "></td>
                                                 <td class="font" style="font-size: 10px">
-                                                    {{$microbial_loadanalyses[$i]->definition}} 
+                                                    {!! $microbial_loadanalyses[$i]->definition !!} 
                                                     <input class="form-control" type="hidden" name="definition[{{$i}}]" value="{{$microbial_loadanalyses[$i]->definition}}">
 
                                                 @if ($microbial_loadanalyses[$i]->definition ==Null)

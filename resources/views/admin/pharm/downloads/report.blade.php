@@ -202,10 +202,6 @@ td, th {
               {{$pharm_finalreports->signs_toxicity}}
           </td>
       </tr>
-      <tr>
-    <td></td>
-    <td></td>
-      </tr>
   </tbody>                        
 </table>
 
