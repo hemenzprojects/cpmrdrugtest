@@ -266,16 +266,21 @@ class MicroController extends Controller
                   return $q->where("dept_id", 1)->where("status", 2);
                 })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
 
-               $data['auth_microproduct_withloadanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+               $ids = Product::where('micro_analysed_by',14)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
-                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
+                })->with('loadAnalyses')->whereHas("loadAnalyses")->pluck('id')->toArray();
     
-                 $data['auth_microproduct_withefficacyanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
+                 $ids2 = Product::where('micro_analysed_by',14)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
-                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
+                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->pluck('id')->toArray();
 
-               $data['auth_microproduct_withtests'] = $data['auth_microproduct_withloadanalysis']->merge($data['auth_microproduct_withefficacyanalysis']);
+              //  $data['auth_microproduct_withtests'] = $data['auth_microproduct_withloadanalysis']->merge($data['auth_microproduct_withefficacyanalysis']);
 
+               MicrobialLoadReport::whereIn('product_id', $ids)->where('load_analyses_id',1)->update(['definition' => '<sup>1</sup> TAMC = Total Aerobic Microbial Count']);
+               MicrobialLoadReport::whereIn('product_id', $ids)->where('load_analyses_id',2)->update(['definition' => '<sup>2</sup> TYMC = Total Yeast and Molds Counts']);
+     
+               return 0;
+               
 
                 //***************************************** All completed report  */
 
