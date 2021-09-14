@@ -641,7 +641,7 @@ class MicroController extends Controller
                 
                    }
   
-                   if ($r->me_general_comment) {
+                   if ($r->efficacyanalyses_update && $r->me_general_comment) {
                     Session::flash('messagetitle', 'error');
                     Session::flash('message', 'Please check the error bellow. Microbial Efficacy Comment is required');
                     $r->validate([
@@ -649,7 +649,7 @@ class MicroController extends Controller
                     ]);
                     
                    }else{
-                     if ($r->micro_ea_comment_option == Null) {
+                     if ($r->efficacyanalyses_update && ($r->micro_ea_comment_option == Null)) {
                       
                       Session::flash('messagetitle', 'error');
                       Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option Opttion is required');
