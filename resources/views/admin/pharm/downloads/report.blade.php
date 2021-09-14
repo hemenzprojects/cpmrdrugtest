@@ -246,7 +246,7 @@ td, th {
 @endif
 
 
-  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:1%'}}">
+  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:0%'}}">
   
   <tr>
     <td class="font" style="border:0px solid" >
@@ -291,7 +291,7 @@ td, th {
  
 @if ($completed_report->pharm_testconducted == 1)
 <div class="col-md-12" style="padding: 1%">
-    <p style="font-size: 13px; text-align: justify ">
+    <p style="font-size: 12px; text-align: justify ">
         <strong> Reference: </strong>  {{$completed_report->pharm_reference}}
     </p>  
 </div>
