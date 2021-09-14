@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="card">
+    <div class="card" style="overflow-x: scroll">
         <div class="card-header d-block">
             <h3>Pharmacology Completed Rports  </h3>
         </div>
