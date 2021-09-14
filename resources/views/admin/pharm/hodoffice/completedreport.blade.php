@@ -33,6 +33,7 @@
              <th>Product</th>
              <th>Test conducted</th>
              <th>Assigned To</th>
+             <th>Approved By</th>
              <th>Evaluation</th>
              <th>Grade</th>
              <th>Date Analysed</th>  
@@ -59,9 +60,7 @@
                  {{\App\PharmTestConducted::find($completed_report->pharm_testconducted)->name}}
              </td>
              <td class="font">
-                 {{-- <strong>Sample Preparation:</strong><li> @foreach ($completed_report->samplePreparation->groupBy('id')->first() as $item)
-                     {{\App\Admin::find($item->distributed_by)->full_name}}
-                     @endforeach</li> --}}
+                 
                <strong>Animal Experiment:</strong>  <li style="margin-bottom: 5px"> @foreach ($completed_report->animalExperiment->groupBy('id')->first() as $item)
                  <span style="color: #023504">{{\App\Admin::find($item->added_by_id)->full_name}}</span>
                  @endforeach</li>
@@ -70,6 +69,16 @@
                     <span style="color: #023504">{{\App\Admin::find($completed_report->pharm_analysed_by)->full_name}}
                  </li>
              </td>
+             <td class="font">
+                 
+                <strong>Approval 1</strong>  <li style="margin-bottom: 5px"> 
+                  <span style="color: #023504">{{\App\Admin::find($completed_report->pharm_approved_by)->full_name}}</span>
+                 </li>
+                  <strong>Approval 2</strong>  
+                  <li>
+                     <span style="color: #023504">{{\App\Admin::find($completed_report->pharm_finalapproved_by)->full_name}}
+                  </li>
+              </td>
              <td class="font">{!! $completed_report->hod_pharm_evaluation !!}</td>
              <td class=""> 
                 @if ($completed_report->pharm_grade != Null)

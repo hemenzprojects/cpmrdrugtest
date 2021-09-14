@@ -29,11 +29,12 @@ class AdminController extends Controller
 
     public function profile_create(){
 
+
         $id = Auth::guard('admin')->id();
         $data['user']  = Admin::where('id',$id)->first();
         $data['depts'] = \App\Department::all();
 
-        return view('admin.auth.profile',$data);
+        return view('admin.auth.profile', $data);
 
     }
 
