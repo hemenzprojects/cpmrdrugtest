@@ -473,6 +473,9 @@ $product = \App\Product::where('id',5)->first();
                     </div>
                 </div>
             </div>
+            <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
+                <a href="{{route('admin.micro.completedreports.index')}}" class="text-dark" style="float: right; ">View all</a>
+            </span>
         </div>
     </div>
 
