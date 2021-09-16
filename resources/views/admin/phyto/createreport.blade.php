@@ -282,14 +282,18 @@
                 </div>
 
             </div>
+            <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
+                <a href="" class="text-dark" style="float: right; ">View all</a>
+            </span>
         </div>
+        
     </div>
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
                 @foreach($phytocompleted_reports->groupBy('product_id') as $phytocompleted_report)
                 <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">
-                   {{count($phytocompleted_report)}} 
+                   {{count($phytocompleted_report)}}+
                 </label>
                 @endforeach
                 <h3>Completed</h3>
@@ -346,7 +350,11 @@
                     </ul>
                 </div>
             </div>
+            <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
+                <a href="{{route('admin.phyto.completedreports.index')}}" class="text-dark" style="float: right; ">View all</a>
+            </span>
         </div>
+        
     </div>
 
 

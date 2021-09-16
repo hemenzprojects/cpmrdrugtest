@@ -282,7 +282,7 @@ class MicroController extends Controller
 
                 $data['microproduct_completedtests'] =  Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 4);
-                })->get();
+                })->limit(99)->get();
 
 
          
@@ -634,7 +634,7 @@ class MicroController extends Controller
                    }else{
                      if ($r->micro_la_comment_option == Null) {
                       Session::flash('messagetitle', 'error');
-                      Session::flash('message', 'Please check the error bellow. Microbial Load Comment Opttion is required');
+                      Session::flash('message', 'Please check the error bellow. Microbial Load Comment Option is required');
                       $r->validate([
                         'micro_la_comment_option' => 'required',           
                       ]);
@@ -653,7 +653,7 @@ class MicroController extends Controller
                      if ($r->efficacyanalyses_update && ($r->micro_ea_comment_option == Null)) {
                       
                       Session::flash('messagetitle', 'error');
-                      Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option Opttion is required');
+                      Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option is required');
                       $r->validate([
                         'micro_ea_comment_option' => 'required',           
                       ]);
@@ -1050,6 +1050,19 @@ class MicroController extends Controller
                  return view('admin.micro.completedreport',$data);
   
               }
+
+              
+              public function completedreports_all(){
+
+                $data['year'] = \Carbon\Carbon::now('y');
+  
+                $data['all_completed_products'] = Product::with('departments')->whereHas("departments", function($q)use($data){
+                  return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(product_depts.created_at)= ?', array($data['year']));
+                 })->get();
+  
+                 return view('admin.micro.generalreport.allcompletedreports',$data);
+              }
+  
 
               //***********************HoD Office */
   

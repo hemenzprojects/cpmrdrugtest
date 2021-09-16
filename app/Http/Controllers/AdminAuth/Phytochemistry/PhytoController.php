@@ -226,7 +226,7 @@ class PhytoController extends Controller
 
              $data['phytocompleted_reports'] = Product::with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 3)->where("status", 4);
-             })->get();
+             })->limit(99)->get();
 
               $data['phyto_testconducted'] = PhytoTestConducted::all();
                    
@@ -701,8 +701,6 @@ class PhytoController extends Controller
                 $product->phyto_comment = $r->comment;
                 $product->phyto_dateanalysed = $r->date_analysed;
                 $product->phyto_grade = $r->phyto_grade;
-                $product->phyto_analysed_by = Auth::guard('admin')->id();
-
                 $product->update();
 
                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 3)->where("status",3);
@@ -1139,6 +1137,21 @@ class PhytoController extends Controller
 
             return view('admin.phyto.generalreport.index',$data);
            }
+
+
+            public function completedreports_all(){
+
+              $data['year'] = \Carbon\Carbon::now('y');
+
+              $data['all_completed_products'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q)use($data){
+                return $q->where("dept_id", 3)->where("status", 4)->whereRaw('YEAR(product_depts.created_at)= ?', array($data['year']));
+               })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
+               ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+
+
+               return view('admin.phyto.generalreport.allcompletedreports',$data);
+            }
+
 
            //************************************************Phyto Configurations ************************** */
 

@@ -74,7 +74,6 @@
                                             <div class="submenu-content">
                                             <a href="#" class="menu-item">Assign Duty</a>
                                             <a href="{{route('admin.micro.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
-                                            <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
                                             </div>
                                         </div> 
                                      
@@ -84,8 +83,7 @@
                                         <div class="submenu-content">
                                         <a href="{{route('admin.micro.general_report.index')}}" class="menu-item">Report Statistics</a>
                                             <a href="" class="menu-item">Pending Products</a>
-                                            <a href="" class="menu-item"></a>
-                                            
+                                            <a href="{{route('admin.micro.completedreports.index')}}" class="menu-item">Completed Reports</a>                                            
                                         </div>
                                      </div>
                               
@@ -183,9 +181,7 @@
                                                     <a href="#"><i class="ik ik-layout"></i><span>HoD Office</span> <span class="badge badge-success"></span></a>
                                                     <div class="submenu-content">
                                                     <a href="#" class="menu-item">Assign Duty</a>
-                                                    <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>
-                                                    <a href="pages/ui/notifications.html" class="menu-item">Completed Reports</a>
-                                                    
+                                                    <a href="{{route('admin.phyto.hod_office.approval')}}" class="menu-item">Report Evaluation</a>                                                    
                                                     </div>
                                                 </div>
                                                 @endif
@@ -195,8 +191,7 @@
                                                 <div class="submenu-content">
                                                 <a href="{{route('admin.phyto.general_report.index')}}" class="menu-item">Report Statistics</a>
                                                     <a href="" class="menu-item">Pending Products</a>
-                                                    <a href="" class="menu-item"></a>
-                                                    
+                                                    <a href="{{route('admin.phyto.completedreports.index')}}" class="menu-item">Completed Reports</a>
                                                 </div>
                                              </div>
                                              

@@ -193,6 +193,8 @@ Route::get('/sendtest', function () {
   //report evaluation (quality control)
   Route::post('/micro/evaluation/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.evaluation.checkhodsign');
 
+  Route::get('micro/completedreports/all','AdminAuth\Microbiology\MicroController@completedreports_all')->name('admin.micro.completedreports.index');
+
   });
   
   Route::group(['middleware'=>['deptonehod']],function(){
@@ -378,6 +380,7 @@ Route::get('/sendtest', function () {
    Route::get('phyto/report/pdf/{id}','AdminAuth\Phytochemistry\PhytoController@phytoreport_pdf')->name('admin.phyto.report.pdf');
    Route::post('/phyto/analyst/checkanalystsign', 'AdminAuth\Phytochemistry\PhytoController@checkanalystsign')->name('admin.phyto.analyst.checkanalystsign');
 
+   Route::get('phyto/completedreports','AdminAuth\Phytochemistry\PhytoController@completedreports_all')->name('admin.phyto.completedreports.index');
 
  });
 

@@ -393,7 +393,7 @@ $product = \App\Product::where('id',5)->first();
                 <div class="card-header" style="border-color:#26c281; margin:5px">
      
                     <label class="badge badge-warning" style="background-color: #26c281; margin-right:5px;">
-                       {{count($microproduct_completedtests)}} 
+                       {{count($microproduct_completedtests)}} +
                     </label>
                    
                     <h3>Completed Reports</h3>
