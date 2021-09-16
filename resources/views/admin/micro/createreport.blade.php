@@ -386,6 +386,9 @@ $product = \App\Product::where('id',5)->first();
                         @endif
                      
                   </div>
+                  <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
+                    <a href="" class="text-dark" style="float: right; ">View all</a>
+                </span>
             </div>
         </div>   
         <div class="col-md-4">
@@ -472,10 +475,11 @@ $product = \App\Product::where('id',5)->first();
                         </ul>
                     </div>
                 </div>
+                <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
+                    <a href="{{route('admin.micro.completedreports.index')}}" class="text-dark" style="float: right; ">View all</a>
+                </span>
             </div>
-            <span style="padding-right: 10px; padding-bottom: 15px; color:#007bff">
-                <a href="{{route('admin.micro.completedreports.index')}}" class="text-dark" style="float: right; ">View all</a>
-            </span>
+            
         </div>
     </div>
 
