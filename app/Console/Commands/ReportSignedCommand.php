@@ -98,6 +98,8 @@ class ReportSignedCommand extends Command
            SendSMS::sendMessage('Hi '.$pharm_approval3_admin->full_name.',You have '.$pharm_approval_3.' pending reports to sign. Kindly login to the drug analysis system and complete the process.',$pharm_approval3_admin->tell);
        }
 
+
+       
         $this->info('SMS Sent');
 
     }

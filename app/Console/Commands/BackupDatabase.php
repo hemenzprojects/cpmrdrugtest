@@ -16,7 +16,7 @@ class BackupDatabase extends Command
 
     /**
      * The console command description.
-     *
+     *cv 
      * @var string
      */
     protected $description = 'Command description';
@@ -39,10 +39,11 @@ class BackupDatabase extends Command
      */
     public function handle()
     {
-        $filename = "backup-" . Carbon::now()->format('Y-m-d') . ".sql";
-        $command = "".env('DUMP_PATH')." --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  > " . storage_path() . "/app/backup/" . $filename;
+        $filename = "backup.sql";
+        $command = env('DUMP_PATH')." --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  > " . storage_path() . "/app/backup/" . $filename;
         $returnVar = NULL;
         $output = NULL;
         exec($command, $output, $returnVar);
+        // exec(env('ZIP_PATH').' a -tzip '.storage_path()."\app\zip\backup.zip". " ".storage_path() . "/app/backup");
     }
 }

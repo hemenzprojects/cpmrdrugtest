@@ -288,7 +288,7 @@ td, th {
 @if ($completed_report->pharm_testconducted == 1)
 <div class="col-md-12" style="padding: ">
     <p style="font-size: 12px; text-align: justify ">
-        <strong> Reference: </strong>  {{$completed_report->pharm_reference}}
+        <strong> Reference: </strong>  {!! $completed_report->pharm_reference !!}
     </p>  
 </div>
 @endif

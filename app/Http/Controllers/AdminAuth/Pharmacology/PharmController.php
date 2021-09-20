@@ -17,6 +17,7 @@ use App\PharmToxicity;
 use App\PharmAnimalModel;
 use App\PharmFinalReport;
 use App\PharmStandards;
+use App\PharmReference;
 use \Session;
 use \Hash;
 use \Auth;
@@ -230,7 +231,7 @@ class PharmController extends Controller
 
            $data['exp_completeds'] = Product::with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", 8);
-           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation")->get();
+           })->with('animalExperiment')->whereHas("animalExperiment")->with('samplePreparation')->whereHas("samplePreparation")->limit(99)->get();
 
            $exp_inprogress = Product::where('pharm_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
             return $q->where("dept_id", 2)->where("status", 7);
@@ -1759,6 +1760,8 @@ class PharmController extends Controller
              public function report_config(){
              
               $data['reportstandards'] = PharmStandards::all();
+              $data['pharmreference'] = PharmReference::all();
+
   
               return view('admin.pharm.config.reportstandard',$data);
 
@@ -1773,7 +1776,15 @@ class PharmController extends Controller
               return redirect()->back();
 
               }
-              
+
+              public function reportreferenceconfig_update(Request $r){
+
+                PharmReference::where('id',$r->default_id)->update(['reference' => $r->reference,'added_by_id'=> Auth::guard('admin')->id()]);
+
+                Session::flash("message", "default  reference template successfully update.");
+                Session::flash("message_title", "success");
+                return redirect()->back();
+              }
 
   
 }

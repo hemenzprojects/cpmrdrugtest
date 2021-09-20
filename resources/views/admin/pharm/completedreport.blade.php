@@ -207,7 +207,7 @@
             <h4 class="font" style="font-size:15px;"><strong> REFERENCE: </strong></h4>
         </div>
         <div class="col-sm-9">
-            <p> {{$completed_report->pharm_reference}}</p>
+            <p> {!! $completed_report->pharm_reference !!}</p>
 
         </div>
     </div>

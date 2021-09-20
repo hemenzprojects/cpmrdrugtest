@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\ReportSignedCommand::class,
-        Commands\BackupDatabase::class
+        Commands\BackupDatabase::class,
+        Commands\EmailNotification::class,
     ];
 
     /**

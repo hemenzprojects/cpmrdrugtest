@@ -27,9 +27,11 @@ use App\Account;
 use App\UserType;
 use App\PharmStandards;
 use App\ProductDept;
+use App\SmsNotification;
 use \Auth;
 use \DB;
 use Session;
+use App\SMS\SendSMS;
 
 class SIDController extends Controller
 {
@@ -345,6 +347,16 @@ class SIDController extends Controller
         $customer = Customer::findOrFail($request->customer_id);
         $data["code"] = Product::generateCode($product_type,$customer);
         Product::create($data);
+
+        $actualprice = [$price_list->singlelab_price,$price_list->mutilabs_price,$price_list->alllabs_price];
+        if (!in_array($request->price,$actualprice)) {
+           $sms_status = 0;
+        }else { 
+            $sms_status = 1;
+            // SendSMS::sendMessage('Hi '.$customer->name.',thanks you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
+        }
+
+        // $customer->update(['sms_status' => $sms_status]);
 
         Session::flash("message", "Product Successfully Created.  ");
         Session::flash("message_title", "success");
@@ -663,6 +675,7 @@ class SIDController extends Controller
 
     public function account_store(Request $r, $id)
     {
+        
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(10)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -730,6 +743,20 @@ class SIDController extends Controller
                 'price' => $actualamt
             ]);
             Product::where('id', $id)->where('price', '=', $r->initial_amt)->update($data);
+
+            $price_list = ProductPriceList::where('action',1)->first();
+            $c_details = Customer::find($product->customer_id);
+            $pricelisted = [$price_list->singlelab_price,$price_list->mutilabs_price,$price_list->alllabs_price];
+
+            if (!in_array($actualamt,$pricelisted)) {
+               $sms_status = 0;
+            }else { 
+                $sms_status = 1;
+                if ($c_details->sms_status < 1) {
+            //   SendSMS::sendMessage('Hi '.$c_details->name.',thanks you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$c_details->tell);
+                }
+            }
+            // $c_details->update(['sms_status' => $sms_status]);
 
         return redirect()->route('admin.sid.product.account.index', ['id' => $product->id, 'price' => $product->price]);
     }

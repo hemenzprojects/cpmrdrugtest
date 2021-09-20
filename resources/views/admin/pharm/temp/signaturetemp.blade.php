@@ -46,8 +46,12 @@
         <div class="col-md-12" style="padding: 2%">
             <h4 class="font" style="font-size:15px; margin-top:15px"><strong> Reference: </strong></h4>
             <p style="font-size: 13px; text-align: justify ">
-                {{$product->pharm_reference}}
+                {!! $product->pharm_reference !!}
             </p>  
-            <input type="hidden" name="pharm_reference" value="1- Canadian Centre for Occupation Health and Safety (2019)">     
+            
+            @php
+                $ref = App\Pharmreference::where('action',1)->first()
+            @endphp
+            <input type="hidden" name="pharm_reference" value="{{$ref->reference}}">     
         </div> 
         @endif

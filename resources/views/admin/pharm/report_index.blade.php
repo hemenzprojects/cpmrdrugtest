@@ -319,7 +319,7 @@
                 <div class="card-header" style="border-color: #26c281;" >
                     @foreach($exp_completeds->groupBy('product_id') as $inprogress)
                     <label class="badge badge-warning" style="background-color:#26c281; margin-right:5px;">
-                       {{count($exp_completeds)}} 
+                       {{count($exp_completeds)}} +
                     </label>
                     @endforeach
                     <h3>Completed Reports </h3>

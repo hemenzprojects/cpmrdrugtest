@@ -303,9 +303,7 @@ Route::get('/sendtest', function () {
    Route::post('pharm/animalexperimentation/config/create','AdminAuth\Pharmacology\PharmController@animalexpe_config_create')->name('admin.pharm.animalexperimentation.config.create');
    Route::post('pharm/animalexperimentation/config/update','AdminAuth\Pharmacology\PharmController@animalexpe_config_update')->name('admin.pharm.animalexperimentation.config.update');
 
-   Route::get('pharm/reportconfig/index','AdminAuth\Pharmacology\PharmController@report_config')->name('admin.pharm.reportconfig.index');
-   Route::post('pharm/reportconfig/update','AdminAuth\Pharmacology\PharmController@reportconfig_update')->name('admin.pharm.reportconfig.update');
-
+   
    });
 
   Route::group(['middleware'=>['pharmdepthod']],function(){
@@ -330,6 +328,10 @@ Route::get('/sendtest', function () {
 
   // Pharm final Hod Approval 
     Route::get('pharm/hod_office/finalreport_show/{id}/', 'AdminAuth\Pharmacology\PharmController@hod_finalreport_show');
+
+    Route::get('pharm/reportconfig/index','AdminAuth\Pharmacology\PharmController@report_config')->name('admin.pharm.reportconfig.index');
+   Route::post('pharm/reportconfig/update','AdminAuth\Pharmacology\PharmController@reportconfig_update')->name('admin.pharm.reportconfig.update');
+   Route::post('pharm/reportreferenceconfig/update','AdminAuth\Pharmacology\PharmController@reportreferenceconfig_update')->name('admin.pharm.reportreferenceconfig.update');
 
     });
 
