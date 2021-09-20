@@ -1,3 +1,3 @@
 @echo off
 
-cd C:\wamp64\www\druganalysis && php artisan database:backup
+cd C:\wamp64\www\cpmrdrugtest && php artisan database:backup
