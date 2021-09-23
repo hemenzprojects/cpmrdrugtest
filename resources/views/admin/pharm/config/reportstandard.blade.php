@@ -108,13 +108,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                    <a class="btn btn-outline-info"  data-toggle="modal" data-target="#demoModal">
+                                    <a class="btn btn-outline-info"  data-toggle="modal" data-target="#demoModal1{{$item->id}}">
                                             Edit template
                                         </a>
 
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal fade" id="demoModal1{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog" role="document" >
                                         <div class="modal-content" style="width: 650px">
                                             <form  class="forms-sample" action="{{route('admin.pharm.reportreferenceconfig.update')}}" method="post">
@@ -126,6 +126,12 @@
                                             <div class="modal-body">
                                                 <textarea class="form-control" id="tinymce" name="reference" rows="4">{{$item->reference}}</textarea>
                                             <input type="hidden" name="default_id" value="{{$item->id}}">
+                                            </div>
+                                            <div class="form-check mx-sm-2">
+                                                <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="activate"  class="custom-control-input" value="1" >
+                                                    <span class="custom-control-label">&nbsp; Activate</span>
+                                                </label>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

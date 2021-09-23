@@ -56,8 +56,7 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>download</th>
-                                        <th>  Lab Status
-                                        
+                                        <th>Lab Status
                                         </th>
                                         <th>Date Completed</th>
                                         <th>Actions</th>

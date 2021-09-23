@@ -1780,6 +1780,12 @@ class PharmController extends Controller
               public function reportreferenceconfig_update(Request $r){
 
                 PharmReference::where('id',$r->default_id)->update(['reference' => $r->reference,'added_by_id'=> Auth::guard('admin')->id()]);
+        
+                if ($r->activate ==1) {
+                 
+                  PharmReference::where('id',$r->default_id)->update(['action' => 1]);
+                  PharmReference::where('id','!=',$r->default_id)->update(['action' => 0]);
+                }
 
                 Session::flash("message", "default  reference template successfully update.");
                 Session::flash("message_title", "success");
