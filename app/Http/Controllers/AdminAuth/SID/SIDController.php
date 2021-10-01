@@ -358,7 +358,7 @@ class SIDController extends Controller
 
         // $customer->update(['sms_status' => $sms_status]);
 
-        Session::flash("message", "Product Successfully Created.  ");
+        Session::flash("message", "Product Successfully Created. ");
         Session::flash("message_title", "success");
         return redirect()->route('admin.sid.product.create')
             ->with('success', 'Product Created successfully');
@@ -373,6 +373,7 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+        
         $data['products'] = Product::orderBy('id', 'DESC')->get();
         $data['price_list'] = ProductPriceList::where('action',1)->first();
         $data['product_types'] = ProductType::all();

@@ -43,17 +43,200 @@
 <script src="https://cdn.tiny.cloud/1/jhv63yy2v30aop7htw50v6owsspxru2ihykww3jm3wh86f40/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 {{-- <script src="{{asset('admin/assets/js/tinymce.js')}}" referrerpolicy="origin"></script> --}}
 
+
+
+
 <script>
   tinymce.init({
     selector: 'textarea#tinymce',
-    plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-    toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+    // min_height: 350,
+     skin: "oxide",
+     icons: 'material' ,
+   preview_styles: 'font-size color',
+    resize: 'both',
+    plugins: 'link image media code autolink lists media table',
+    toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
     toolbar_mode: 'floating',
+     /* enable title field in the Image dialog*/
+    image_title: true,
+    /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+  
     tinycomments_mode: 'embedded',
-    tinycomments_author: 'Author name',
- });
-</script>
-<script>
+    tinycomments_author: 'Author name'
+    
+  });
+  </script>
+  
+  <script>
+    tinymce.init({
+      selector: 'textarea#tinymce0',
+      // min_height: 350,
+       skin: "oxide",
+       icons: 'material' ,
+     preview_styles: 'font-size color',
+      resize: 'both',
+      plugins: 'link image media code autolink lists media table',
+      toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+      toolbar_mode: 'floating',
+       /* enable title field in the Image dialog*/
+      image_title: true,
+      /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+    
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name'
+      
+    });
+    </script>
+    
+    <script>
+      tinymce.init({
+        selector: 'textarea#tinymce1',
+        // min_height: 350,
+         skin: "oxide",
+         icons: 'material' ,
+       preview_styles: 'font-size color',
+        resize: 'both',
+        plugins: 'link image media code autolink lists media table',
+        toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+        toolbar_mode: 'floating',
+         /* enable title field in the Image dialog*/
+        image_title: true,
+        /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+      
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name'
+        
+      });
+      </script>
+      
+      <script>
+        tinymce.init({
+          selector: 'textarea#tinymce2',
+          // min_height: 350,
+           skin: "oxide",
+           icons: 'material' ,
+         preview_styles: 'font-size color',
+          resize: 'both',
+          plugins: 'link image media code autolink lists media table',
+          toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+          toolbar_mode: 'floating',
+           /* enable title field in the Image dialog*/
+          image_title: true,
+          /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+        
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Author name'
+          
+        });
+        </script>
+        
+        <script>
+          tinymce.init({
+            selector: 'textarea#tinymce3',
+            // min_height: 350,
+             skin: "oxide",
+             icons: 'material' ,
+           preview_styles: 'font-size color',
+            resize: 'both',
+            plugins: 'link image media code autolink lists media table',
+            toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+            toolbar_mode: 'floating',
+             /* enable title field in the Image dialog*/
+            image_title: true,
+            /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+          
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name'
+            
+          });
+          </script>
+          
+          <script>
+            tinymce.init({
+              selector: 'textarea#tinymce4',
+              // min_height: 350,
+               skin: "oxide",
+               icons: 'material' ,
+             preview_styles: 'font-size color',
+              resize: 'both',
+              plugins: 'link image media code autolink lists media table',
+              toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+              toolbar_mode: 'floating',
+               /* enable title field in the Image dialog*/
+              image_title: true,
+              /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+            
+              tinycomments_mode: 'embedded',
+              tinycomments_author: 'Author name'
+              
+            });
+            </script>
+            
+            <script>
+              tinymce.init({
+                selector: 'textarea#tinymce5',
+                // min_height: 350,
+                 skin: "oxide",
+                 icons: 'material' ,
+               preview_styles: 'font-size color',
+                resize: 'both',
+                plugins: 'link image media code autolink lists media table',
+                toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+                toolbar_mode: 'floating',
+                 /* enable title field in the Image dialog*/
+                image_title: true,
+                /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+              
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'Author name'
+                
+              });
+              </script>
+              
+              <script>
+                tinymce.init({
+                  selector: 'textarea#tinymce6',
+                  min_height: 50,
+                   skin: "oxide",
+                   icons: 'material' ,
+                 preview_styles: 'font-size color',
+                  resize: 'both',
+                  plugins: 'link image media code autolink lists media table',
+                  toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+                  toolbar_mode: 'floating',
+                   /* enable title field in the Image dialog*/
+                  image_title: true,
+                  /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+                
+                  tinycomments_mode: 'embedded',
+                  tinycomments_author: 'Author name'
+                  
+                });
+                </script>
+
+        <script>
+          tinymce.init({
+            selector: 'textarea#tinymce7',
+            min_height: 50,
+            skin: "oxide",
+            icons: 'material' ,
+            preview_styles: 'font-size color',
+            resize: 'both',
+            plugins: 'link image media code autolink lists media table',
+            toolbar: 'undo redo | styleselect| forecolor  | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image media| code table',
+            toolbar_mode: 'floating',
+            /* enable title field in the Image dialog*/
+            image_title: true,
+            /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
+          
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name'
+            
+          });
+          </script>
+
+
+{{-- <script>
   tinymce.init({
     selector: 'textarea#tinymce0',
     plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
@@ -132,7 +315,7 @@
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name',
  });
-</script>
+</script> --}}
 
 
 @yield('bottom-scripts')

@@ -52,7 +52,7 @@
             <tr>
                 <td class="font"><strong>Preparation</strong></td> 
             <td  class="font">
-                <textarea name="preparation" id="" cols="30" rows="2"  placeholder="None">{{$pharm_finalreports->preparation}}</textarea>
+                <textarea name="preparation" id="textarea#tinymce6" cols="30" rows="2"  placeholder="None">{{$pharm_finalreports->preparation}}</textarea>
             </td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
                 <td class="font"><strong>Physical Sign of Toxicity</strong></td> 
                 <td  class="font">
                    
-                     <textarea name="signs_toxicity" id="" cols="30"   placeholder="None" rows="3">{{$pharm_finalreports->signs_toxicity}}</textarea>
+                     <textarea name="signs_toxicity" id="textarea#tinymce7" cols="30"   placeholder="None" rows="3">{{$pharm_finalreports->signs_toxicity}}</textarea>
                 </td>
             </tr>
             <tr>

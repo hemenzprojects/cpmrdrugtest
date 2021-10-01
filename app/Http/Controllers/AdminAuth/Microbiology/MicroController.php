@@ -134,11 +134,12 @@ class MicroController extends Controller
 
     public function acceptproduct(AcceptMircoProductRequest $request)
       {    
-          //  dd($request->all());
+        
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(14)) {
           Session::flash('messagetitle', 'warning');
           Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
           return redirect()->route('admin.general.dashboard');
+
         }       
         
             
@@ -150,20 +151,20 @@ class MicroController extends Controller
               if ($status > 2 ) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
-              return redirect()->back();
+              return redirect()->route('admin.micro.receiveproduct');
           } 
+          
               if ($deptproduct_id == 0) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required product and submit.');
-              return redirect()->back();
-          }  
+              return redirect()->route('admin.micro.receiveproduct');
+                      }  
 
             $productdeptstatus = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 1)->where("status", '>',2)->first();
             if ($status < (!empty($productdeptstatus->status) ? $productdeptstatus->status: '')) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Sorry Product(s) is/are now in a work process mode..');
-              return redirect()->back();
-            } 
+              return redirect()->route('admin.micro.receiveproduct');            } 
 
             if ($status == 1) {
               $data = 
@@ -186,7 +187,7 @@ class MicroController extends Controller
                
               }
             ProductDept::whereIN('product_id',$deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
-
+           
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
             return redirect()->route('admin.micro.receiveproduct')
