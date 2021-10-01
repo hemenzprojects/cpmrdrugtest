@@ -30,7 +30,7 @@
         </textarea>
         @endif
         @if ( $product->pharm_acute_comment === Null)
-        <textarea id="tinymce1" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > <p style="text-align: justify;"><span style="font-size: 12pt;"> The LD<sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}} equivalent to 5.0 mg/kg ), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Sterner Scale) at the recommended dose. </span> </p></textarea> 
+        <textarea id="tinymce" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > <p style="text-align: justify;"><span style="font-size: 12pt;"> The LD<sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}} equivalent to 5.0 mg/kg ), as indicated by the manufacturer. Thus, {{$pharmreports->code}}  may not be toxic and is within the accepted margin of safety (Hodge and Sterner Scale) at the recommended dose. </span> </p></textarea> 
         @endif
         </div> 
         </div>
@@ -51,27 +51,27 @@
          <div class="col-md-7">
           <div class="card" style="padding: 2%">
             @if ( $product->pharm_standard !== Null )
-                <textarea id="tinymce"  style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" > {!! $pharmreports->pharm_standard !!}
+                <textarea id="tinymce3"  style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" > {!! $pharmreports->pharm_standard !!}
                 </textarea> 
             @endif
 
             @if ( $product->pharm_standard === Null)
-            <textarea id="tinymce1" name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6"><p style="text-align: justify;"><span style="font-size: 12pt;"> {{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </span></p></textarea>
+            <textarea id="tinymce3" name="pharm_standard" class="form-control" style="font-size: 16px" cols="30" rows="6"><p style="text-align: justify;"><span style="font-size: 12pt;"> {{\App\PharmStandards::find($pharmreports->productType->pharm_standard_id)? \App\PharmStandards::find($pharmreports->productType->pharm_standard_id)->default:'' }} </span></p></textarea>
             @endif
  
                <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>RESULT: </strong></h4>
                @if ($pharmreports->pharm_result ===Null)
-                 <textarea id="tinymce3" class="form-control" style="font-size: 16px"name="pharm_result" rows="10"> <p style="text-align: justify;"><span style="font-size: 12pt;"> The experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in group 1 and 2 administered with 1% and 5% w/v of the {{$pharmreports->productType->name}} intradermally and topically (0.5-1 g), showed no ulceration, irritation and/or inflammations at the site of injection and shaved area, respectively.</span></p></textarea> 
+                 <textarea id="tinymce4" class="form-control" style="font-size: 16px"name="pharm_result" rows="10"> <p style="text-align: justify;"><span style="font-size: 12pt;"> The experimental @foreach ($pharmreports->animalExperiment->unique('animal_model') as $item){{App\PharmAnimalModel::find($item->animal_model)->name}} @endforeach in group 1 and 2 administered with 1% and 5% w/v of the {{$pharmreports->productType->name}} intradermally and topically (0.5-1 g), showed no ulceration, irritation and/or inflammations at the site of injection and shaved area, respectively.</span></p></textarea> 
                  @endif                                                                                               
                  @if ($pharmreports->pharm_result !== Null)
-                <textarea id="tinymce3" style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
+                <textarea id="tinymce4" style="font-size: 16px" class="form-control" rows="10" name="pharm_result" >{{$pharmreports->pharm_result}}
                 </textarea> 
                 @endif
            
                     
                 <h4 class="font" style="font-size:18px margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
                 @if ( $product->pharm_dermal_comment !== Null)
-                <textarea id="tinymce4" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" >{!! $pharmreports->pharm_dermal_comment !!}
+                <textarea id="tinymce5" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" >{!! $pharmreports->pharm_dermal_comment !!}
                 </textarea> 
                 @endif
                 @if ( $product->pharm_dermal_comment === Null)

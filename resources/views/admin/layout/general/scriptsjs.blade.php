@@ -49,7 +49,7 @@
 <script>
   tinymce.init({
     selector: 'textarea#tinymce',
-    // min_height: 350,
+    min_height: 350,
      skin: "oxide",
      icons: 'material' ,
    preview_styles: 'font-size color',
@@ -133,7 +133,7 @@
         <script>
           tinymce.init({
             selector: 'textarea#tinymce3',
-            // min_height: 350,
+            min_height: 350,
              skin: "oxide",
              icons: 'material' ,
            preview_styles: 'font-size color',
@@ -154,7 +154,7 @@
           <script>
             tinymce.init({
               selector: 'textarea#tinymce4',
-              // min_height: 350,
+              min_height: 350,
                skin: "oxide",
                icons: 'material' ,
              preview_styles: 'font-size color',
