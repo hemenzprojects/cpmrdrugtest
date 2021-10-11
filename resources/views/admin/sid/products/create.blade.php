@@ -368,14 +368,18 @@
                                             <td><p  style="display: none">{{$product->id}}</p></td>
                                             <td class="font">
                                             @if ($product->archive == Null)
+                             
                                             <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
-                                                {{$product->code}}
+                                             {{$product->code}} 
                                             </span>  
                                             @else
                                             <span  class="badge  pull-right" style="background-color:#28a745; color:#fff">
                                                 <span style="font-size: 0.1px">#completed</span> {{$product->code}}
                                             </span>  
                                             @endif
+                                         
+                                            
+                                              
                                            </td>
                                             <td class="font" style="width:15%">
                                                 {{ucfirst($product->name)}}
@@ -387,6 +391,11 @@
                                                 @endif
                                                 @if($product->single_multiple_lab ==2)
                                                 <sup><span class="badge-success" style="padding: 2px 4px;border-radius: 4px;">#M</span></sup>
+                                                @endif
+                                                @if ($product->overall_status == 2 && $product->archive == 0)
+                                                <span style="font-size: 0.1px">ready</span>
+    
+                                                <sup><span class="badge-info" style="padding: 2px 4px;border-radius: 4px;"><i class="ik ik-check-circle"></i></span></sup> 
                                                 @endif
                                             </td>
                                             <td class="font" >{{$product->productType->name}}</td>

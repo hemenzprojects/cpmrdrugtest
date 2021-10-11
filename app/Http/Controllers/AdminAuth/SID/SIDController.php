@@ -353,7 +353,11 @@ class SIDController extends Controller
            $sms_status = 0;
         }else { 
             $sms_status = 1;
+          if ($customer->code == 'G') {
+             SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 6 Weeks.',$customer->tell);
+          }else {
             SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
+          }
         }
 
         $customer->update(['sms_status' => $sms_status]);
