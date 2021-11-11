@@ -50,7 +50,7 @@ class MainDashboard extends Controller
     //         return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
     //     })->get();
 
-        $data['all_product'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+        $data['all_product'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->get();
 
         $data['all_pendingproduct'] = Product::where('overall_status','<', 2)    
         ->whereHas("departments", function ($q) use ($data) {

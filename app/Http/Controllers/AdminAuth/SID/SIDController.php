@@ -1067,8 +1067,8 @@ class SIDController extends Controller
         $data['year'] = \Carbon\Carbon::now('y');
 
        $data['products'] = Product::whereHas("departments", function ($q) use ($data) {
-        return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        })->get();
+            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        })->count();
        $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
        $data['multiple_labs'] = \App\Product::where('single_multiple_lab',2)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
        $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
