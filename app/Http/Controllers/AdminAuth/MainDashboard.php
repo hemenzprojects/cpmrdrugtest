@@ -46,10 +46,12 @@ class MainDashboard extends Controller
         //************************************ SID */
         $data['year'] = \Carbon\Carbon::now('y');
 
-       $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
-            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        })->get();
-        
+    //    $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
+    //         return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+    //     })->get();
+
+        $data['all_product'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
+
         $data['all_pendingproduct'] = Product::where('overall_status','<', 2)    
         ->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
