@@ -32,6 +32,8 @@ use \Auth;
 use \DB;
 use Session;
 use App\SMS\SendSMS;
+use App\SMS\SendbulkSMS;
+
 
 class SIDController extends Controller
 {
@@ -191,6 +193,22 @@ class SIDController extends Controller
         //         
 
 
+    }
+
+    Public function sendsms_index(){
+       
+        $data['customer_completed_reports'] = Product::where('overall_status',2)->where('archive',null)->get();
+        return View('admin.sid.customers.sendsms', $data);
+    }
+
+    public function sendsms_create(Request $r){
+
+    //  dd($r->all());
+     $contact = ["0245486001", "0245486001"];
+     $message = ["Hello John","Hi Abruzi"];
+
+     SendbulkSMS::sendBulkMessage($message,$contact);
+    // return 0;
     }
 
     //**************************************** */ PRODUCT SECTION ******************************************

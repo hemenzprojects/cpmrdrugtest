@@ -58,6 +58,10 @@ Route::get('/sendtest', function () {
   Route::post('sid/create-customer','AdminAuth\SID\SIDController@customer_store');
   Route::post('sid/customer/update/{id}','AdminAuth\SID\SIDController@customer_update');
 
+  Route::get('sid/customer/sendsmsindex','AdminAuth\SID\SIDController@sendsms_index')->name('admin.sid.customer.sendsmsindex');
+  Route::post('sid/customer/sendsmscreate','AdminAuth\SID\SIDController@sendsms_create');
+
+
    //products Route
    Route::get('sid/product/create','AdminAuth\SID\SIDController@product_index')->name('admin.sid.product.create');
    Route::get('sid/product/{id}/edit','AdminAuth\SID\SIDController@product_edit')->name('admin.sid.product.edit');

@@ -20,9 +20,17 @@
                                 
                                 @if (Auth::guard('admin')->user()->dept_id ==4)
                                 <div class="nav-lavel">Drug Analysis</div>
-                                <div class="nav-item">
+
+                                {{-- <div class="nav-item">
                                 <a href="{{url('admin/sid/customer/create')}}"><i class="ik ik-user-plus"></i><span>Customers</span> 
                                         <span class="badge badge-success">New</span></a>
+                                </div> --}}
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-user-plus"></i><span>Customers Registration</span> 
+                                        <div class="submenu-content">
+                                       <a href="{{url('admin/sid/customer/create')}}" class="menu-item">Create New Customer</a>
+                                        <a href="{{url('admin/sid/customer/sendsmsindex')}}" class="menu-item">Send Bulk SMS</a>
+                                    </div>
                                 </div>
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-menu"></i><span>Products</span> 
@@ -225,7 +233,7 @@
                                     <a href="#" class="menu-item"></a>
                                     <a href="{{route('admin.micro.hod_office.config')}}" class="menu-item">Report template settings </a>
                                    
-                                    </div>
+                                </div>
                                 </div> 
                                 @endif
 

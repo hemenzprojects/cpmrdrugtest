@@ -494,7 +494,7 @@
                   <div class="col-md-12">
                      
                     <h6 style="margin-top: 2%">REMARKS</h6>
-                    <textarea class="form-control" name="comment" id="" cols="30" rows="3">The presence of the above mentioned phytochemical constituents indicates that the product may be plant-based. The pH of the product falls outside the acceptable range of 4.00 - 10.00. </textarea>
+                    <textarea class="form-control" name="comment" id="" cols="30" rows="3">The presence of the above-mentioned phytochemical constituents indicates that the product may be plant-based. The pH of the product falls within the acceptable range of 4.00 - 10.00. </textarea>
 
                  </div>
 

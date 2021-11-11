@@ -2,18 +2,19 @@
 
 namespace App\SMS;
 
-    class SendSMS{
+    class SendbulkSMS{
 
-          public static function sendMessage($message,$phoneNumber){
+        public static function sendBulkMessage($message,$phoneNumber){
+            
             $senderName='CPMR SID';
              $clientId='98048e7c-9425-46fd-aad0-d1f61ee72b76';
             $apiKey='$2y$10$jL0uCMffFkGEnLcJhvmnW.k2nicUM/m3JAbWfIUMwVHWHLfBi/WmO';
             $headers = ['Content-Type: application/json'];
-            $baseurl='https://eazisend.com/api/sms/single';
+            $baseurl='https://eazisend.com/api/sms/bulk';
             $details = 
                'clientId='.$clientId.'&'.
-               'phoneNumber='.$phoneNumber.'&'.
-               'message='.$message.'&'.
+               'phoneNumbers='.$phoneNumber.'&'.
+               'messages='.$message.'&'.
                'senderName='.$senderName.'&'.
                'apiKey='.$apiKey;
                 parse_str($details,$details);
@@ -32,12 +33,12 @@ namespace App\SMS;
             curl_close($ch);
             if($err){
                return null;
-            }else{
+            }else{ 
               $resp = json_decode($server_output);
               return $resp;  
             }
              
-}
+} 
         
       // public static function sendCustomerMessage()
 
@@ -80,43 +81,9 @@ namespace App\SMS;
           }
           
 
-          class SendbulkSMS{
 
-            public static function sendBulkMessage($message,$phoneNumber){
-              $senderName='CPMR SID';
-               $clientId='98048e7c-9425-46fd-aad0-d1f61ee72b76';
-              $apiKey='$2y$10$jL0uCMffFkGEnLcJhvmnW.k2nicUM/m3JAbWfIUMwVHWHLfBi/WmO';
-              $headers = ['Content-Type: application/json'];
-              $baseurl='https://eazisend.com/api/sms/bulk';
-              $details = 
-                 'clientId='.$clientId.'&'.
-                 'phoneNumber='.$phoneNumber.'&'.
-                 'message='.$message.'&'.
-                 'senderName='.$senderName.'&'.
-                 'apiKey='.$apiKey;
-                  parse_str($details,$details);
-                  $details = json_encode($details);
-                 // dd($details);
-                  $ch = curl_init($baseurl);                                                                      
-              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-              curl_setopt($ch, CURLOPT_POSTFIELDS, $details); // $data is the request payload                                                                  
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-              curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
-              curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-              $server_output = curl_exec ($ch);
-            //  dd($server_output);
-              $err = curl_error($ch);
-              
-              curl_close($ch);
-              if($err){
-                 return null;
-              }else{ 
-                $resp = json_decode($server_output);
-                return $resp;  
-              }
-               
-  }  
-            
-          } 
+
+          
+   
 
 ?>

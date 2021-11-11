@@ -31,14 +31,12 @@
         <div class="card">
             <div class="card-body" style="overflow-x: scroll;">
                 <div class="dt-responsive " >
-                    <table id="order-table2" class="table table-striped table-bordered nowrap" >
+                    <table id="order-table2" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            {{-- <th>Street Address</th> --}}
-                            <th>Tell.</th>
-                            <th>Company Name</th>
+                            {{-- <th>Street Address</th> --}} <th>Company Name</th>
                             <th>Added By</th>
                             <th>Action</th>
         

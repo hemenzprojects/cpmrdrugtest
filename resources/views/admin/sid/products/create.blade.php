@@ -373,7 +373,7 @@
                                              {{$product->code}} 
                                             </span>  
                                             @else
-                                            <span  class="badge  pull-right" style="background-color:#28a745; color:#fff">
+                                            <span  class="badge  pull-right" style="background-color:#28a745; color:#fff; margin:5px">
                                                 <span style="font-size: 0.1px">#completed</span> {{$product->code}}
                                             </span>  
                                             @endif
