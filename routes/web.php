@@ -74,7 +74,9 @@ Route::get('/sendtest', function () {
    Route::post('sid/deliverysheet/pdf/','AdminAuth\SID\SIDController@deliverysheet_pdf')->name('admin.sid.deliverysheet.pdf');
    Route::get('sid/producttype/productlist/{id}','AdminAuth\SID\SIDController@producttype_productlist')->name('admin.sid.producttype.productlist');
 
+   Route::post('sid/product_registered/year','AdminAuth\SID\SIDController@yearlyproduct_registered')->name('admin.sid.productregistered.year');
 
+   
 
    //products review Route
    Route::get('sid/product/review/{id}','AdminAuth\SID\SIDController@review_product')->name('admin.sid.product.review');
@@ -132,6 +134,8 @@ Route::get('/sendtest', function () {
    Route::get('sid/hod_office/micro_completed_reports','AdminAuth\SID\SIDController@micro_completed_reports')->name('admin.sid.micro_completed_reports');
    Route::get('sid/hod_office/phyto_completed_reports','AdminAuth\SID\SIDController@phyto_completed_reports')->name('admin.sid.phyto_completed_reports');
    Route::get('sid/hod_office/pharm_completed_reports','AdminAuth\SID\SIDController@pharm_completed_reports')->name('admin.sid.pharm_completed_reports');
+
+   Route::post('sid/micro_completed_reports/year','AdminAuth\SID\SIDController@micro_completed_yearlyreports')->name('admin.sid.microcompletedreports.year');
 
    
   });

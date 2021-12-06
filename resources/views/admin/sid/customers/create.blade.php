@@ -36,7 +36,8 @@
                             <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            {{-- <th>Street Address</th> --}} <th>Company Name</th>
+                            <th>Tell</th> 
+                            <th>Company Name</th>
                             <th>Added By</th>
                             <th>Action</th>
         

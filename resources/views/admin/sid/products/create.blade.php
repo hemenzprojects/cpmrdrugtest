@@ -291,12 +291,26 @@
              <div class="row">
                 <div class="col-md-12">
                     <div class="card">
+                    
                         <div class="card-body">
+                           
                             <div class="row align-items-center">
                                 <div class="col-lg-3 col-md-12">
                                     <h3 class="card-title">All products Received</h3>
+                                    {{-- <span style="margin: px">Year</span>  --}}
+
+                                    {{ Form::open(array('action'=>"AdminAuth\SID\SIDController@yearlyproduct_registered", 'method'=>'post','class'=>'form-horizontal')) }}
+                                    {{Form::token()}}
+                                    <div class="input-group" style=" margin-top: 10px;">
+                                        {{ Form::selectRange('year',date('Y') -1, date('Y'), isset($year) ?? $year, array('class'=>'form-','placeholder'=>'Select year')) }}
+                                        <button type="submit" class="btn btn-primay mr-2">Search</button>    
+                                    </span>
+                                    </div>
+                                    {{ Form::close() }} 
                                   </div>
                                   <div class="col-lg-7">
+                                 
+                                    
                                     <form action="{{route('admin.sid.registeredproduct.report')}}" method="POST">
                                         {{ csrf_field() }}
                                         <div class="row">

@@ -42,11 +42,20 @@
                 </div>  
                   @endif
                     <div class="row align-items-center">
-                        <div class="col-lg-8 col-md-12">
+                        {{-- <div class="col-lg-8 col-md-12">
                             <h3 class="card-title">All Micro completed products </h3>
-                          </div>
+                            
+                          </div> --}}
                         <div class="col-md-12">
                           
+                            {{ Form::open(array('action'=>"AdminAuth\SID\SIDController@micro_completed_yearlyreports", 'method'=>'post','class'=>'form-horizontal')) }}
+                            {{Form::token()}}
+                            <div class="input-group" style=" margin-top: 10px;">
+                                {{ Form::selectRange('year',date('Y') -1, date('Y'), isset($year) ?? $year, array('class'=>'form-','placeholder'=>'Select year')) }}
+                                <button type="submit" class="btn btn-primay mr-2">Search</button>    
+                            </span>
+                            </div>
+                            {{ Form::close() }} 
                             <form  id="microarchiveproduct" action="{{url('admin/sid/hod_office/micro_completed_report/update')}}" class="forms-sample" method="POST">
                                 {{ csrf_field() }}
 

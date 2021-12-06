@@ -565,7 +565,26 @@ class SIDController extends Controller
         return View('admin.sid.products.create', $data);
 
      }
+    public function yearlyproduct_registered(Request $r){
+        // dd($r->all());
+        
+        $data['year'] = $r->year;
+        $data['price_list'] = ProductPriceList::where('action',1)->first();
 
+        $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
+             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+         })->get();
+      
+       
+    //   $product = Product::where('phyto_hod_evaluation',2)->orderBy('id', 'DESC')->with("departments")->get();
+        $data['from_date'] = Null;
+        $data['to_date'] = Null;
+        $data['products'] = Product::orderBy('id', 'DESC')->with("departments")->whereRaw('YEAR(created_at)= ?', array($data['year']))->get();
+        $data['product_types'] = ProductType::all();
+        $data['customers'] = Customer::orderBy('id', 'DESC')->get();
+
+        return View('admin.sid.products.create', $data);
+    }
 
 
     //*********************************************Product Category*****************************************************/
@@ -1735,7 +1754,7 @@ class SIDController extends Controller
             }        
            }
         
-         Session::flash("message", "Report Successfully rejected.");
+         Session::flash("message", "Report Successfully Completed.");
          Session::flash("message_title", "success");
 
           return redirect()->back();
@@ -1784,7 +1803,7 @@ class SIDController extends Controller
           }        
          }
         
-         Session::flash("message", "Report Successfully rejected.");
+         Session::flash("message", "Report Successfully Completed.");
          Session::flash("message_title", "success");
          return redirect()->back();
       }
@@ -1831,9 +1850,28 @@ class SIDController extends Controller
              }
             
         
-        Session::flash("message", "Report Successfully rejected.");
+        Session::flash("message", "Report Successfully Completed.");
         Session::flash("message_title", "success");
         return redirect()->back();
+      }
+
+      public function micro_completed_yearlyreports(Request $r){
+          
+       
+        $data['year'] = $r->year;
+
+        $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
+
+        $data['weekly_microcompletedreports'] = Product::where('micro_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
+           return $q->where("dept_id", 1)->where("status",4);
+         })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+   
+         $data['microcompletedreports'] = Product::whereRaw('YEAR(created_at)= ?', array($data['year']))->with('departments')->whereHas("departments", function($q){
+           return $q->where("dept_id", 1)->where("status",4);
+         })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+         
+         return view('admin.sid.hodoffice.microcompletedreports',$data);
+
       }
 
       //*************************************************************** All Downloads ********************************************************* */
