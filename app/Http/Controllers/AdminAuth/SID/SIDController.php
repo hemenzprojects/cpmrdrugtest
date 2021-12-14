@@ -203,7 +203,7 @@ class SIDController extends Controller
 
     public function sendsms_create(Request $r){
 
-    //  dd($r->all());
+     dd($r->all());
      $contact = ["0245486001", "0245486001"];
      $message = ["Hello John","Hi Abruzi"];
 
@@ -1918,7 +1918,7 @@ class SIDController extends Controller
                 
             }
 
-            
+
             if ($smlab == 1) {
                 $data['product_types'] = \App\ProductType::with(['singlelabpending'=>function($query) use ($from_date,$to_date){
                     $query->whereHas("departments",function ($q) use ($from_date,$to_date) {

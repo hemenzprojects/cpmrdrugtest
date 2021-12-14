@@ -537,7 +537,6 @@ class PharmController extends Controller
 
               public function samplepreparation_animalhouse(){
 
-
                 $data['year'] = \Carbon\Carbon::now('y');
                 $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id','<',3)->get();
 

@@ -12,7 +12,7 @@
     </div>
     <div class="card-body" style="overflow-x: scroll;">
         <div class="dt-responsive" >
-            <table id="scr-vtr-dynamic"
+            <table id="lang-dt"
             class="table table-striped table-bordered nowrap">
                   Total Quantity: @foreach($sample_preps->groupBy('product_id') as $sample_prep)
                    <label class="badge badge-warning" style="background-color: #ffc107; margin-right:5px;">
@@ -29,6 +29,7 @@
                     <th>Test to conduct</th>
                     <th>Delivery Officer</th>
                     <th>Received By</th>
+                    <th>Created By</th>
                     <th>Date Distributed</th>
                     <th>Date Delivered</th>
                 </tr>
@@ -65,6 +66,9 @@
                         <td class="font">
                         {{\App\Admin::find($product->received_by)? \App\Admin::find($product->received_by)->full_name:'null'}}
                         </td> 
+                        <td class="font">
+                         {{\App\Admin::find($product->created_by)? \App\Admin::find($product->created_by)->full_name:'null'}}
+                        </td>
                         <td class="font">
                             {{ Carbon\Carbon::parse($product->updated_at)->format('jS \\, F Y')}}
 
