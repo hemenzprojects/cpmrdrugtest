@@ -49,7 +49,7 @@
                         <i class="ik ik-calendar"></i>
                     </div>
                 </div>
-                <small class="text-small mt-10 d-block">Total number of report completed</small>
+                <small class="text-small mt-10 d-block">Total number of report completed this year</small>
             </div>
             <div class="progress progress-sm">
                 <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>

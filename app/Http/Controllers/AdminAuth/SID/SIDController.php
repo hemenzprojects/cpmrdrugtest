@@ -221,7 +221,7 @@ class SIDController extends Controller
 
         } 
 
-        $data['year'] = \Carbon\Carbon::now('y');
+        $data['year'] = \Carbon\Carbon::now()->year;
         $data['price_list'] = ProductPriceList::where('action',1)->first();
 
         $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
@@ -1083,7 +1083,7 @@ class SIDController extends Controller
         $data['from_date'] = "2020-01-01";
         $data['to_date'] = now();
         $data['single_multiple_lab'] = 0;
-        $data['year'] = \Carbon\Carbon::now('y');
+        $data['year'] = \Carbon\Carbon::now()->year;
 
        $data['products'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
        $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
@@ -1091,7 +1091,18 @@ class SIDController extends Controller
        $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
 
 
-       $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
+    //    $data['product_types'] = \App\ProductType::with(['pending','completed'])->get();
+
+       $data['product_types'] = \App\ProductType::with(['pending'=>function($query) use ($data){
+        $query->whereHas("departments",function ($q) use ($data) {
+        return $q->whereRaw('YEAR(received_at)= ? ',array($data['year']));
+         });
+       },
+       'completed'=>function($query) use ($data){
+        $query->whereHas("departments",function ($q) use ($data) {
+                    return $q->whereRaw('YEAR(received_at)= ? ',array($data['year']));
+                });
+        }])->get();
 
         return View('admin.sid.generalreport.index', $data);
     }
@@ -1148,19 +1159,28 @@ class SIDController extends Controller
         //  $data['to_date'] =$r->from_date;
 
         $data = $r->all();
-        $data['year'] = \Carbon\Carbon::now('y');
-        $data['products'] = \App\Product::whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
-       $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
-       $data['multiple_labs'] = \App\Product::where('single_multiple_lab',2)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
-       $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereRaw('YEAR(created_at)= ? ',array($data['year']))->count();
-
+        $data['year'] = \Carbon\Carbon::now()->year;
+        $data['products'] = \App\Product::whereHas("departments", function ($q) use ($r) {
+            return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+           })->count();
+        $data['single_lab'] = \App\Product::where('single_multiple_lab',1)->whereHas("departments", function ($q) use ($r) {
+         return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+        })->count();
+       $data['multiple_labs'] = \App\Product::where('single_multiple_lab',2)->whereHas("departments", function ($q) use ($r) {
+        return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+       })->count();
+       $data['all_labs'] = \App\Product::where('single_multiple_lab',Null)->whereHas("departments", function ($q) use ($r) {
+        return $q->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
+       })->count();
 
         if ($r->single_multiple_lab >0) {
+
             $data['single_multiple_lab'] = $r->single_multiple_lab;
         }
 
         if ($r->single_multiple_lab <1) {
-            $data['single_multiple_lab'] = 0;        }
+            $data['single_multiple_lab'] = 0;
+        }
     
 
         $single_multiple_lab = Null;

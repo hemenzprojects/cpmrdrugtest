@@ -44,7 +44,12 @@ class MainDashboard extends Controller
     {  
 
         //************************************ SID */
-        $data['year'] = \Carbon\Carbon::now('y');
+        $data['year'] = \Carbon\Carbon::now()->year;
+
+         $data['final_reports'] = Product::where('overall_status', 2)    
+        ->whereHas("departments", function ($q) use ($data) {
+            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        })->get();
 
        $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -60,10 +65,21 @@ class MainDashboard extends Controller
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
 
-        $data['all_failedproduct'] = Product::where('micro_grade','!=',2)->orwhere('pharm_grade','!=',2)->orwhere('phyto_grade','!=',2)
+        $data['micro_failedproduct'] = Product::where('micro_grade','!=',2)
         ->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
+
+        $data['pharm_failedproduct'] = Product::where('pharm_grade','!=',2)
+        ->whereHas("departments", function ($q) use ($data) {
+            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        })->get();
+        $data['phyto_failedproduct'] = Product::where('phyto_grade','!=',2)
+        ->whereHas("departments", function ($q) use ($data) {
+            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+        })->get();
+
+        $data['all_failedproduct'] = $data['micro_failedproduct']->merge($data['pharm_failedproduct'])->merge($data['phyto_failedproduct']);
 
       //****************************************** MICRO */
 

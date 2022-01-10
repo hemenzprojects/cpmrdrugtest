@@ -1,3 +1,6 @@
+@php
+     $data['year'] = \Carbon\Carbon::now()->year;
+@endphp
 @if (Auth::guard('admin')->user()->dept_id ==4)
     
     <div class="">
@@ -98,7 +101,7 @@
                             <ul class="list-group" id="myList1">
                                 <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Select product / check to archive</a><hr>
                                    
-                                @foreach (App\Product::where('overall_status',2)->get() as $product)
+                                @foreach ($final_reports as $product)
                                    
                                     <label class="custom-control custom-checkbox" style="margin-bottom: -12%;     margin-left: -6%;">
                                         <input type="checkbox" class="custom-control-input" id="item_checkbox" name="item_checkbox" value="option1">
@@ -132,7 +135,7 @@
                           <div class="tab-content" id="v-pills-tabContent"  style="overflow-x: scroll">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
                            
-                            @foreach (App\Product::where('overall_status',2)->get() as $final_report)
+                            @foreach ($final_reports as $final_report)
                             <div class="tab-pane fade" id="v-pills-profile{{$final_report->id}}" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                 <table class="table table-striped table-bordered nowrap dataTable" >
                                     <tr>

@@ -1026,11 +1026,11 @@ class PhytoController extends Controller
           
            public function generalreport_index(){
     
-              $data['from_date'] = "2020-01-01";
+            $data['from_date'] = "2020-01-01";
             $data['to_date'] = now();
 
             $data['product_types'] = \App\ProductType::all();
-            $data['year'] = \Carbon\Carbon::now('y');
+            $data['year'] = \Carbon\Carbon::now()->year;
 
 
             $data['all_product_lab'] = Product::whereHas("departments", function($q)use ($data){
@@ -1056,8 +1056,8 @@ class PhytoController extends Controller
    
             $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
-           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q){
-              return $q->where("dept_id",3)->where('status','>',2);
+           $data['completed_products'] = Product::where('phyto_hod_evaluation', 2)->with("departments")->whereHas("departments", function($q)use ($data){
+              return $q->where("dept_id",3)->where('status','>',2)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->get();
 
             return view('admin.phyto.generalreport.index',$data);
@@ -1141,7 +1141,7 @@ class PhytoController extends Controller
 
             public function completedreports_all(){
 
-              $data['year'] = \Carbon\Carbon::now('y');
+              $data['year'] = \Carbon\Carbon::now()->year;
 
               $data['all_completed_products'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q)use($data){
                 return $q->where("dept_id", 3)->where("status", 4)->whereRaw('YEAR(product_depts.created_at)= ?', array($data['year']));

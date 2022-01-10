@@ -259,7 +259,7 @@ Route::get('/sendtest', function () {
    Route::get('pharm/samplepreparation/animalhouse/delete/{id}','AdminAuth\Pharmacology\PharmController@sampleprep_animalhouse_delete')->name('admin.pharm.samplepreparation.animalhouse.delete');
   
    Route::get('pharm/samplepreparation/samplesindex','AdminAuth\Pharmacology\PharmController@samplepreparation_samplesindex')->name('admin.pharm.samplepreparation.samplesindex');
-   Route::get('pharm/samplepreparation/animalhouse','AdminAuth\Pharmacology\PharmController@samplepreparation_animalhouse')->name('admin.pharm.samplepreparation.animalhouse');
+   Route::get('pharm/samplepreparation/animalhouse','AdminAuth\Pharmacology\PharmController@animalexperiment_recordbook')->name('admin.pharm.samplepreparation.animalhouse');
   
    Route::post('pharm/samplepreparation/report','AdminAuth\Pharmacology\PharmController@samplepreparation_report')->name('admin.pharm.samplepreparation.report');
    Route::post('pharm/samplepreparation/animalhouse/report','AdminAuth\Pharmacology\PharmController@samplepreparation_animalhouse_report')->name('admin.pharm.samplepreparation.animalhouse.report');

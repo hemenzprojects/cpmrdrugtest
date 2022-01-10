@@ -886,7 +886,7 @@ class PharmController extends Controller
 
              public function animalexperiment_recordbook(){
 
-             $data['year'] = \Carbon\Carbon::now('y');
+             $data['year'] = \Carbon\Carbon::now()->year;
              $data['admins'] = Admin::where('dept_id',2)->where('dept_office_id',3)->get();
              
              $data['recordbooks'] = Product::whereHas("departments", function ($q){
@@ -1047,7 +1047,8 @@ class PharmController extends Controller
              //**************************************** HOD office */
              public function hodoffice_evaluation(){
           
-              
+              $data['year'] = \Carbon\Carbon::now()->year;
+
               $data['evaluations'] = Product::where('pharm_hod_evaluation','>=',0)->where('pharm_process_status','<',6)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
@@ -1068,8 +1069,8 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
-              $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 8);
+              $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q)use ($data){
+                return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ', array($data['year']));
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
    
                $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
@@ -1082,6 +1083,7 @@ class PharmController extends Controller
 
              public function evaluate_one_index($id){
 
+              $data['year'] = \Carbon\Carbon::now()->year;
               
               $data['withhelds'] = Product::where('pharm_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
@@ -1091,8 +1093,8 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 7);
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
-              $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 8);
+              $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use ($data){
+                return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ', array($data['year']));
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
              
@@ -1516,8 +1518,10 @@ class PharmController extends Controller
          
               public function completedreports_all(){
 
-                $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 8);
+                $data['year'] = \Carbon\Carbon::now()->year;
+
+                $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use ($data){
+                return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
                 })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->get();
 
                 return view('admin.pharm.hodoffice.completedreport',$data);

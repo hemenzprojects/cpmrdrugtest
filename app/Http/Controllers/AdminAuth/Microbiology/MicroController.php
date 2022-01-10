@@ -1055,7 +1055,7 @@ class MicroController extends Controller
               
               public function completedreports_all(){
 
-                $data['year'] = \Carbon\Carbon::now('y');
+                $data['year'] = \Carbon\Carbon::now()->year;
   
                 $data['all_completed_products'] = Product::with('departments')->whereHas("departments", function($q)use($data){
                   return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(product_depts.created_at)= ?', array($data['year']));

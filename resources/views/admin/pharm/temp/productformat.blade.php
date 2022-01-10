@@ -23,7 +23,7 @@
                     <td class="font">
                         <div>
                             {!! $product->pharm_analysed_date !!}
-                        <input type="text" class="form-control datetimepicker-input" name="date_analysed" data-date-format="DD-MM-YYYY" id="datepicker" data-toggle="datetimepicker" data-target="#datepicker" value="{{$product->pharm_dateanalysed}}" placeholder=" {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
+                        <input type="date" class="form-control" name="date_analysed" value="{{$product->pharm_dateanalysed}}" placeholder=" {{Carbon\Carbon::parse($product['pharm_dateanalysed'])->format('d/m/Y')}}" style="width:250px">
                         </div>
                      {{-- <input class="form-control" required type="date" name="date_analysed" data-date-format="DD-MM-YYYY"  style="width:250px"> --}}
                     </td>
