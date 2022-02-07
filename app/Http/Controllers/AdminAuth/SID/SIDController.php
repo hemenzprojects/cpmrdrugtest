@@ -1830,14 +1830,15 @@ class SIDController extends Controller
 
 
       public function micro_completedreport_update(Request $r){
-
+     
+      
         $microcompletedreports = Product::whereIn('id',$r->micro_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 1)->where("status",4);
         });
 
          if(count($microcompletedreports->get()) < 1){     
-            return redirect()->back();
-          }
+            return redirect()->route('admin.sid.micro_completed_reports');
+        }
 
            if ($r->condition == Null) {
           
@@ -1861,7 +1862,7 @@ class SIDController extends Controller
               if ($pharmdept != null) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'Sorry all departments must be completed before archiving/Completing report. Please check indications on lab status.');
-              return redirect()->back();
+              return redirect()->route('admin.sid.micro_completed_reports');
               }else{
               Product::with('departments')->whereIN('id',$r->micro_completedproduct_id)->whereHas("departments", function($q){
                   return $q->where("dept_id", 1);
@@ -1872,7 +1873,8 @@ class SIDController extends Controller
         
         Session::flash("message", "Report Successfully Completed.");
         Session::flash("message_title", "success");
-        return redirect()->back();
+        return redirect()->route('admin.sid.micro_completed_reports');
+
       }
 
       public function micro_completed_yearlyreports(Request $r){

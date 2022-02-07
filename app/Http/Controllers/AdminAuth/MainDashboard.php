@@ -51,7 +51,7 @@ class MainDashboard extends Controller
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
 
-       $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
+        $data['all_product'] = Product::whereRaw('YEAR(created_at)= ?', array($data['year']))->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
         
