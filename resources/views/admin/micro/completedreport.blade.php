@@ -74,7 +74,8 @@ $product = \App\Product::find($report_id);
                                     @endif
                                     <th>Accepted Criterion BP 
                                     (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
-                                    {{Carbon\Carbon::parse($item->date)->format('Y')}}
+                                    {{Carbon\Carbon::parse($item->date_template)->format('Y')}}
+                                    
                                     <input type="hidden" name="date_template" value="{{$item->date}}">
                                     @endforeach)
                                     </th>

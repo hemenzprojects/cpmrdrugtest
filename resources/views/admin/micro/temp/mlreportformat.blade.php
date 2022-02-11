@@ -15,8 +15,8 @@
                 <th class="77771" style="display: none">Result (CFU/g)</th>
                 <th>Acceptance Criterion
                   (BP @foreach ($show_microbial_loadanalyses->groupBy('id')->first()  as $item)
-                  {{Carbon\Carbon::parse($item->date)->format('Y')}}
-                  <input type="hidden" name="date_template" value="{{$item->date}}">
+                  {{Carbon\Carbon::parse($item->date_template)->format('Y')}}
+                  <input type="hidden" name="date_template" value="{{$item->date_template}}">
                  @endforeach )
                 </th>
                 <th>Compliance Statement</th>

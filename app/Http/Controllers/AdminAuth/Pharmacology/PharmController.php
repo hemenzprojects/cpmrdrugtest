@@ -1286,7 +1286,7 @@ class PharmController extends Controller
            public function finalhodevaluate_one_edit(Request $r, $id){
              
             
-              // dd($r->all());
+
             if ($r->evaluate <1) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -1484,7 +1484,8 @@ class PharmController extends Controller
 
 
            public function hod_complete_report($id){
-                
+               
+      
                $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
                if (!$completed) {
                 Session::flash('message_title', 'error');

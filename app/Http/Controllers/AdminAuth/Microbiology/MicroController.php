@@ -293,6 +293,16 @@ class MicroController extends Controller
 
               public function test_create(MicroTestCreateRequest $r){
 
+                $productdept = MicrobialLoadReport::where('date_template',Null)->get();
+
+                // for ($i=0; $i < count($productdept); $i++) { 
+                //   \App\MicrobialLoadReport::where('id',">", 0)->update([
+                //     'date_template'=>"2021-08-12",
+                //   ]);
+                // }
+               
+                // return 0; 
+                // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -307,6 +317,7 @@ class MicroController extends Controller
                 //  }
                
                 $input = $r->all();
+                
                 $mp_id = $input['micro_product_id'];
                 $products = Product::where('id',$mp_id);
                 if(count($products->get()) < 1){
@@ -412,6 +423,7 @@ class MicroController extends Controller
                       ]);
              
                     }else{
+                      
                       
                         MicrobialLoadReport::create([
                         'test_conducted'=>$test_conducted[$i],
