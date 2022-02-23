@@ -1252,7 +1252,7 @@ class MicroController extends Controller
               }
 
              public function evaluate(Request $r){
-                    
+                  
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -1292,11 +1292,11 @@ class MicroController extends Controller
               }
             
               return redirect()->back();
+
              }
 
             
               public function evaluate_one_index($id){
-              
                      
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
@@ -1350,6 +1350,7 @@ class MicroController extends Controller
 
               $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
+
                })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
 
                $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();

@@ -134,7 +134,7 @@ td, th {
     </tr> 
 </tbody>
 </table>
-<table style="margin-bottom:1%">
+<table style="margin-bottom:0%">
     <tbody>    
       <tr>
           <td class="font">Animal Model</td>
@@ -242,7 +242,7 @@ td, th {
 @endif
 
 
-  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:0%'}}">
+  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-3%'}}">
   
   <tr>
     <td class="font" style="border:0px solid" >
@@ -286,7 +286,7 @@ td, th {
 </table>
  
 @if ($completed_report->pharm_testconducted == 1)
-<div class="col-md-12" style="padding: ">
+<div class="col-md-12" style="padding:-3px">
     <p style="font-size: 12px; text-align: justify ">
         <strong> Reference: </strong>  {!! $completed_report->pharm_reference !!}
     </p>  
