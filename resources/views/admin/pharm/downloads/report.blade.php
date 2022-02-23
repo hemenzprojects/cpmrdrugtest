@@ -235,14 +235,14 @@ td, th {
  
  <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
- <p style="font-size: 16px; text-align: justify ">
+ <p style="font-size: 16px; text-align: justifyl;margin-top:-px">
     {!! $completed_report->pharm_dermal_comment !!}   
 </p> 
  
 @endif
 
 
-  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-5%'}}">
+  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-6%'}}">
   
   <tr>
     <td class="font" style="border:0px solid" >
@@ -286,7 +286,7 @@ td, th {
 </table>
  
 @if ($completed_report->pharm_testconducted == 1)
-<div class="col-md-12" style="padding:-3px">
+<div class="col-md-12" style="padding:-6px">
     <p style="font-size: 12px; text-align: justify ">
         <strong> Reference: </strong>  {!! $completed_report->pharm_reference !!}
     </p>  
