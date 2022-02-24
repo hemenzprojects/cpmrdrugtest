@@ -354,7 +354,7 @@ td, th {
     <span style="font-size:15px">  {{$product->micro_general_conclusion}}</span>
   
 
-<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:1%':'margin-top:0%'}}" >
+<table style="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'margin-top:1%':'margin-top:4%'}}" >
   
   <tr class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses) < 1 ?'space':'space1'}}">
     <td class="font " style="border: 0px solid">
