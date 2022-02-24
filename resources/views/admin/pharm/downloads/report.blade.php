@@ -242,7 +242,7 @@ td, th {
 @endif
 
 
-  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-6%'}}">
+  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-10%'}}">
   
   <tr>
     <td class="font" style="border:0px solid" >
