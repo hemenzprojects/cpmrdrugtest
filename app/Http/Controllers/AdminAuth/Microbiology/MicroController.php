@@ -1297,6 +1297,7 @@ class MicroController extends Controller
 
             
               public function evaluate_one_index($id){
+
                      
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
@@ -1376,7 +1377,7 @@ class MicroController extends Controller
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
-              }
+              }download
               if ($r->evaluate >2) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
