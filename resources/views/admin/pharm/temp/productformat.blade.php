@@ -19,7 +19,7 @@
                 </tr>
                 <tr>                                    
 
-                    <td class="font"><strong>Date of Report:</strong></td> 
+                    <td class="font"><strong>Date Analysed:</strong></td> 
                     <td class="font">
                         <div>
                             {!! $product->pharm_analysed_date !!}
