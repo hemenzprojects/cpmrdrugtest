@@ -117,6 +117,8 @@ class AdminController extends Controller
 
     public function updateprofile_admin(Request $r, $id){
 
+    //    dd($r->all());
+
         $user = Admin::find($id);
         $data = $r->validate([
             'first_name' => 'required|max:255|min:3',
@@ -131,7 +133,7 @@ class AdminController extends Controller
         'last_name' => $r->last_name,
         'email' => $r->email,
         'tell' => $r->tell,
-        'user_type_id' => $r->user_type_id,
+        // 'user_type_id' => $r->user_type_id,
         ]);  
 
         Admin::where('id',$id)->update($data);
