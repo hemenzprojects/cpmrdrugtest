@@ -117,7 +117,12 @@ class AdminController extends Controller
 
     public function updateprofile_admin(Request $r, $id){
 
-    //    dd($r->all());
+     
+          if ($r->user_type_id) {
+            $admin_type = $r->user_type_id;
+          }else {
+            $admin_type = Admin::find( Auth::guard('admin')->id())->user_type_id;
+          }
 
         $user = Admin::find($id);
         $data = $r->validate([
@@ -133,7 +138,7 @@ class AdminController extends Controller
         'last_name' => $r->last_name,
         'email' => $r->email,
         'tell' => $r->tell,
-        // 'user_type_id' => $r->user_type_id,
+        'user_type_id' => $admin_type,
         ]);  
 
         Admin::where('id',$id)->update($data);
