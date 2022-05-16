@@ -1290,7 +1290,7 @@ class MicroController extends Controller
               Product::whereIn('id',$p_ids)->update(['micro_reportdatecompleted' => \Carbon\Carbon::now()]);
 
               }
-            
+              
               return redirect()->back();
 
              }
@@ -1535,6 +1535,7 @@ class MicroController extends Controller
               $productdept = $productdepts->first();
               $productdept->status = 4;
               $productdept->update();
+              Product::where('id',$data['report_id'] )->update(['micro_reportdatecompleted' => \Carbon\Carbon::now()]);
 
               $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 4);
