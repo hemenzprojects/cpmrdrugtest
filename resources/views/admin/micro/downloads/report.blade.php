@@ -209,7 +209,7 @@ td, th {
             ?>
         @endif
         @if ($microbial_loadanalyses[$i]->rs_total >0 && $microbial_loadanalyses[$i]->rs_total < 9900000000)
-        <span>
+        <span> 
           <?php 
           if ($i<2) {
               $results= explode(' ',$microbial_loadanalyses[$i]->result);
@@ -260,17 +260,16 @@ td, th {
       <td style="font-style: italic;font-size:11px;border:0px; width:200px ">
         @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
       @if ($i<1)
-    <span > 
+      <span> 
       {!! $microbial_loadanalyses[0]->definition !!} 
-
       </span>
       @endif
       @endfor
   </td>
-  <td style="font-style: italic;font-size:11px;border:0pxwidth:200px ">
+  <td style="font-style: italic;font-size:11px;border:0px; width:200px">
     @for ($i = 0; $i < count($microbial_loadanalyses); $i++)
   @if ($i<1)
-<span > 
+   <span> 
   {!! $microbial_loadanalyses[1]->definition !!}  
   </span>
   @endif
