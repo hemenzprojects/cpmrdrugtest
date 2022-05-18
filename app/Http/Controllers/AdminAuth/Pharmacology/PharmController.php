@@ -1481,8 +1481,8 @@ class PharmController extends Controller
               return $q->where("dept_id", 2)->where("status", 7);
             })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
-            $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
-              return $q->where("dept_id", 2)->where("status", 8);
+            $data['completeds'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use($data){
+              return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ', array($data['year']));
             })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
             $data['final_reports'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status','>',5)->with('departments')->whereHas("departments", function($q){
