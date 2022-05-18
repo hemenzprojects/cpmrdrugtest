@@ -1473,6 +1473,8 @@ class PharmController extends Controller
 
            public function hod_finalreport_show($id){
            
+            $data['year'] = \Carbon\Carbon::now()->year;
+
             $data['final_hod_withhelds'] = Product::where('pharm_hod_evaluation',2)->where('pharm_process_status',7)->with('departments')->whereHas("departments", function($q){
               return $q->where("dept_id", 2)->where("status", 7);
             })->with('animalExperiment')->whereHas("animalExperiment")->get();
