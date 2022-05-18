@@ -1123,14 +1123,34 @@ class PharmController extends Controller
 
 
             public function evaluate(Request $r){
-                $input = $r->all();
-              // dd($r->all()) ;
+               $input = $r->all();
        
               if ($r->pharm_evaluated_product == null) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Please select required reports for evaluation');
                 return redirect()->back();
               }
+
+              
+              $data['report_1'] = Product::whereIN('id',$r->pharm_evaluated_product)->where('pharm_finalapproved_by',Null)->get();
+              $data['report_2'] = Product::whereIN('id',$r->pharm_evaluated_product)->where('pharm_approved_by',Null)->get();
+              $report = $data['report_1']->merge($data['report_2']);
+              $r_ids = $report->pluck('id')->toArray();
+              $fina_report = Product::whereIn('id', $r_ids)->first();
+              $fina_report_array = Product::whereIn('id', $r_ids)->pluck('code')->toArray();
+              # Implode into a string using | as the separator.
+              $stringofnumber = implode(' | ', $fina_report_array);
+
+            if($fina_report == !Null){
+              if ($fina_report->pharm_finalapproved_by == Null || $fina_report->pharm_approved_by  == Null) {
+
+                Session::flash('message_title', 'Error');
+                Session::flash('message', 'Please check report(s) and sign again. Product code(s) '.$stringofnumber.' can not be submitted');
+                  return redirect()->back();
+               }
+            }
+
+
               $p = Product::whereIn('id',$r->pharm_evaluated_product )->where('pharm_process_status',"<",8)->get();
               if (count($p) > 0 ) {
                 Session::flash('message_title', 'error');
@@ -1146,6 +1166,7 @@ class PharmController extends Controller
                 Session::flash('message', 'Please select approved reports only ');
                 return redirect()->back();
               }
+              
               $data = [ 
                 'status' => 8,
               ];
@@ -1154,8 +1175,8 @@ class PharmController extends Controller
 
              Session::flash("message", "Evaluation completed for selected reports.");
              Session::flash("message_title", "success");
-           
-              return redirect()->back();
+             return redirect()->back();
+
              }
 
 
@@ -1485,7 +1506,14 @@ class PharmController extends Controller
 
            public function hod_complete_report($id){
                
-      
+              //  dd(Product::find($id));
+                $data = Product::where('id',$id)->first();
+                if ($data->pharm_finalapproved_by == Null || $data->pharm_approved_by == Null) {
+                Session::flash('message_title', 'Error');
+                Session::flash('message', 'Please check report and sign again. Thank you');
+                  return redirect()->back();
+              }
+            
                $completed =ProductDept::where('product_id', $id)->where("dept_id", 2)->where("status", 7)->first();
                if (!$completed) {
                 Session::flash('message_title', 'error');

@@ -1277,7 +1277,7 @@ class MicroController extends Controller
                 if ($fina_report->micro_finalapproved_by == Null || $fina_report->micro_approved_by == Null) {
 
                   Session::flash('messagetitle', 'Report Error');
-                  Session::flash('message', 'Please check report(s) and sign properly. Product code(s) '.$stringofnumber.' can not be submitted');
+                  Session::flash('message', 'Please check report(s) and sign again. Product code(s) '.$stringofnumber.' can not be submitted');
                     return redirect()->back();
                  }
               }
@@ -1551,9 +1551,8 @@ class MicroController extends Controller
               $data = Product::where('id',$id)->first();
                if ($data->micro_finalapproved_by == Null || $data->micro_approved_by == Null) {
                 Session::flash('messagetitle', 'Report Error');
-                Session::flash('message', 'Please check report and sign properly. Thank you');
+                Session::flash('message', 'Please check report and sign again. Thank you');
                   return redirect()->back();
-
               }
                
               $data['report_id'] = $id; 
