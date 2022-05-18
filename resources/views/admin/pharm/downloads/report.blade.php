@@ -216,9 +216,9 @@ td, th {
 
  @endif
 
-@if ($completed_report->pharm_testconducted == 3)
+{{-- @if ($completed_report->pharm_testconducted == 3)
 <div style="page-break-after:always;"></div> 
-@endif
+@endif --}}
 
  @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
  
@@ -242,7 +242,7 @@ td, th {
 @endif
 
 
-  <table style="{{$completed_report->pharm_testconducted == 2 ?'margin-top:5%':'margin-top:-2%'}}">
+  <table style="{{$completed_report->pharm_testconducted > 1 ?'margin-top:5%':'margin-top:-2%'}}">
   
   <tr>
     <td class="font" style="border:0px solid" >
@@ -253,7 +253,7 @@ td, th {
       ?>
       <span>Analysed by</span><br>
       @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
-      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="35%"  style="margin-bottom: -14px"><br>
+      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'80%':'75%'}}"  style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 
@@ -271,7 +271,7 @@ td, th {
       ?>
       <span>Approved by</span><br>
     @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
-      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="35%" style="margin-bottom: -14px"><br>
+      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'80%':'75%'}}" style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 
