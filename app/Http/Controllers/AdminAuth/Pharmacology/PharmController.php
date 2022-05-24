@@ -775,6 +775,8 @@ class PharmController extends Controller
                   'status' => 3,
                  ];
                 ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+                Product::where('id',$r->product_id)->update(['pharm_hod_evaluation' => Null]);
+
                 Session::flash("message", "Experiment succesfully rejected");
                 Session::flash("message_title", "success");
                 return redirect()->back();
@@ -787,10 +789,9 @@ class PharmController extends Controller
               }
               else 
               {
-                $data = [ 
-                  'status' => 3,
-                 ];
+                $data = [ 'status' => 3, ];
                 ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+                Product::where('id',$r->product_id)->update(['pharm_hod_evaluation' => Null]);
                 Session::flash("message", "Experiment succesfully rejected");
                 Session::flash("message_title", "success");
                 return redirect()->back();
