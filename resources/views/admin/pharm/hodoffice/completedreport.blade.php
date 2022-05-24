@@ -72,8 +72,12 @@
              <td class="font">
                  
                 <strong>Approval 1</strong>  <li style="margin-bottom: 5px"> 
-                  <span style="color: #023504">{{\App\Admin::find($completed_report->pharm_approved_by)->full_name}}</span>
-                 </li>
+                @if ($completed_report->pharm_approved_by == !Null)
+                {{\App\Admin::find($completed_report->pharm_approved_by)->full_name}}     
+                @else
+                    <span style="color:red"> Null </span>
+                @endif
+                </li>
                   <strong>Approval 2</strong>  
                   <li>
                      <span style="color: #023504">{{\App\Admin::find($completed_report->pharm_finalapproved_by)->full_name}}

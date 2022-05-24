@@ -765,21 +765,47 @@ class PharmController extends Controller
              }
 
              public function animalhouse_rejecttest(Request $r){
-               
-               $p = Product::where('id', $r->product_id)->where('pharm_hod_evaluation','>=',0)->get();
-              if (count($p) > 0) {
+           
+              $array = [0,2];
+
+              $p = Product::where('id', $r->product_id)->first();;
+              // return $p->pharm_hod_evaluation;
+               if ($p->pharm_hod_evaluation === NULL) {
+                $data = [ 
+                  'status' => 3,
+                 ];
+                ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+                Session::flash("message", "Experiment succesfully rejected");
+                Session::flash("message_title", "success");
+                return redirect()->back();
+               }
+
+              elseif (in_array($p->pharm_hod_evaluation,$array)) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Sorry this report can not be rejected. Report under evaluation');
                 return redirect()->back();
               }
-              $data = [ 
-                'status' => 3,
-               ];
-              ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+              else 
+              {
+                $data = [ 
+                  'status' => 3,
+                 ];
+                ProductDept::where('product_id', $r->product_id)->where("dept_id", 2)->where("status", 7)->update($data);
+                Session::flash("message", "Experiment succesfully rejected");
+                Session::flash("message_title", "success");
+                return redirect()->back();
+              }
 
-              Session::flash("message", "Experiment succesfully rejected");
-              Session::flash("message_title", "success");
-              return redirect()->back();
+            
+
+              // $p = Product::where('id', $r->product_id)->where('pharm_hod_evaluation','>=',0)->get();
+              // if (count($p) > 0) {
+              //   Session::flash('message_title', 'error');
+              //   Session::flash('message', 'Sorry this report can not be rejected. Report under evaluation');
+              //   return redirect()->back();
+              // }
+           
+            
              }
 
              public function delete_animaltest($id){

@@ -86,7 +86,7 @@
 				<div class="clear"> </div>
 			</div>
 			<div class="wthree_footer_copy">
-				<p>© 2020 CPMR Drug Analysis. All rights reserved | Design by <a href="http://w3layouts.com/"> CPMR SID DPTM.</a></p>
+				<p>© 2020 CPMR Drug Analysis. All rights reserved | Design by <a href="https://www.cpmr.org.gh/cherry-services/scientific-information/"> CPMR SID DPTM.</a></p>
 			</div>
 		</div>
 	</div>
