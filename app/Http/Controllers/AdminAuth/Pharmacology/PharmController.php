@@ -797,7 +797,6 @@ class PharmController extends Controller
                 return redirect()->back();
               }
 
-            
 
               // $p = Product::where('id', $r->product_id)->where('pharm_hod_evaluation','>=',0)->get();
               // if (count($p) > 0) {
