@@ -137,7 +137,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($editexperiment->animalExperiment()->orderBy('id', 'desc')->get(); as $product)
+                                    @foreach ($editexperiment->animalExperiment()->orderBy('id','ASC')->get(); as $product)
 
                                     <tr>
                                         <td class="font">                              
