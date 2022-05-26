@@ -109,7 +109,13 @@
 
 
  @if (Auth::guard('admin')->user()->dept_id ==2 && (Auth::guard('admin')->user()->dept_office_id == 1 || Auth::guard('admin')->user()->dept_office_id ==2  ))
-    
+                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>Hello! {{\App\Admin::find(Auth::guard('admin')->id())?\App\Admin::find(Auth::guard('admin')->id())->full_name:'null'}} </strong> Pharmacology issue #003 on animal house experimentation has been rectified. Please contact system administrator if issue persist. Thank you
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="ik ik-x"></i>
+                    </button>
+                </div>  
+     
    @include('admin.pharm.temp.dashboardtemp')
 @endif
 
