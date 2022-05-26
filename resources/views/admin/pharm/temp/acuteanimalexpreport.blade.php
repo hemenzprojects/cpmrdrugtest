@@ -55,9 +55,18 @@
             <tr>
                 <td class="font"><strong>Dose Administered (mg/kg)</strong></td> 
                 <td  class="font">
-                    @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                {{$item->dosage}}
-                    @endforeach
+
+                    {{-- @foreach ($pharmreports->animalExperiment()->orderBy('id','ASC')->get(); as $item)
+                    <span style="font-size: 70%">{{$item->dosage}}</span>
+                     @endforeach --}}
+                        
+                      @php
+                         $data = $pharmreports->animalExperiment()->orderBy('id','ASC')->get();
+                     @endphp
+
+                     @for ($i = 0; $i < count([$data]); $i++)
+                     {{$data[0]->dosage}}
+                     @endfor 
                 </td>
             </tr>
             <tr>
