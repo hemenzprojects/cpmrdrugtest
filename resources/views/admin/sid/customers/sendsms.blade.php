@@ -43,8 +43,8 @@
                                <thead>
                                     <tr>
                                        <th></th>
-                                        <th>Customer</th>
                                         <th>Product</th>
+                                        <th>Customer</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -60,12 +60,18 @@
                                          <td>{{$item->customer->name}}</td>
                                         
                                          <td>
+                                            @php
+                                                 $c = \App\Customer::where("id",$item->customer_id)->first();
+                                            @endphp
+                                            @if ($c->sms_status != 2)
                                             <div class="form-check mx-sm-2">
                                                 <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" name="customer_id[]" class="custom-control-input" value="{{$item->customer_id}}">
                                                     <span class="custom-control-label"></span>
                                                 </label>
                                             </div>
+                                            @endif
+                                          
                                          </td>
                                     </tr>
                                     @endforeach
@@ -82,7 +88,7 @@
         <div class="card" style="min-height: 422px;">
             <div class="card-header"><h3>Message</h3></div>
             <div class="card-body">
-                <textarea name="message" id="" cols="38" rows="22">Hello, Kindly visit our office for your report within a week or contact us if you prefer EMS Services. CPMR, Mampong-Akuapem
+                <textarea name="message" id="" cols="38" rows="22" readonly>Hello, Kindly visit our office for your report within a week or contact us if you prefer EMS Services. CPMR, Mampong-Akuapem
 
                 </textarea>
                 

@@ -44,8 +44,9 @@ class SIDController extends Controller
     //**************************************** */ CUSTOMER SECTION ******************************************
 
     public function customer_index()
-    {
-      
+    {    
+
+        
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
@@ -198,17 +199,30 @@ class SIDController extends Controller
     Public function sendsms_index(){
        
         $data['customer_completed_reports'] = Product::where('overall_status',2)->where('archive',null)->get();
+        // $data['customer_completed_reports'] = Customer::whereIn("id",$customer_ids)->where("sms_status",Null)->get();
+        // return $data['customer_completed_reports'] = Customer::whereIn("id",$customer_ids)->where("sms_status",0)->get();
+
         return View('admin.sid.customers.sendsms', $data);
     }
 
     public function sendsms_create(Request $r){
+ 
+      if ($r->customer_id == Null) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Please select customer(s) before issuing SMS. Thank You');
+            return redirect()->back();
+    }
 
-     dd($r->all());
-     $contact = ["0245486001", "0245486001"];
-     $message = ["Hello John","Hi Abruzi"];
-
-     SendbulkSMS::sendBulkMessage($message,$contact);
-    // return 0;
+     $contacts = Customer::WhereIn("id",$r->customer_id)->pluck('company_phone')->toArray();
+    //  $names    = Customer::WhereIn("id",$r->customer_id)->pluck('first_name')->toArray();
+     for ($i=0; $i < count($contacts) ; $i++) { 
+        SendSMS::sendMessage('Hello, Kindly visit our office for your report within a week or contact us if you prefer EMS Services. CPMR, Mampong-Akuapem. Thank you',$contacts[$i]);
+        Customer::WhereIn("id",$r->customer_id)->update(['sms_status' => 2]);
+      }
+    Session::flash("message", "Message Successfully Sent. ");
+    Session::flash("message_title", "success");
+    return redirect()->route('admin.sid.customer.sendsmsindex');
+  
     }
 
     //**************************************** */ PRODUCT SECTION ******************************************
@@ -368,13 +382,13 @@ class SIDController extends Controller
 
         $actualprice = [$price_list->singlelab_price,$price_list->mutilabs_price,$price_list->alllabs_price];
         if (!in_array($request->price,$actualprice)) {
-           $sms_status = 0;
+            $sms_status = 0;
         }else { 
             $sms_status = 1;
           if ($customer->code == 'G') {
              SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 6 Weeks.',$customer->tell);
           }else {
-            SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
+             SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
           }
         }
 
