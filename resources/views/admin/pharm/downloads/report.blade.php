@@ -124,7 +124,9 @@ td, th {
 <tr>
     <th class="font" style="border:0px #fff">
         <span style="font-size:15px">RESULTS: </span><br>
-      
+        @if ($completed_report->pharm_testconducted == 3)
+        <span style="font-size:15.5px"><strong>Acute Toxicity Test</strong></span> <br><br>
+        @endif
     </th>
 
 </tr>
