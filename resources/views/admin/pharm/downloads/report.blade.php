@@ -124,10 +124,11 @@ td, th {
 <tr>
     <th class="font" style="border:0px #fff">
         <span style="font-size:15px">RESULTS: </span><br>
+        @if ($completed_report->pharm_testconducted == 3)
+        <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
+        @endif
     </th>
-    @if ($completed_report->pharm_testconducted == 3)
- <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
- @endif
+
 </tr>
 <tbody>
     <tr>
