@@ -229,7 +229,7 @@ td, th {
  
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
- <span class="font" style="font-size:14px"><strong>PROCEDURE: </strong></span> <br><br>
+ <span class="font" style="font-size:13.5px"><strong>PROCEDURE: </strong></span> <br><br>
  
  @endif
  <p style="font-size:16px; text-align: justify ">
