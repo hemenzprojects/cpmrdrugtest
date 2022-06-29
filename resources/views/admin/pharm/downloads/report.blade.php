@@ -125,9 +125,9 @@ td, th {
     <th class="font" style="border:0px #fff">
       
         @if ($completed_report->pharm_testconducted == 3)
-        <span style="font-size:15.5px"><strong>1. ACUTE TOXICITY TEST</strong></span> <br>
+        <span style="font-size:15.5px"><strong>1. ACUTE TOXICITY TEST</strong></span> <br><br>
         @endif
-        <span style="font-size:14px">RESULTS: </span><br><br>
+        <span style="font-size:14px">RESULTS: </span><br>
     </th>
 
 </tr>
@@ -229,9 +229,9 @@ td, th {
  
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
+ <span style="font-size:14px"><strong>PROCEDURE </strong></span> <br><br>
  @endif
  <p style="font-size:16px; text-align: justify ">
-    <span>Procedure</span>
     {!! $completed_report->pharm_standard !!}
 </p>
 
