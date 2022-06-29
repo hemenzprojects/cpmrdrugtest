@@ -212,7 +212,7 @@ td, th {
 
     <p style="font-size: 15px">
         <span style="font-size:16px">
-        <span style="font-size:15px"><strong>REMARKS:  </strong>
+        <span style="font-size:14px"><strong>REMARKS:  </strong>
         </span><br>
         {!! $completed_report->pharm_acute_comment !!}   
 
@@ -229,7 +229,7 @@ td, th {
  
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
- <span style="font-size:14px"><strong>PROCEDURE </strong></span> <br><br>
+ <span style="font-size:14px"><strong>PROCEDURE: </strong></span> <br><br>
  @endif
  <p style="font-size:16px; text-align: justify ">
     {!! $completed_report->pharm_standard !!}
