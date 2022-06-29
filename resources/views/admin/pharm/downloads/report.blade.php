@@ -229,8 +229,8 @@ td, th {
  
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
- <h4 class="font" style="font-size:14px; margin:10px; margin-top:15px"><strong> PROCEDURE: </strong></h4><br><br>
-
+ <span class="font" style="font-size:14px"><strong>PROCEDURE: </strong></span> <br><br>
+ 
  @endif
  <p style="font-size:16px; text-align: justify ">
     {!! $completed_report->pharm_standard !!}
