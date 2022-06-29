@@ -123,10 +123,11 @@ td, th {
 <table>
 <tr>
     <th class="font" style="border:0px #fff">
-        <span style="font-size:15px">RESULTS: </span><br>
+      
         @if ($completed_report->pharm_testconducted == 3)
-        <span style="font-size:15.5px"><strong>Acute Toxicity Test</strong></span> <br><br>
+        <span style="font-size:15.5px"><strong>1. ACUTE TOXICITY TEST</strong></span> <br><br>
         @endif
+        <span style="font-size:14px">RESULTS: </span><br>
     </th>
 
 </tr>
@@ -227,17 +228,20 @@ td, th {
  @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
  
  @if ($completed_report->pharm_testconducted == 3)
- <span style="font-size:15.5px"><strong>{{\App\PharmTestConducted::find(2)->name}} </strong></span> <br><br>
+ <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
  @endif
- <p style="font-size:16px; text-align: justify ">{!! $completed_report->pharm_standard !!}</p>
+ <p style="font-size:16px; text-align: justify ">
+    <span>Procedure</span>
+    {!! $completed_report->pharm_standard !!}
+</p>
 
- <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
+ <h4 class="font" style="font-size:14px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
  
  <p style="font-size: 16px; text-align: justify">
      {!! $completed_report->pharm_result !!}   
  </p> 
  
- <h4 class="font" style="font-size:15px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
+ <h4 class="font" style="font-size:14px; margin:10px; margin-top:15px"> <strong>REMARKS: </strong></h4>
 
  <p style="font-size: 16px; text-align: justifyl;margin-top:-px">
     {!! $completed_report->pharm_dermal_comment !!}   
