@@ -136,7 +136,7 @@ Route::get('/sendtest', function () {
    Route::get('sid/hod_office/pharm_completed_reports','AdminAuth\SID\SIDController@pharm_completed_reports')->name('admin.sid.pharm_completed_reports');
 
    Route::post('sid/micro_completed_reports/year','AdminAuth\SID\SIDController@micro_completed_yearlyreports')->name('admin.sid.microcompletedreports.year');
-
+   Route::get('sid/querryreport','AdminAuth\SID\SIDController@querry_report')->name('admin.sid.querryreport');
    
   });
 

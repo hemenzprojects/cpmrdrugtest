@@ -2033,4 +2033,11 @@ class SIDController extends Controller
        return $pdf->download('coverletter.pdf');
 
     }
+
+       public function querry_report(){
+         
+        $data['reportquerry'] = Customer::where('code','G')->with("product")->get();
+
+        return View('admin.sid.generalreport.allquerry', $data);
+       }
 }
