@@ -1824,6 +1824,30 @@ $('#phytoarchiveproduct').submit(function(e){
 })
 });
 
+
+$(document).ready(function() {
+
+ var modal = document.getElementById('carbonads');
+
+ function ClosePopUp(){
+	// modal.style.display="none";   
+  $("." +'hidefade').fadeOut('slow');  
+
+
+
+}
+ setTimeout(ClosePopUp,15000)
+
+//  function showPopUp(){
+//   $(".mymodal").toggle();
+// }
+//  setTimeout(showPopUp,21000);
+ 
+//  ClosePopUp();
+//  showPopUp();
+ });
+
+
 </script>
 
 

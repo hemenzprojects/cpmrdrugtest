@@ -23,7 +23,7 @@
          <tbody>
 
            @if ($single_multiple_lab == 0)
-        
+            
            @foreach ($final_reports['completed']->whereIN('id',$completed_reports)  as $final_report) 
                @include('admin.sid.temp.finalreporttemp')
            @endforeach

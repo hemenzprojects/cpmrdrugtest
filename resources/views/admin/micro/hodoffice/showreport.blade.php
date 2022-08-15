@@ -245,7 +245,18 @@ $product = \App\Product::find($report_id);
                                                                 @enderror
                                                                 <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
                                                                 <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with   PIN">
-                                                            </div>                         
+                                                            </div>  
+
+                                                             @php
+                                                               $expiry = App\Admin::find(Auth::guard('admin')->id());
+                                                             @endphp
+
+                                                            {{$expiry->dateExpiry()}}  
+                                                             
+                                                            
+
+                                                            
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

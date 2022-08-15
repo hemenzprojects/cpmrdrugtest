@@ -12,4 +12,5 @@ class Account extends Model
     {
         return $this->belongsTo('App\Product', 'product_id');
     }
+    
 }

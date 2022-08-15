@@ -113,11 +113,40 @@
 
 
                 <div class="main-content">
+                                  {{-- <div class="mymodal"  id="expirymodal" style="width: 350px">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="ik ik-x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="ik ik-x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="ik ik-x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <i class="ik ik-x"></i>
+                                        </button>
+                                    </div>
+                                  </div> --}}
+                                    
+    
                     <div class="container-fluid">
                         
                      @yield('content')
 
                     </div>
+                  
                 </div>
 
               @include('admin.layout.footer')

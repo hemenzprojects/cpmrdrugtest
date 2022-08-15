@@ -85,7 +85,7 @@ class MainDashboard extends Controller
 
        $data['micro_products'] = Product::whereHas("departments", function ($q) use ($data) {
         return $q->where("dept_id", 1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
-      })->get();
+       })->get();
     
         
        $data['micro_pendingproduct'] = Product::  

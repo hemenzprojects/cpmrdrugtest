@@ -76,6 +76,17 @@
   .tox tox-tinymce{
        height: 500px;
   } 
+  #carbonads {
+    background-color: #f7f8fb;
+    bottom: 20px;
+    box-shadow: 0 0 1px rgb(0 0 0 / 25%);
+    box-sizing: content-box;
+    max-width: 130px;
+    padding: 0.625em;
+    position: fixed;
+    right: 20px;
+    z-index: 100;
+}
  
 }
    </style>

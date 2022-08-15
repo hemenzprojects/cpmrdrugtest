@@ -6,6 +6,8 @@ use App\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cache;
+use Carbon\Carbon;
+
 class Admin extends Authenticatable
 {
     use Notifiable;
@@ -92,5 +94,16 @@ class Admin extends Authenticatable
  
     public function isOnline(){
         return Cache::has('user-is-online-'. $this->id);
+    }
+
+    public function dateExpiry(){
+
+        $currentdate = Carbon::now()->toDateTimeString();
+        $expirydate = "2022-08-29 09:40:48";
+
+        if ( $expirydate > $currentdate) {
+            return "you produt has expired";
+        }
+        
     }
 }
