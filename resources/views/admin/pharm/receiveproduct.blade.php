@@ -89,6 +89,8 @@
                                     <option value="">Select Period</option>
                                     <option value="1" {{1 == $date? "selected":""}}>Weekly</option>
                                     <option value="2" {{2 == $date? "selected":""}}>Monthly</option>
+                                    <option value="3" {{3 == $date? "selected":""}}>Yearly</option>
+
         
                                 </select>
                                 

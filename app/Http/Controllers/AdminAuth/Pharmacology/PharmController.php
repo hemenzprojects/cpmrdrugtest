@@ -115,6 +115,29 @@ class PharmController extends Controller
         }
     
       }
+
+      if ($r->date == 3) {
+        $year_start = \Carbon\Carbon::now('y');
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$year_start){
+           return $q->where("dept_id",2)->whereRaw('YEAR(product_depts.created_at)= ?', array($year_start));
+         })->get();
+
+        if ($r->status == 1) {
+          $year_start = \Carbon\Carbon::now('y');
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$year_start){
+             return $q->where("dept_id",2)->where("status",$r->status)->whereRaw('YEAR(product_depts.created_at)= ?', array($year_start));
+           })->get();
+        }
+        if ($r->status > 1) {
+          $year_start = \Carbon\Carbon::now('y');
+
+          $data['dept2'] = Department::find(2)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$year_start){
+             return $q->where("dept_id",2)->where("status",$r->status)->whereRaw('YEAR(product_depts.created_at)= ?', array($year_start));
+           })->get();
+        }
+      }
       elseif ($r->date == Null && $r->status == Null) {
     
       $data['dept2'] = Department::find(2)->products()->with('departments')->orderBy('status')

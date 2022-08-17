@@ -1709,6 +1709,9 @@ class SIDController extends Controller
         return $q->where("dept_id", 1)->where("status",4);
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
  
+    //   return $data['microtakenreports'] = Product::where("archive",1)->with('departments')->whereHas("departments", function($q){
+    //     return $q->where("dept_id", 3)->where("status",4);
+    //   })->orderBy('micro_reportdatecompleted', 'DESC')->get();
       return view('admin.sid.hodoffice.microcompletedreports',$data);
     }
 
