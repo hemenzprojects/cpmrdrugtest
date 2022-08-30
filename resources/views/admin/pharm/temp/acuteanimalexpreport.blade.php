@@ -63,7 +63,6 @@
                       @php
                          $data = $pharmreports->animalExperiment()->orderBy('id','ASC')->get();
                      @endphp
-
                      @for ($i = 0; $i < count([$data]); $i++)
                      {{$data[0]->dosage}}
                      @endfor 

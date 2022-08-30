@@ -178,6 +178,58 @@
         </div>
     
     </div>
+
+
+    {{-- <div class="card" style="overflow-x: scroll">
+        <div class="card-body">
+            <div class="text-center" style="padding: 10px"> 
+                <h4> Search Micro Archived Reports</h4>
+             </div>
+             
+           <form action="http://localhost/cpmrdrugtest/public/admin/pharm/producttype/productlist/search" class="" method="POST">
+               <input type="hidden" name="_token" value="cTKV6D0mvq7aMRmw7s59SQSfRtRGdme7RJSd10CQ">
+           <div class="row">
+                   <div class="col-md-3">
+                           <div class="form-group">
+                               <select name="product_type_id" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                   <option value="">Select Product Type </option>                                                                    
+                                   <option value="1">Not specified</option>
+                                   <option value="2">Decoction</option>
+                               </select>
+                           </div>
+                   </div>
+                   <div class="col-md-3">
+                       <div class="form-group">
+                           <select name="status" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                               <option value="">Select Product Status </option>
+                               <option value="1">Pending</option>
+                               <option value="2">Received</option>
+                               <option value="3">Inprogress</option>
+                               <option value="8" selected="">Completed</option>  
+                           </select>                         
+                       </div>
+                   </div>
+                   <div class="col-md-3">
+                       <div class="form-group">
+                           <select name="date" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                               <option value="">Select Period</option>
+                               <option value="1">Weekly</option>
+                               <option value="2">Monthly</option>
+                               <option value="3" selected="">Yearly</option>         
+                           </select>                  
+                       </div>
+                   </div>
+                   <div class="col-md-2">
+                       <button type="submit" class="btn btn-primary mr-2">Search List</button>
+                   </div>
+               
+           </div>
+          </form>
+
+          
+       
+        </div>
+    </div> --}}
  </div>
 
 @endsection

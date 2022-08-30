@@ -73,7 +73,6 @@ Route::get('/sendtest', function () {
    Route::post('sid/registered_product/report','AdminAuth\SID\SIDController@registeredproduct_report')->name('admin.sid.registeredproduct.report');
    Route::post('sid/deliverysheet/pdf/','AdminAuth\SID\SIDController@deliverysheet_pdf')->name('admin.sid.deliverysheet.pdf');
    Route::get('sid/producttype/productlist/{id}','AdminAuth\SID\SIDController@producttype_productlist')->name('admin.sid.producttype.productlist');
-
    Route::post('sid/product_registered/year','AdminAuth\SID\SIDController@yearlyproduct_registered')->name('admin.sid.productregistered.year');
 
    
@@ -137,6 +136,9 @@ Route::get('/sendtest', function () {
 
    Route::post('sid/micro_completed_reports/year','AdminAuth\SID\SIDController@micro_completed_yearlyreports')->name('admin.sid.microcompletedreports.year');
    Route::get('sid/querryreport','AdminAuth\SID\SIDController@querry_report')->name('admin.sid.querryreport');
+
+   Route::get('sid/reporthistory','AdminAuth\SID\SIDController@report_history')->name('admin.sid.reporthistory');
+
    
   });
 

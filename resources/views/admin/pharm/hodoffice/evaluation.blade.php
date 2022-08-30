@@ -37,7 +37,6 @@ $hod_anex = App\Admin::where('id',Auth::guard('admin')->id())->where('dept_offic
                     <div class="col-md-4">
                         @include('admin.pharm.temp.hodtaskboard1') 
                         @include('admin.pharm.temp.hodtaskboard2') 
-
                     </div>
                      <div class="col-md-8">
 

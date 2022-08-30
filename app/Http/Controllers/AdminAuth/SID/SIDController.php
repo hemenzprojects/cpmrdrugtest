@@ -1707,13 +1707,21 @@ class SIDController extends Controller
 
       $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
         return $q->where("dept_id", 1)->where("status",4);
+
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
  
-    //   return $data['microtakenreports'] = Product::where("archive",1)->with('departments')->whereHas("departments", function($q){
-    //     return $q->where("dept_id", 3)->where("status",4);
-    //   })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+  
+
       return view('admin.sid.hodoffice.microcompletedreports',$data);
-    }
+      }
+
+      public function micro_taken_reports(Request $r){
+        
+        return $data['microtakenreports'] = Product::where("archive",1)->with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status",4);
+      })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+
+      }
 
        public function pharm_completed_reports(){
 
@@ -1737,6 +1745,7 @@ class SIDController extends Controller
       }
 
       public function phyto_completed_reports(){
+
         $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
         $data['weekly_phytocompletedreports'] = Product::where('phyto_reportdatecompleted','>=', $data['week_start'])->with('departments')->whereHas("departments", function($q){
             return $q->where("dept_id", 3)->where("status",4);
@@ -2042,5 +2051,19 @@ class SIDController extends Controller
         $data['reportquerry'] = Customer::where('code','G')->with("product")->get();
 
         return View('admin.sid.generalreport.allquerry', $data);
+       }
+
+
+       public function report_history(){
+        
+        $data['report_history'] = Product::where('archive',1)->with('departments')->orderBy('updated_at', 'DESC')->get();
+
+       
+      $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        return $q->where("dept_id", 1)->where("status",4);
+
+      })->orderBy('micro_reportdatecompleted', 'DESC')->get();
+
+        return View('admin.sid.generalreport.reporthistory', $data);
        }
 }

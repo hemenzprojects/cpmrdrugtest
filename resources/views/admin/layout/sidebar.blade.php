@@ -47,8 +47,8 @@
                                       <div class="submenu-content">
   
                                       <a href="{{url('admin/sid/report/index')}}" class="menu-item">General Report</a>
-                                        {{-- <a href="pages/ui/badges.html" class="menu-item">Montly Report</a>
-                                        <a href="pages/ui/buttons.html" class="menu-item">Yearly Products</a> --}}
+                                        <a href="#" class="menu-item">Report History</a>
+                                        {{-- <a href="pages/ui/buttons.html" class="menu-item">Yearly Products</a> --}}
                                     </div>
                                 </div>
                                 <div class="nav-item has-sub">

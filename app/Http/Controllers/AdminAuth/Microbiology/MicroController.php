@@ -1564,7 +1564,6 @@ class MicroController extends Controller
                   return redirect()->back();
               }
 
-              return 1;
               $productdept = $productdepts->first();
               $productdept->status = 4;
               $productdept->update();

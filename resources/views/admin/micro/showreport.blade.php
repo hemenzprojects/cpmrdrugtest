@@ -135,7 +135,7 @@ $product = \App\Product::find($report_id);
                                 <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
                                 <input required id="userpin" type="password" class="form-control" name="PIN" placeholder="Sign with PIN">
                             </div>     
-                            dsj                    
+                                            
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

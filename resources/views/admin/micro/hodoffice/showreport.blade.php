@@ -247,11 +247,11 @@ $product = \App\Product::find($report_id);
                                                                 <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with   PIN">
                                                             </div>  
 
-                                                             @php
+                                                             {{-- @php
                                                                $expiry = App\Admin::find(Auth::guard('admin')->id());
                                                              @endphp
 
-                                                            {{$expiry->dateExpiry()}}  
+                                                            {{$expiry->dateExpiry()}}   --}}
                                                              
                                                             
 

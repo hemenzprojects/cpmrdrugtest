@@ -109,14 +109,13 @@
                                     </label>
                                     <li class="list-group-item dd-item" style="padding: 1px;border:1px" data-id="1">
                                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile{{$product->id}}" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-
                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">{{$product->code}}</span>  - {{$product->name}}
                                     </a>
                                     
                                     <hr>
                                    </li> 
                                
-                                    @endforeach
+                                @endforeach
                         
                             </ul>
 
