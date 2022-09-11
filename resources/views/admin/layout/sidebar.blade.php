@@ -40,14 +40,14 @@
                                        <a href="{{url('admin/sid/distribution/create')}}" class="menu-item">Product Distribution</a>
 
           
-                                    </div>
+                                </div>
                                 </div>
                                 <div class="nav-item has-sub">
                                     <a href="#"><i class="ik ik-folder-minus"></i><span>Report Section</span> 
                                       <div class="submenu-content">
   
                                       <a href="{{url('admin/sid/report/index')}}" class="menu-item">General Report</a>
-                                        <a href="#" class="menu-item">Report History</a>
+                                        <a href="{{url('admin/sid/reporthistory')}}" class="menu-item">Report History</a>
                                         {{-- <a href="pages/ui/buttons.html" class="menu-item">Yearly Products</a> --}}
                                     </div>
                                 </div>

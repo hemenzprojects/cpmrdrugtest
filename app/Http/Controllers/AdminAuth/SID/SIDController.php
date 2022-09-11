@@ -1705,7 +1705,7 @@ class SIDController extends Controller
         return $q->where("dept_id", 1)->where("status",4);
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
 
-      $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+      $data['microcompletedreports'] = Product::where('archive',Null)->with('departments')->whereHas("departments", function($q){
         return $q->where("dept_id", 1)->where("status",4);
 
       })->orderBy('micro_reportdatecompleted', 'DESC')->get();
@@ -1737,7 +1737,7 @@ class SIDController extends Controller
             return $q->where("dept_id", 2)->where("status",8);
           })->get();
 
-        $data['pharmcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        $data['pharmcompletedreports'] = Product::where('archive',Null)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 2)->where("status",8);
         })->orderBy('pharm_reportdatecompleted', 'DESC')->get();
 
@@ -1751,7 +1751,7 @@ class SIDController extends Controller
             return $q->where("dept_id", 3)->where("status",4);
           })->get();
 
-        $data['phytocompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        $data['phytocompletedreports'] = Product::where('archive',Null)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->orderBy('phyto_reportdatecompleted','DESC')->get();
   
@@ -2048,6 +2048,9 @@ class SIDController extends Controller
 
        public function querry_report(){
          
+         $tell = '0245486001';
+        SendSMS::sendMessage('Hi mike,thank you for submitting your product nibima to CPMR for analyses. The result of the analyses will be ready within 6 Weeks.',$tell);
+
         $data['reportquerry'] = Customer::where('code','G')->with("product")->get();
 
         return View('admin.sid.generalreport.allquerry', $data);
@@ -2055,15 +2058,47 @@ class SIDController extends Controller
 
 
        public function report_history(){
+
+         $data['year'] = date('Y');
+         $data['curentyear'] = date('Y');
+         $data['report_history'] = Product::where('archive',1)->with('departments')->whereHas("departments", function($q) use ($data){
+            return $q->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->orderBy('created_at', 'DESC')->get();
         
-        $data['report_history'] = Product::where('archive',1)->with('departments')->orderBy('updated_at', 'DESC')->get();
+        //   $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
+        //     return $q->where("dept_id", 1)->where("status",4);
+        //   })->orderBy('micro_reportdatecompleted', 'DESC')->get();
 
-       
-      $data['microcompletedreports'] = Product::with('departments')->whereHas("departments", function($q){
-        return $q->where("dept_id", 1)->where("status",4);
-
-      })->orderBy('micro_reportdatecompleted', 'DESC')->get();
-
-        return View('admin.sid.generalreport.reporthistory', $data);
+            return View('admin.sid.generalreport.reporthistory', $data);
        }
+       
+      public function yearlyreport_history(Request $r){
+          
+        $data['year'] = $r->year;
+        $data['curentyear'] = $r->year;
+
+        $data['report_history'] = Product::where('archive',1)->with('departments')->whereHas("departments", function($q) use ($data){
+            return $q->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->orderBy('created_at', 'DESC')->get();
+         
+          return View('admin.sid.generalreport.reporthistory', $data);
+      }
+
+
+       public function reject_archived_report(Request $r){
+
+
+        Product::with('departments')->whereIN('id',$r->sid_arcivereport_id)->whereHas("departments", function($q){
+            return $q->where("status",">",3);
+            })->update(['archive' => Null]);
+
+            Session::flash("message", "Report Successfully Rejected.");
+             Session::flash("message_title", "success");
+            return redirect()->route('admin.sid.reporthistory');
+
+
+        }
+       
+
+
 }

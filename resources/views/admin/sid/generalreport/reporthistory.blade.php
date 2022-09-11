@@ -37,7 +37,7 @@
             <div class="row align-items-center">
                 <div class="col-md-12">
                   
-                    {{ Form::open(array('action'=>"AdminAuth\SID\SIDController@micro_completed_yearlyreports", 'method'=>'post','class'=>'form-horizontal')) }}
+                    {{ Form::open(array('action'=>"AdminAuth\SID\SIDController@yearlyreport_history", 'method'=>'post','class'=>'form-horizontal')) }}
                     {{Form::token()}}
                     <div class="input-group" style=" margin-top: 10px;">
                         {{ Form::selectRange('year',date('Y') -1, date('Y'), isset($year) ?? $year, array('class'=>'form-','placeholder'=>'Select year')) }}
@@ -45,16 +45,20 @@
                     </span>
                     </div>
                     {{ Form::close() }} 
-                    <form  id="microarchiveproduct" action="{{url('admin/sid/hod_office/micro_completed_report/update')}}" class="forms-sample" method="POST">
+                    <form  id="sidarchiveproduct" action="{{url('admin/sid/reject/archivedreport')}}" class="forms-sample" method="POST">
                         {{ csrf_field() }}
+                        <div class="text-center"> 
+                            <h4 class="card-title mt-10"> {{$curentyear}} Archived Reports</h4>                           
+                        </div>
 
                      <table id="order-table_micro" class="table table-striped table-bordered nowrap dataTable">
                         <thead>
                             <tr>
                                 <th>Code</th>
                                 <th>Name</th>
-                                <th>download</th>
+                                {{-- <th>download</th> --}}
                                 <th>Lab Status</th>
+                                <th>Date Received</th>
                                 <th>Date Completed</th>
                                 <th>Actions</th>
                            </tr>
@@ -88,7 +92,7 @@
                             <td class="font">{{$product->name}}
                                 
                             </td>
-                            <td class="font">
+                            {{-- <td class="font">
 
                                 <div class="row">
                                     @if ($product->micro_hod_evaluation == 2)
@@ -105,7 +109,7 @@
                                     @endif
                                 </div>
 
-                            </td>
+                            </td> --}}
                             <td>
                                 
                                 @foreach ($product->ProductDept->where('dept_id',1)->where('status','>', 0) as $item)
@@ -134,13 +138,18 @@
 
                             </td>
                             <td class="font">
-                                {{$product->micro_reportdatecompleted}}  
+                                @foreach ($product->ProductDept as $item)
+                                <ul><li style="font-size:10px">  {{$item->created_at}}</li></ul>   
+                                @endforeach
                             </td>
-
+                            <td class="font">
+                          {{$product->micro_reportdatecompleted}} 
+                          </td>
+                         
                             <td class="font">
                                 <div class="form-check mx-sm-2">
                                     <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input microselect" name=""  value="{{$product->id}}" >
+                                    <input type="checkbox" class="custom-control-input sidarchiveselect" name=""  value="{{$product->id}}" >
                                         <span class="custom-control-label">&nbsp; </span>
                                     </label>
                                 </div>
@@ -152,10 +161,9 @@
                         </tbody>
                     </table>
                       <select name="condition" id="">
-                        <option value="1">Complete Report</option>
-                          <option value="">Reject Report</option>
+                          <option value="">Reject Archived Report</option>
                       </select>
-                      <button onclick="return confirm('Please comfirm selected items.')"  class="" type="submit"> Submit</button>
+                      <button onclick="return confirm('Please comfirm selected items .')"  class="" type="submit"> Reject</button>
                     </form>
  
                 </div>

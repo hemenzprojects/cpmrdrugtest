@@ -155,7 +155,7 @@
 
 
                             <select name="condition" id="">
-                                <option value="1">Complete Report</option>
+                                <option value="1">Archive Report</option>
                                   <option value="">Reject Report</option>
                               </select>
                               <button onclick="return confirm('Please comfirm selected items.')"  class="" type="submit"> Submit</button>                        </form>

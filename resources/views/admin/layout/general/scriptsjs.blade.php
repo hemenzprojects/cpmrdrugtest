@@ -1770,8 +1770,34 @@ $('#microarchiveproduct').submit(function(e){
     micro_selectedItems=[]
     e.currentTarget.submit();
 })
+
+
 });
 
+
+var rarchive_selectedItems = [];
+$(document).on('change','.sidarchiveselect',function(){
+  if($(this).is(':checked')){
+    rarchive_selectedItems.push($(this).val())
+  }else{
+    var index = rarchive_selectedItems.indexOf($(this).val())
+    if(index != -1)
+    rarchive_selectedItems.splice(index,1)
+  }
+  console.log(rarchive_selectedItems)
+
+$('#sidarchiveproduct').submit(function(e){
+  e.preventDefault();
+  rarchive_selectedItems.forEach((item)=>{
+      console.log(`<input type='hidden' value='${item}' name='sid_arcivereport_id[]'`)
+      $('#sidarchiveproduct').prepend(`<input type='hidden' value='${item}' name='sid_arcivereport_id[]'>`)
+    })
+    rarchive_selectedItems=[]
+    e.currentTarget.submit();
+})
+
+
+});
 </script>
 
 <!-- pharmarchiveproduct -->
