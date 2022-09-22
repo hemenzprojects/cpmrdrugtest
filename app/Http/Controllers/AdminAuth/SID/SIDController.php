@@ -2056,6 +2056,38 @@ class SIDController extends Controller
         return View('admin.sid.generalreport.allquerry', $data);
        }
 
+       
+       public function audit_index(){
+       
+        // $get_customerid = Product::where('archive',1)->pluck('customer_id')->toArray();
+
+        //  $customer_id = array_unique( $get_customerid );
+
+        //  $data['customers'] = Customer::whereIN('id',$customer_id)->whereHas('product')->get();
+
+        $data['year'] = date('Y');
+        $data['curentyear'] = date('Y');
+
+        $data['report_history'] = Product::where('archive',1)->with('departments')->whereHas("departments", function($q) use ($data){
+           return $q->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+         })->orderBy('created_at', 'DESC')->get();
+
+        return View('admin.sid.audit.index', $data);
+      }
+
+      public function audit_querry(Request $r){
+          
+        $data['year'] = $r->year;
+        $data['curentyear'] = $r->year;
+
+        $data['report_history'] = Product::where('archive',1)->with('departments')->whereHas("departments", function($q) use ($data){
+            return $q->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
+          })->orderBy('created_at', 'DESC')->get();
+         
+          return View('admin.sid.audit.index', $data);
+        }
+
+
 
        public function report_history(){
 

@@ -1413,9 +1413,10 @@ class MicroController extends Controller
               $p= Product::find($id);
               $p->update([
                 'micro_hod_evaluation'=> $r->evaluate,
-                'micro_approved_by'=>$r->adminid,
-
+                'micro_approved_by'=>$r->adminid, 
+                
               ]);
+
               if ($r->evaluate ==1) {
                 $p->update(['micro_process_status'=> 0, 'micro_appoved_by'=> Null]);
               }
@@ -1423,6 +1424,7 @@ class MicroController extends Controller
              Session::flash("message", "Report Evaluation completed.");
              Session::flash("message_title", "success");  
              return redirect()->back();
+
             }
 
 

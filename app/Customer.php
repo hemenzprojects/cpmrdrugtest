@@ -47,7 +47,7 @@ class Customer extends Authenticatable
     {
         return $this->hasMany('App\product');
     }
-    
+
     public function getCreatedByAttribute(){
 
         if ($this->admin){

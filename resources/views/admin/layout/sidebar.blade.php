@@ -205,7 +205,19 @@
                                              
                                       @endif
                                    
-                              
+                                      @if (Auth::guard('admin')->user()->dept_office_id == 5 && Auth::guard('admin')->user()->dept_id ==4)
+                                          
+                                      <div class="nav-lavel">Audit Section</div>
+                                      <div class="nav-item has-sub">
+                                          <a href="#"><i class="ik ik-file-text"></i><span>General Audit Reports</span></a>
+                                          <div class="submenu-content">
+                                          <a href="{{route('admin.sid.auditindex')}}" class="menu-item">Report customer product status</a>
+
+                                          </div>
+                                       </div>  
+                                      @endif
+                               
+
                                 <div class="nav-lavel">Support</div>
 
                                 {{-- SID --}}

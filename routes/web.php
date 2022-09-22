@@ -141,7 +141,10 @@ Route::get('/sendtest', function () {
    Route::Post('sid/yearlyreporthistory','AdminAuth\SID\SIDController@yearlyreport_history')->name('admin.sid.yearlyreporthistory');
    Route::Post('sid/reject/archivedreport','AdminAuth\SID\SIDController@reject_archived_report')->name('admin.sid.rejectarchivedreport');
 
-
+   
+   // Audit section 
+   Route::get('sid/auditindex','AdminAuth\SID\SIDController@audit_index')->name('admin.sid.auditindex');
+   Route::Post('sid/auditquerry','AdminAuth\SID\SIDController@audit_querry')->name('admin.sid.auditquerry');
    
   });
 
