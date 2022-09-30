@@ -198,7 +198,13 @@ class SIDController extends Controller
 
     Public function sendsms_index(){
        
-        $data['customer_completed_reports'] = Product::where('overall_status',2)->where('archive',null)->get();
+        $data['year'] = \Carbon\Carbon::now()->year;
+        $data['customer_completed_report_1'] = Product::where('overall_status',2)->where('archive',null)->whereRaw('YEAR(created_at)= ?', array($data['year']))->get();
+        $data['customer_completed_reports_2'] = Product::where('overall_status',2)->where('archive',1)->whereRaw('YEAR(created_at)= ?', array($data['year']))->get();
+
+
+        $data['customer_completed_reports'] = $data['customer_completed_report_1']->merge($data['customer_completed_reports_2']);
+
         // $data['customer_completed_reports'] = Customer::whereIn("id",$customer_ids)->where("sms_status",Null)->get();
         // return $data['customer_completed_reports'] = Customer::whereIn("id",$customer_ids)->where("sms_status",0)->get();
 

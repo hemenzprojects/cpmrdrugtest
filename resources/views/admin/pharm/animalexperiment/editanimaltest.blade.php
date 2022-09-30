@@ -174,6 +174,8 @@
                                                     <option value="4">Intra Veinous</option>
                                                     <option value="5">Applied Topical</option>
                                                     <option value="6">Applied Topical & Intrademal</option>
+                                                    <option value="7">Suppository</option>
+
                                                 </select>
                                                 </div>
                                         

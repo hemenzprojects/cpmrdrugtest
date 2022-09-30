@@ -709,7 +709,8 @@ class PharmController extends Controller
 
              public function animalexperiment_store(Request $r){
 
-              // dd($r->all());         
+              // dd($r->all());      
+                    
                 $data = $r->validate([
                 'product_id' => 'required', 
                 'pharm_testconducted' => 'required|numeric', 
@@ -734,7 +735,7 @@ class PharmController extends Controller
                   'pharm_testconducted_id'=>$r->pharm_testconducted,
                   'animal_model'=>$r->animalmodel[$i],
                   'weight'=>$r->weight[$i],
-                  'volume'=>$r->volume_given[$i],
+                  // 'volume'=>$r->volume_given[$i],
                   'time_administration'=>$r->time_administration[$i], 
                   'death'=>$r->death[$i], 
                   'toxicity'=>serialize($toxicity[$i]),
@@ -906,7 +907,7 @@ class PharmController extends Controller
                       'pharm_testconducted_id'=>$r->pharm_testconducted,
                       'animal_model'=>$r->animalmodel[$i],
                       'weight'=>$r->weight[$i],
-                      'volume'=>$r->volume_given[$i],
+                      // 'volume'=>$r->volume_given[$i],
                       'time_administration'=>$r->time_administration[$i], 
                       'death'=>$r->death[$i], 
                       'toxicity'=>serialize($toxicity[$i]),

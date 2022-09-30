@@ -61,6 +61,9 @@ class PharmAnimalExperiment extends Model
         if ($this->method ==6) {
             return 'Applied Topical & Intradermal';
         }  
+        if ($this->method ==6) {
+            return 'Suppository';
+        }  
      }
 
 }
