@@ -2,7 +2,7 @@
     $nowdate =  $data['year'] = \Carbon\Carbon::now();
 @endphp
 
-    @if ($nowdate->format('Y-m-d') > "2022-11-14")
+    @if ($nowdate->format('Y-m-d') >  "2022-11-14")
     <style>
         .sbSLMLicenseNote {
         background-color: #efe;
