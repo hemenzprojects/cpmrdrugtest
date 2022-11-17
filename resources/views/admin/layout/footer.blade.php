@@ -1,4 +1,4 @@
-<div class="hidefade" id="carbonads">
+{{-- <div class="hidefade" id="carbonads">
          <span>
            <span class="carbon-wrap ">
             <a href="https://ngrok.com/pricing" class="carbon-img" target="_blank" rel="noopener sponsored">
@@ -8,7 +8,7 @@
                      Important: EV Local SSLs may take up to 2 weeks to issue after renewal and activation.<a style="color: blue" href="https://ngrok.com/tos"> ngrok license</a>  
             </span>
         </span>
-    </div>
+    </div> --}}
 <footer class="footer">
     
     <div class="w-100 clearfix">
