@@ -108,12 +108,12 @@
                  </select>                                
               </div>
          </div>
-        </div>
+         </div>
      
 
-        @include('admin.pharm.temp.signaturetemp') 
+         @include('admin.pharm.temp.signaturetemp') 
 
-        <div class="row" style="margin-top: 110px">
+         <div class="row" style="margin-top: 110px">
             <div class="col-9">
                 <div class="row">
                    
