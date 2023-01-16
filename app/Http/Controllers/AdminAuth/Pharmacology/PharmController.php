@@ -709,7 +709,7 @@ class PharmController extends Controller
 
              public function animalexperiment_store(Request $r){
 
-              // dd($r->all());      
+              dd($r->all());      
                     
                 $data = $r->validate([
                 'product_id' => 'required', 
