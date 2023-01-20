@@ -87,7 +87,7 @@
         
         </div>
 
-           <div class="row">
+           {{-- <div class="row">
        
             <div class="col-md-4">
                 <div class="card"  >
@@ -203,11 +203,8 @@
                         
                                     </table>
                             
-                                         {{--                              
-                                    <div class="form-group">
-                                        <label for="exampleTextarea1"> <strong>Cover Letter:</strong></label>
-                                        <textarea class="form-control" id="summernote" rows="4"> {{$final_report}} </textarea>
-                                    </div> --}}
+                                
+                                    
                             </div>
 
                             @endforeach
@@ -216,7 +213,7 @@
                     </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
  @endif

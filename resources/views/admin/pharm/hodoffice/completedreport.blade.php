@@ -25,6 +25,39 @@
         <div class="card-header d-block">
             <h3>Pharmacology Completed Rports  </h3>
         </div>
+
+        <div class="col col-sm-9">
+            <div class="card-search with-adv-search dropdown">
+                <form action="{{route('admin.pharm.report.hod_office.completereportsearch')}}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-3">
+                        <span style="margin: 5">From</span>  
+                        <input type="date" name="from_date" class="form-control" value="{{ date('Y-m-d') }}">
+                        </div>
+                      
+                        <div class="col-md-3">
+                            <span style="margin: 5px">To  </span>  <input type="date" name="to_date" class="form-control" value="{{ date('Y-m-d') }}">
+                        </div>
+                        <div class="col-md-3">
+                            <span style="margin: 5px">User</span>  
+                            <select name="pharm_admin" id="" class="form-control">
+                                <option value="">All Users</option>
+                                @foreach ($admins as $item)
+                               <option value="{{$item->id}}">{{$item->full_name}}</option> 
+                                @endforeach
+                               
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="hidden" name="samplepreparation">
+                            <button style="margin-top: 20px" type="submit" class="btn btn-primary mr-2">search</button>  
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
         <div class="card-body">
             <table id="order-table" class="table table-striped table-bordered nowrap">
          <thead>

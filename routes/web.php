@@ -332,6 +332,7 @@ Route::get('/sendtest', function () {
 
    Route::get('pharm/report/hod_office/complete_report/{id}','AdminAuth\Pharmacology\PharmController@hod_complete_report')->name('admin.pharm.hod_office.complete_report');
    Route::get('pharm/report/hod_office/finalreport_send/{id}','AdminAuth\Pharmacology\PharmController@hod_finalreport_send')->name('admin.pharm.hod_office.finalreport.send');
+   Route::post('pharm/report/hod_office/completereportsearch','AdminAuth\Pharmacology\PharmController@completedreport_search')->name('admin.pharm.report.hod_office.completereportsearch');
 
     //Pharmacology Hod Sign to Approve */
     Route::post('/pharm/hod_office/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodsign')->name('admin.pharm.hod_office.checkhodsign');

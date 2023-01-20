@@ -709,7 +709,7 @@ class PharmController extends Controller
 
              public function animalexperiment_store(Request $r){
 
-              dd($r->all());      
+              // dd($r->all());      
                     
                 $data = $r->validate([
                 'product_id' => 'required', 
@@ -1600,7 +1600,7 @@ class PharmController extends Controller
               public function completedreports_all(){
 
                 $data['year'] = \Carbon\Carbon::now()->year;
-
+                $data['admins'] = Admin::where('dept_id',2)->get();
                 $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use ($data){
                 return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
                 })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->get();
@@ -1673,6 +1673,22 @@ class PharmController extends Controller
 
              return view('admin.pharm.completedreport',$data);
              
+             }
+
+             public function completedreport_search(Request $r){
+           
+              $data['from_date'] = "2022";
+              $data['to_date'] = $r->to_date;
+                
+                $data['year'] = \Carbon\Carbon::now()->year;
+                $data['admins'] = Admin::where('dept_id',2)->get();
+                $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use ($data){
+                return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ?', array($data['from_date']));
+                
+                })->get();
+
+              //  return  $data['completed_reports'] ;
+                return view('admin.pharm.hodoffice.completedreport',$data);
              }
 
              public function generalreport_index(){
