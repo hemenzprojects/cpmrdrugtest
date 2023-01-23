@@ -240,6 +240,7 @@ class SIDController extends Controller
             return redirect()->route('admin.general.dashboard');
 
         } 
+        $data['year'] = \Carbon\Carbon::now()->year;
 
         $data['price_list'] = ProductPriceList::where('action',1)->first();
 
