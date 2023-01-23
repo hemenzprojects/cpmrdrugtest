@@ -44,7 +44,10 @@ class MainDashboard extends Controller
     {  
 
         //************************************ SID */
-        $data['year'] = \Carbon\Carbon::now()->year;
+        $data['year'] = "2022";
+
+        if (Auth::guard('admin')->user()->dept_id == '4') {
+            
 
          $data['final_reports'] = Product::where('overall_status', 2)    
         ->whereHas("departments", function ($q) use ($data) {
@@ -53,36 +56,39 @@ class MainDashboard extends Controller
 
         $data['all_product'] = Product::whereRaw('YEAR(created_at)= ?', array($data['year']))->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        })->get();
+        })->count();
         
         $data['all_pendingproduct'] = Product::where('overall_status','<', 2)    
         ->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        })->get();
+        })->count();
 
         $data['all_completedproduct'] = Product::where('overall_status', 2)
         ->whereHas("departments", function ($q) use ($data) {
             return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
-        })->get();
+        })->count();
 
         $data['micro_failedproduct'] = Product::where('micro_grade','!=',2)
         ->whereHas("departments", function ($q) use ($data) {
-            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
 
         $data['pharm_failedproduct'] = Product::where('pharm_grade','!=',2)
         ->whereHas("departments", function ($q) use ($data) {
-            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("status", 8)->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
         $data['phyto_failedproduct'] = Product::where('phyto_grade','!=',2)
         ->whereHas("departments", function ($q) use ($data) {
-            return $q->whereRaw('YEAR(received_at)= ?', array($data['year']));
+            return $q->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
         })->get();
 
         $data['all_failedproduct'] = $data['micro_failedproduct']->merge($data['pharm_failedproduct'])->merge($data['phyto_failedproduct']);
 
+    }
       //****************************************** MICRO */
 
+      if (Auth::guard('admin')->user()->dept_id == '1') {
+            
        $data['micro_products'] = Product::whereHas("departments", function ($q) use ($data) {
         return $q->where("dept_id", 1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
        })->get();
@@ -103,8 +109,11 @@ class MainDashboard extends Controller
           return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
 
+    }
         //****************************************** PHARM */
 
+        if (Auth::guard('admin')->user()->dept_id == '2') {
+            
          $data['pharm_products'] = Product::whereHas("departments", function ($q) use ($data) {
             return $q->where("dept_id", 2)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
@@ -158,8 +167,10 @@ class MainDashboard extends Controller
 
            $data['samples_animalhouse_pending'] = $data['samples_notsubmited']->merge($data['samples_submited_pending']);
 
-
+        }
           //*************************************************Animal House ************************** */
+        if (Auth::guard('admin')->user()->dept_id == '2' && (Auth::guard('admin')->user()->dept_office_id == '3' )) {
+    # code...
 
           $data['pharm_animalexp_products'] = Product::where('pharm_process_status',4)->whereHas("departments", function ($q) use ($data) {
             return $q->where("dept_id", 2)->where("status",3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
@@ -180,8 +191,10 @@ class MainDashboard extends Controller
               return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
           
+        }
       //****************************************** PHYTO */
-
+      if (Auth::guard('admin')->user()->dept_id == '4') {
+            
        $data['phyto_products'] = Product::whereHas("departments", function ($q) use ($data) {
         return $q->where("dept_id", 3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
@@ -201,7 +214,7 @@ class MainDashboard extends Controller
       ->whereHas("departments", function ($q) use ($data) {
           return $q->where("dept_id", 3)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
-
+      }
       return view('admin.home', $data);
         
     }

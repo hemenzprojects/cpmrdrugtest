@@ -12,7 +12,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="state">
                                     <h6> Products at the lab</h6>
-                                    <h2> {{count($all_product)}}
+                                    <h2> {{$all_product}}
                                     </h2>
                                 </div>
                                 <div class="icon">
@@ -32,7 +32,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="state">
                                     <h6>Completed Products</h6>
-                                    <h2>{{count($all_completedproduct)}}</h2>
+                                    <h2>{{$all_completedproduct}}</h2>
                                 </div>
                                 <div class="icon">
                                     <i class="ik ik-square"></i>  
@@ -51,7 +51,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="state">
                                     <h6>Pending Products</h6>
-                                    <h2>{{count($all_pendingproduct)}}</h2>
+                                    <h2>{{$all_pendingproduct}}</h2>
                                 </div>
                                 <div class="icon">
                                     <i class="ik ik-square"></i>  

@@ -241,7 +241,6 @@ class SIDController extends Controller
 
         } 
 
-        $data['year'] = \Carbon\Carbon::now()->year;
         $data['price_list'] = ProductPriceList::where('action',1)->first();
 
         $data['all_product'] = Product::whereHas("departments", function ($q) use ($data) {
