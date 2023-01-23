@@ -44,7 +44,7 @@ class MainDashboard extends Controller
     {  
 
         //************************************ SID */
-        $data['year'] = "2022";
+        $data['year'] = \Carbon\Carbon::now()->year;
 
         if (Auth::guard('admin')->user()->dept_id == '4') {
             
