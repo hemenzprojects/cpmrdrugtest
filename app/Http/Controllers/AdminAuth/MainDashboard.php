@@ -197,7 +197,7 @@ class MainDashboard extends Controller
           return view('admin.home', $data);
         }
       //****************************************** PHYTO */
-      if (Auth::guard('admin')->user()->dept_id == '4') {
+      if (Auth::guard('admin')->user()->dept_id == '3') {
             
        $data['phyto_products'] = Product::whereHas("departments", function ($q) use ($data) {
         return $q->where("dept_id", 3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
