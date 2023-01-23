@@ -84,6 +84,7 @@ class MainDashboard extends Controller
 
         $data['all_failedproduct'] = $data['micro_failedproduct']->merge($data['pharm_failedproduct'])->merge($data['phyto_failedproduct']);
 
+        return view('admin.home', $data);
     }
       //****************************************** MICRO */
 
@@ -108,6 +109,8 @@ class MainDashboard extends Controller
       ->whereHas("departments", function ($q) use ($data) {
           return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
+
+      return view('admin.home', $data);
 
     }
         //****************************************** PHARM */
@@ -167,6 +170,7 @@ class MainDashboard extends Controller
 
            $data['samples_animalhouse_pending'] = $data['samples_notsubmited']->merge($data['samples_submited_pending']);
 
+           return view('admin.home', $data);
         }
           //*************************************************Animal House ************************** */
         if (Auth::guard('admin')->user()->dept_id == '2' && (Auth::guard('admin')->user()->dept_office_id == '3' )) {
@@ -190,7 +194,7 @@ class MainDashboard extends Controller
           ->whereHas("departments", function ($q) use ($data) {
               return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
-          
+          return view('admin.home', $data);
         }
       //****************************************** PHYTO */
       if (Auth::guard('admin')->user()->dept_id == '4') {
@@ -214,8 +218,10 @@ class MainDashboard extends Controller
       ->whereHas("departments", function ($q) use ($data) {
           return $q->where("dept_id", 3)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
       })->get();
-      }
+
       return view('admin.home', $data);
+      }
+      
         
     }
 
