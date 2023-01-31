@@ -194,6 +194,7 @@ class MainDashboard extends Controller
           ->whereHas("departments", function ($q) use ($data) {
               return $q->where("dept_id", 2)->where("status",7)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();
+          
           return view('admin.home', $data);
         }
       //****************************************** PHYTO */
