@@ -1766,22 +1766,22 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-           
-         $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+         
+     $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
   
-        ->with('pchemconstReport')->whereHas('pchemconstReport');
+        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
 
          if(count($phytocompletedreports->get()) < 1){     
-          
+            return redirect()->back();
             Session::flash('messagetitle', 'warning');
             Session::flash('message', 'Check error! count is more than one');
             return redirect()->back();
           }
 
          if ($r->condition == Null) {
-            
+          
             $data = 
             [ 
             'status' => 3,
