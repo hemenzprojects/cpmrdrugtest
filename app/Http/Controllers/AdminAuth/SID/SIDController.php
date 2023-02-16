@@ -1766,7 +1766,7 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-         
+        return $r->phyto_completedproduct_id;     
          $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
@@ -1781,7 +1781,7 @@ class SIDController extends Controller
           }
 
          if ($r->condition == Null) {
-            return $r->phyto_completedproduct_id;
+            
             $data = 
             [ 
             'status' => 3,
