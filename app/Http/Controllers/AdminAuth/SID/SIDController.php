@@ -1771,7 +1771,7 @@ class SIDController extends Controller
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
   
-        ->with('pchemconstReport')->whereHas('pchemconstReport')->get();
+        ->with('pchemconstReport')->whereHas('pchemconstReport');
 
          if(count($phytocompletedreports->get()) < 1){     
             return redirect()->back();
