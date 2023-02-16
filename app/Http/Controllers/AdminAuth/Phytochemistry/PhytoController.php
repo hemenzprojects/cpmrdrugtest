@@ -257,7 +257,9 @@ class PhytoController extends Controller
               $products =Product::where('id', $r->product_id)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id", 3)->where("status", 2);
                 });
-                  if(count($products->get()) < 1){     
+                  if(count($products->get()) < 1){    
+                    Session::flash('message_title', 'error');
+                    Session::flash('message', ' test error detected'); 
                     return redirect()->back();
                }
               $checkifexist = PhytoOrganolepticsReport::where('product_id',$r->product_id)->get();
@@ -1416,6 +1418,7 @@ class PhytoController extends Controller
             $product = Product::where('id',$id)->where('phyto_hod_evaluation',0)->whereHas("departments", function($q){
              return $q->where("dept_id", 3)->where("status", 3);
              })->first();
+
              if($product){
                Session::flash('message_title', 'error');
                Session::flash('message', 'Sorry product under evaluation and can not be deleted. Thank You');     
@@ -1430,6 +1433,7 @@ class PhytoController extends Controller
                 return redirect()->back();
               }
              
+              return 0;
              PhytoOrganolepticsReport::where('product_id',$id)->delete();
              PhytoPhysicochemDataReport::where('product_id',$id)->delete();
              PhytoChemicalConstituentsReport::where('product_id',$id)->delete();
