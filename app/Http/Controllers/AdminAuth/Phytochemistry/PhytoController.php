@@ -1433,7 +1433,7 @@ class PhytoController extends Controller
                 return redirect()->back();
               }
              
-              return 0;
+              
              PhytoOrganolepticsReport::where('product_id',$id)->delete();
              PhytoPhysicochemDataReport::where('product_id',$id)->delete();
              PhytoChemicalConstituentsReport::where('product_id',$id)->delete();
