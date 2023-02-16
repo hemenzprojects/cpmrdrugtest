@@ -170,12 +170,9 @@ class MainDashboard extends Controller
 
            $data['samples_animalhouse_pending'] = $data['samples_notsubmited']->merge($data['samples_submited_pending']);
 
-           return view('admin.home', $data);
-        }
+        
           //*************************************************Animal House ************************** */
-        if (Auth::guard('admin')->user()->dept_id == '2' && (Auth::guard('admin')->user()->dept_office_id == '3' )) {
-    # code...
-
+      
           $data['pharm_animalexp_products'] = Product::where('pharm_process_status',4)->whereHas("departments", function ($q) use ($data) {
             return $q->where("dept_id", 2)->where("status",3)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->get();

@@ -21,7 +21,7 @@ class SendSMS{
                    curl_setopt($ch, CURLOPT_VERBOSE, true); 
                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                   $result = curl_exec($ch); 
+                   $result = curl_exec($ch);  
                    $error = curl_error($ch);  
                   //  dd($error);
                 

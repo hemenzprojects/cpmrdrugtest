@@ -119,7 +119,7 @@
    @include('admin.pharm.temp.dashboardtemp')
 @endif
 
-{{-- @if (Auth::guard('admin')->user()->dept_office_id ==3)
+@if (Auth::guard('admin')->user()->dept_id ==2 && (Auth::guard('admin')->user()->dept_office_id == 3))
     
  <div class="">
      <div class="">
@@ -205,7 +205,8 @@
      
      </div>
  </div>
-@endif --}}
+
+@endif
 
 @if (Auth::guard('admin')->user()->dept_id ==3)
     

@@ -559,7 +559,7 @@ class MicroController extends Controller
                   $product->micro_analysed_by = Auth::guard('admin')->id();
                   $product->update();
 
-               if ($r->test_conducted_id && $r->efficacyanalyses){
+               if ($r->test_conducted_id  && $r->efficacyanalyses){
                  
                 if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 1) {
                   $conclustions = MicroReportConclusion::findorFail(5); 

@@ -96,7 +96,7 @@
                             <h6 ></h6>
                         </ul>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-sm"  id="dynamic_field" style="scrollX: true">
+                            <table class="table table-striped table-bordered table-sm"  id="" style="scrollX: true">
                                 <thead>
                                     <tr>
                                     
@@ -273,6 +273,65 @@
         </div>
         </div>
 
+        
+   
+
+        <div class="card">
+            <div class="card-body">
+            <div class="dt-responsive" style="overflow-x:auto;">
+                <ul class="nav justify-content-center" style="margin-top: 10px"> 
+                    <h6></h6><hr>
+                </ul><br>
+                <table class="table table-striped table-bordered table-sm"  id="dynamic_field" style="scrollX: true">
+                    
+                    <thead>
+                    <tr>
+                        <th>Animal Model
+                        </th>
+                        <th>Weight</th>
+                        <th>Dosage</th>
+                        <th>Route of Administration </th>
+                        <th>Time of Administration</th>
+                        <th>SignsofToxicity<br>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-md-12">
+                                      <label class="custom-control custom-checkbox">
+                                          
+                                          <input type="checkbox" id="toxicity1" class="custom-control-input" value="1"><span></span>
+                                      <span class="custom-control-label">All Nill</span>
+                                  </label>
+                            </div> 
+                        </th>
+                        <th>Death</th>
+                        <th>Time of Death</th>
+                        <th> Sex<br>
+                           <div class="row" style="margin-top: 10px">
+                              <div class="col-md-6">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="male_sex" class="custom-control-input" value="1"><span></span>
+                                    <span class="custom-control-label">M</span>
+                                </label>
+                                </div> 
+                                <div class="col-md-6">
+                                        <label class="custom-control custom-checkbox">
+                                      <input type="checkbox" id="female_sex" class="custom-control-input" value="2"> 
+                                        <span class="custom-control-label">F</span>
+                                    </label>
+                                </div>
+                           </div>
+                        </th>
+    
+                        <th><button type="button" name="add" id="add" class="btn btn-success">Add</button>
+                        </th>
+                    </tr>
+                    </thead>
+    
+                </table>
+             
+            </div>
+            </div>
+        </div>
+        
 </div>
 @endsection
 

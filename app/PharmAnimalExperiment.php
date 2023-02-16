@@ -61,8 +61,19 @@ class PharmAnimalExperiment extends Model
         if ($this->method ==6) {
             return 'Applied Topical & Intradermal';
         }  
-        if ($this->method ==6) {
-            return 'Suppository';
+        if ($this->method ==7) {
+            return ' Rectal Suppository';
+        }  
+
+        if ($this->method == 8) {
+            return 'Vaginal Pessary';
+        }  
+
+        if ($this->method == 9) {
+            return 'Urethral Suppository';
+        }  
+        if ($this->method == 10) {
+            return 'Nasal Suppository';
         }  
      }
 
