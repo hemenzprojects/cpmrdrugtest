@@ -1793,7 +1793,7 @@ class SIDController extends Controller
            })->update(['archive' => Null]);
 
            }
- 
+           return $r->phyto_completedproduct_id;
            if ($r->condition == 1) {   
               $phytodept = Product::with('departments')->whereIN('id',$r->phyto_completedproduct_id)->whereHas("departments", function($q){
                 return $q->where("dept_id",">",0)->where("status","!=",4)->where("status","!=",8);
@@ -1812,7 +1812,7 @@ class SIDController extends Controller
         
          Session::flash("message", "Report Successfully Completed.");
          Session::flash("message_title", "success");
-         return $r->phyto_completedproduct_id;
+        
 
            return redirect()->back();
       }
