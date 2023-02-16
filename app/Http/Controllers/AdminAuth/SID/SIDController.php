@@ -1766,8 +1766,8 @@ class SIDController extends Controller
 
 
     public function phyto_completedreport_update(Request $r){
-        
-        $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
+         
+         $phytocompletedreports = Product::whereIn('id',$r->phyto_completedproduct_id)->with('departments')->whereHas("departments", function($q){
           return $q->where("dept_id", 3)->where("status",4);
         })->with('organolipticReport')->whereHas("organolipticReport")->with('pchemdataReport')->whereHas("pchemdataReport")
   
@@ -1779,7 +1779,7 @@ class SIDController extends Controller
             Session::flash('message', 'Check error! count is more than one');
             return redirect()->back();
           }
-         
+
          if ($r->condition == Null) {
           
             $data = 
@@ -1787,6 +1787,7 @@ class SIDController extends Controller
             'status' => 3,
             ];   
             ProductDept::whereIN('product_id', $r->phyto_completedproduct_id)->where("dept_id", 3)->where("status",4)->update($data);
+
             Product::with('departments')->whereIN('id',$r->phyto_completedproduct_id)->whereHas("departments", function($q){
             return $q->where("dept_id", 3);
            })->update(['archive' => Null]);
@@ -1811,8 +1812,9 @@ class SIDController extends Controller
         
          Session::flash("message", "Report Successfully Completed.");
          Session::flash("message_title", "success");
+         return $r->phyto_completedproduct_id;
 
-          return redirect()->back();
+           return redirect()->back();
       }
 
        public function pharm_completedreport_update(Request $r){
