@@ -100,6 +100,7 @@
                     
                     <thead>
                     <tr>
+                        
                         <th>Animal Model
                         </th>
                         <th>Weight</th>
