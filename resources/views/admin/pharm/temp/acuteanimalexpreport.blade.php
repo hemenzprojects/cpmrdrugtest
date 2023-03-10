@@ -112,7 +112,7 @@
                 </td>
             <td> 
                 @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
-                <a  style="font-size:10px" href="{{url('admin/pharm/completedexperiment/show',['id' => $item->id])}}">View Detail</a>
+                <a  style="font-size:10px" href="{{url('admin/pharm/completedexperiment/show',['id' => $item->product_id])}}">View Detail</a>
                  @endforeach
             </td>
             </tr>
