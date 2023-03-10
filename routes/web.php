@@ -235,6 +235,7 @@ Route::get('/sendtest', function () {
   Route::post('/micro/hod_office/finalapproval/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodfinalapprovalsign')->name('admin.micro.hod_office.finalapproval.checkhodsign');
   Route::post('/micro/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@finalhodevaluate_one_edit')->name('admin.micro.hod_office.finalapproval.evaluatereport');
 
+  
   });
 
 
@@ -248,13 +249,11 @@ Route::get('/sendtest', function () {
    Route::post('/pharmacology/checkuser','AdminAuth\Pharmacology\PharmController@checkuser')->name('admin.pharm.checkuser');
    Route::post('/pharmacology/acceptproduct','AdminAuth\Pharmacology\PharmController@acceptproduct')->name('admin.pharm.acceptproduct');
    Route::post('pharm/producttype/productlist/search','AdminAuth\Pharmacology\PharmController@productlist_search')->name('admin.pharm.productlist.search');
-
-
    Route::get('pharm/report/show/{id}','AdminAuth\Pharmacology\PharmController@report_show')->name('admin.pharm.report.show');
    Route::post('/pharm/report/create/{id}', 'AdminAuth\Pharmacology\PharmController@pharmreport_create')->name('admin.pharm.report.create');
    Route::get('pharm/completedreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.pharm.completedreport.show');
 
-      //**Pharmacology samplepreparation */
+  //**Pharmacology samplepreparation */
    Route::get('pharm/samplepreparation/create','AdminAuth\Pharmacology\PharmController@samplepreparation_create')->name('admin.pharm.samplepreparation.create');
    Route::get('pharm/report/index','AdminAuth\Pharmacology\PharmController@pharmreport_index')->name('admin.pharm.report.index');
 
@@ -288,6 +287,8 @@ Route::get('/sendtest', function () {
      Route::post('pharm/daily','AdminAuth\Pharmacology\PharmController@daily_report')->name('daily');
 
      Route::get('pharm/report/pdf/{id}','AdminAuth\Pharmacology\PharmController@pharmreport_pdf')->name('admin.pharm.report.pdf');
+
+     Route::get('pharm/completedexperiment/show/{id}','AdminAuth\Pharmacology\PharmController@completedexperiment_show')->name('admin.pharm.completedexperiment.show');
 
   });
 

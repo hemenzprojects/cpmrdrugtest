@@ -100,6 +100,18 @@
                                      </div>
                                      @endif
                              <div class="card">
+                                <div class="col-sm-12" style="margin-bottom: 20px">
+                                    <div class="container 4" style="{{$product->pharm_additional_testcontent?\App\Admin::find($product->pharm_additional_testcontent):'display:none'}}" >
+
+                                    <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> ADDITIONAL FEATURE: </strong></h4>
+
+                                    <textarea id="tinymce5" class="pat" style="font-size: 16px text-align: justify " class="form-control" rows="1" name="additional_testcontent" >
+                                        {{$product->pharm_additional_testcontent}}
+                                    </textarea> 
+                                    </div>
+                                </div> 
+                                
+                               
                              <div class="row"  style="margin:10px; margin-top:1px">
                                  <div class="col-sm-8">
                                      

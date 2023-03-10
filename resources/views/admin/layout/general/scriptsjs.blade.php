@@ -672,6 +672,16 @@ $("#inputmask_0").on('keyup', function() {
       
   });
 
+  $(document).ready(function() {
+    var inputValue = $('input[id="inlineCheckbox4"]').attr("value");
+    $('input[id="inlineCheckbox4"]').click(function() {
+      console.log(inputValue)
+      $("." + 4).toggle();
+
+     });
+      
+  });
+
 </script>
 <script>
   
@@ -1874,7 +1884,25 @@ $(document).ready(function() {
  });
 
 
+ $(document).ready(function() {
+    var addttpinputValue = $('input[id="additional_test_id"]').attr("value");
+    $('input[id="additional_test_id"]').click(function() {
+      console.log(addttpinputValue)
+      $("." + 4).toggle();
+
+     });
+      
+  });
+
+  $(document).ready(function() {
+    var inputValue = $('input[id="additional_test_id"]').attr("value");
+    $('input[id="additional_test_id"]').click(function() {
+        $('#additional_testtype_id').prop('required',true)
+        $('.pat').prop('required',true)
+
+     });
+      
+  });
 </script>
 
 
-    

@@ -15,7 +15,7 @@
         {{ csrf_field() }} 
         @include('admin.pharm.temp.productformat') 
 
-        @if ($pharmreports->pharm_testconducted ==1  || $pharmreports->pharm_testconducted ==3)
+        @if ($pharmreports->pharm_testconducted == 1  || $pharmreports->pharm_testconducted ==3)
         <div class="card">
         <div class="row">
             <div class="col-md-7">
@@ -29,8 +29,8 @@
         <textarea id="tinymce"  style="font-size: 14.8px; text-align: justify " class="form-control" rows="8" name="pharm_acute_comment" >{{$pharmreports->pharm_acute_comment}}
         </textarea>
         @endif
-        @if ( $product->pharm_acute_comment === Null)
-         
+        @if ( $product->pharm_acute_comment === Null )
+           
         <textarea id="tinymce" style="font-size: 14.8px text-align: justify " class="form-control" rows="7" name="pharm_acute_comment" > <p style="text-align: justify;"><span style="font-size: 12pt;"> The LD<sub>50</sub> is estimated to be greater than 5000 mg/kg which is greater or equal to level 5 on the Hodge and Sterner Scale<sup>1</sup> and also 93 times more than the recommended dose ({{$pharmreports->dosage}} equivalent to 5.0 mg/kg ), as indicated by the manufacturer. Thus, the product, {{$pharmreports->code}}, may not be toxic and is within the accepted margin of safety (Hodge and Sterner Scale) at the recommended dose. </span> </p></textarea> 
         @endif
         </div> 
@@ -48,7 +48,7 @@
         @endif
       
        @if ($pharmreports->pharm_testconducted ==2 || $pharmreports->pharm_testconducted ==3)
-     <div class="row">
+        <div class="row">
          <div class="col-md-7">
           <div class="card" style="padding: 2%">
             @if ( $product->pharm_standard !== Null )
@@ -79,6 +79,7 @@
                 <textarea id="tinymce5" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="pharm_dermal_comment" ><span style="font-size: 12pt;"> {{$pharmreports->code}} appears to be safe when applied to the skin.</span></textarea> 
                 @endif
                     
+             
                 </div>
             </div> 
             <div class="col-md-5" >
@@ -87,9 +88,25 @@
                 </div>
             </div>
       </div> 
+
        @endif
 
-        <div class="row">
+          <div class="row">
+            <div class="container 4" style="{{$product->pharm_additional_testcontent?\App\Admin::find($product->pharm_additional_testcontent):'display:none'}}" >
+                <div class="col-sm-12">
+                    <ul class="nav justify-content-center" style="margin-top: 10px"> 
+                        <h5 class="">ADDITIONAL CONTENT</h5>
+                    </ul>
+                
+                </div>
+                <div class="col-sm-12">
+                    <textarea id="tinymce5" class="pat" style="font-size: 16px text-align: justify " class="form-control" rows="1" name="additional_testcontent" >
+                        {{$product->pharm_additional_testcontent}}
+                    </textarea> 
+                </div>
+            </div>
+         </div>
+       
             @if ( $product->pharm_hod_evaluation > 0)
             <div class="col-sm-8">
                 <h4 class="font" style="font-size:15px; margin:20px; margin-top:15px"> <strong>HOD's REMARKS: </strong></h4>
@@ -98,6 +115,7 @@
                   </div>
             </div>
             @endif
+
             <div class="col-sm-3" style="margin-top:30px">
              <div class="form-group">
                  <label for="exampleInputEmail3"> <strong><span style="color: red">Report Evaluation</span></strong>  </label>
@@ -107,8 +125,8 @@
                      <option value="2">Passed</option>
                  </select>                                
               </div>
-         </div>
-         </div>
+            </div>
+         
      
 
          @include('admin.pharm.temp.signaturetemp') 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PharmAnimalExperiment extends Model
 {
-    protected $fillable = ['product_id','pharm_testconducted_id','animal_model','weight','volume', 'time_administration','death','toxicity','sex','method','group','time_death','dosage','total_days','added_by_id','created_at','updated_at'];
+    protected $fillable = ['product_id','pharm_testconducted_id','animal_model','weight','volume', 'time_administration','death','toxicity','sex','method','group','expcomment','time_death','dosage','total_days','added_by_id','created_at','updated_at'];
 
     
     //******* pharm animal models */

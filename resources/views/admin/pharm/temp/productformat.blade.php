@@ -29,13 +29,33 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="font"><strong>Test Conducted</strong></td>
-                    <td class="font">{{\App\PharmTestConducted::find($product->pharm_testconducted)->name}}</td>
+                    <td class="font"><strong>Test Conducted </strong></td>
+                    <td class="font">{{\App\PharmTestConducted::find($product->pharm_testconducted)->name}} </td>
                     <input type="hidden" id="pharm_test_conducted" name="pharm_testconducted"  value="{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->id}}">  
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td class="font"><strong>Additional Test Conducted</strong></td>
+                    <td>
+                        <div class="row">
+                            @if ($product->pharm_additional_testconducted==Null)
+                            <div class="col-sm-6">
+                               
+                                <label class="custom-control custom-checkbox" style="margin-top:5px">
+                                    <input type="checkbox" class="custom-control-input" name="additional_testcheck" id="additional_test_id" value="4">
+                                    <span class="custom-control-label" style="color:#ff">&nbsp;Check to add new test type</span>
+                                </label>
+                            </div>
+                            @endif
+                            <div class="col-sm-6 4" style="{{$product->pharm_additional_testconducted?\App\Admin::find($product->pharm_additional_testconducted):'display:none'}}"> 
+                                <input type="text" id="additional_testtype_id" name="additional_testtype" value="{{$product->pharm_additional_testconducted}}" placeholder="Additional Test type">
+
+                            </div>
+                        </div>
+                    </td>
+
+
+                   
+                                            
                 </tr>
             </tbody>
         </table>

@@ -710,7 +710,6 @@ class PharmController extends Controller
              public function animalexperiment_store(Request $r){
 
               // dd($r->all());      
-                    
                 $data = $r->validate([
                 'product_id' => 'required', 
                 'pharm_testconducted' => 'required|numeric', 
@@ -723,7 +722,6 @@ class PharmController extends Controller
                 'sex' => 'required', 
                 'total_days' => 'required',  
                 'dosage' => 'required',
-                
             ]);
            
                $toxicity = array_values($r->toxicity);
@@ -742,6 +740,7 @@ class PharmController extends Controller
                   'sex'=>$r->sex[$i],
                   'method'=>$r->method_of_admin[$i],
                   'group'=>$r->group,
+                  'expcomment'=>$r->expcomment,
                   'time_death'=>$r->time_death[$i],
                   'total_days'=>$r->total_days,
                   'dosage'=>$r->dosage[$i],
@@ -951,8 +950,10 @@ class PharmController extends Controller
                  
              public function animalexperiment_testconducted(){
 
-             $data['all_exp_conducteds'] = Product::with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status",'>', 6);
+              $data['year'] = \Carbon\Carbon::now()->year;
+
+             $data['all_exp_conducteds'] = Product::with('departments')->whereHas("departments", function($q)use($data){
+                return $q->where("dept_id", 2)->where("status",'>', 6)->whereRaw('YEAR(received_at)= ? ', array($data['year']));
               })->with('animalExperiment')->whereHas("animalExperiment")->get();
 
               return View('admin.pharm.animalexperiment.testconducted',$data);
@@ -1055,8 +1056,12 @@ class PharmController extends Controller
                     $product->pharm_grade = $r->pharm_grade;
                     $product->pharm_dateanalysed = $date_analysed;
                     $product->pharm_reference = $r->pharm_reference;
+                    $product->pharm_additional_testconducted = $r->additional_testtype;
+                    $product->pharm_additional_testcontent = $r->additional_testcontent;
+
 
                     $product->update();
+
                     $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 2)->where("status",'>',5);
                     $productdept = $productdepts->first();
                     $productdept->received_at = $r->date_received;
@@ -1088,6 +1093,7 @@ class PharmController extends Controller
                       $product->pharm_hod_evaluation = 0;
                       $product->pharm_datecompleted = \Carbon\Carbon::now();
                       $product->update();
+
                       Session::flash("message", "Report has been submitted to the Head of Department");
                       Session::flash("message_title", "success");
                     }
@@ -1487,6 +1493,8 @@ class PharmController extends Controller
               $product->pharm_hod_remarks = $r->pharm_hod_remarks;
               $product->pharm_reference = $r->pharm_reference;
               $product->pharm_dateanalysed = (\Carbon\Carbon::parse($r->date_analysed));
+              $product->pharm_additional_testconducted = $r->additional_testtype;
+              $product->pharm_additional_testcontent = $r->additional_testcontent;
               $product->update();
 
               Session::flash("message", "Report updated successfully");
@@ -1603,7 +1611,7 @@ class PharmController extends Controller
                 $data['admins'] = Admin::where('dept_id',2)->get();
                 $data['completed_reports'] = Product::where('pharm_hod_evaluation',2)->with('departments')->whereHas("departments", function($q) use ($data){
                 return $q->where("dept_id", 2)->where("status", 8)->whereRaw('YEAR(received_at)= ? ',array($data['year']));
-                })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->get();
+                })->get();
 
                 return view('admin.pharm.hodoffice.completedreport',$data);
 

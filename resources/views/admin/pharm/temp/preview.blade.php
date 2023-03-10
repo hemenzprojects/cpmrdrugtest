@@ -161,6 +161,10 @@
  
  @endif
 
+<div class="card" style=" overflow-x: overlay;">
+    <p style="font-size:16px; text-align: justify ">{!! $product->pharm_additional_testcontent !!}</p>
+</div>
+
  @include('admin.pharm.temp.signaturetemp') 
 
 </div>

@@ -250,6 +250,11 @@ td, th {
  
 @endif
 
+@if ($completed_report->pharm_additional_testcontent !== Null)
+<p style="font-size: 16px; text-align: justifyl;margin-top:-px">
+{!! $completed_report->pharm_additional_testcontent !!}
+</p>
+@endif
 
   <table style="{{$completed_report->pharm_testconducted > 1 ?'margin-top:5%':'margin-top:-2%'}}">
   

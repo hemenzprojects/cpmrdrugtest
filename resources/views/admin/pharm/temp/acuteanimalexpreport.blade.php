@@ -110,7 +110,11 @@
             <tr>
                 <td>
                 </td>
-            <td> <a  style="font-size:10px" href="{{route('admin.pharm.animalexperimentation.testconducted')}}">View Detail</a></td>
+            <td> 
+                @foreach ($pharmreports->animalExperiment->groupBy('id')->first() as $item)
+                <a  style="font-size:10px" href="{{url('admin/pharm/completedexperiment/show',['id' => $item->id])}}">View Detail</a>
+                 @endforeach
+            </td>
             </tr>
         </tbody>
     </table>  

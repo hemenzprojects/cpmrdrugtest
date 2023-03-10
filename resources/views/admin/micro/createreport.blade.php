@@ -489,7 +489,7 @@ $product = \App\Product::where('id',5)->first();
             <ul class="nav justify-content-center" style="margin-top: 10px"> 
               <h4>CREATE MICROBIAL REPORT</h4>
             </ul>
-              <div class="card-body 3">
+              <div class="card-body 3 4">
                 <form id="checkinputmask" action="{{route('admin.micro.report.create_test')}}" method="POST">
                     {{ csrf_field() }}
                     <div class="row align-items-center">
@@ -756,12 +756,8 @@ $product = \App\Product::where('id',5)->first();
                             <button type="submit" style="float:right" class="btn btn-primary mb-2">Submit Report </button>
                         </div>
                     </div>
-                  </form>
-             
-                       
-                </div>
-
-
+                  </form>  
+              </div>
              
             </div>
         </div>
@@ -878,7 +874,51 @@ $product = \App\Product::where('id',5)->first();
                         @enderror
                 </div> --}}
             </div>
+
         </div> 
+
+            <div class="col-sm-12 4 box" style="display: none">
+                <div class="card" style="padding: 2%">
+                    <div class="row">
+                        <div class="col-lg-4">
+                        
+                            <div class="form-group" >
+                                <div class="card-header"><h3>Select product to begin report</h3></div>
+                            
+                                <select name="micro_product_id" required="required" id="microproduct_id" style="" class="form-control select3">
+                                    <option value="">Select Product</option>
+                                    @foreach($microproducts as $microproduct)
+                                <option product_typestate="7777{{$microproduct->productType->state}}" product_typeform="8888{{$microproduct->productType->form}}" value="{{$microproduct->id}}" {{$microproduct->id == old('products')? "selected":""}}> 
+                                    {{$microproduct->code}} 
+                                </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('micro_product_id')
+                            <small style="margin-left:15px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
+                            <strong>{{$message}}</strong>
+                            </small>
+                            @enderror
+                            
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card-header"><h3>Input date analysed</h3></div>
+         
+                        <input class="form-control" required="required" type="date" placeholder="Date" name="date_analysed" value="">
+                        </div>
+                    </div>
+                    <div class="card-header d-block">
+                        <div class="card-header"><h3>Detailed Microbial Efficacy</h3></div>
+                    </div>
+                    <div class="card-body p-0 table-border-style">
+                        <textarea id="tinymce5" style="font-size: 16px text-align: justify " class="form-control" rows="4" name="detailed_microbialefficacy"> 
+                        
+                        </textarea> 
+                    </div>
+                   
+                </div>
+            </div>
+
 
         <div class="col-md-3" style="background:#d49f0a;">
             <label class="custom-control custom-checkbox" style="margin-top:5px">
@@ -886,6 +926,18 @@ $product = \App\Product::where('id',5)->first();
                 <span class="custom-control-label" style="color:#fff">&nbsp;Microbial Efficacy Analysis Only</span>
             </label>
             @error('efficacyanalyses')
+            <small style="margin:15px;" class="form-text text-danger" role="alert">
+                <strong style="color:#fff">{{$message}}</strong>
+            </small>
+            @enderror
+        </div>
+
+        <div class="col-md-3">
+            <label class="custom-control custom-checkbox" style="margin-top:5px">
+                <input type="checkbox" class="custom-control-input" name="detailedefficacy" id="inlineCheckbox4" value="4">
+                <span class="custom-control-label" style="color:rgb(14, 12, 12)">&nbsp;Detailed Microbial Efficacy</span>
+            </label>
+            @error('detailedefficacyanalyses')
             <small style="margin:15px;" class="form-text text-danger" role="alert">
                 <strong style="color:#fff">{{$message}}</strong>
             </small>

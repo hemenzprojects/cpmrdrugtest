@@ -46,6 +46,12 @@ class SIDController extends Controller
     public function customer_index()
     {    
 
+        // $data['customers'] = Customer::orderBy('id', 'DESC')->get();
+        // return response()->json([
+        //     'success'=>true,
+        //     'message'=>'succesfully retrieved records',
+        //     'data'=>$data['customers']
+        // ],200);
         
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(1)) {
             Session::flash('messagetitle', 'warning');

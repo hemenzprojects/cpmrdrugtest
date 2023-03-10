@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="row" style="margin-top:20px">
-                <div class="col-md-4" style="margin: 10px">
+                <div class="col-md-3">
                     <label for=""> Total Number of Days</label>
                     @foreach ($editexperiment->animalExperiment as $product)
                     @if($editexperiment->animalExperiment->first() == $product)
@@ -111,11 +111,20 @@
                     @endforeach
                 </div>
             
-                <div class="col-md-4" style="margin: 10px">
+                <div class="col-md-3" >
                     <label for=""> Group</label>
                     @foreach ($editexperiment->animalExperiment as $product)
                     @if($editexperiment->animalExperiment->first() == $product)
                 <p> {{$product->group}} </p>
+                @endif
+                @endforeach
+                </div>
+
+                <div class="col-md-6" >
+                    <label for=""> Experiment Comment</label>
+                    @foreach ($editexperiment->animalExperiment as $product)
+                    @if($editexperiment->animalExperiment->first() == $product)
+                <p> {{$product->expcomment}} </p>
                 @endif
                 @endforeach
                 </div>

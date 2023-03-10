@@ -148,22 +148,27 @@
         <div class="card">
             
         <div class="row" style="margin: 2%">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="row">
-                <div class="col-md-6">
-                    <label for=""></label>
+                <div class="col-md-3">
+                    <label for="">Total number of days observed</label>
                     <input type="number" required placeholder=" Total number of days observed" class="form-control" name="total_days" value="">   
                 </div>
 
-                <div class="col-md-4">
-                    <label for=""></label>
+                <div class="col-md-3">
+                    <label for="">Number of Group</label>
                     <input type="number" required placeholder="Group" class="form-control" name="group" value="">   
+                </div>
+                <div class="col-md-6">
+                    <label for="">Comment</label>
+                    <textarea class="form-control" name="expcomment" id="" cols="50" rows="2" placeholder="comment"></textarea>
                 </div>
             </div>
             </div>
-            <div class="col-md-3">   
-                <button type="submit" onclick="return confirm('Great work done. Please ensure that all input fields are correct as compare to the experiment made. If set click Ok else cancel to continue report process. Thank you')" class="btn btn-primary mb-2"> Complete Experiment</button>
-            </div>
+            
+        </div>
+        <div class="col-md-3">   
+            <button type="submit" onclick="return confirm('Great work done. Please ensure that all input fields are correct as compare to the experiment made. If set click Ok else cancel to continue report process. Thank you')" class="btn btn-primary mb-2"> Complete Experiment</button>
         </div>
         </div>
      </div> 
