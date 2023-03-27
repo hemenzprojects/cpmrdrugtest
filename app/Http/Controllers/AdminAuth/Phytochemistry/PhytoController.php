@@ -624,7 +624,24 @@ class PhytoController extends Controller
 
             public function makereport_update(Request $r, $id){
                 // return Product::find($id);
-                // dd($r->all());          
+                // dd($r->all());
+                if ($r->organoleptics_id == null) {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Please select required organoleptics.');
+                  return redirect()->back();
+                }
+                if ($r->physicochemdata_id == null) {
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Please select required physicochemical data.');
+                  return redirect()->back();
+                }
+                if ($r->chemicalconst == null) {
+                  
+                  Session::flash('message_title', 'error');
+                  Session::flash('message', 'Please select required physicochemical constituents data.');
+                  return redirect()->back();
+                }
+          
 
               if ($r->savereport) {
 
