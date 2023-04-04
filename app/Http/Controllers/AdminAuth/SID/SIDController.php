@@ -272,7 +272,14 @@ class SIDController extends Controller
             Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
             return redirect()->route('admin.general.dashboard');
 
-        } 
+        }     
+            $data['existname'] = [$request->name];
+            $name_exist = Product::whereIn('name',$data['existname']);
+        if (count($name_exist->get()) >0) {
+            Session::flash('message_title', 'error');
+            Session::flash('message', 'Warning! Name already registerd in system. ');
+            return redirect()->back();
+        }
         
         if ($request->micro_hod_evaluation && $request->pharm_hod_evaluation && $request->phyto_hod_evaluation ) {
             Session::flash('message_title', 'error');
@@ -392,19 +399,20 @@ class SIDController extends Controller
         $data["code"] = Product::generateCode($product_type,$customer);
         Product::create($data);
 
-        $actualprice = [$price_list->singlelab_price,$price_list->mutilabs_price,$price_list->alllabs_price];
-        if (!in_array($request->price,$actualprice)) {
-            $sms_status = 0;
-        }else { 
-            $sms_status = 1;
-          if ($customer->code == 'G') {
-             SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 6 Weeks.',$customer->tell);
-          }else {
-             SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
-          }
-        }
+        // $actualprice = [$price_list->singlelab_price,$price_list->mutilabs_price,$price_list->alllabs_price];
+        // if (!in_array($request->price,$actualprice)) {
+        //     $sms_status = 0;
+        // }else { 
+        //     $sms_status = 1;
+        //   if ($customer->code == 'G') {
+        //      SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 6 Weeks.',$customer->tell);
+        //   }else {
+        //      SendSMS::sendMessage('Hi '.$customer->name.',thank you for submitting your product '.$request->name.'  to CPMR for analyses. The result of the analyses will be ready within 3 months.',$customer->tell);
+        //   }
+        // }
 
-        $customer->update(['sms_status' => $sms_status]);
+
+        // $customer->update(['sms_status' => $sms_status]);
 
         Session::flash("message", "Product Successfully Created. ");
         Session::flash("message_title", "success");
