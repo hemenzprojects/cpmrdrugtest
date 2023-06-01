@@ -265,7 +265,7 @@ class PharmController extends Controller
             Session::flash('warning', 'Info');
             Session::flash('message', 'You have '.$exp_inprogress.'. report(s) withheld. Please check and resubmit for evaluation');
            }
-         
+           
 
            return View('admin.pharm.report_index', $data); 
          }
@@ -442,7 +442,7 @@ class PharmController extends Controller
 
                 Session::flash("message", "Product sample data updated successfully");
                 Session::flash("message_title", "success");
-                return redirect()->back();
+                return redirect()->route('admin.pharm.samplepreparation.report');
              }
 
              public function sampleprep_animalhouse(Request $r){
@@ -695,10 +695,17 @@ class PharmController extends Controller
                 return $q->where("dept_id", 2)->where("status", 3);
               })->with('samplePreparation')->whereHas("samplePreparation")->orderBy('created_at','DESC')->get();
 
-              $data['exp_inprogress'] = Product::where('pharm_experiment_by',Auth::guard('admin')->id())->where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
-                return $q->where("dept_id", 2)->where("status", 3);
-              })->with('samplePreparation')->whereHas("samplePreparation")->with('animalExperiment')->whereHas("animalExperiment")->get();
-
+              if (Auth::guard('admin')->user()->dept_office_id == 1) {
+                $data['exp_inprogress'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 2)->where("status", 3);
+                })->with('samplePreparation')->whereHas("samplePreparation")->with('animalExperiment')->whereHas("animalExperiment")->get();
+  
+              }else {
+                $data['exp_inprogress'] = Product::where('pharm_experiment_by',Auth::guard('admin')->id())->where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
+                  return $q->where("dept_id", 2)->where("status", 3);
+                })->with('samplePreparation')->whereHas("samplePreparation")->with('animalExperiment')->whereHas("animalExperiment")->get();
+              }
+     
               $data['completed_reports'] = Product::where('pharm_process_status',5)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 2)->where("status", 7);
                 })->with('animalExperiment')->whereHas("animalExperiment")->orderBy('id','DESC')->limit(99)->get();

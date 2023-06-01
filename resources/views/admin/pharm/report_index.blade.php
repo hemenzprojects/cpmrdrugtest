@@ -234,6 +234,12 @@
                                         <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                             {{$inprogress->code}}
                                         </span>
+                                        @foreach ($inprogress->animalExperiment->groupBy('id')->first() as $item)
+                                        @if ($item->expcomment !== null )
+                                        <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="3 more"><i class="ik ik-message-square"></i>1</span>
+                                        @endif
+                                        @endforeach
+
                                         </a> 
                                          <span></span>
                                         </p>

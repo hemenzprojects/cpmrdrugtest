@@ -171,6 +171,12 @@
                                               <span  class="badge  pull-right" style="background-color: #de1024; color:#fff">
                                                   {{$inprogress->code}}
                                               </span> 
+                                              @foreach ($inprogress->animalExperiment->groupBy('id')->first() as $item)
+                                              @if ($item->expcomment !== null )
+                                              <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="3 more"><i class="ik ik-message-square"></i>1</span>
+                                              @endif
+                                              @endforeach
+
                                               </p> 
                                               <span class="badge  pull-right"> 
                                               <strong>Test :</strong> 
@@ -208,9 +214,9 @@
                                             @foreach ($inprogress->animalExperiment->groupBy('id')->first() as $item)
                                             {{$item->created_at->format('d/m/y')}}
                                             @endforeach
+
                                         </span>
                                               @endif
-                                          
                                       </div>
                                       <label class="custom-control custom-checkbox">
                                       <input type="checkbox" id="" name="product_id[]" class="custom-control-input method_applied" value="{{$inprogress->id}}">
