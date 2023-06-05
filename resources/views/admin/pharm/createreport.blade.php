@@ -48,9 +48,14 @@
         @endif
       
        @if ($pharmreports->pharm_testconducted ==2 || $pharmreports->pharm_testconducted ==3)
+       
         <div class="row">
+           
          <div class="col-md-7">
           <div class="card" style="padding: 2%">
+            @if ($pharmreports->pharm_testconducted ==3)
+            <p>Table Showing Results of Dermal Toxicity Test</p>
+           @endif
             @if ( $product->pharm_standard !== Null )
                 <textarea id="tinymce3"  style="font-size: 16px" class="form-control" rows="10" name="pharm_standard" > {!! $pharmreports->pharm_standard !!}
                 </textarea> 

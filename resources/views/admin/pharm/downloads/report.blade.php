@@ -220,17 +220,17 @@ td, th {
     </p>
 
  @endif
-
-{{-- @if ($completed_report->pharm_testconducted == 3)
+ @if ($completed_report->pharm_testconducted == 3)
 <div style="page-break-after:always;"></div> 
-@endif --}}
+@endif
 
  @if ($completed_report->pharm_testconducted == 2 || $completed_report->pharm_testconducted == 3)
  
  @if ($completed_report->pharm_testconducted == 3)
  <span style="font-size:15.5px"><strong>2. DERMAL TOXICITY TEST </strong></span> <br><br>
  <span class="font" style="font-size:13.5px"><strong>PROCEDURE: </strong></span> <br><br>
- 
+
+
  @endif
  <p style="font-size:16px; text-align: justify ">
     {!! $completed_report->pharm_standard !!}
@@ -267,7 +267,7 @@ td, th {
       ?>
       <span>Analysed by</span><br>
       @if (\App\Product::find($completed_report->id)->pharm_hod_evaluation ==2)
-      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'35%':'35%'}}"  style="margin-bottom: -14px"><br>
+      <img src="{{asset(\App\Admin::find($pharm_approved_by)? \App\Admin::find($pharm_approved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'75%':'35%'}}"  style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 
@@ -284,8 +284,8 @@ td, th {
 
       ?>
       <span>Approved by</span><br>
-    @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
-      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'35%':'35%'}}" style="margin-bottom: -14px"><br>
+     @if (\App\Product::find($completed_report->id)->pharm_finalapproved_by !== Null)
+      <img src="{{asset(\App\Admin::find($pharm_finalapproved_by)? \App\Admin::find($pharm_finalapproved_by)->sign_url:'')}}" class="" width="{{$completed_report->pharm_testconducted == 3 ?'75%':'35%'}}" style="margin-bottom: -14px"><br>
       @endif
 
       ------------------------------<br> 

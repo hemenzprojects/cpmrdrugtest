@@ -34,7 +34,7 @@
                     <input type="hidden" id="pharm_test_conducted" name="pharm_testconducted"  value="{{\App\PharmTestConducted::find($pharmreports->pharm_testconducted)->id}}">  
                 </tr>
                 <tr>
-                    <td class="font"><strong>Additional Test Conducted</strong></td>
+                    {{-- <td class="font"><strong>Additional Test Conducted</strong></td>
                     <td>
                         <div class="row">
                             @if ($product->pharm_additional_testconducted==Null)
@@ -51,7 +51,7 @@
 
                             </div>
                         </div>
-                    </td>
+                    </td> --}}
 
 
                    

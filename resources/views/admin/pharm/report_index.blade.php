@@ -236,7 +236,7 @@
                                         </span>
                                         @foreach ($inprogress->animalExperiment->groupBy('id')->first() as $item)
                                         @if ($item->expcomment !== null )
-                                        <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="3 more"><i class="ik ik-message-square"></i>1</span>
+                                        <span class="badge badge-info" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$item->expcomment}}"><i class="ik ik-message-square"></i>1</span>
                                         @endif
                                         @endforeach
 
