@@ -33,14 +33,14 @@
 
 
 {{-- summernote --}}
-{{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+{{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
 
 {{-- <script src="{{asset('admin/assets/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/summernote.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/jquery-3.3.1.min.js')}}"></script> --}}
 
-<script src="https://cdn.tiny.cloud/1/jhv63yy2v30aop7htw50v6owsspxru2ihykww3jm3wh86f40/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/30zqjanbkcfno2g9vjrwzpxz3c7t62jz5xoiivragy8d8lp7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 {{-- <script src="{{asset('admin/assets/js/tinymce.js')}}" referrerpolicy="origin"></script> --}}
 
 
@@ -60,13 +60,13 @@
      /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-  
+
     tinycomments_mode: 'embedded',
     tinycomments_author: 'Author name'
-    
+
   });
   </script>
-  
+
   <script>
     tinymce.init({
       selector: 'textarea#tinymce0',
@@ -81,13 +81,13 @@
        /* enable title field in the Image dialog*/
       image_title: true,
       /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-    
+
       tinycomments_mode: 'embedded',
       tinycomments_author: 'Author name'
-      
+
     });
     </script>
-    
+
     <script>
       tinymce.init({
         selector: 'textarea#tinymce1',
@@ -102,13 +102,13 @@
          /* enable title field in the Image dialog*/
         image_title: true,
         /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-      
+
         tinycomments_mode: 'embedded',
         tinycomments_author: 'Author name'
-        
+
       });
       </script>
-      
+
       <script>
         tinymce.init({
           selector: 'textarea#tinymce2',
@@ -123,13 +123,13 @@
            /* enable title field in the Image dialog*/
           image_title: true,
           /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-        
+
           tinycomments_mode: 'embedded',
           tinycomments_author: 'Author name'
-          
+
         });
         </script>
-        
+
         <script>
           tinymce.init({
             selector: 'textarea#tinymce3',
@@ -144,13 +144,13 @@
              /* enable title field in the Image dialog*/
             image_title: true,
             /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-          
+
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name'
-            
+
           });
           </script>
-          
+
           <script>
             tinymce.init({
               selector: 'textarea#tinymce4',
@@ -165,13 +165,13 @@
                /* enable title field in the Image dialog*/
               image_title: true,
               /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-            
+
               tinycomments_mode: 'embedded',
               tinycomments_author: 'Author name'
-              
+
             });
             </script>
-            
+
             <script>
               tinymce.init({
                 selector: 'textarea#tinymce5',
@@ -186,13 +186,13 @@
                  /* enable title field in the Image dialog*/
                 image_title: true,
                 /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-              
+
                 tinycomments_mode: 'embedded',
                 tinycomments_author: 'Author name'
-                
+
               });
               </script>
-              
+
               <script>
                 tinymce.init({
                   selector: 'textarea#tinymce6',
@@ -207,10 +207,10 @@
                    /* enable title field in the Image dialog*/
                   image_title: true,
                   /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-                
+
                   tinycomments_mode: 'embedded',
                   tinycomments_author: 'Author name'
-                  
+
                 });
                 </script>
 
@@ -228,10 +228,10 @@
             /* enable title field in the Image dialog*/
             image_title: true,
             /* enable automatic uploads of images represented by blob or data URIs*/automatic_uploads: true,images_upload_url: 'postAcceptor.php',file_picker_types: 'image',
-          
+
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name'
-            
+
           });
           </script>
 
@@ -328,7 +328,7 @@ $(document).on("click", "a.deleteText", function() {
         $(this).prev('span.text').remove();
     }
 });
- 
+
 
 $(document).ready(function() {
   $('#summernote').summernote();
@@ -351,10 +351,10 @@ $(document).ready(function() {
 <script>
 
   $('#summernoteshow0').on('click',function(){
-   $(".summernoteshow1").toggle(); 
+   $(".summernoteshow1").toggle();
  })
  $('#summernoteshow1').on('click',function(){
-   $(".summernoteshow2").toggle(); 
+   $(".summernoteshow2").toggle();
 
  })
 
@@ -363,20 +363,20 @@ $(document).ready(function() {
 <script>
   $('#submitreport').change(function(){
     if($(this).is(':checked')){
-    $(".submitreport1").hide(); 
+    $(".submitreport1").hide();
     $(".submitreport2").toggle();
     }else{
-      $(".submitreport1").toggle(); 
+      $(".submitreport1").toggle();
       $(".submitreport2").hide();
     }
   })
 
   $('#pharmsubmitreport').change(function(){
     if($(this).is(':checked')){
-    $(".pharmsubmitreport1").hide(); 
+    $(".pharmsubmitreport1").hide();
     $(".pharmsubmitreport2").toggle();
     }else{
-      $(".pharmsubmitreport1").toggle(); 
+      $(".pharmsubmitreport1").toggle();
       $(".pharmsubmitreport2").hide();
     }
   })
@@ -384,25 +384,25 @@ $(document).ready(function() {
  <script>
   $('#check_singlelab').change(function(){
     if($(this).is(':checked')){
-      $(".multilabcheck").hide(); 
-    $(".singlelab").hide(); 
+      $(".multilabcheck").hide();
+    $(".singlelab").hide();
     $(".singlelab").toggle();
     }else{
-      $(".singlelab").toggle(); 
+      $(".singlelab").toggle();
       $(".singlelab").hide();
-      $(".multilabcheck").toggle(); 
+      $(".multilabcheck").toggle();
 
     }
   })
 
   $('#check_multilab').change(function(){
     if($(this).is(':checked')){
-      $(".singlelabcheck").hide(); 
-    $(".multilab").hide(); 
+      $(".singlelabcheck").hide();
+    $(".multilab").hide();
     $(".multilab").toggle();
     }else{
-      $(".singlelabcheck").toggle(); 
-      $(".multilab").toggle(); 
+      $(".singlelabcheck").toggle();
+      $(".multilab").toggle();
       $(".multilab").hide();
     }
   })
@@ -416,18 +416,18 @@ $(document).ready(function() {
     }else{
       $('#complete_report').prop("disabled", false);
     }
-  
+
     if (evaluation === '2') {
       $('#submit_report').prop("disabled", true);
     }
     console.log(evaluation)
   });
-  
+
   </script>
 <script>
 //this is on the showpage if checked ...
 $(document).ready(function() {
- 
+
   var efficacy_value = $('input[id="check_efficacy2"]').attr("value");
   $('input[id="check_efficacy2"]').click(function() {
           $("." + efficacy_value).toggle();
@@ -539,10 +539,10 @@ $("#inputmask_0").on('keyup', function() {
 </script>
 <script>
   $('#checkinputmask').submit(function(e){
-     
+
        e.preventDefault();
        console.log('attempted to submit form check inputmask')
-       
+
        var inputmask_1 = $('#inputmask_0').val();
        var inputmask_2 = $('#inputmask_1').val();
 
@@ -565,7 +565,7 @@ $("#inputmask_0").on('keyup', function() {
         $('#error-div1').html(" ")
        }
 
-      
+
       if (length1 + length2 === 14)
      {
        // $('#userid').val(result.user);
@@ -577,13 +577,13 @@ $("#inputmask_0").on('keyup', function() {
 
   <script>
  $('#checkunit').submit(function(e){
-     
+
      e.preventDefault();
      console.log('attempted to submit form check unit')
-     
+
      var unit = $('#unit3').val();
      var  length = unit.length;
-       
+
      if(length !== 3){
       $('#error-div3').html("Please check unit field ")
      }else{
@@ -601,21 +601,21 @@ $("#inputmask_0").on('keyup', function() {
 
 <script>
     $(document).ready(function(){
-      $('#stateresult').html('Result (CFU/g)'); 
-      $('#manycount_stateresult').html('Result (CFU/g)'); 
+      $('#stateresult').html('Result (CFU/g)');
+      $('#manycount_stateresult').html('Result (CFU/g)');
     })
     $("#microproduct_id").change(function(){
       var product_typestate = $('option:selected', this).attr('product_typestate');
      console.log(product_typestate);
     if (product_typestate === '77772') {
-      $('#stateresult').html('Result (CFU/ml)'); 
-      $('#manycount_stateresult').html('Result (CFU/ml)'); 
+      $('#stateresult').html('Result (CFU/ml)');
+      $('#manycount_stateresult').html('Result (CFU/ml)');
 
     } else
-    $('#stateresult').html('Result (CFU/g)'); 
-    $('#manycount_stateresult').html('Result (CFU/g)'); 
+    $('#stateresult').html('Result (CFU/g)');
+    $('#manycount_stateresult').html('Result (CFU/g)');
     })
-  
+
 </script>
 
 <!-- show form when checked -->
@@ -632,16 +632,16 @@ $("#inputmask_0").on('keyup', function() {
       $('input[id="inlineCheckbox1"]').click(function() {
           $("." + inputValue).toggle();
           $('#fadeout2').fadeOut('slow');
-          $("." +'efficacyonly').fadeOut('slow');  
+          $("." +'efficacyonly').fadeOut('slow');
 
         if($(this).prop('checked')){
           $('.date-inputmask').inputmask("9.9 X 99^9");
         }
         if($('#inlineCheckbox1').not(':checked')){
-         $('#fadeout2').show(); 
-         $("." +'efficacyonly').show();  
- 
-        } 
+         $('#fadeout2').show();
+         $("." +'efficacyonly').show();
+
+        }
       });
   });
 
@@ -667,9 +667,9 @@ $("#inputmask_0").on('keyup', function() {
       console.log(inputValue)
       $("." + inputValue).toggle();
 
-      
+
      });
-      
+
   });
 
   $(document).ready(function() {
@@ -679,12 +679,12 @@ $("#inputmask_0").on('keyup', function() {
       $("." + 4).toggle();
 
      });
-      
+
   });
 
 </script>
 <script>
-  
+
   $(document).ready(function() {
     var inputValue = $('input[id="ml_general_conclusion"]').attr("value");
     $('input[id="ml_general_conclusion"]').click(function() {
@@ -693,12 +693,12 @@ $("#inputmask_0").on('keyup', function() {
       $('#micro_la_conclution_option').prop('required',false)
 
      });
-      
+
   });
 
   $(document).ready(function() {
-    
-    
+
+
     var inputValue = $('input[id="me_general_conclusion"]').attr("value");
     $('input[id="me_general_conclusion"]').click(function() {
       console.log(inputValue)
@@ -728,7 +728,7 @@ var txt =  "3";
     document.getElementById("manycount1").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
   }
   });
-  
+
 </script>
 
 <script>
@@ -745,7 +745,7 @@ $(document).ready(function() {
   }
 
   var rstotal2 = $('input[id="rstotal1"]').attr("value");
-  
+
   if (rstotal2 == "0") {
     document.getElementById("manycount_1").innerHTML = "0";
   }
@@ -753,7 +753,7 @@ $(document).ready(function() {
     document.getElementById("manycount_1").innerHTML = "<span> " + txt.sup() + " TNTC </span>";
   }
   });
-  
+
 </script>
 
 
@@ -813,15 +813,15 @@ $(document).ready(function(){
     $(function () {
       //Initialize Select2 Elements
       $('.select2').select2()
-      
-  
+
+
       //Datemask dd/mm/yyyy
       $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
       //Datemask2 mm/dd/yyyy
       $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
       //Money Euro
       $('[data-mask]').inputmask()
-  
+
       //Date range picker
       $('#reservation').daterangepicker()
       //Date range picker with time picker
@@ -844,12 +844,12 @@ $(document).ready(function(){
           $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
         }
       )
-  
+
       //Date picker
       $('#datepicker').datepicker({
         autoclose: true
       })
-  
+
       //iCheck for checkbox and radio inputs
       $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
@@ -865,12 +865,12 @@ $(document).ready(function(){
         checkboxClass: 'icheckbox_flat-green',
         radioClass   : 'iradio_flat-green'
       })
-  
+
       //Colorpicker
       $('.my-colorpicker1').colorpicker()
       //color picker with addon
       $('.my-colorpicker2').colorpicker()
-  
+
       //Timepicker
       $('.timepicker').timepicker({
         showInputs: false
@@ -879,7 +879,7 @@ $(document).ready(function(){
 </script>
 <script>
   $(function () {
-  
+
     //Initialize Select2 Elements
     $('.select2').select2()
 
@@ -961,14 +961,14 @@ $(document).ready(function(){
       console.log(selectedItems)
     })
 
-  
+
 $('#acceptmicroproductform').submit(function(e){
-  
+
     e.preventDefault();
     var product_id= $('input[id="deptproduct_id"]').attr("value");
          console.log(product_id);
     console.log('attempted to submit form')
-    
+
     var _token = $('#_token').val()
     var useremail = $('#useremail').val()
     var userpin = $('#userpin').val()
@@ -978,7 +978,7 @@ $('#acceptmicroproductform').submit(function(e){
   'pin' : userpin,
   '_token': _token
   }
-  
+
   var form = $(this);
   var url = form.attr('sign-user-url');
   var url2 = form.attr('action')
@@ -997,13 +997,13 @@ $('#acceptmicroproductform').submit(function(e){
     })
     selectedItems=[]
     e.currentTarget.submit();
-   
+
   }
 
      // display the error message some where on the page with result.message
      $('#error-div').html(result.message)
   })
-  
+
     // Continue the form submit
     // e.currentTarget.submit();
 })
@@ -1023,11 +1023,11 @@ $('#acceptmicroproductform').submit(function(e){
       console.log(pharm_selectedItems)
     })
 $('#acceptpharmproductform').submit(function(e){
-  
+
     e.preventDefault();
     var product_id= $('input[id="deptproduct_id"]').attr("value");
     console.log('attempted to submit form')
-        
+
     var _token = $('#_token').val()
     var useremail = $('#useremail').val()
     var userpin = $('#userpin').val()
@@ -1037,7 +1037,7 @@ $('#acceptpharmproductform').submit(function(e){
     'pin' : userpin,
   '_token': _token
   }
-  
+
   var form = $(this);
   var url = form.attr('sign-user-url');
   var url2 = form.attr('action')
@@ -1059,14 +1059,14 @@ $('#acceptpharmproductform').submit(function(e){
     // display the error message some where on the page with result.message
   $('#error-div').html(result.message)
   })
-  
+
     // Continue the form submit
 // e.currentTarget.submit();
 })
 </script>
- 
+
 <script>
-  
+
 </script>
 <!-- checkuserphyto-->
 <script>
@@ -1083,30 +1083,30 @@ $('#acceptpharmproductform').submit(function(e){
     })
 
   $('#acceptphytoproductform').submit(function(e){
-    
+
       e.preventDefault();
       console.log('attempted to submit form')
-      
+
       var _token = $('#_token').val()
       var useremail = $('#useremail').val()
       var userpin = $('#userpin').val()
-  
+
     var data = {
     'email' : useremail,
     'pin' : userpin,
     '_token': _token
     }
-    
+
     var form = $(this);
     var url = form.attr('sign-user-url');
     // var url2 = form.attr('action')
     $.post(url, data, function(result){
     console.log(result)
-  
+
     if (result.status === true)
     {
       $('#adminid').val(result.admin);
-      
+
       console.log(phyto_selectedItems)
       phyto_selectedItems.forEach((item)=>{
       console.log(`<input type='hidden' value='${item}' name='deptproduct_id[]'`)
@@ -1116,11 +1116,11 @@ $('#acceptpharmproductform').submit(function(e){
 
       e.currentTarget.submit();
     }
-  
+
       // display the error message some where on the page with result.message
     $('#error-div').html(result.message)
     })
-    
+
       // Continue the form submit
   // e.currentTarget.submit();
   })
@@ -1130,36 +1130,36 @@ $('#acceptpharmproductform').submit(function(e){
 
 <script>
  $('#customervalidation').submit(function(e){
-    
+
       e.preventDefault();
       console.log('attempted to submit form')
-      
+
       var _token = $('#_token').val()
       var firstname = $('#firstname').val()
       var lastname = $('#lastname').val()
-  
+
       var data = {
       'firstname': firstname,
       'lastname' : lastname,
       '_token': _token
       }
-    
+
       var form = $(this);
       var url = form.attr('validate-url');
       var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
-  
+
     if (result.status === true)
     {
       // $('#userid').val(result.user);
        e.currentTarget.submit();
     }
-  
+
       // display the error message some where on the page with result.message
     $('#error-div').html(result.message)
     })
-    
+
       // Continue the form submit
   // e.currentTarget.submit();
   })
@@ -1169,17 +1169,17 @@ $('#acceptpharmproductform').submit(function(e){
 
 <script>
 $('#checkusertoacceptproduct').submit(function(e){
-    
+
       e.preventDefault();
       console.log('attempted to submit form')
-     
-})    
+
+})
   // Continue the form submit
   // e.currentTarget.submit();
 
 
 </script>
- 
+
 <script>
     $('#checksinglemultlab').submit(function(e){
     e.preventDefault();
@@ -1197,7 +1197,7 @@ $('#checkusertoacceptproduct').submit(function(e){
         }else{
             e.preventDefault();
         }
-  
+
      }
       if ((Number(amount) == Number(multilab_actual_price)) && (!$('#check_multilab').is(':checked'))) {
       var answer1 = confirm("The price inputed indicates that product is to a multiple lab. Please check multi lab or click OK to confirm price and continue.");
@@ -1215,7 +1215,7 @@ $('#checkusertoacceptproduct').submit(function(e){
             e.preventDefault();
         }
      }
-     
+
     })
 </script>
 
@@ -1230,7 +1230,7 @@ $('#checkusertoacceptproduct').submit(function(e){
     $(`select[tag= 359090904561]`).select2();
     $(`select[tag= 359090904562]`).select2();
     });
-  
+
   </script>
 <script>
   var toxic = [];
@@ -1239,7 +1239,7 @@ $('#checkusertoacceptproduct').submit(function(e){
       var i=1;
       var j=1;
     $('#add').click(function(){
-      i++; 
+      i++;
       $('#dynamic_field').append('<tr id="row'+i+'"><td class="font"> <div class=""> <select class="form-control animalmodel" tagg="'+j+'"  name="animalmodel[]" required style="width:130px"></select></div></td><td class="font"><input type="text" required class="form-control" name="weight[]" placeholder="(g)" value="(g)" style="width:70px"></td><td class="font"><input type="text" class="form-control sp_volume" required name="dosage[]"  placeholder="(mg/kg)" Value ="5000 (mg/kg)" style="width:100px"></td>    <td class="font"> <select class="form-control select2 methodapplied"  name="method_of_admin[]" style="width:130"><option value="1">Oral</option><option value="2">Subcutanious</option><option value="3">Intradermal</option><option value="4">Intra Veinous</option><option value="5">Applied Topical</option> <option value="6">Applied Topical & Intrademal</option> <option value="7">Rectal suppository </option> <option value="8">Vaginal Pessary </option> <option value="9">Urethral suppository </option> <option value="10">Nasal suppository </option></select></td>     <td><input type="text" class="form-control" required name="time_administration[]" placeholder="Time/period" style="width:100px"></td>   <td class="font"><select class="form-control select23 toxicity1" required   multiple="multiple" name="toxicity['+i+'][]" id="selectlist" tag="'+i+'" style="width:150"></select></td>    <td class="font"><select class="form-control" required id="animaldeath_'+i+'" name="death[]" style="width:70px"><option value="2">No</option><option value="1">Yes</option></select></td>    <td><input type="text" class="form-control" required value="Nill" name="time_death[]" placeholder="Time of death" style="width:100px"></td>   <td class="font"><select class="form-control allsex" required name="sex[]" style="width:100px"><option  value="">select</option><option value="1">Male</option><option value="2">Female</option></select></td>     <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
 
 
@@ -1251,7 +1251,7 @@ $('#checkusertoacceptproduct').submit(function(e){
         })
       })
       $(`select[tag=${i}]`).select2();
-      
+
 
       getAnimalmodel(animalmodel,function(r){
         console.log(i,r)
@@ -1264,7 +1264,7 @@ $('#checkusertoacceptproduct').submit(function(e){
          $(`select[tag=${j}]`).select2();
 
       });
-      
+
 
       function getToxicity(data,callback){
         if(data.length>0)
@@ -1303,11 +1303,11 @@ $('#checkusertoacceptproduct').submit(function(e){
       }
 
     $(document).on('click', '.btn_remove', function(){
-		var button_id = $(this).attr("id"); 
+		var button_id = $(this).attr("id");
 		$('#row'+button_id+'').remove();
 	});
-  
-  
+
+
   });
 </script>
 
@@ -1315,11 +1315,11 @@ $('#checkusertoacceptproduct').submit(function(e){
 <script>
   $("#pharmproduct_id").change(function() {
     var product_ma = $('option:selected', this).attr('product_ma');
-   
+
     console.log(product_ma);
     if (product_ma == 2) {
       $('#pharmtest').find('option[value="2"]').attr("selected",true);
-      $("." + 'methodapp').toggle();  
+      $("." + 'methodapp').toggle();
     }
     else{
       $('#pharmtest').find('option[value="2"]').attr("selected",false);
@@ -1328,16 +1328,16 @@ $('#checkusertoacceptproduct').submit(function(e){
 
     if (product_ma == 1) {
       $('#pharmtest').find('option[value="1"]').attr("selected",true);
-      $("." + 'methodapp').toggle();  
+      $("." + 'methodapp').toggle();
     }
     else{
       $('#pharmtest').find('option[value="1"]').attr("selected",false);
       $("." + 'methodapp').hide();
     }
-  
+
     if (product_ma == 3) {
       $('#pharmtest').find('option[value="3"]').attr("selected",true);
-      $("." + 'methodapp').toggle();  
+      $("." + 'methodapp').toggle();
     }
     else{
       $('#pharmtest').find('option[value="3"]').attr("selected",false);
@@ -1361,7 +1361,7 @@ $('#checkusertoacceptproduct').submit(function(e){
 var spvolume = $('option:selected', this).attr('spvolume');
 console.log(spvolume);
  $("." + 'spvolume').val(spvolume);
-   
+
   });
 </script>
 
@@ -1392,7 +1392,7 @@ console.log(spvolume);
 $('#toxicity1').change(function(){
   if($(this).is(':checked')){
     console.log('cc')
-    $('select[tag]').val('Nill').trigger('change') 
+    $('select[tag]').val('Nill').trigger('change')
 
   }else{
     $('select[tag]').val('No Sign').trigger('change')
@@ -1407,7 +1407,7 @@ $('#toxicity1').change(function(){
  $('input[id="toxicity2"]').click(function() {
     $("." + 'toxicity2').val(2);
  });
- 
+
 </script>
 
 <script>
@@ -1416,7 +1416,7 @@ $('#toxicity1').change(function(){
  $('input[id="toxicity3"]').click(function() {
     $("." + 'toxicity3').val(2);
  });
- 
+
 </script>
 
 <script>
@@ -1424,7 +1424,7 @@ $('#toxicity1').change(function(){
 var animalmodel = $('option:selected', this).val();
 console.log(animalmodel);
  $("." + 'animalmodel').val(animalmodel);
-   
+
   });
 
 </script>
@@ -1439,19 +1439,19 @@ console.log(animalmodel);
     }else{
       $('#pharm_complete_report').prop("disabled", false);
     }
-  
+
     if (pharm_hod_evaluation === '2') {
       $('#pharm_submit_report').prop("disabled", true);
     }
     });
-  
+
 </script> --}}
 
 
 
   {{-- pharm report display div base on test conducted --}}
   <script>
-    $(document).ready(function() {    
+    $(document).ready(function() {
   var test_conducted = $('input[id="pharm_test_conducted"]').attr("value");
   console.log(test_conducted);
   if (test_conducted == 1 || test_conducted == 3) {
@@ -1468,103 +1468,103 @@ console.log(animalmodel);
     $('#microhodfinalapproveform').submit(function(e){
 
         e.preventDefault();
-      
+
         console.log('attempted to submit form')
-        
+
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
         var userpin = $('#userpin').val()
-    
+
       var data = {
       'email' : useremail,
       'pin' : userpin,
       '_token': _token
       }
-      
+
       var form = $(this);
       var url = form.attr('sign-user-url');
       var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
-    
+
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
-        
+
         e.currentTarget.submit();
       }
-    
+
         // display the error message some where on the page with result.message
       $('#error-div').html(result.message)
       })
-      
+
         // Continue the form submit
     // e.currentTarget.submit();
     })
    </script>
-  
+
   <script>
     $('#microhodapproveform').submit(function(e){
-      
+
         e.preventDefault();
         console.log('attempted to submit form')
-        
+
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
         var userpin = $('#userpin').val()
-    
+
       var data = {
       'email' : useremail,
       'pin' : userpin,
       '_token': _token
       }
-      
+
       var form = $(this);
       var url = form.attr('sign-user-url');
       var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
-    
+
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
-        
+
         e.currentTarget.submit();
       }
-    
+
         // display the error message some where on the page with result.message
       $('#error-div').html(result.message)
       })
-      
+
         // Continue the form submit
     // e.currentTarget.submit();
     })
     </script>
 
     {{-- Pharm hop signin --}}
- 
+
   <script>
     $('#pharmhodapproveform').submit(function(e){
-      
+
         e.preventDefault();
         console.log('attempted to submit form')
-        
+
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
         var userpin = $('#userpin').val()
-    
+
       var data = {
       'email' : useremail,
       'pin' : userpin,
       '_token': _token
       }
-      
+
       var form = $(this);
       var url = form.attr('sign-user-url');
       var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
-    
+
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
@@ -1573,7 +1573,7 @@ console.log(animalmodel);
         // display the error message some where on the page with result.message
        $('#error-div').html(result.message)
       })
-      
+
         // Continue the form submit
     // e.currentTarget.submit();
     })
@@ -1586,26 +1586,26 @@ console.log(animalmodel);
     pharmtest_selectedItems.forEach((item)=>{
 
   $('#pharmreportrejectapprovalform'+ `${item}`).submit(function(e){
- 
+
       e.preventDefault();
       console.log('attempted to submit form')
-      
+
       var _token = $('#_token').val()
       var useremail = $('#useremail'+ `${item}`).val()
       var userpin = $('#userpin'+ `${item}`).val()
-  
+
     var data = {
     'email' : useremail,
     'pin' : userpin,
     '_token': _token
     }
-    
+
     var form = $(this);
     var url = form.attr('approve-user-url');
     var url2 = form.attr('action')
     $.post(url, data, function(result){
     console.log(result)
-  
+
     if (result.status === true)
     {
       $('#adminid').val(result.admin);
@@ -1614,7 +1614,7 @@ console.log(animalmodel);
       // display the error message some where on the page with result.message
      $('#error-div'+ `${item}`).html(result.message)
     })
-    
+
       // Continue the form submit
   // e.currentTarget.submit();
   })
@@ -1622,40 +1622,40 @@ console.log(animalmodel);
 })
 </script>
         {{-- phyto hop signin --}}
- 
+
   <script>
     $('#phytohodapproveform').submit(function(e){
-      
+
         e.preventDefault();
         console.log('attempted to submit form')
-        
+
         var _token = $('#_token').val()
         var useremail = $('#useremail').val()
         var userpin = $('#userpin').val()
-    
+
       var data = {
       'email' : useremail,
       'pin' : userpin,
       '_token': _token
       }
-      
+
       var form = $(this);
       var url = form.attr('sign-user-url');
       // var url2 = form.attr('action')
       $.post(url, data, function(result){
       console.log(result)
-    
+
       if (result.status === true)
       {
         $('#adminid').val(result.admin);
-      
+
         e.currentTarget.submit();
       }
-    
+
       // display the error message some where on the page with result.message
       $('#error-div').html(result.message)
       })
-      
+
     // Continue the form submit
     // e.currentTarget.submit();
     })
@@ -1664,37 +1664,37 @@ console.log(animalmodel);
 
 <script>
   $('#pharmhodfinalapproveform').submit(function(e){
-    
+
       e.preventDefault();
       console.log('attempted to submit form')
-      
+
       var _token = $('#_token').val()
       var useremail = $('#useremail').val()
       var userpin = $('#userpin').val()
-  
+
     var data = {
     'email' : useremail,
     'pin' : userpin,
     '_token': _token
     }
-    
+
     var form = $(this);
     var url = form.attr('sign-user-url');
     var url2 = form.attr('action')
     $.post(url, data, function(result){
     console.log(result)
-  
+
     if (result.status === true)
     {
       $('#adminid').val(result.admin);
-      
+
       e.currentTarget.submit();
     }
-  
+
       // display the error message some where on the page with result.message
     $('#error-div').html(result.message)
     })
-    
+
       // Continue the form submit
   // e.currentTarget.submit();
   })
@@ -1707,7 +1707,7 @@ console.log(animalmodel);
 
   $("#pharmproduct_id").change(function() {
     var product_ma = $('option:selected', this).attr('product_ma');
-   
+
     console.log(product_ma);
     if (product_ma == 2) {
       $("." + 'methodapplied').find('option[value="6"]').attr("selected",true);
@@ -1716,7 +1716,7 @@ console.log(animalmodel);
       $("." + 'methodapplied').find('option[value="6"]').attr("selected",false);
     }
   })
-  
+
 </script>
 
 
@@ -1724,7 +1724,7 @@ console.log(animalmodel);
 
   $("#micro_la_conclution_option").change(function() {
     var tag = $('option:selected', this).attr('tag');
-   
+
     console.log(tag);
     if (tag == 1) {
       $("#flexRadioDefault1").prop("checked", true);
@@ -1737,13 +1737,13 @@ console.log(animalmodel);
       $(".showml2").toggle();
     }
   })
-  
+
 </script>
 <script>
 
    $("#micro_ea_comment_option").change(function() {
     var tag2 = $('option:selected', this).attr('tag2');
-   
+
     console.log(tag2);
     if (tag2 == 1) {
       $("#flexRadioDefault_1").prop("checked", true);
@@ -1866,8 +1866,8 @@ $(document).ready(function() {
  var modal = document.getElementById('carbonads');
 
  function ClosePopUp(){
-	// modal.style.display="none";   
-  $("." +'hidefade').fadeOut('slow');  
+	// modal.style.display="none";
+  $("." +'hidefade').fadeOut('slow');
 
 
 
@@ -1878,7 +1878,7 @@ $(document).ready(function() {
 //   $(".mymodal").toggle();
 // }
 //  setTimeout(showPopUp,21000);
- 
+
 //  ClosePopUp();
 //  showPopUp();
  });
@@ -1891,7 +1891,7 @@ $(document).ready(function() {
       $("." + 4).toggle();
 
      });
-      
+
   });
 
   $(document).ready(function() {
@@ -1901,10 +1901,10 @@ $(document).ready(function() {
         $('.pat').prop('required',true)
 
      });
-      
+
   });
 
-  
+
 </script>
 
 
