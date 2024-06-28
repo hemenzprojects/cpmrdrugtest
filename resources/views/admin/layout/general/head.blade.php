@@ -29,7 +29,7 @@
     {{-- summer note--}}
     {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> --}}
     <style type="text/css">
-        
+
 
     .wrapper .page-wrap .app-sidebar .sidebar-content .nav-container .navigation-main .nav-lavel {
 
@@ -72,10 +72,10 @@
     .showstatus2{
         display: none;
     }
- 
+
   .tox tox-tinymce{
        height: 500px;
-  } 
+  }
   #carbonads {
     background-color: #f7f8fb;
     bottom: 20px;
@@ -87,7 +87,7 @@
     right: 20px;
     z-index: 100;
 }
- 
+
 }
    </style>
 </head>

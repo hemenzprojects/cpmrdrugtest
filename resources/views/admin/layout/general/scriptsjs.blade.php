@@ -28,6 +28,7 @@
 {{-- <script src="{{asset('admin/assets/src/js/vendor/jquery-3.3.1.min.js')}}"></script>  --}}
 
 <script src="{{asset('admin/assets/js/form-advanced.js')}}"></script>
+<script src="{{asset('admin/assets/js/tinymce/tinymce.min.js')}}"></script>
 <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 
 
@@ -40,13 +41,16 @@
 <script src="{{asset('admin/assets/js/summernote.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/jquery-3.3.1.min.js')}}"></script> --}}
 
-<script src="https://cdn.tiny.cloud/1/30zqjanbkcfno2g9vjrwzpxz3c7t62jz5xoiivragy8d8lp7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+{{--<script src="https://cdn.tiny.cloud/1/30zqjanbkcfno2g9vjrwzpxz3c7t62jz5xoiivragy8d8lp7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>--}}
 {{-- <script src="{{asset('admin/assets/js/tinymce.js')}}" referrerpolicy="origin"></script> --}}
 
 
 
 
 <script>
+    tinymce.init({
+        selector: '.textarea'  // change this value according to your HTML
+    });
   tinymce.init({
     selector: 'textarea#tinymce',
     min_height: 350,
