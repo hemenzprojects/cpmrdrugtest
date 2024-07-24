@@ -7,7 +7,7 @@
 @endphp
 
 <div class="container-fluid">
-    @include('admin.pharm.temp.preview') 
+    @include('admin.pharm.temp.preview')
     @include('admin.pharm.temp.hodstatistics2')
 
 <div class="row">
@@ -25,30 +25,30 @@
                 <li class="nav-item">
                     <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Edit Report</a>
                 </li>
-               
+
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
                     <div class="card-body">
-                        @if ($product->pharm_hod_evaluation ===2) 
-                        Please preview and evaluate <strong>({{$product->code}})</strong>  report 
+                        @if ($product->pharm_hod_evaluation ===2)
+                        Please preview and evaluate <strong>({{$product->code}})</strong>  report
                         @endif
                     </div>
                 </div>
                 <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="card-body">
-                        <div class="text-center"> 
+                        <div class="text-center">
                             <img src="{{asset('admin/img/logo.jpg')}}" class="" width="9%">
                             <h4 class="font" style="font-size:18px"> Centre for Plant Medicine Research </h4>
                             <p class="card-subtitle">Pharmacology & Toxicology Department</p>
                            </div>
-              
+
                            <form action="{{url('admin/pharm/hod_office/editreport',['id' => $pharmreports->id])}}" method="post">
-                             {{ csrf_field() }} 
-                             @include('admin.pharm.temp.productformat') 
-              
+                             {{ csrf_field() }}
+                             @include('admin.pharm.temp.productformat')
+
                              @if ($pharmreports->pharm_testconducted ==1  || $pharmreports->pharm_testconducted ==3)
-              
+
                                  <div class="row test1 test3" style="display: none;">
                                      <div class="col-sm-8">
                                          <div class="card">
@@ -56,44 +56,44 @@
                                          <div class="" style="padding: 1%">
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:1px"><strong> REMARKS: </strong></h4>
                                              <p style="font-size: 16px">
-                                                 <textarea id="tinymce" class="form-control" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
-                                             </p>       
-                                         </div>  
+                                                 <textarea  class="textarea" name="pharm_acute_comment"  rows="6"> {{$pharmreports->pharm_acute_comment}} </textarea>
+                                             </p>
+                                         </div>
                                          </div>
                                      </div>
                                      <div class="col-sm-4">
-                                             @include('admin.pharm.temp.acuteanimalexpreport') 
+                                             @include('admin.pharm.temp.acuteanimalexpreport')
                                      </div>
-                 
+
                                  </div>
-                                @endif 
-                 
+                                @endif
+
                                       {{-- This section is for Dermal test --}}
                                       @if ($pharmreports->pharm_testconducted ==2 || $pharmreports->pharm_testconducted ==3)
                                      <div class="card">
                                          <div class="row">
                                              <div class="col-sm-7">
                                                  {{-- <p style="font-size:16px; margin:4px; "></p> --}}
-                                                 <textarea id="tinymce" name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="form-control" rows="9"> {!! $pharmreports->pharm_standard !!} </textarea>  
-                 
+                                                 <textarea  name="pharm_standard" style="font-size: 16px;  text-align: justify ;" class="textarea" rows="9"> {!! $pharmreports->pharm_standard !!} </textarea>
+
                                                  <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> RESULTS: </strong></h4>
                                                  <p >
-                                                     <textarea id="tinymce0" name="pharm_result" style="font-size: 16px; text-align: justify ;" class="form-control" rows="5"> {{$pharmreports->pharm_result}} </textarea>  
-                                                 </p> 
-                                                 
+                                                     <textarea name="pharm_result" style="font-size: 16px; text-align: justify ;" class=" textarea" rows="5"> {{$pharmreports->pharm_result}} </textarea>
+                                                 </p>
+
                                                  <h4 class="font" style="font-size:18px; margin:20px; margin-top:15px"> <strong>REMARKS: </strong></h4>
-                                         
+
                                                  <p >
-                                                     <textarea id="tinymce1" name="pharm_dermal_comment" id=""  style="font-size: 16px" class="form-control" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
-                                                     
+                                                     <textarea name="pharm_dermal_comment" id=""  style="font-size: 16px" class="textarea" rows="3"> {{$pharmreports->pharm_dermal_comment}} </textarea>
+
                                                  </p>
                                              </div>
                                              <div class="col-sm-5">
                                                  <div class="card-body">
-                                                     @include('admin.pharm.temp.dermalanimalexpreport') 
+                                                     @include('admin.pharm.temp.dermalanimalexpreport')
                                                  </div>
-                                             </div>    
-                                         </div>  
+                                             </div>
+                                         </div>
                                      </div>
                                      @endif
                              <div class="card">
@@ -102,18 +102,18 @@
 
                                     <h4 class="font" style="font-size:18px; margin:10px; margin-top:15px"><strong> ADDITIONAL FEATURE: </strong></h4>
 
-                                    <textarea id="tinymce5" class="pat" style="font-size: 16px text-align: justify " class="form-control" rows="1" name="additional_testcontent" >
+                                    <textarea class="pat" style="font-size: 16px text-align: justify " class="form-control textarea" rows="1" name="additional_testcontent" >
                                         {{$product->pharm_additional_testcontent}}
                                     </textarea>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                              <div class="row"  style="margin-bottom:5px; margin:1px; margin-top:1px">
                                  <div class="col-sm-8">
-                           
+
                                          <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Final Remarks: </strong></h4>
-                 
+
                                      <textarea  id="tinymce2" name="pharm_hod_remarks" class="form-control" id="exampleTextarea1" rows="4">{{$product->pharm_hod_remarks}}</textarea>
-                                     
+
                                  </div>
                                  <div class="col-sm-4">
                                      <h4 class="font" style="font-size:18px; margin:10px; margin-top:5px"><strong> Report Grade</strong></h4>
@@ -122,62 +122,62 @@
                                          <option value="{{$product->pharm_grade}}">{!! $product->pharm_grade_report !!}</option>
                                              <option value="1">Failed</option>
                                              <option value="2">Passed</option>
-                                         </select> 
+                                         </select>
                                      <br>
-                                                 
+
                                  </div>
                              </div>
                                 @if ($pharmreports->pharm_process_status < 8)
                                 <div class="col-sm-3" style="margin-bottom:2%">
                                  <button type="submit" class="btn btn-danger pull-right"> <i class="fa fa-credit-card"></i>Save report</button>
                              </div>
-                 
+
                                 @endif
-                                 
+
                                  </div>
-                                 @include('admin.pharm.temp.signaturetemp') 
-              
+                                 @include('admin.pharm.temp.signaturetemp')
+
                         </form>
-                 
+
                     </div>
                 </div>
             </div>
-  
-  
-  
+
+
+
           <div class="col-12" style="padding: 10px">
-            
+
             <div class="row" style="margin-top: 11;margin-bottom: 11;">
                 <div class="col-md-9">
-                    @if ($product->pharm_process_status ===8) 
+                    @if ($product->pharm_process_status ===8)
                     <div class="alert alert-success" role="alert">
-                        Report succesfully analysed and approved. Final report of <strong> {{$product->code}}</strong>  will be printed by SID and submited for review. 
+                        Report succesfully analysed and approved. Final report of <strong> {{$product->code}}</strong>  will be printed by SID and submited for review.
                     </div>
                    @endif
                   </div>
                   <div class="col-md-8">
-                      @if (\App\Product::find($report_id)->pharm_process_status ===7) 
+                      @if (\App\Product::find($report_id)->pharm_process_status ===7)
                       <div class="alert alert-danger" role="alert">
                       Report of {{$product->code}}  has been rejected.
-                      </div>       
+                      </div>
                      @endif
                   </div>
                 </div>
                <div class="row" style="margin-top: 11;margin-bottom: 11;">
 
                     <div class="col-md-6" style="margin-right: 1%">
-                        @if (($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===6) || $product->pharm_process_status ===7 ) 
+                        @if (($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===6) || $product->pharm_process_status ===7 )
                         <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#exampleModalCenter"> <i class="ik ik-clipboard"></i> Evaluate Report</button>
                         @endif
                         <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModal">
-                            <i class="fa fa-chevron-right "></i> 
+                            <i class="fa fa-chevron-right "></i>
                             Preview
                         </button>
-                        
+
                       </div>
-                  <div class="col-md-5">  
-                      @if ($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===8 ) 
-                      
+                  <div class="col-md-5">
+                      @if ($product->pharm_hod_evaluation ===2 && $product->pharm_process_status ===8 )
+
                     <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#exampleModalCenter">  Reject Report</button>
                     <a onclick="return confirm('Consider the following before completing report : 1.All report fields must be appropriately checked 2.Completed Reports can not be edited after submision, you would be required to see system Administrator for unavoidable complains or changes.  Thank you')"  href="{{url('admin/pharm/report/hod_office/complete_report',['id' => $report_id])}}">
                     <button type="button" class="btn btn-success pull-right"> complete report</button>
@@ -191,8 +191,8 @@
 </div>
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document"> 
-  
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
          <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterLabel">Please Sign to evaluate report</h5>
@@ -230,8 +230,8 @@
                         @enderror
                         <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
                         <input required id="userpin" type="password" class="form-control" name="pin" placeholder="Sign with PIN">
-                    </div>       
-                              
+                    </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
