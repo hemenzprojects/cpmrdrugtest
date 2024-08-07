@@ -38,7 +38,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6>Report(s) Withheld</h6>
-                                            @foreach ($withhelds->groupBy('phyto_hod_evaluation') as $result_evaluation) 
+                                            @foreach ($withhelds->groupBy('phyto_hod_evaluation') as $result_evaluation)
                                            <h2>{{count($result_evaluation)}}</h2>
                                             @endforeach
                                         </div>
@@ -59,9 +59,9 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6> Approved Report(s)</h6>
-                                            @foreach ($approvals->groupBy('phyto_hod_evaluation') as $result_approved) 
-                                            <h2>{{count($result_approved)}}</h2>
-                                             @endforeach
+{{--                                            @foreach ($approvals->groupBy('phyto_hod_evaluation') as $result_approved) --}}
+{{--                                            <h2>{{count($result_approved)}}</h2>--}}
+{{--                                             @endforeach--}}
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-thumbs-up"></i>
@@ -80,9 +80,9 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="state">
                                             <h6>Completed Report(s) </h6>
-                                            @foreach ($completeds->groupBy('phyto_hod_evaluation') as $result_completed) 
-                                            <h2>{{count($result_completed)}}</h2>
-                                             @endforeach
+{{--                                            @foreach ($completeds->groupBy('phyto_hod_evaluation') as $result_completed) --}}
+{{--                                            <h2>{{count($result_completed)}}</h2>--}}
+{{--                                             @endforeach--}}
                                         </div>
                                         <div class="icon">
                                             <i class="ik ik-calendar"></i>
@@ -100,19 +100,19 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        @include('admin.phyto.temp.hodoffice2') 
-    
+                        @include('admin.phyto.temp.hodoffice2')
+
                     </div>
                     <div class="col-md-8">
                         <div class="card">
-                            
-                              
+
+
                         </div>
                     </div>
-                   
+
                 </div>
 
-        
+
     </div>
 </div>
 @endsection
