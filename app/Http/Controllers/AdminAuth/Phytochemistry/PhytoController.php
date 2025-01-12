@@ -777,7 +777,7 @@ class PhytoController extends Controller
 
 //                 $data['completeds'] = Product::where('phyto_hod_evaluation',2)->with('departments')->whereHas("departments", function($q){
 //                  return $q->where("dept_id", 3)->where("status", 4);
-//                 })->get();
+// //                })->get();
                   return view('admin.phyto.hodoffice.evaluation',$data);
 
                 }
