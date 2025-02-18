@@ -33,20 +33,27 @@ class MicroController extends Controller
     //********************* Micro Receive Product ****************** */
 
     public function receiveproduct_index(){
-      
-    
+
+
       if(!Admin::find(Auth::guard('admin')->id())->hasPermission(13)) {
         Session::flash('messagetitle', 'warning');
         Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
         return redirect()->route('admin.general.dashboard');
 
-    }   
+    }
          $data['product_type_id']= 0;
          $data['product_types'] = ProductType::all();
 
-          $data['dept1'] = Department::find(1)->products()->with('departments')->where('status',1)->orderBy('status')->get();
+        $dept = Department::find(1);
 
-          return View('admin.micro.receiveproduct', $data); 
+        $data['dept1'] = $dept->products()
+            ->whereHas('departments', function ($q) {
+                $q->where('dept_id', 1)->where('status','<=',3);
+            })
+            ->orderBy('status')
+            ->get();
+
+          return View('admin.micro.receiveproduct', $data);
 
     }
 
@@ -56,8 +63,8 @@ class MicroController extends Controller
           Session::flash('messagetitle', 'warning');
           Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
           return redirect()->route('admin.general.dashboard');
-  
-      } 
+
+      }
        $data['product_type_id'] = $r->product_type_id;
        $data['product_types'] = ProductType::all();
 
@@ -67,82 +74,82 @@ class MicroController extends Controller
            return $q->where("dept_id",1)->where("status",$r->status);
           })->get();
         }
-     
+
         if ($r->date == 1) {
 
           $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
-  
+
           $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
           ->whereHas("departments", function($q)use($r,$week_start){
             return $q->where("dept_id",1)->where('product_depts.created_at','>=',$week_start);
           })->get();
 
           if ($r->status == 1) {
-  
+
             $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
-  
+
             $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
             ->whereHas("departments", function($q)use($r,$week_start){
               return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.created_at','>=',$week_start);
             })->get();
           }
-     
+
           if ($r->status > 1) {
             $week_start = date('Y-m-d 00:00:00', strtotime('-'.date('w').' days'));
-  
+
             $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')
             ->whereHas("departments", function($q)use($r,$week_start){
               return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.received_at','>=',$week_start);
             })->get();
           }
-     
+
         }
-  
+
         if ($r->date == 2) {
 
           $month_start = date('Y-m-01 00:00:00');
-  
+
           $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
              return $q->where("dept_id",1)->where('product_depts.created_at','>=',$month_start);
            })->get();
 
           if ($r->status == 1) {
             $month_start = date('Y-m-01 00:00:00');
-  
+
             $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
                return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.created_at','>=',$month_start);
              })->get();
           }
           if ($r->status > 1) {
             $month_start = date('Y-m-01 00:00:00');
-  
+
             $data['dept1'] = Department::find(1)->products()->orderBy('status')->with('departments')->whereHas("departments", function($q)use($r,$month_start){
                return $q->where("dept_id",1)->where("status",$r->status)->where('product_depts.received_at','>=',$month_start);
              })->get();
           }
-      
+
         }
         elseif ($r->date == Null && $r->status == Null) {
-      
+
         $data['dept1'] = Department::find(1)->products()->with('departments')->orderBy('status')
        ->whereHas("departments", function($q){
         return $q->where("dept_id",1);
        })->get();
        }
-       return View('admin.micro.receiveproduct', $data); 
-      } 
+       return View('admin.micro.receiveproduct', $data);
+      }
 
     public function acceptproduct(AcceptMircoProductRequest $request)
-      {    
-        
+      {
+
         if(!Admin::find(Auth::guard('admin')->id())->hasPermission(14)) {
           Session::flash('messagetitle', 'warning');
           Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
           return redirect()->route('admin.general.dashboard');
 
-        }       
-        
-            
+        }
+
+
               $adminId = Auth::guard('admin')->id();
               $deptproduct_id = $request->deptproduct_id;
               $status = $request->status;
@@ -152,23 +159,23 @@ class MicroController extends Controller
               Session::flash('message_title', 'error');
               Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
               return redirect()->route('admin.micro.receiveproduct');
-          } 
-          
+          }
+
               if ($deptproduct_id == 0) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required product and submit.');
               return redirect()->route('admin.micro.receiveproduct');
-                      }  
+                      }
 
             $productdeptstatus = ProductDept::whereIn('product_id', $deptproduct_id)->where("dept_id", 1)->where("status", '>',2)->first();
             if ($status < (!empty($productdeptstatus->status) ? $productdeptstatus->status: '')) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Sorry Product(s) is/are now in a work process mode..');
-              return redirect()->route('admin.micro.receiveproduct');            } 
+              return redirect()->route('admin.micro.receiveproduct');            }
 
             if ($status == 1) {
-              $data = 
-              [ 
+              $data =
+              [
               'status' => 1,
               'received_by' => Null,
               'delivered_by' => Null,
@@ -177,17 +184,17 @@ class MicroController extends Controller
             }
 
               if ($status == 2) {
-                $data = 
-                [ 
+                $data =
+                [
                 'status' => 2,
                 'received_by' => $adminId,
                 'delivered_by' => $delivered_by,
                 'received_at' => \Carbon\Carbon::now(),
                 ];
-               
+
               }
             ProductDept::whereIN('product_id',$deptproduct_id)->where("dept_id", 1)->where("status", '<', 3)->update($data);
-           
+
             Session::flash('message_title', 'success');
             Session::flash('message', 'Product(s) status successfully updated ');
             return redirect()->route('admin.micro.receiveproduct')
@@ -195,7 +202,7 @@ class MicroController extends Controller
            }
 
             public function checkuser(Request $request){
-              
+
               $userEmail = $request->get('email');
               $adminPin = $request->get('pin');
 
@@ -211,12 +218,12 @@ class MicroController extends Controller
               if(!Hash::check($adminPin, $admin->pin)){
                 return response()->json(['status' => false, 'message' => "Your PIN is invalid. Please check and sign"]);
               }
-              
+
             return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
               // if ($user) {
               //   return redirect()->route('admin.user.microproduct', $user);
               // }
-             
+
            }
 
 
@@ -228,7 +235,7 @@ class MicroController extends Controller
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
-                } 
+                }
 
                  $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-12 days'));
 
@@ -238,13 +245,13 @@ class MicroController extends Controller
                 $load_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
 
                 $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
-               
+
 
                 $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::whereIn("id", $load_analysis_options)->orderBy('location', 'ASC')->get();
 
                 $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
 
-              
+
                 //********************* section for the dept offcie only ***** */
 
                 $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
@@ -254,7 +261,7 @@ class MicroController extends Controller
                $data['microproduct_withloadanalysis'] = Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-    
+
                  $data['microproduct_withefficacyanalysis'] = Product::with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
@@ -270,14 +277,14 @@ class MicroController extends Controller
                $data['auth_microproduct_withloadanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-    
+
                  $data['auth_microproduct_withefficacyanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
                $data['auth_microproduct_withtests'] = $data['auth_microproduct_withloadanalysis']->merge($data['auth_microproduct_withefficacyanalysis']);
 
-               
+
 
                 //***************************************** All completed report  */
 
@@ -286,38 +293,38 @@ class MicroController extends Controller
                 })->limit(99)->get();
 
 
-         
-               
-                return View('admin.micro.createreport', $data); 
+
+
+                return View('admin.micro.createreport', $data);
               }
 
               public function test_create(MicroTestCreateRequest $r){
 
                 $productdept = MicrobialLoadReport::where('date_template',Null)->get();
 
-                // for ($i=0; $i < count($productdept); $i++) { 
+                // for ($i=0; $i < count($productdept); $i++) {
                 //   \App\MicrobialLoadReport::where('id',">", 0)->update([
                 //     'date_template'=>"2021-08-12",
                 //   ]);
                 // }
-               
-                // return 0; 
+
+                // return 0;
                 // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(16)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
-                } 
+                }
                 //  $micro_grades = [1,2];
                 //  if(!in_array($r->micro_grade, $micro_grades)){
                 //   Session::flash('message_title', 'error');
                 //   Session::flash('message', 'Sorry! System Error.');
                 //     return redirect()->back();
                 //  }
-               
+
                 $input = $r->all();
-                
+
                 $mp_id = $input['micro_product_id'];
                 $products = Product::where('id',$mp_id);
                 if(count($products->get()) < 1){
@@ -349,7 +356,7 @@ class MicroController extends Controller
                 $ci_zone = [];
                 $fi_zone = [];
                 $reference = [];
-            
+
                 if($r->test_conducted_id){
 
                   foreach ($r->mltest_id as $key => $value) {
@@ -373,7 +380,7 @@ class MicroController extends Controller
                       Session::flash('message', 'Compliance field is required.');
                       return redirect()->back();
                     }
-                 
+
                     array_push($test_conducted,$r->{'test_conducted_'.$value});
                     array_push($result,$r->{'result_'.$value});
                     array_push($acceptance_criterion,$r->{'acceptance_criterion_'.$value});
@@ -387,16 +394,16 @@ class MicroController extends Controller
                       return redirect()->back();
                     }
                   }
-               
-                  
-                    for ($i=0; $i < count($result); $i++) { 
-                     
+
+
+                    for ($i=0; $i < count($result); $i++) {
+
                       if ($i<2) {
-                   
+
                       $results= explode(' ',$result[$i]);
                       $rs_part1 =$results[0];
                       $rs_part2 = explode('^',$results[2]);
-                  
+
                       $rs_total = $rs_part1 * pow($rs_part2[0],$rs_part2[1]);
 
                       $criterial= explode(' ',$acceptance_criterion[$i]);
@@ -404,7 +411,7 @@ class MicroController extends Controller
                       $ac_part2 = explode('^',$criterial[2]);
                      $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
 
-                     
+
                          MicrobialLoadReport::create([
                           'test_conducted'=>$test_conducted[$i],
                           'load_analyses_id'=>$r->mltest_id[$i],
@@ -421,10 +428,10 @@ class MicroController extends Controller
                           'created_at' => \Carbon\Carbon::now(),
                           'updated_at' => \Carbon\Carbon::now(),
                       ]);
-             
+
                     }else{
-                      
-                      
+
+
                         MicrobialLoadReport::create([
                         'test_conducted'=>$test_conducted[$i],
                         'load_analyses_id'=>$r->mltest_id[$i],
@@ -444,7 +451,7 @@ class MicroController extends Controller
                         }
 
                      }
-                    
+
                      $micro_la_comment = Null;
                    if ($r->ml_general_comment) {
                      $micro_la_comment = $r->micro_la_comment_text;
@@ -456,7 +463,7 @@ class MicroController extends Controller
                      $product->update();
 
                      if ($r->load_default_conclusion == 1) {
-                      $conclustions = MicroReportConclusion::findorFail(1); 
+                      $conclustions = MicroReportConclusion::findorFail(1);
                       $product = $products->first();
                       $product->micro_grade = 2;
                       $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -464,7 +471,7 @@ class MicroController extends Controller
                       $product->update();
                     }
                     if($r->load_default_conclusion == 2) {
-                      $conclustions = MicroReportConclusion::findorFail(2); 
+                      $conclustions = MicroReportConclusion::findorFail(2);
                       $product = $products->first();
                       $product->micro_grade = 1;
                       $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -472,7 +479,7 @@ class MicroController extends Controller
                       $product->update();
                     }
                  }
-                  
+
                   if($r->efficacyanalyses){
 
                  foreach ($r->metest_id as $key => $value) {
@@ -504,23 +511,23 @@ class MicroController extends Controller
                 array_push($reference,$r->{'reference_'.$value});
 
               }
-                  for ($j=0; $j < count($pi_zone); $j++) { 
+                  for ($j=0; $j < count($pi_zone); $j++) {
                           MicrobialEfficacyReport::create([
                           'efficacy_analyses_id'=>$r->metest_id[$j],
                           'product_id'=>$r->micro_product_id,
                           'pathogen'=>$pathogen[$j],
                           'pi_zone'=>$pi_zone[$j],
-                          'ci_zone'=>$ci_zone[$j], 
+                          'ci_zone'=>$ci_zone[$j],
                           'fi_zone'=>$fi_zone[$j],
                           'reference'=>$reference[$j],
                           'added_by_id' => Auth::guard('admin')->id(),
                           'created_at' => \Carbon\Carbon::now(),
                           'updated_at' => \Carbon\Carbon::now(),
                           ]);
-                         
+
                        }
 
-                       $micro_ea_comment = Null;  
+                       $micro_ea_comment = Null;
                      if ($r->me_general_comment) {
                        $micro_ea_comment = $r->micro_ea_comment_text;
                      }else {
@@ -528,10 +535,10 @@ class MicroController extends Controller
                      }
                        $product = $products->first();
                        $product->micro_ea_comment = $micro_ea_comment;
-                       $product->update(); 
-                       
+                       $product->update();
+
                 if ($r->efficacy_default_conclusion ==1) {
-                  $conclustions = MicroReportConclusion::findorFail(3); 
+                  $conclustions = MicroReportConclusion::findorFail(3);
                   $product = $products->first();
                   $product->micro_grade = 2;
                   $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
@@ -539,7 +546,7 @@ class MicroController extends Controller
                   $product->update();
                 }
                 if ($r->efficacy_default_conclusion ==2) {
-                  $conclustions = MicroReportConclusion::findorFail(4); 
+                  $conclustions = MicroReportConclusion::findorFail(4);
                   $product->micro_grade = 1;
                   $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
                   $product = $products->first();
@@ -552,17 +559,17 @@ class MicroController extends Controller
                   $productdepts = ProductDept::where('product_id',$mp_id)->where("dept_id", 1)->where("status",2);
                   $productdept = $productdepts->first();
                   $productdept->status = 3;
-                  $productdept->update(); 
-            
+                  $productdept->update();
+
                   $product = $products->first();
                   $product->micro_dateanalysed =$r->date_analysed;
                   $product->micro_analysed_by = Auth::guard('admin')->id();
                   $product->update();
 
                if ($r->test_conducted_id  && $r->efficacyanalyses){
-                 
+
                 if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 1) {
-                  $conclustions = MicroReportConclusion::findorFail(5); 
+                  $conclustions = MicroReportConclusion::findorFail(5);
                   $product = $products->first();
                   $product->micro_grade = 2;
                   $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -571,7 +578,7 @@ class MicroController extends Controller
                   $product->update();
                 }
                 if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 2) {
-                  $conclustions = MicroReportConclusion::findorFail(6); 
+                  $conclustions = MicroReportConclusion::findorFail(6);
                   $product = $products->first();
                   $product->micro_grade = 2;
                   $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -580,7 +587,7 @@ class MicroController extends Controller
                   $product->update();
                   }
                 if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 1) {
-                  $conclustions = MicroReportConclusion::findorFail(7); 
+                  $conclustions = MicroReportConclusion::findorFail(7);
                   $product = $products->first();
                   $product->micro_grade = 1;
                   $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -589,7 +596,7 @@ class MicroController extends Controller
                   $product->update();
                   }
                 if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 2) {
-                  $conclustions = MicroReportConclusion::findorFail(8); 
+                  $conclustions = MicroReportConclusion::findorFail(8);
                   $product = $products->first();
                   $product->micro_grade = 1;
                   $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -604,85 +611,85 @@ class MicroController extends Controller
             }
 
               public function report_show(MicrobialLoadReport $microbialReport, $id)
-              { 
+              {
 
-            
+
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(17)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
-                } 
+                }
                $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-                if(count($productdepts->get()) < 1){     
+                if(count($productdepts->get()) < 1){
                   return redirect()->route('admin.micro.report.create');
                 }
-                $data['report_id'] = $id;     
-                $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);         
+                $data['report_id'] = $id;
+                $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
                 $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
-                
+
                 $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
-          
+
                 $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
-               
+
                 $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
                  return view('admin.micro.showreport', $data);
-          
+
               }
 
 
               public function report_update(request $r, $id)
               {
                 // dd($r->all());
-                 
+
                 if ($r->complete_report == Null) {
                   if ($r->ml_general_comment) {
                     Session::flash('messagetitle', 'error');
                     Session::flash('message', 'Please check the error bellow. Microbial Load Comment is required');
                     $r->validate([
-                      'micro_la_comment_text' => 'required',           
+                      'micro_la_comment_text' => 'required',
                     ]);
-                    
+
                    }else{
                      if ($r->micro_la_comment_option == Null) {
                       Session::flash('messagetitle', 'error');
                       Session::flash('message', 'Please check the error bellow. Microbial Load Comment Option is required');
                       $r->validate([
-                        'micro_la_comment_option' => 'required',           
+                        'micro_la_comment_option' => 'required',
                       ]);
                      }
-                
+
                    }
-  
+
                    if ($r->efficacyanalyses_update && $r->me_general_comment) {
                     Session::flash('messagetitle', 'error');
                     Session::flash('message', 'Please check the error bellow. Microbial Efficacy Comment is required');
                     $r->validate([
-                      'micro_ea_comment_text' => 'required',           
+                      'micro_ea_comment_text' => 'required',
                     ]);
-                    
+
                    }else{
                      if ($r->efficacyanalyses_update && ($r->micro_ea_comment_option == Null)) {
-                      
+
                       Session::flash('messagetitle', 'error');
                       Session::flash('message', 'Please check the error bellow. Microbial Efficacy Option is required');
                       $r->validate([
-                        'micro_ea_comment_option' => 'required',           
+                        'micro_ea_comment_option' => 'required',
                       ]);
                      }
-                
+
                    }
                 }
-              
-                
+
+
                 // dd($r->all());
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(18)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
-                } 
+                }
                 $products= Product::where('id',$id);
                 if(count($products->get()) < 1){
                   Session::flash('messagetitle', 'warning');
@@ -700,7 +707,7 @@ class MicroController extends Controller
                $mlmc_ids =  $r->mlmc_ids;
 
                $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-                if(count($productdepts->get()) < 1){     
+                if(count($productdepts->get()) < 1){
                     return redirect()->back();
                 }
 
@@ -710,8 +717,8 @@ class MicroController extends Controller
                   return redirect()->back();
                 }
                    if($r->test_conducted_update){
-                
-                    for ($i =0; $i < count($r->result); $i++){ 
+
+                    for ($i =0; $i < count($r->result); $i++){
                           if ($i<2) {
                             $results= explode(' ',$r->result[$i]);
                             $rs_part1 =$results[0];
@@ -722,7 +729,7 @@ class MicroController extends Controller
                             $ac_part1 =$criterial[0];
                             $ac_part2 = explode('^',$criterial[2]);
                             $ac_total = $ac_part1 * pow($ac_part2[0],$ac_part2[1]);
-                            
+
                             \App\MicrobialLoadReport::find($r->mltest_id[$i])->update([
                             'test_conducted'=>$r->test_conducted[$i],
                             'result'=>$r->result[$i],
@@ -732,9 +739,9 @@ class MicroController extends Controller
                             'ac_total'=>$ac_total,
                             'updated_at' => \Carbon\Carbon::now(),
                           ]);
-                          
+
                           }
-                    
+
                             else{
                               DB::table('microbial_load_reports')->where('id', $mlr_ids[$i])
                               ->update([
@@ -748,9 +755,9 @@ class MicroController extends Controller
                               ]);
                               }
                        }
-                         
+
                         if ($r->load_default_conclusion == 1) {
-                          $conclustions = MicroReportConclusion::findorFail(1); 
+                          $conclustions = MicroReportConclusion::findorFail(1);
                           $product = $products->first();
                           $product->micro_grade = 2;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -758,23 +765,23 @@ class MicroController extends Controller
                           $product->update();
                         }
                         if($r->load_default_conclusion == 2) {
-                          $conclustions = MicroReportConclusion::findorFail(2); 
+                          $conclustions = MicroReportConclusion::findorFail(2);
                           $product = $products->first();
                           $product->micro_grade = 1;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
                           $product->micro_general_conclusion = $conclustions->default_conclusion;
                           $product->update();
                         }
-                      
+
                      }
-                
+
                         if($r->efficacyanalyses_form){
                           $pathogen_form = [];
                           $pi_zoneform = [];
                           $ci_zoneform = [];
                           $fi_zoneform = [];
                           $reference = [];
-                         
+
                         foreach ($r->metestform_id as $key => $value) {
                           if(!isset($r->{'pathogen_form_'.$value}) or $r->{'pathogen_form_'.$value}==null){
                             Session::flash('message_title', 'error');
@@ -796,23 +803,23 @@ class MicroController extends Controller
                             Session::flash('message', 'fi_zone field is required.');
                             return redirect()->back();
                           }
-          
+
                           array_push($pathogen_form,$r->{'pathogen_form_'.$value});
                           array_push($pi_zoneform,$r->{'pi_zoneform_'.$value});
                           array_push($ci_zoneform,$r->{'ci_zoneform_'.$value});
                           array_push($fi_zoneform,$r->{'fi_zoneform_'.$value});
                           array_push($reference,$r->{'reference_'.$value});
-          
+
                         }
 
-                       
-                         for ($k=0; $k < count($r->metestform_id); $k++) { 
+
+                         for ($k=0; $k < count($r->metestform_id); $k++) {
                          $data1 = ([
                           'efficacy_analyses_id'=>$r->metestform_id[$k],
                           'product_id'=>$r->micro_product_id,
                           'pathogen'=>$pathogen_form[$k],
                           'pi_zone'=>$pi_zoneform[$k],
-                          'ci_zone'=>$ci_zoneform[$k], 
+                          'ci_zone'=>$ci_zoneform[$k],
                           'fi_zone'=>$fi_zoneform[$k],
                           'reference'=>$reference[$k],
 
@@ -823,21 +830,21 @@ class MicroController extends Controller
                           DB::table('microbial_efficacy_reports')->insert($data1);
                           }
 
-                            $micro_ea_comment = Null;  
+                            $micro_ea_comment = Null;
 
                           if ($r->me_general_comment) {
                             $micro_ea_comment = $r->micro_ea_comment_text;
                           }else {
                             $micro_ea_comment= $r->micro_ea_comment_option;
                           }
-     
+
                             $product = $products->first();
                             $product->micro_ea_comment = $micro_ea_comment;
-                            $product->update(); 
-                            
-                       
+                            $product->update();
+
+
                           if ($r->efficacy_default_conclusion ==1) {
-                            $conclustions = MicroReportConclusion::findorFail(3); 
+                            $conclustions = MicroReportConclusion::findorFail(3);
                             $product = $products->first();
                             $product->micro_grade = 2;
                             $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
@@ -845,7 +852,7 @@ class MicroController extends Controller
                             $product->update();
                           }
                           if ($r->efficacy_default_conclusion ==1) {
-                            $conclustions = MicroReportConclusion::findorFail(4); 
+                            $conclustions = MicroReportConclusion::findorFail(4);
                             $product = $products->first();
                             $product->micro_grade = 2;
                             $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
@@ -869,15 +876,15 @@ class MicroController extends Controller
 
                                 'added_by_id' => Auth::guard('admin')->id(),
                                 'updated_at' => \Carbon\Carbon::now(),
-                              ]  
+                              ]
                               );
                           $l++;
                         }
 
-                        
-                            
+
+
                       if ($r->efficacy_default_conclusion ==1) {
-                        $conclustions = MicroReportConclusion::findorFail(3); 
+                        $conclustions = MicroReportConclusion::findorFail(3);
                         $product = $products->first();
                         $product->micro_grade = 2;
                         $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
@@ -885,7 +892,7 @@ class MicroController extends Controller
                         $product->update();
                       }
                       if ($r->efficacy_default_conclusion ==1) {
-                        $conclustions = MicroReportConclusion::findorFail(4); 
+                        $conclustions = MicroReportConclusion::findorFail(4);
                         $product = $products->first();
                         $product->micro_grade = 2;
                         $product->micro_ea_conclusion = $r->efficacy_default_conclusion;
@@ -897,7 +904,7 @@ class MicroController extends Controller
 
                       if ($r->test_conducted_update && $r->efficacyanalyses_update){
                         if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 1) {
-                          $conclustions = MicroReportConclusion::findorFail(5); 
+                          $conclustions = MicroReportConclusion::findorFail(5);
                           $product = $products->first();
                           $product->micro_grade = 2;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -906,7 +913,7 @@ class MicroController extends Controller
                           $product->update();
                         }
                         if ($r->load_default_conclusion == 1 && $r->efficacy_default_conclusion == 2) {
-                          $conclustions = MicroReportConclusion::findorFail(6); 
+                          $conclustions = MicroReportConclusion::findorFail(6);
                           $product = $products->first();
                           $product->micro_grade = 2;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -915,7 +922,7 @@ class MicroController extends Controller
                           $product->update();
                           }
                         if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 1) {
-                          $conclustions = MicroReportConclusion::findorFail(7); 
+                          $conclustions = MicroReportConclusion::findorFail(7);
                           $product = $products->first();
                           $product->micro_grade = 1;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -924,7 +931,7 @@ class MicroController extends Controller
                           $product->update();
                           }
                         if ($r->load_default_conclusion == 2 && $r->efficacy_default_conclusion == 2) {
-                          $conclustions = MicroReportConclusion::findorFail(8); 
+                          $conclustions = MicroReportConclusion::findorFail(8);
                           $product = $products->first();
                           $product->micro_grade = 1;
                           $product->micro_la_conclusion = $r->load_default_conclusion;
@@ -952,22 +959,22 @@ class MicroController extends Controller
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                       return $q->where("dept_id", 1)->where("status", 3);
                       });
-                       
+
                       $product = $products->first();
                       $product->micro_ea_comment = $micro_ea_comment;
                       $product->micro_la_comment = $micro_la_comment;
                       $product->micro_hod_remarks = $r->micro_hod_remarks;
                       $product->micro_dateanalysed =$r->date_analysed;
-                      $product->micro_dateapproved =\Carbon\Carbon::now();  
+                      $product->micro_dateapproved =\Carbon\Carbon::now();
                       $product->update();
 
                       $productdepts = ProductDept::where('product_id',$r->micro_product_id)->where("dept_id", 1)->where("status",3);
                       $productdept = $productdepts->first();
                       $productdept->received_at = $r->date_received;
-                      $productdept->update(); 
-    
+                      $productdept->update();
+
                    }
-                 
+
                     if ($r->complete_report) {
                     $products =Product::where('id', $id)->with("departments")->whereHas("departments", function($q){
                       return $q->where("dept_id", 1)->where("status", 3);
@@ -975,55 +982,55 @@ class MicroController extends Controller
                     $product = $products->first();
                     $product->micro_hod_evaluation = 0;
                     $product->update();
-                    
-                    
+
+
                     Session::flash("message", "Report has been submitted to the Head of Department");
                     Session::flash("message_title", "success");
                   }
-                 
+
                   Session::flash("message", "Report Successfully saved and updated.");
                   Session::flash("message_title", "success");
-                
+
                   return redirect()->back();
 
               }
-              
+
               public function report_delete($id){
-                 
+
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(18)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
-                } 
+                }
 
                 $product = Product::where('id',$id)->where('micro_hod_evaluation',0)->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
                 })->first();
                 if($product){
                   Session::flash('message_title', 'error');
-                  Session::flash('message', 'Sorry product under evaluation and can not be deleted. Thank You');     
+                  Session::flash('message', 'Sorry product under evaluation and can not be deleted. Thank You');
                   return redirect()->back();
                 }
-                    
+
                  $product = Product::where('id',$id)->where('micro_hod_evaluation',2)->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                   })->first();
                   if($product){
                     Session::flash('message_title', 'error');
-                    Session::flash('message', 'Sorry product under final evaluation and can not be deleted. Thank You');     
+                    Session::flash('message', 'Sorry product under final evaluation and can not be deleted. Thank You');
                     return redirect()->back();
                   }
                  MicrobialLoadReport::where('product_id',$id)->delete();
                  MicrobialEfficacyReport::where('product_id',$id)->delete();
                  $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
                  if(count($productdepts->get()) < 1){
-                     
+
                      return redirect()->back();
                  }
                  $productdept = $productdepts->first();
                  $productdept->status = 2;
                  $productdept->update();
-                 
+
                  $data = ([
                   'micro_finalapproved_by'=>Null,
                   'micro_hod_evaluation'=>Null,
@@ -1041,46 +1048,46 @@ class MicroController extends Controller
                public function printreport($id){
 
                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",'>',2);
-                if(count($productdepts->get()) < 1){  
-                     
-                  return redirect()->route('admin.micro.report.create');
-                }  
+                if(count($productdepts->get()) < 1){
 
-                $data['report_id'] = $id; 
-          
+                  return redirect()->route('admin.micro.report.create');
+                }
+
+                $data['report_id'] = $id;
+
                 $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", '>',2);
                  })->get();
-                 
-          
+
+
                 $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
                 $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
                 $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
-               
+
                 //  $pdf = \PDF::loadView('admin.micro.completedreport', $data);
                 //  $pdf->download('admin.micro.completedreport');
 
                  return view('admin.micro.completedreport',$data);
-  
+
               }
 
-              
+
               public function completedreports_all(){
 
                 $data['year'] = \Carbon\Carbon::now()->year;
-  
+
                 $data['all_completed_products'] = Product::with('departments')->whereHas("departments", function($q)use($data){
                   return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(product_depts.created_at)= ?', array($data['year']));
                  })->get();
-  
+
                  return view('admin.micro.generalreport.allcompletedreports',$data);
               }
-  
+
 
               //***********************HoD Office */
-  
+
 
              public function hodoffice_evaluation(){
 
@@ -1091,7 +1098,7 @@ class MicroController extends Controller
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
                //******************************* withhelds  */
               $data['microproduct_withloadanalysis_withhelds'] = Product::where('micro_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
@@ -1113,13 +1120,13 @@ class MicroController extends Controller
               })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
               $data['approvals'] = $data['microproduct_withloadanalysis_approvals']->merge($data['microproduct_withefficacyanalysis_approvals']);
-            
+
               //*******************************completeds */
               $data['completeds'] = Product::with('departments')->whereHas("departments", function($q) use($data){
               return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
               })->get();
 
-              
+
               //*******************************Product withheld under evaluations */
                $data['microproduct_withloadanalysis_evaluations'] = Product::where('micro_hod_evaluation','>=',0)->where('micro_process_status','<',1)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
@@ -1154,14 +1161,14 @@ class MicroController extends Controller
 
 
               $data['hod_withhelds'] = $data['microproduct_withloadanalysis_hod_withhelds']->merge($data['microproduct_withefficacyanalysis_hod_withhelds']);
-             
-              
+
+
               //*******************************hod_approvals */
 
               $data['microproduct_withloadanalysis_hod_approvals'] = Product::where('micro_hod_evaluation',2)->where('micro_process_status',3)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
               })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-              
+
               $data['microproduct_withefficacyanalysis_hod_approvals'] = Product::where('micro_hod_evaluation',2)->where('micro_process_status',3)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
               })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
@@ -1170,7 +1177,7 @@ class MicroController extends Controller
 
               $withheld_notify = $data['microproduct_withloadanalysis_hod_withhelds']->merge($data['microproduct_withefficacyanalysis_hod_withhelds'])->count();
 
-              
+
               if (Auth::guard('admin')->user()->user_type_id == 2 && $withheld_notify > 0 ) {
                 Session::flash('warning', 'Info');
                 Session::flash('message', 'You have '.$withheld_notify.' report(s) withheld. Please check and resubmit for evaluation.');
@@ -1181,7 +1188,7 @@ class MicroController extends Controller
               }
 
               public function hodoffice_showreport(MicrobialLoadReport $microbialReport, $id)
-                { 
+                {
                   $data['year'] = \Carbon\Carbon::now()->year;
 
                 if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
@@ -1189,18 +1196,18 @@ class MicroController extends Controller
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
 
-                } 
+                }
 
                 $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-                if(count($productdepts->get()) < 1){     
+                if(count($productdepts->get()) < 1){
                   return redirect()->route('admin.micro.report.create');
                 }
-                 
-                
+
+
                 $data['microproduct_withloadanalysis_evaluations'] = Product::where('micro_hod_evaluation','>=',0)->where('micro_process_status','<',1)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-                            
+
                 $data['microproduct_withefficacyanalysis_evaluations'] = Product::where('micro_hod_evaluation','>=',0)->where('micro_process_status','<',1)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
@@ -1217,15 +1224,15 @@ class MicroController extends Controller
 
                 $data['final_reports'] = $data['microproduct_withloadanalysis_final_reports']->merge($data['microproduct_withefficacyanalysis_final_reports']);
 
-  
+
                 $data['completeds'] = Product::with('departments')->whereHas("departments", function($q) use($data){
                   return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
                 })->get();
-  
+
                 $data['microproduct_withloadanalysis_withhelds'] = Product::where('micro_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-                
+
                 $data['microproduct_withefficacyanalysis_withhelds'] = Product::where('micro_hod_evaluation',1)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
@@ -1243,26 +1250,26 @@ class MicroController extends Controller
 
 
 
-                $data['report_id'] = $id;              
+                $data['report_id'] = $id;
                 $data['MicrobialEfficacyform'] = MicrobialEfficacyAnalyses::all();
                 $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
-          
+
                 $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-               
+
                 $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
                  return view('admin.micro.hodoffice.showreport', $data);
-          
+
               }
 
              public function evaluate(Request $r){
-                  
+
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
 
                  $data['report_1'] = Product::whereIN('id',$r->evaluated_product)->where('micro_finalapproved_by',Null)->get();
                 $data['report_2'] = Product::whereIN('id',$r->evaluated_product)->where('micro_approved_by',Null)->get();
@@ -1282,8 +1289,8 @@ class MicroController extends Controller
                  }
               }
 
-              $input = $r->all(); 
-          
+              $input = $r->all();
+
                if ($r->evaluated_product == null) {
                  Session::flash('message_title', 'error');
                    Session::flash('message', 'Please select required reports for evaluation');
@@ -1293,16 +1300,16 @@ class MicroController extends Controller
               $products = Product::whereIn('id',$r->evaluated_product)->where("micro_hod_evaluation", 2)->where('micro_process_status',3)->with('departments')->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 3);
               });
-               if(count($products->get()) < 1){     
+               if(count($products->get()) < 1){
                    Session::flash('message_title', 'error');
                    Session::flash('message', 'Selected product needs to be approved before completion.');
                    return redirect()->back();
-               }  
+               }
               else{
 
               $p_ids =  $products->pluck('id')->toArray();
               $productdepts = ProductDept::whereIn('product_id',$p_ids)->where("dept_id", 1)->where("status",3);
-              if(count($productdepts->get()) < 1){     
+              if(count($productdepts->get()) < 1){
                   return redirect()->back();
               }
               Session::flash("message", "Report Evaluation completed.");
@@ -1312,14 +1319,14 @@ class MicroController extends Controller
               Product::whereIn('id',$p_ids)->update(['micro_reportdatecompleted' => \Carbon\Carbon::now()]);
 
               }
-              
+
               Session::flash('message_title', 'error');
               Session::flash('message', 'Reports Selected Completed and submited to SID.');
               return redirect()->back();
 
              }
 
-            
+
               public function evaluate_one_index($id){
 
                 $data['year'] = \Carbon\Carbon::now()->year;
@@ -1329,29 +1336,29 @@ class MicroController extends Controller
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-              if(count($productdepts->get()) < 1){     
+              if(count($productdepts->get()) < 1){
                 return redirect()->route('admin.micro.hod_office.approval');
-              }  
+              }
 
-               $data['report_id'] = $id; 
-  
+               $data['report_id'] = $id;
+
                 $data['microproduct_withloadanalysis_final_reports'] = Product::where('micro_hod_evaluation','>=',0)->where('micro_process_status','>',0)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-                
+
                 $data['microproduct_withefficacyanalysis_final_reports'] = Product::where('micro_hod_evaluation','>=',0)->where('micro_process_status','>',0)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
                 $data['final_reports'] = $data['microproduct_withloadanalysis_final_reports']->merge($data['microproduct_withefficacyanalysis_final_reports']);
 
-  
+
                 $data['completeds'] = Product::with('departments')->whereHas("departments", function($q)use($data){
                   return $q->where("dept_id", 1)->where("status", 4)->whereRaw('YEAR(received_at)= ?', array($data['year']));
                 })->get();
-  
+
 
                 $data['microproduct_withloadanalysis_hod_withhelds'] = Product::where('micro_hod_evaluation',2)->where('micro_process_status',2)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
@@ -1362,13 +1369,13 @@ class MicroController extends Controller
 
                 $data['hod_withhelds'] = $data['microproduct_withloadanalysis_hod_withhelds']->merge($data['microproduct_withefficacyanalysis_hod_withhelds']);
 
-  
+
                 $data['microproduct_withloadanalysis_hod_approvals'] = Product::where('micro_hod_evaluation',2)->where('micro_process_status',3)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
                 })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
                 $data['microproduct_withefficacyanalysis_hod_approvals'] = Product::where('micro_hod_evaluation',2)->where('micro_process_status',3)->with('departments')->whereHas("departments", function($q){
                   return $q->where("dept_id", 1)->where("status", 3);
-                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get(); 
+                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
 
                 $data['hod_approvals'] = $data['microproduct_withloadanalysis_hod_approvals']->merge($data['microproduct_withefficacyanalysis_hod_approvals']);
 
@@ -1382,7 +1389,7 @@ class MicroController extends Controller
                $data['show_productdept'] = ProductDept::where('product_id',$id)->where('status',3)->where('dept_id',1)->get();
 
               $data['show_microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
-               
+
               $data['show_microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
               return view('admin.micro.hodoffice.finalreport',$data);
@@ -1391,13 +1398,13 @@ class MicroController extends Controller
 
             public function evaluate_one_edit(Request $r, $id){
             //  dd($r->all());
-                 
+
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
               if ($r->evaluate <1) {
                 Session::flash('message_title', 'error');
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
@@ -1408,39 +1415,39 @@ class MicroController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
               }
-              
+
 
               $p= Product::find($id);
               $p->update([
                 'micro_hod_evaluation'=> $r->evaluate,
-                'micro_approved_by'=>$r->adminid, 
-                
+                'micro_approved_by'=>$r->adminid,
+
               ]);
 
               if ($r->evaluate ==1) {
                 $p->update(['micro_process_status'=> 0, 'micro_appoved_by'=> Null]);
               }
-            
+
              Session::flash("message", "Report Evaluation completed.");
-             Session::flash("message_title", "success");  
+             Session::flash("message_title", "success");
              return redirect()->back();
 
             }
 
 
             public function hod_finalreport_send($id){
-            
-                  
+
+
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(20)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
 
               $completed =ProductDept::where('product_id', $id)->where("dept_id", 1)->where("status", 3)->first();
               $withheld =Product::where('id', $id)->where("micro_process_status",'>',0)->first();
-  
+
               if (!$completed) {
                Session::flash('message_title', 'error');
                Session::flash('message', 'Warning! Product cant be submited for approval');
@@ -1451,14 +1458,14 @@ class MicroController extends Controller
                 Session::flash('message', 'Warning! Product withheld and cant be submited for approval');
                 return redirect()->back();
                }
-  
-                $data = [ 
+
+                $data = [
                 'micro_process_status' => 1,
                 ];
                 Product::where('id',$id)->where("micro_process_status", 0)->update($data);
-                
+
                 Session::flash("message", "Report successfully submitted for final approval.");
-                Session::flash("message_title", "success");  
+                Session::flash("message_title", "success");
 
                return redirect()->route('admin.micro.hod_office.approval');
              }
@@ -1466,13 +1473,13 @@ class MicroController extends Controller
             public function finalhodevaluate_one_edit(Request $r, $id){
 
               // dd($r->all());
-                   
+
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(22)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
 
               if ($r->evaluate <1) {
                 Session::flash('message_title', 'error');
@@ -1484,15 +1491,15 @@ class MicroController extends Controller
                 Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin. ');
                 return redirect()->back();
               }
-              
+
               $evaluate = [];
               if ($r->evaluate ==1) {
                  $evaluate = 2; //*** 2 means withheald */
               }
               if ($r->evaluate ==2) {
                 $evaluate = 3; //*** 3 means Approved */
-              }  
-             
+              }
+
               $p = Product::find($id);
               $p->update([
                 'micro_process_status'=> $evaluate,
@@ -1516,39 +1523,39 @@ class MicroController extends Controller
                   }else {
                     $p->update(['overall_status'=> 1]);
                   }
-                } 
- 
+                }
+
                 if ($p->single_multiple_lab == 1) {
                   if ($complete == 2 ) {
                     $p->update(['overall_status'=> 2]);
                   }else {
                     $p->update(['overall_status'=> 1]);
                   }
-                } 
+                }
 
                 if ($p->single_multiple_lab == 2) {
-               
+
                   if ($complete == 4 ) {
                     $p->update(['overall_status'=> 2]);
                   }else {
                     $p->update(['overall_status'=> 1]);
                   }
-                } 
+                }
              }
 
              Session::flash("message", "Report Evaluation completed.");
-             Session::flash("message_title", "success");  
+             Session::flash("message_title", "success");
              return redirect()->back();
             }
 
             public function hod_complete_report($id){
-                
+
               if(!Admin::find(Auth::guard('admin')->id())->hasPermission(22)) {
               Session::flash('messagetitle', 'warning');
               Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
               return redirect()->route('admin.general.dashboard');
 
-              } 
+              }
 
               $data = Product::where('id',$id)->first();
                if ($data->micro_finalapproved_by == Null || $data->micro_approved_by == Null) {
@@ -1556,11 +1563,11 @@ class MicroController extends Controller
                 Session::flash('message', 'Please check report and sign again. Thank you');
                   return redirect()->back();
               }
-               
-              $data['report_id'] = $id; 
-          
+
+              $data['report_id'] = $id;
+
               $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",3);
-              if(count($productdepts->get()) < 1){    
+              if(count($productdepts->get()) < 1){
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'Product selected must be approved before completion');
                   return redirect()->back();
@@ -1569,24 +1576,24 @@ class MicroController extends Controller
               $productdept = $productdepts->first();
               $productdept->status = 4;
               $productdept->update();
-              
+
               Product::where('id',$data['report_id'] )->update(['micro_reportdatecompleted' => \Carbon\Carbon::now()]);
 
               $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
                 return $q->where("dept_id", 1)->where("status", 4);
                })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-        
+
               $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
               $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
               $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
-              
+
               return redirect()->back();
 
               }
-           
+
             public function checkhodsign(Request $request){
-             
+
               $userEmail = $request->get('email');
               $adminPin = $request->get('pin');
 
@@ -1602,23 +1609,23 @@ class MicroController extends Controller
               if(!Hash::check($adminPin, $admin->pin)){
                 return response()->json(['status' => false, 'message' => "Invalid PIN. Please check and sign "]);
               }
-              
+
             return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
-              
+
             }
 
             public function checkhodfinalapprovalsign(Request $request){
-              
+
               $userEmail = $request->get('email');
               $adminPIN = $request->get('pin');
-  
+
               $checkallmail = Admin::where('email', '=', $userEmail)->first();
               $admin = Admin::where('dept_id',1)->where('dept_office_id',1)->where('email', '=', $userEmail)->first();
-  
+
               if (!$checkallmail) {
                 return response()->json(['status' => false, 'message' => "Sorry there is no such email in the system"]);
               }
-          
+
               if(!$admin){
                 return response()->json(['status' => false, 'message' => "Sorry you are not authorized to sign. Contact Department Head "]);
               }
@@ -1626,13 +1633,13 @@ class MicroController extends Controller
               if(!Hash::check($adminPIN, $admin->pin)){
                 return response()->json(['status' => false, 'message' => "Invalid Pin. Please check and sign "]);
               }
-              
+
               return response()->json(['status' => true, 'message' => "success", 'admin' => $admin->id]);
-              
+
             }
-  
+
             public function hodoffice_config(){
-   
+
              $admin_loadselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
               $admin_efficacyselection= json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
 
@@ -1651,9 +1658,9 @@ class MicroController extends Controller
             public function microbialanalysis_create(request $r){
               // dd($r->all());
               $data = $r->validate([
-                'test_conducted' => 'required', 
-                'result' => 'required', 
-                'acceptance_criterion' => 'required',          
+                'test_conducted' => 'required',
+                'result' => 'required',
+                'acceptance_criterion' => 'required',
               ]);
 
                $data = ([
@@ -1670,13 +1677,13 @@ class MicroController extends Controller
             }
 
             public function microbialefficacy_create(request $r){
-              
+
               // dd($r->all());
               $data = $r->validate([
-                'pathogen' => 'required', 
-                'pi_zone' => 'required', 
-                'ci_zone' => 'required',   
-                'fi_zone' => 'required',   
+                'pathogen' => 'required',
+                'pi_zone' => 'required',
+                'ci_zone' => 'required',
+                'fi_zone' => 'required',
               ]);
 
               $data = ([
@@ -1697,38 +1704,38 @@ class MicroController extends Controller
               // return $r->get("microbial_loadanalyse_id");
               // dd($r->all());
               // $data = $r->validate([
-              //   'date' => 'required',          
+              //   'date' => 'required',
               // ]);
-                
+
             $date = (\Carbon\Carbon::parse($r->date));
             $action = [1,2];
            if (!in_array($r->action, $action)) {
             Session::flash('message_title', 'error');
             Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
             return redirect()->back();
-             } 
-          
+             }
+
           if ($r->action ==1) {
 
             if ($r->microbial_loadanalyse_id == null) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required parameter and submit.');
               return redirect()->back();
-            } 
+            }
 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->load_analysis_options = json_encode($r->get("microbial_loadanalyse_id"));
             $admin->save();
- 
-            $data = ([ 
+
+            $data = ([
               'action' => $r->action,
               'added_by_id' => Auth::guard('admin')->id(),
               'updated_at' => \Carbon\Carbon::now(),
               ]);
-    
+
               MicrobialLoadAnalyses::whereIN('id', $r->microbial_loadanalyse_id)->update($data);
               MicrobialLoadAnalyses::whereNotin('id',$r->microbial_loadanalyse_id)->update(['action' =>0]);
-           } 
+           }
 
           if($r->action ==2){
             $l = 0;
@@ -1745,15 +1752,15 @@ class MicroController extends Controller
                     'action'=> 1,
                     'added_by_id'=> Auth::guard('admin')->id(),
                     'updated_at' => \Carbon\Carbon::now(),
-                  ]  
+                  ]
                   );
               $l++;
             }
           }
 
-         
+
           Session::flash("message", "Template updated successfully");
-          Session::flash("message_title", "success");  
+          Session::flash("message_title", "success");
           return redirect()->back();
            }
 
@@ -1764,7 +1771,7 @@ class MicroController extends Controller
                Session::flash('message_title', 'error');
                Session::flash('message', 'Warning! system is highly secured from any illegal attempt. Please contact system admin.');
                return redirect()->back();
-               } 
+               }
 
            if ($r->action ==1) {
 
@@ -1772,20 +1779,20 @@ class MicroController extends Controller
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required feature and submit.');
               return redirect()->back();
-            } 
+            }
 
             $admin = Admin::findOrFail(Auth::guard('admin')->id());
             $admin->efficacy_analysis_options = json_encode($r->get("microbial_efficacy_id"));
             $admin->save();
-            $data = 
-            [ 
+            $data =
+            [
             'action' => $r->action,
             'added_by_id' => Auth::guard('admin')->id(),
             'updated_at' => \Carbon\Carbon::now(),
             ];
             MicrobialEfficacyAnalyses::whereIN('id', $r->microbial_efficacy_id)->update($data);
             MicrobialEfficacyAnalyses::whereNotin('id',$r->microbial_efficacy_id)->update(['action' =>0]);
-           } 
+           }
 
           if($r->action ==2){
             $l = 0;
@@ -1800,79 +1807,79 @@ class MicroController extends Controller
                     'action'=> 1,
                     'added_by_id'=> Auth::guard('admin')->id(),
                     'updated_at' => \Carbon\Carbon::now(), 'added_by_id' => Auth::guard('admin')->id(),
-                  ]  
+                  ]
                   );
               $l++;
             }
           }
-          
+
            Session::flash("message", "Template updated successfully");
-           Session::flash("message_title", "success");  
+           Session::flash("message_title", "success");
            return redirect()->back();
             }
 
             public function conclusion_create(Request $r){
               // return $r;
               $r->validate([
-                'title' => 'required', 
-                'conclusion' => 'required', 
+                'title' => 'required',
+                'conclusion' => 'required',
               ]);
-             
+
               $data = ([
-                'title' => $r->title, 
-                'default_conclusion' => $r->conclusion, 
+                'title' => $r->title,
+                'default_conclusion' => $r->conclusion,
                 'added_by_id'=> Auth::guard('admin')->id(),
               ]);
 
               MicroReportConclusion::create($data);
               Session::flash("message", "Conclusion Template updated successfully");
-              Session::flash("message_title", "success");  
+              Session::flash("message_title", "success");
               return redirect()->back();
             }
 
             public function conclusion_update(Request $r){
               $r->validate([
-                'title' => 'required', 
-                'conclusion' => 'required', 
+                'title' => 'required',
+                'conclusion' => 'required',
               ]);
 
               $data = ([
-                'title' => $r->title, 
-                'default_conclusion' => $r->conclusion, 
+                'title' => $r->title,
+                'default_conclusion' => $r->conclusion,
                 'updated_at' => \Carbon\Carbon::now(),
               ]);
               MicroReportConclusion::findOrFail($r->item_id)->update($data);
               Session::flash("message", "Conclusion Template updated successfully");
-              Session::flash("message_title", "success");  
+              Session::flash("message_title", "success");
               return redirect()->back();
             }
-            
+
            // ********************************* General Report Section *********************************//
 
            public function completedreport_show($id){
-           
+
             $productdepts = ProductDept::where('product_id', $id)->where("dept_id",3)->where("status",4);
-            if(count($productdepts->get()) < 1){     
-             return redirect()->back(); 
+            if(count($productdepts->get()) < 1){
+             return redirect()->back();
              }
-           return $data['report_id'] = $id; 
+           return $data['report_id'] = $id;
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>', 2);
              })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-      
+
             $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
             $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
             $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
-            
+
 
              return view('admin.micro.completedreport',$data);
 
             }
 
            public function generalreport_index(){
-           
+
             $data['from_date'] = "2020-01-01";
             $data['to_date'] = now();
 
@@ -1887,7 +1894,7 @@ class MicroController extends Controller
             $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",1)->where("status",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
             })->get();
-            
+
             $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",1)->where("status",'>',1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
             })->get();
@@ -1897,11 +1904,11 @@ class MicroController extends Controller
             $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->where('micro_process_status','<>',3)->get();
-            
+
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
               return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
             })->WhereNull("micro_process_status")->get();
-  
+
              $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
             $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($data){
@@ -1926,7 +1933,7 @@ class MicroController extends Controller
           $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($data){
             return $q->where("dept_id",1)->where("status",1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
           })->get();
-          
+
           $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($data){
             return $q->where("dept_id",1)->where("status",'>',1)->whereRaw('YEAR(product_depts.created_at)= ? ',array($data['year']));
           })->get();
@@ -1935,7 +1942,7 @@ class MicroController extends Controller
            $data['pending_products1'] = Product::whereHas("departments", function($q)use ($data){
             return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->where('micro_process_status','<>',3)->get();
-          
+
           $data['pending_products2'] = Product::whereHas("departments", function($q)use ($data){
             return $q->where("dept_id",1)->where("status", '>',1)->whereRaw('YEAR(received_at)= ?', array($data['year']));
           })->WhereNull("micro_process_status")->get();
@@ -1964,30 +1971,30 @@ class MicroController extends Controller
             $pending = Product::whereIn('id',$r->pending_product_ids)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id",1);
             })->pluck('id')->toArray();
-            
+
              $data['dept1'] = Department::find(1)->products()->whereIn('product_id',$pending)->with('departments')->orderBy('status')->get();
-         
+
             return view('admin.micro.generalreport.pendingreports',$data);
            }
 
-       
+
            public function between_months(Request $r){
 
 
             $data = $r->all();
-           
+
             if ($r->from_date == null) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required date to begin begin');
               return redirect()->route('admin.micro.general_report.index');
              }
-      
+
             if ($r->to_date == null) {
               Session::flash('message_title', 'error');
               Session::flash('message', 'Please select required date to end report');
               return redirect()->route('admin.micro.general_report.index');
              }
-       
+
              $data = $r->all();
              $data['product_types'] = \App\ProductType::all();
 
@@ -1998,7 +2005,7 @@ class MicroController extends Controller
             $data['all_pending_products'] = Product::whereHas("departments", function($q)use ($r){
               return $q->where("dept_id",1)->where("status",1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
             })->get();
-            
+
             $data['all_recieved_products'] = Product::whereHas("departments", function($q)use ($r){
               return $q->where("dept_id",1)->where("status",'>',1)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
             })->get();
@@ -2008,33 +2015,33 @@ class MicroController extends Controller
              $data['pending_products1'] = Product::whereHas("departments", function($q)use ($r){
               return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
             })->where('micro_process_status','<>',3)->get();
-            
+
             $data['pending_products2'] = Product::whereHas("departments", function($q)use ($r){
               return $q->where("dept_id",1)->where("status", '>',1)->whereDate('product_depts.received_at', '>=', $r->from_date)->whereDate('product_depts.received_at', '<=', $r->to_date);
             })->WhereNull("micro_process_status")->get();
-  
+
            $data['pending_products'] = $data['pending_products1']->merge($data['pending_products2']);
 
             $data['completed_products'] = Product::where('micro_process_status', 3)->with("departments")->whereHas("departments", function($q)use ($r){
               return $q->where("dept_id",1)->where('status','>',2)->whereDate('product_depts.created_at', '>=', $r->from_date)->whereDate('product_depts.created_at', '<=', $r->to_date);
              })->get();
 
-             
+
             return view('admin.micro.generalreport.index',$data);
            }
 
            public function microreport_pdf ($id){
 
-            
+
             $productdepts = ProductDept::where('product_id',$id)->where("dept_id", 1)->where("status",'>',3);
-            if(count($productdepts->get()) < 1){  
+            if(count($productdepts->get()) < 1){
               Session::flash('message_title', 'error');
               Session::flash('message', 'Sorry report can not be downloaded. Report must be completed by the Hod');
               return redirect()->back();
               // return redirect()->route('admin.micro.report.create');
-            }  
+            }
 
-            $data['report_id'] = $id; 
+            $data['report_id'] = $id;
             $p = Product::Find($id);
             $code =   str_replace('/', '_', $p->code);
             $auth = Admin::Find(Auth::guard('admin')->id());
@@ -2044,19 +2051,19 @@ class MicroController extends Controller
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>',2);
              })->with("loadAnalyses")->orderBy('id','DESC')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-      
+
             $data['microbial_loadanalyses'] = MicrobialLoadReport::where('product_id',$id)->orderBy('id','ASC')->get();
             $data['check_load'] = MicrobialLoadReport::where('product_id',$id)->orderBy('location')->get();
 
             $data['microbial_efficacyanalyses'] = MicrobialEfficacyReport::where('product_id',$id)->orderBy('id','ASC')->get();
 
-           
+
             // Send data to the view using loadView function of PDF facade
 
             $pdf = \PDF::loadView('admin.micro.downloads.report',$data);
 
              $pdf->save(storage_path('pdf\micro\microreport').'_'.$code.'_'.$auth->full_name.'_'.$period.'.pdf');
-            
+
             return $pdf->download('microreport_'.$p->code.'.pdf',$id);
 
             // return view('admin.micro.downloads.report',$data);
