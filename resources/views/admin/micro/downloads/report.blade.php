@@ -155,7 +155,7 @@ td, th {
         <tr>
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Test </th>
             @if ($product->productType->state ==2)
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/ml)</th>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/mL)</th>
             @endif
             @if ($product->productType->state ==1)
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/g)</th>
@@ -284,7 +284,7 @@ td, th {
   @endif
 @endif
 @endfor
-    <span><sup>3</sup>  ( ¾ )   = Absent. 4BP= British Pharmacopoeia.</span>
+    <span><sup>3</sup>  ( -/+)   = Absence. <sup>4</sup>BP= British Pharmacopoeia.</span>
   </td>
 </tr>
 
@@ -379,7 +379,7 @@ td, th {
         $hod_user_type = (\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->user_type_id:'');
 
         ?>
-        <span>Supervisor</span><br>
+        <span>Approved By</span><br>
         @if ($product->micro_process_status ==3)
         <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="15%" style="margin-bottom: -16px"><br>
         @endif
