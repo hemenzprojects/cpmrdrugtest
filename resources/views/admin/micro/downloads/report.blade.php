@@ -198,7 +198,7 @@ td, th {
                 print_r(' 0 ');
               }
               if ($microbial_loadanalyses[$i]->rs_total == 9900000000) {
-                print_r(' 3 TNTC ');
+                print_r(' <sup>3</sup> TNTC ');
               }
 
             }
