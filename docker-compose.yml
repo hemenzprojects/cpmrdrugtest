@@ -1,0 +1,24 @@
+services:
+  test-web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html/
+      - ./.env:/var/www/html/.env
+    environment:
+      - APP_ENV=local
+    container_name: cpmr_drugtest_app
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - ./db_data:/var/lib/mysql
+    container_name: cpmr_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: docker_test_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "4306:3306"
