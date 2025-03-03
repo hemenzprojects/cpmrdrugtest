@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminAuth\Microbiology;
 
+use App\services\microbiologyServices\CreateReportService;
 use Illuminate\Http\Request;
 use App\Http\Requests\AcceptMircoProductRequest;
 use App\Http\Requests\MicroTestCreateRequest;
@@ -229,75 +230,32 @@ class MicroController extends Controller
 
            //********************* Micro Report Processes ****************** */
 
-              public function report_create(){
+        public function reportCreate() {
 
-                if(!Admin::find(Auth::guard('admin')->id())->hasPermission(15)) {
+            $createReportService = new CreateReportService();
+            $adminId = Auth::guard('admin')->id();
+            $admin = Admin::find($adminId);
+
+            if (!$admin || !$admin->hasPermission(15)) {
                 Session::flash('messagetitle', 'warning');
                 Session::flash('message', 'You do not have access to the resource requested. Contact Systems Administrator for assistance.');
                 return redirect()->route('admin.general.dashboard');
-                }
+            }
 
-                 $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-12 days'));
+            $data = [
+                'week_start' => now()->subDays(12)->startOfDay()->toDateTimeString(),
+                'auth' => Admin::where('id', $adminId)->get(),
+                'auth_id' => Admin::find($adminId),
+                'MicrobialLoadAnalysis' => $createReportService->getMicrobialLoadAnalysis($admin),
+                'MicrobialEfficacyAnalysis' => $createReportService->getMicrobialEfficacyAnalysis($admin),
+                'microproducts' => $createReportService->getMicroproducts(1, 2),
+                'microproduct_withtests' => $createReportService->getMicroproductsWithTests(1, 3),
+                'auth_microproduct_withtests' => $createReportService->getAuthMicroproductsWithTests($adminId, 1, 3),
+                'microproduct_completedtests' => $createReportService->getCompletedTests(1, 4),
+            ];
 
-                 $data['auth'] = Admin::where('id',Auth::guard('admin')->id())->get();
-                 $data['auth_id'] = Admin::where('id',Auth::guard('admin')->id())->first();
-
-                $load_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->load_analysis_options);
-
-                $efficacy_analysis_options = json_decode(Admin::findOrFail(Auth::guard("admin")->id())->efficacy_analysis_options);
-
-
-                $data['MicrobialLoadAnalysis'] = MicrobialLoadAnalyses::whereIn("id", $load_analysis_options)->orderBy('location', 'ASC')->get();
-
-                $data['MicrobialEfficacyAnalysis'] = MicrobialEfficacyAnalyses::whereIn("id", $efficacy_analysis_options)->get();
-
-
-                //********************* section for the dept offcie only ***** */
-
-                $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 2);
-                })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
-
-               $data['microproduct_withloadanalysis'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 3);
-                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-
-                 $data['microproduct_withefficacyanalysis'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 3);
-                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
-
-                $data['microproduct_withtests'] = $data['microproduct_withloadanalysis']->merge($data['microproduct_withefficacyanalysis']);
-
-
-                //********************* section for authusers who perform repot ***** */
-                $data['microproducts'] = Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 2);
-                })->with('loadAnalyses')->whereDoesntHave("loadAnalyses")->with('efficacyAnalyses')->whereDoesntHave("efficacyAnalyses")->orderBy('id','DESC')->get();
-
-               $data['auth_microproduct_withloadanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 3);
-                })->with('loadAnalyses')->whereHas("loadAnalyses")->with('efficacyAnalyses')->get();
-
-                 $data['auth_microproduct_withefficacyanalysis'] = Product::where('micro_analysed_by',Auth::guard('admin')->id())->with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 3);
-                })->with('efficacyAnalyses')->whereHas("efficacyAnalyses")->get();
-
-               $data['auth_microproduct_withtests'] = $data['auth_microproduct_withloadanalysis']->merge($data['auth_microproduct_withefficacyanalysis']);
-
-
-
-                //***************************************** All completed report  */
-
-                $data['microproduct_completedtests'] =  Product::with('departments')->whereHas("departments", function($q){
-                  return $q->where("dept_id", 1)->where("status", 4);
-                })->limit(99)->get();
-
-
-
-
-                return View('admin.micro.createreport', $data);
-              }
-
+            return view('admin.micro.createreport', $data);
+        }
               public function test_create(MicroTestCreateRequest $r){
 
                 $productdept = MicrobialLoadReport::where('date_template',Null)->get();
