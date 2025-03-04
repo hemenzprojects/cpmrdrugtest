@@ -160,7 +160,7 @@ td, th {
             @if ($product->productType->state ==1)
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/g)</th>
             @endif
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Acceptance Criterion BP <br>
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Acceptance Criterion BP 
               (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
               {{Carbon\Carbon::parse($item->date_template)->format('Y')}}
               @endforeach)
