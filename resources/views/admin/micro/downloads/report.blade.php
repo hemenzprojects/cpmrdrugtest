@@ -160,7 +160,7 @@ td, th {
             @if ($product->productType->state ==1)
             <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Result (CFU/g)</th>
             @endif
-            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Acceptance Criterion BP
+            <th class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">Acceptance Criterion <br> BP
               (@foreach ($microbial_loadanalyses->groupBy('id')->first()  as $item)
               {{Carbon\Carbon::parse($item->date_template)->format('Y')}}
               @endforeach)
@@ -232,13 +232,13 @@ td, th {
         <td class="{{($microbial_efficacyanalyses) && count($microbial_efficacyanalyses)>0 ?'font':'font1'}}">
             <?php
             if ($i<2) {
-               echo('Not More ');
+               echo('Not more than <br>');
               $acceptance_criterion= explode(' ',$microbial_loadanalyses[$i]->acceptance_criterion);
               $rs_part1 =$acceptance_criterion[0];
               $rs_part2 = explode('^',$acceptance_criterion[2]);
 
               print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]); echo '</sup>';
-                echo(' (CFU/mL)');
+                echo('   (CFU/mL)');
             }else {
               $acceptance_criterion =  $microbial_loadanalyses[$i]->acceptance_criterion;
               print_r($acceptance_criterion);
