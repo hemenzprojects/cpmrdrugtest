@@ -136,6 +136,11 @@ Route::get('/sendtest', function () {
 
    Route::post('sid/micro_completed_reports/year','AdminAuth\SID\SIDController@micro_completed_yearlyreports')->name('admin.sid.microcompletedreports.year');
    Route::get('sid/querryreport','AdminAuth\SID\SIDController@querry_report')->name('admin.sid.querryreport');
+   // Pharmacology
+Route::post('sid/pharm_completed_reports/year', 'AdminAuth\SID\SIDController@pharm_completed_yearlyreports')->name('admin.sid.pharmcompletedreports.year');
+
+// Phytochemistry
+Route::post('sid/phyto_completed_reports/year', 'AdminAuth\SID\SIDController@phyto_completed_yearlyreports')->name('admin.sid.phytocompletedreports.year');
 
    Route::get('sid/reporthistory','AdminAuth\SID\SIDController@report_history')->name('admin.sid.reporthistory');
    Route::Post('sid/yearlyreporthistory','AdminAuth\SID\SIDController@yearlyreport_history')->name('admin.sid.yearlyreporthistory');
