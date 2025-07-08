@@ -114,7 +114,9 @@ Route::get('/sendtest', function () {
 
    //Final Report for 3 labs Section
    Route::get('sid/print_microreport/{id}','AdminAuth\Microbiology\MicroController@printreport')->name('admin.sid.print_microreport');
+    Route::get('sid/print_microreport/show/{id}', 'AdminAuth\Microbiology\MicroController@completedreport_show') ->name('admin.micro.completedreport');
    Route::get('sid/print_pharmreport/show/{id}','AdminAuth\Pharmacology\PharmController@completedreport_show')->name('admin.sid.print_pharmreport');
+
    Route::get('sid/print_phytoreport/show/{id}','AdminAuth\Phytochemistry\PhytoController@completedreport_show')->name('admin.sid.print_phytoreport');
 
    // Download all reports
