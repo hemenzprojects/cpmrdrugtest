@@ -73,7 +73,7 @@ class PharmAnimalExperiment extends Model
             return 'Urethral Suppository';
         }  
         if ($this->method == 10) {
-            return 'Nasal Suppository';
+            return 'Nasal ';
         }  
      }
 
