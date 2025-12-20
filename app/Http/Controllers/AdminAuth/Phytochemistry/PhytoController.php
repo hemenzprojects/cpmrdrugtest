@@ -1502,10 +1502,10 @@ class PhytoController extends Controller
 
          $data['report_id'] = $id;
          $p = Product::Find($id);
-         $code =   Str::replace('/', '_', $p->code);
+         $code =   str_replace('/', '_', $p->code);
             $auth = Admin::Find(Auth::guard('admin')->id());
-            $date =  Str::replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
-            $period = Str::replace(':', '_', $date);
+            $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+            $period = str_replace(':', '_', $date);
 
          $data['phyto_physicochreport'] = PhytoPhysicochemDataReport::where('product_id',$id)->orderBy('roworder')->get();
          $data['phyto_organolepticsreport'] = PhytoOrganolepticsReport::where('product_id',$id)->orderBy('roworder')->get();

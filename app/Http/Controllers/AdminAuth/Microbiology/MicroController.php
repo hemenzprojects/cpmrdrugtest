@@ -2002,10 +2002,10 @@ class MicroController extends Controller
 
             $data['report_id'] = $id;
             $p = Product::Find($id);
-            $code =   Str::replace('/', '_', $p->code);
+            $code =   str_replace('/', '_', $p->code);
             $auth = Admin::Find(Auth::guard('admin')->id());
-            $date =  Str::replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
-            $period = Str::replace(':', '_', $date);
+            $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+            $period = str_replace(':', '_', $date);
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>',2);

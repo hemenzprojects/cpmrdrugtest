@@ -1849,10 +1849,10 @@ class PharmController extends Controller
                return redirect()->back(); 
                }
                $p = Product::Find($id);
-               $code =   Str::replace('/', '_', $p->code);
+               $code =   str_replace('/', '_', $p->code);
                $auth = Admin::Find(Auth::guard('admin')->id());
-               $date =  Str::replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
-               $period = Str::replace(':', '_', $date);
+               $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+               $period = str_replace(':', '_', $date);
 
               $data['completed_report'] = Product::where('id',$id)->with('departments')->whereHas("departments", function($q){
              return $q->where("dept_id", 2)->where("status", '>',6);
