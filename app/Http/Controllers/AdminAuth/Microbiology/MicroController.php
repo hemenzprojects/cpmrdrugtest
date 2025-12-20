@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminAuth\Microbiology;
 
 use App\services\microbiologyServices\CreateReportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Requests\AcceptMircoProductRequest;
 use App\Http\Requests\MicroTestCreateRequest;
 use App\Http\Controllers\Controller;
@@ -2001,10 +2002,10 @@ class MicroController extends Controller
 
             $data['report_id'] = $id;
             $p = Product::Find($id);
-            $code =   str_replace('/', '_', $p->code);
+            $code =   Str::replace('/', '_', $p->code);
             $auth = Admin::Find(Auth::guard('admin')->id());
-            $date =  str_replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
-            $period = str_replace(':', '_', $date);
+            $date =  Str::replace('-', '_', \Carbon\Carbon::now()->format('d_m_y h'));
+            $period = Str::replace(':', '_', $date);
 
             $data['micro_withcompletedproducts'] = Product::where('id',$id)->with("departments")->whereHas("departments", function($q){
               return $q->where("dept_id", 1)->where("status", '>',2);

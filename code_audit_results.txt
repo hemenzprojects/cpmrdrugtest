@@ -1,0 +1,28 @@
+Laravel 5.8 to 7 Upgrade - Code Audit Results
+==============================================
+
+1. STR_REPLACE USAGE (10 instances - CRITICAL):
+   - app/Http/Controllers/AdminAuth/Phytochemistry/PhytoController.php (3 instances)
+   - app/Http/Controllers/AdminAuth/Pharmacology/PharmController.php (3 instances)
+   - app/Http/Controllers/AdminAuth/Microbiology/MicroController.php (3 instances)
+   - resources/views/admin/layout/app.blade.php (1 instance)
+
+2. SCHEMA::DROP USAGE (4 instances - HIGH):
+   - database/migrations/2020_07_31_185617_create_admin_password_resets_table.php
+   - database/migrations/2020_07_31_185911_create_customers_table.php
+   - database/migrations/2020_07_31_185712_create_customer_password_resets_table.php
+   - database/migrations/2020_07_31_195616_create_admins_table.php
+
+3. INCREMENTS() USAGE (9+ instances - MEDIUM):
+   - database/migrations/2020_07_31_185749_create_departments_table.php
+   - database/migrations/2020_07_31_190149_create_product_types_table.php
+   - database/migrations/2020_07_31_190219_create_product_depts_table.php
+   - database/migrations/2021_01_31_133708_create_dept_offices_table.php
+   - database/migrations/2020_07_31_185911_create_customers_table.php
+   - database/migrations/2020_07_31_190103_create_products_table.php
+   - database/migrations/2020_07_31_185748_create_dept_types_table.php
+   - database/migrations/2020_07_31_195616_create_admins_table.php
+   - database/migrations/2020_07_31_185859_create_user_types_table.php
+   (And possibly more)
+
+All these patterns need to be updated for Laravel 7 compatibility.
