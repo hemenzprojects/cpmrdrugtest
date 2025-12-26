@@ -196,6 +196,13 @@
                                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                                   </div>
                                                   <div class="modal-body">
+                                                      @if(!$canEvaluateReports)
+                                                      <div class="alert alert-danger" role="alert">
+                                                          <strong><i class="ik ik-alert-circle"></i> License Expired!</strong>
+                                                          Your license is due. This feature is currently disabled. Please contact your administrator to renew your license.
+                                                      </div>
+                                                      @endif
+
                                                       <form  id="phytohodapproveform" sign-user-url="{{route('admin.phyto.hod_office.checkhodsign')}}" action="{{route('admin.phyto.hod_office.evaluatereport',['id' => $report_id])}}" class="" method="POST">
                                                           {{ csrf_field() }}
                                                       <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
