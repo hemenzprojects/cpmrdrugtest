@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             [
                 'admin.micro.hodoffice.showreport',
                 'admin.micro.hodoffice.finalreport',
+                'admin.micro.showreport',
                 'admin.pharm.hodoffice.showreport',
                 'admin.pharm.hodoffice.finalreport',
                 'admin.phyto.hodoffice.showreport',

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Services\LicenseService;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class CheckEvaluateLicense
 {
@@ -17,13 +18,30 @@ class CheckEvaluateLicense
      */
     public function handle($request, Closure $next)
     {
+        Log::info('CheckEvaluateLicense middleware triggered', [
+            'route' => $request->path(),
+            'method' => $request->method(),
+        ]);
+
         // Auto-configure license if not set up yet
         $this->ensureLicenseConfigured();
 
         // Check if evaluate report feature is licensed
-        if (!LicenseService::canEvaluateReports()) {
+        $canEvaluate = LicenseService::canEvaluateReports();
+
+        Log::info('License check result', [
+            'can_evaluate' => $canEvaluate,
+            'route' => $request->path(),
+        ]);
+
+        if (!$canEvaluate) {
+            Log::warning('License check failed - access denied', [
+                'route' => $request->path(),
+                'user' => auth('admin')->id() ?? 'guest',
+            ]);
+
+            Session::flash('messagetitle', 'error');
             Session::flash('message', 'Evaluate Report feature is not licensed or has expired. Please contact support.');
-            Session::flash('message_title', 'error');
 
             return redirect()->back();
         }
@@ -43,6 +61,7 @@ class CheckEvaluateLicense
 
         // Skip if no configuration in .env
         if (!$licenseKey || !$apiUrl) {
+            Log::debug('No license configuration found in .env');
             return;
         }
 
@@ -51,8 +70,16 @@ class CheckEvaluateLicense
 
         // Only auto-configure if:
         // 1. No license exists, OR
-        // 2. License exists but API URL has changed
-        if (!$existingLicense || $existingLicense->api_url !== $apiUrl) {
+        // 2. License exists but API URL/key has changed
+        if (!$existingLicense ||
+            $existingLicense->api_url !== $apiUrl ||
+            $existingLicense->license_key !== $licenseKey) {
+
+            Log::info('Auto-configuring license from .env', [
+                'api_url' => $apiUrl,
+                'reason' => !$existingLicense ? 'no_license' : 'config_changed',
+            ]);
+
             LicenseService::configureLicense($licenseKey, $apiUrl, 'evaluate_report');
         }
     }

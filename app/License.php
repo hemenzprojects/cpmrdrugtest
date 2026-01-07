@@ -40,7 +40,10 @@ class License extends Model
     }
 
     /**
-     * Check if license needs to be refreshed (checked more than 1 hour ago)
+     * Check if license needs to be refreshed
+     * - Refreshes every 5 minutes for evaluate_report feature (more responsive)
+     * - Refreshes every 1 hour for other features
+     * - Always refreshes if license is inactive (to try to reactivate)
      */
     public function needsRefresh()
     {
