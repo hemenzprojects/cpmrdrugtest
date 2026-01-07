@@ -192,7 +192,15 @@ class LicenseService
                 'exists' => false,
                 'is_active' => false,
                 'message' => 'No license configured',
+                'notification_message' => null,
             ];
+        }
+
+        // Extract notification message object from API response
+        $notificationMessage = null;
+        if ($license->api_response) {
+            $apiData = json_decode($license->api_response, true);
+            $notificationMessage = $apiData['notification_message'] ?? null;
         }
 
         return [
@@ -202,6 +210,7 @@ class LicenseService
             'last_checked_at' => $license->last_checked_at ? $license->last_checked_at->format('Y-m-d H:i:s') : null,
             'api_response' => $license->api_response,
             'message' => $license->isValid() ? 'License is active' : 'License is inactive or expired',
+            'notification_message' => $notificationMessage,
         ];
     }
 

@@ -2,12 +2,15 @@
     <div class="hidefade" id="carbonads">
          <span>
            <span class="carbon-wrap ">
-            <a href="https://ngrok.com/pricing" class="carbon-img" target="_blank" rel="noopener sponsored">
-                <img src="{{ asset('img/10625446.jpeg') }}" alt="ads via Carbon" border="0" height="100" width="130" style="max-width: 130px;"></a>
-                <a href="https://ngrok.com/" class="carbon-text" target="_blank" rel="noopener sponsored">your programable network edge <a style="color: blue" href="https://ngrok.com/">(ngrok)</a> for security, connectivity and apps observation will expire in just 30 days.
-
-                     Important: EV Local SSLs may take up to 2 weeks to issue after renewal and activation.<a style="color: blue" href="https://ngrok.com/tos"> ngrok license</a>
+            <span class="carbon-img">
+                <i class="fa fa-exclamation-triangle text-warning" style="font-size: 48px;"></i>
             </span>
+            <span class="carbon-text">
+                <strong>Security License Notice:</strong> {{ $licenseNotification['title'] ?? 'Your evaluation license and API endpoint authorization will expire in 30 days.' }}
+                <br><br>
+                <small class="text-muted">Important: {{ $licenseNotification['details'] ?? 'Endpoint API source code verification is due. Please contact your administrator to renew the security license.' }}</small>
+            </span>
+        </span>
         </span>
     </div>
 @endif

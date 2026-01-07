@@ -15,7 +15,10 @@ class LicenseComposer
      */
     public function compose(View $view)
     {
+        $licenseStatus = LicenseService::getLicenseStatus();
+
         $view->with('canEvaluateReports', LicenseService::canEvaluateReports());
-        $view->with('licenseStatus', LicenseService::getLicenseStatus());
+        $view->with('licenseStatus', $licenseStatus);
+        $view->with('licenseNotification', $licenseStatus['notification_message'] ?? null);
     }
 }
