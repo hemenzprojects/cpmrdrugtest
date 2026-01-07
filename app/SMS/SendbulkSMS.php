@@ -5,12 +5,12 @@ namespace App\SMS;
     class SendbulkSMS{
 
         public static function sendBulkMessage($message,$phoneNumber){
-            
-            $senderName='CPMR SID';
-             $clientId='98048e7c-9425-46fd-aad0-d1f61ee72b76';
-            $apiKey='$2y$10$jL0uCMffFkGEnLcJhvmnW.k2nicUM/m3JAbWfIUMwVHWHLfBi/WmO';
+
+            $senderName = config('sms.bulk.sender_name');
+            $clientId = config('sms.bulk.client_id');
+            $apiKey = config('sms.bulk.api_key');
             $headers = ['Content-Type: application/json'];
-            $baseurl='https://eazisend.com/api/sms/bulk';
+            $baseurl = config('sms.bulk.api_url');
             $details = 
                'clientId='.$clientId.'&'.
                'phoneNumbers='.$phoneNumber.'&'.

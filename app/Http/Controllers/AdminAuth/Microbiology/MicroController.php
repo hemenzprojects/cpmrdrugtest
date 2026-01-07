@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminAuth\Microbiology;
 
 use App\services\microbiologyServices\CreateReportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Requests\AcceptMircoProductRequest;
 use App\Http\Requests\MicroTestCreateRequest;
 use App\Http\Controllers\Controller;

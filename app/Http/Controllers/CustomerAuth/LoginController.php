@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\CustomerAuth;
 
 use App\Http\Controllers\Controller;
+use App\Traits\MultiGuardLogout;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Hesto\MultiAuth\Traits\LogsoutGuard;
 
 class LoginController extends Controller
 {
@@ -20,8 +20,8 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, LogsoutGuard {
-        LogsoutGuard::logout insteadof AuthenticatesUsers;
+    use AuthenticatesUsers, MultiGuardLogout {
+        MultiGuardLogout::logout insteadof AuthenticatesUsers;
     }
 
     /**

@@ -1,0 +1,12 @@
+PHP Warning:  require(/Users/michaelhimeng/Documents/Applications/cpmrdrugtest/vendor/autoload.php): Failed to open stream: No such file or directory in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan on line 18
+
+Warning: require(/Users/michaelhimeng/Documents/Applications/cpmrdrugtest/vendor/autoload.php): Failed to open stream: No such file or directory in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan on line 18
+PHP Fatal error:  Uncaught Error: Failed opening required '/Users/michaelhimeng/Documents/Applications/cpmrdrugtest/vendor/autoload.php' (include_path='.:/opt/homebrew/Cellar/php/8.4.10/share/php/pear') in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan on line 18
+
+Fatal error: Uncaught Error: Failed opening required '/Users/michaelhimeng/Documents/Applications/cpmrdrugtest/vendor/autoload.php' (include_path='.:/opt/homebrew/Cellar/php/8.4.10/share/php/pear') in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /Users/michaelhimeng/Documents/Applications/cpmrdrugtest/artisan on line 18

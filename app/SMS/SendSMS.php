@@ -5,10 +5,10 @@ class SendSMS{
 
           public static function sendMessage($message,$phoneNumber){
             try{
-              
-             $url ="https://api.wirepick.com/httpsms/send";
+
+             $url = config('sms.api_url');
                    $param = array('phone'=>'233'.substr($phoneNumber,1),
-                  'from'=>'CPMR-SID','client'=>'hemenmike','password'=>'mike7692','text'=>urlencode($message));
+                  'from'=>config('sms.from'),'client'=>config('sms.client'),'password'=>config('sms.password'),'text'=>urlencode($message));
     
              $rest = '';
                 foreach($param as $key=>$value){

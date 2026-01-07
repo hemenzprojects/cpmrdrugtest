@@ -1,11 +1,13 @@
-# Use PHP 7.4 with Apache
-FROM php:7.4-apache
+# Use PHP 8.0 with Apache (compatible with Laravel 7)
+FROM php:8.0-apache
 
-# Install required libraries for GD extension
+# Install required libraries and tools
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    git \
+    unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
 
@@ -20,6 +22,9 @@ RUN docker-php-ext-install pdo pdo_mysql
 
 # Set Laravel's public directory as DocumentRoot
 RUN sed -i 's|/var/www/html|/var/www/html/public|' /etc/apache2/sites-enabled/000-default.conf
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory inside the container
 WORKDIR /var/www/html
