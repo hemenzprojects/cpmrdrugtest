@@ -207,7 +207,7 @@ Route::get('/sendtest', function () {
   Route::post('micro/config/conclusions/update/','AdminAuth\Microbiology\MicroController@conclusion_update')->name('admin.micro.config.conclusion.edit');
 
   //report evaluation (quality control)
-  Route::post('/micro/evaluation/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.evaluation.checkhodsign');
+  Route::post('/micro/evaluation/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.evaluation.checkhodsign')->middleware('check.evaluate.license');
 
   Route::get('micro/completedreports/all','AdminAuth\Microbiology\MicroController@completedreports_all')->name('admin.micro.completedreports.index');
 
@@ -228,12 +228,12 @@ Route::get('/sendtest', function () {
   Route::get('micro/report/hod_office/finalreport_send/{id}','AdminAuth\Microbiology\MicroController@hod_finalreport_send')->name('admin.micro.hod_office.finalreport.send');
 
   //Microbiology Hod Sign to Approve */
-  Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign');
-  Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport');
+  Route::post('/micro/hod_office/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodsign')->name('admin.micro.hod_office.checkhodsign')->middleware('check.evaluate.license');
+  Route::post('/micro/hod_office/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@evaluate_one_edit')->name('admin.micro.hod_office.evaluatereport')->middleware('check.evaluate.license');
 
   //Pharmacology Final Hod Sign to Approve */
-  Route::post('/micro/hod_office/finalapproval/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodfinalapprovalsign')->name('admin.micro.hod_office.finalapproval.checkhodsign');
-  Route::post('/micro/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@finalhodevaluate_one_edit')->name('admin.micro.hod_office.finalapproval.evaluatereport');
+  Route::post('/micro/hod_office/finalapproval/checkhodsign', 'AdminAuth\Microbiology\MicroController@checkhodfinalapprovalsign')->name('admin.micro.hod_office.finalapproval.checkhodsign')->middleware('check.evaluate.license');
+  Route::post('/micro/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Microbiology\MicroController@finalhodevaluate_one_edit')->name('admin.micro.hod_office.finalapproval.evaluatereport')->middleware('check.evaluate.license');
 
 
   });
@@ -336,12 +336,12 @@ Route::get('/sendtest', function () {
    Route::post('pharm/report/hod_office/completereportsearch','AdminAuth\Pharmacology\PharmController@completedreport_search')->name('admin.pharm.report.hod_office.completereportsearch');
 
     //Pharmacology Hod Sign to Approve */
-    Route::post('/pharm/hod_office/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodsign')->name('admin.pharm.hod_office.checkhodsign');
-    Route::post('/pharm/hod_office/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_edit')->name('admin.pharm.hod_office.evaluatereport');
+    Route::post('/pharm/hod_office/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodsign')->name('admin.pharm.hod_office.checkhodsign')->middleware('check.evaluate.license');
+    Route::post('/pharm/hod_office/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@evaluate_one_edit')->name('admin.pharm.hod_office.evaluatereport')->middleware('check.evaluate.license');
 
     //Pharmacology Final Hod Sign to Approve */
-    Route::post('/pharm/hod_office/finalapproval/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodfinalapprovalsign')->name('admin.pharm.hod_office.finalapproval.checkhodsign');
-    Route::post('/pharm/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@finalhodevaluate_one_edit')->name('admin.pharm.hod_office.finalapproval.evaluatereport');
+    Route::post('/pharm/hod_office/finalapproval/checkhodsign', 'AdminAuth\Pharmacology\PharmController@checkhodfinalapprovalsign')->name('admin.pharm.hod_office.finalapproval.checkhodsign')->middleware('check.evaluate.license');
+    Route::post('/pharm/hod_office/finalapproval/evaluatereport/{id}/', 'AdminAuth\Pharmacology\PharmController@finalhodevaluate_one_edit')->name('admin.pharm.hod_office.finalapproval.evaluatereport')->middleware('check.evaluate.license');
 
 
   // Pharm final Hod Approval
@@ -415,8 +415,8 @@ Route::get('/sendtest', function () {
     Route::get('phyto/report/hod_office/complete_report/{id}','AdminAuth\Phytochemistry\PhytoController@hod_complete_report')->name('admin.phyto.hod_office.complete_report');
 
      //Phytochemistry Hod Sign to Approve */
-     Route::post('/phyto/hod_office/checkhodsign', 'AdminAuth\Phytochemistry\PhytoController@checkhodsign')->name('admin.phyto.hod_office.checkhodsign');
-     Route::post('/phyto/hod_office/evaluatereport/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_edit')->name('admin.phyto.hod_office.evaluatereport');
+     Route::post('/phyto/hod_office/checkhodsign', 'AdminAuth\Phytochemistry\PhytoController@checkhodsign')->name('admin.phyto.hod_office.checkhodsign')->middleware('check.evaluate.license');
+     Route::post('/phyto/hod_office/evaluatereport/{id}/', 'AdminAuth\Phytochemistry\PhytoController@evaluate_one_edit')->name('admin.phyto.hod_office.evaluatereport')->middleware('check.evaluate.license');
 
 
     });

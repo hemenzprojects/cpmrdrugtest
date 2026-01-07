@@ -1,31 +1,31 @@
-<?php 
-$product = \App\Product::find($report_id); 
+<?php
+$product = \App\Product::find($report_id);
 
 ?>
 @extends('admin.layout.main')
 
 @section('content')
         <div class="card" style="padding: 15px">
-            @include('admin.micro.temp.preview') 
+            @include('admin.micro.temp.preview')
 
             <div class="card" >
             <form id="{{($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0 ?'':'checkinputmask'}}" action="{{url('admin/micro/report/update',['id' => $report_id])}}" method="POST">
-                    {{ csrf_field() }} 
-                <div class="text-center"> 
+                    {{ csrf_field() }}
+                <div class="text-center">
                 <img src="{{asset('admin/img/logo.jpg')}}" class="" width="9%">
                 <h5 class="font" style="font-size:16px"> Microbiology Department Centre for Plant Medicine Research </h5>
                 <p class="card-subtitle">Microbial Analysis Report on Herbal Product</p>
                </div>
-            
-                    
-               
-                    @include('admin.micro.temp.productformat') 
-                    @include('admin.micro.temp.mlreportformat')                  
+
+
+
+                    @include('admin.micro.temp.productformat')
+                    @include('admin.micro.temp.mlreportformat')
 
                     @include('admin.micro.temp.mereportform')
                     @include('admin.micro.temp.mereportformat')
 
-                  
+
                    <div class="row">
                      @if ( $product->micro_hod_evaluation > 0)
                      <div class="col-sm-8">
@@ -37,21 +37,21 @@ $product = \App\Product::find($report_id);
                      @endif
 
                    </div>
-                   
-               
+
+
                    @include('admin.micro.temp.signaturetemplate')
                 <div class="row">
                     <div class="col-7">
                         <div class="row">
-                    
+
                             <div class="col-sm-3">
                                 @if ( $product->micro_hod_evaluation ===Null ||  $product->micro_hod_evaluation ===1 )
                                 <button  type="submit" class="btn btn-success pull-right submitreport1" id="pharm_submit_report" >
-                                <i class="fa fa-credit-card "></i> 
+                                <i class="fa fa-credit-card "></i>
                                 Save Report
                                 </button>
                                 <button style="display: none"  type="button" class="btn btn-info pull-right submitreport2" id="pharm_submit_report" data-toggle="modal" data-target="#exampleModalCenter">
-                                    <i class="fa fa-credit-card " ></i> 
+                                    <i class="fa fa-credit-card " ></i>
                                 Submit Report
                                 </button>
 
@@ -73,7 +73,7 @@ $product = \App\Product::find($report_id);
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-2">
                         @if ( $product->micro_hod_evaluation ===0)
                         <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i>Approval Pending </button>
@@ -82,12 +82,12 @@ $product = \App\Product::find($report_id);
                         <button type="button" class="btn btn-outline-danger"><i class="ik ik-x"></i> Report Withheld</button>
                         @endif
                         @if ( $product->micro_hod_evaluation ===2)
-                        <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>        
+                        <button type="button" class="btn btn-outline-success"><i class="ik ik-check"></i>Repport Approved </button>
                     @endif
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#demoModapreview">
-                            <i class="fa fa-chevron-right "></i> 
+                            <i class="fa fa-chevron-right "></i>
                             Preview
                         </button>
                     </div>
@@ -97,24 +97,31 @@ $product = \App\Product::find($report_id);
 
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document"> 
-          
+            <div class="modal-dialog modal-dialog-centered" role="document">
+
                  <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" >Please Sign to submit report</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
+                        @if(!$canEvaluateReports)
+                        <div class="alert alert-danger" role="alert">
+                            <strong><i class="ik ik-alert-circle"></i> License Expired!</strong>
+                            Your license is due. This feature is currently disabled. Please contact your administrator to renew your license.
+                        </div>
+                        @endif
+
                         <form  id="microhodapproveform" sign-user-url="{{route('admin.micro.evaluation.checkhodsign')}}" action="{{url('admin/micro/report/update',['id' => $report_id])}}" class="" method="POST">
                             {{ csrf_field() }}
                         <input id ="_token" name="_token" value="{{ csrf_token() }}" type="hidden">
 
                         <div class="input-group input-group-default col-md-6">
-                         
+
                             </div>
                             <div id="error-div" style="margin: 5px; color:red;"></div>
                             <input name="adminid" id="adminid"  type="hidden" >
-    
+
                             <div class="input-group input-group-default">
                                 @error('email')
                                 <small style="margin-left:120px;margin-top:-10; margin-bottom:5px" class="form-text text-danger" role="alert">
@@ -134,8 +141,8 @@ $product = \App\Product::find($report_id);
                                 @enderror
                                 <span class="input-group-prepend"><label class="input-group-text"><i class="ik ik-shield"></i></label></span>
                                 <input required id="userpin" type="password" class="form-control" name="PIN" placeholder="Sign with PIN">
-                            </div>     
-                                            
+                            </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -148,9 +155,9 @@ $product = \App\Product::find($report_id);
 @endsection
 
 @section('bottom-scripts')
-<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>   
+<script src="{{asset('js/jquery.inputmask.bundle.min.js')}}"></script>
 <script src="{{asset('js/microbialcomments.js')}}"></script>
-{{-- 
+{{--
 <script>
 function myFunction() {
   var url = $('input[id="report_url"]').attr("value");
@@ -158,7 +165,7 @@ function myFunction() {
   if (r == true) {
   var  myWindow = window.open(url, "_blank", "width=500, height=500");
   } else {
-   
+
   }
   document.getElementById("demo").innerHTML = txt;
 }

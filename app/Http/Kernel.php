@@ -75,6 +75,7 @@ class Kernel extends HttpKernel
         'phytodepthod' => \App\Http\Middleware\PhytoDeptHodAccess::class,
         'sidept' => \App\Http\Middleware\SIDeptAccess::class,
         'sidepthod' => \App\Http\Middleware\SIDeptHodAccess::class,
+        'check.evaluate.license' => \App\Http\Middleware\CheckEvaluateLicense::class,
 
 
 
