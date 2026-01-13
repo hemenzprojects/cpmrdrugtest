@@ -17,7 +17,7 @@ services:
     container_name: cpmr_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: docker_test_db
+      MYSQL_DATABASE: drag_analysis_db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
