@@ -61,7 +61,13 @@ class LicenseService
             ]);
 
             // Call the API - try with params first, then without
-            $response = Http::timeout(10)->get($license->api_url, [
+            // Disable SSL verification in local development only
+            $http = Http::timeout(10);
+            if (config('app.env') === 'local') {
+                $http = $http->withoutVerifying();
+            }
+
+            $response = $http->get($license->api_url, [
                 'license_key' => $license->license_key,
                 'feature' => $license->feature,
             ]);
