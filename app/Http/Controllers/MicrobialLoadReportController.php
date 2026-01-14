@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\MiocrobialLoadReport;
+use App\MicrobialLoadReport;
 use Illuminate\Http\Request;
 
-class MiocrobialLoadReportController extends Controller
+class MicrobialLoadReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class MiocrobialLoadReportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MiocrobialLoadReport  $miocrobialLoadReport
+     * @param  \App\MicrobialLoadReport  $microbialLoadReport
      * @return \Illuminate\Http\Response
      */
-    public function show(MiocrobialLoadReport $miocrobialLoadReport)
+    public function show(MicrobialLoadReport $microbialLoadReport)
     {
         //
     }
@@ -52,10 +52,10 @@ class MiocrobialLoadReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MiocrobialLoadReport  $miocrobialLoadReport
+     * @param  \App\MicrobialLoadReport  $microbialLoadReport
      * @return \Illuminate\Http\Response
      */
-    public function edit(MiocrobialLoadReport $miocrobialLoadReport)
+    public function edit(MicrobialLoadReport $microbialLoadReport)
     {
         //
     }
@@ -64,10 +64,10 @@ class MiocrobialLoadReportController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MiocrobialLoadReport  $miocrobialLoadReport
+     * @param  \App\MicrobialLoadReport  $microbialLoadReport
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MiocrobialLoadReport $miocrobialLoadReport)
+    public function update(Request $request, MicrobialLoadReport $microbialLoadReport)
     {
         //
     }
@@ -75,10 +75,10 @@ class MiocrobialLoadReportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MiocrobialLoadReport  $miocrobialLoadReport
+     * @param  \App\MicrobialLoadReport  $microbialLoadReport
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MiocrobialLoadReport $miocrobialLoadReport)
+    public function destroy(MicrobialLoadReport $microbialLoadReport)
     {
         //
     }
