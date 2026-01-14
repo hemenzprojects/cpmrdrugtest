@@ -18,6 +18,9 @@ up: ## Start Docker containers
 down: ## Stop Docker containers
 	docker-compose down
 
+remove-db: ## Remove db
+	rm -rf db_data
+
 restart: ## Restart Docker containers
 	docker-compose restart
 

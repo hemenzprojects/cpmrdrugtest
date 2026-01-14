@@ -36,7 +36,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\LastUserActivity::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            
+            \App\Http\Middleware\EnsureLicenseConfigured::class,
+
         ],
 
         'api' => [
@@ -75,6 +76,7 @@ class Kernel extends HttpKernel
         'phytodepthod' => \App\Http\Middleware\PhytoDeptHodAccess::class,
         'sidept' => \App\Http\Middleware\SIDeptAccess::class,
         'sidepthod' => \App\Http\Middleware\SIDeptHodAccess::class,
+        'ensure.license.configured' => \App\Http\Middleware\EnsureLicenseConfigured::class,
         'check.evaluate.license' => \App\Http\Middleware\CheckEvaluateLicense::class,
 
 
@@ -95,5 +97,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\EnsureLicenseConfigured::class,
+        \App\Http\Middleware\CheckEvaluateLicense::class,
     ];
 }
