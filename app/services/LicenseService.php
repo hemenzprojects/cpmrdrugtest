@@ -61,10 +61,11 @@ class LicenseService
             ]);
 
             // Call the API - try with params first, then without
-            // Disable SSL verification in local development only
+            // Disable SSL verification in local development only (fixes WAMP SSL issues)
             $http = Http::timeout(10);
             if (config('app.env') === 'local') {
                 $http = $http->withoutVerifying();
+                Log::info('SSL verification disabled for local environment');
             }
 
             $response = $http->get($license->api_url, [
