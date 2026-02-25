@@ -22,12 +22,11 @@ return [
 
     'api_url' => env('SMS_API_URL', 'https://api.wirepick.com/httpsms/send'),
 
-    // EaziSend Bulk SMS (SendbulkSMS)
+    // mNotify Bulk SMS (SendbulkSMS)
     'bulk' => [
-        'sender_name' => env('SMS_BULK_SENDER_NAME', 'CPMR SID'),
-        'client_id' => env('SMS_BULK_CLIENT_ID'),
+        'sender_name' => env('SMS_BULK_SENDER_NAME', 'CPMR'),
         'api_key' => env('SMS_BULK_API_KEY'),
-        'api_url' => env('SMS_BULK_API_URL', 'https://eazisend.com/api/sms/bulk'),
+        'api_url' => env('SMS_BULK_API_URL', 'https://api.mnotify.com/api/sms/quick'),
     ],
 
 ];

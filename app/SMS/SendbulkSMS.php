@@ -7,39 +7,45 @@ namespace App\SMS;
         public static function sendBulkMessage($message,$phoneNumber){
 
             $senderName = config('sms.bulk.sender_name');
-            $clientId = config('sms.bulk.client_id');
             $apiKey = config('sms.bulk.api_key');
-            $headers = ['Content-Type: application/json'];
-            $baseurl = config('sms.bulk.api_url');
-            $details = 
-               'clientId='.$clientId.'&'.
-               'phoneNumbers='.$phoneNumber.'&'.
-               'messages='.$message.'&'.
-               'senderName='.$senderName.'&'.
-               'apiKey='.$apiKey;
-                parse_str($details,$details);
-                $details = json_encode($details);
-               // dd($details);
-                $ch = curl_init($baseurl);                                                                      
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $details); // $data is the request payload                                                                  
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-            $server_output = curl_exec ($ch);
-          //  dd($server_output);
+            $endpoint = config('sms.bulk.api_url');
+
+            // Build URL with API key as query parameter
+            $url = $endpoint . '?key=' . $apiKey;
+
+            // mNotify API parameters (recipient must be an array)
+            $recipients = is_array($phoneNumber) ? $phoneNumber : [$phoneNumber];
+
+            $data = [
+                'recipient' => $recipients,
+                'sender' => $senderName,
+                'message' => $message,
+                'is_schedule' => false,
+                'schedule_date' => ''
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            $server_output = curl_exec($ch);
             $err = curl_error($ch);
-            
+
             curl_close($ch);
+
             if($err){
                return null;
-            }else{ 
+            }else{
               $resp = json_decode($server_output);
-              return $resp;  
+              return $resp;
             }
-             
-} 
-        
+
+}
+
       // public static function sendCustomerMessage()
 
        public static function status($result){
@@ -75,15 +81,15 @@ namespace App\SMS;
                                  return $result;
                                  break;
 
-                              
+
                               }//End Of Switch Statement
                  }
           }
-          
 
 
 
-          
-   
+
+
+
 
 ?>
