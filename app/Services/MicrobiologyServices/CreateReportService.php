@@ -1,4 +1,6 @@
-<?php namespace App\services\microbiologyServices;
+<?php
+
+namespace App\Services\MicrobiologyServices;
 
 use App\Http\Controllers\AdminAuth\Microbiology\MicroController;
 use App\MicrobialEfficacyAnalyses;

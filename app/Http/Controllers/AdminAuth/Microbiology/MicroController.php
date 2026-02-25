@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminAuth\Microbiology;
 
-use App\services\microbiologyServices\CreateReportService;
+use App\Services\MicrobiologyServices\CreateReportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\AcceptMircoProductRequest;
