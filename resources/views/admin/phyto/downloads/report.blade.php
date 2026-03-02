@@ -210,7 +210,7 @@ $product = \App\Product::find($report_id);
         ?>
         <span>Analyzed By</span><br>
         @if (\App\Product::find($report_id)->phyto_hod_evaluation === 0 || \App\Product::find($report_id)->phyto_hod_evaluation === 2)
-        <img src="{{asset(\App\Admin::find($phyto_approved_by)? \App\Admin::find($phyto_approved_by)->sign_url:'')}}" class="" width="21%"><br>
+        <img src="{{asset(\App\Admin::find($phyto_approved_by)? \App\Admin::find($phyto_approved_by)->sign_url:'')}}" class="" width="50%"><br>
         @endif
         -----------------------------<br>
       
@@ -229,7 +229,7 @@ $product = \App\Product::find($report_id);
         <span>Approved By</span><br>
         @if (\App\Product::find($report_id)->phyto_hod_evaluation ==2)
 
-        <img src="{{asset(\App\Admin::find($phyto_finalapproved_by)? \App\Admin::find($phyto_finalapproved_by)->sign_url:'')}}" class="" width="21%"><br>
+        <img src="{{asset(\App\Admin::find($phyto_finalapproved_by)? \App\Admin::find($phyto_finalapproved_by)->sign_url:'')}}" class="" width="50%"><br>
         @endif
 
         ------------------------------<br> 

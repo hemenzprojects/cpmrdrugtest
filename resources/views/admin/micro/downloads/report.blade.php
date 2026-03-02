@@ -364,7 +364,7 @@ td, th {
       ?>
         <span>Analyzed By</span><br>
         @if ($product->micro_hod_evaluation >1)
-        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="38%" style="margin-bottom: -16px"><br>
+        <img src="{{asset(\App\Admin::find($micro_approved_by)? \App\Admin::find($micro_approved_by)->sign_url:'')}}" class="" width="50%" style="margin-bottom: -16px"><br>
         @endif
         -----------------------------<br>
 
@@ -381,7 +381,7 @@ td, th {
         ?>
         <span>Approved By</span><br>
         @if ($product->micro_process_status ==3)
-        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="38%" style="margin-bottom: -16px"><br>
+        <img src="{{asset(\App\Admin::find($micro_finalapproved_by)? \App\Admin::find($micro_finalapproved_by)->sign_url:'')}}" class="" width="50%" style="margin-bottom: -16px"><br>
         @endif
 
         ------------------------------<br>
