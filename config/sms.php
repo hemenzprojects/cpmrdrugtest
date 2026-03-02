@@ -13,17 +13,26 @@ return [
     |
     */
 
-    // Wirepick SMS (SendSMS)
-    'from' => env('SMS_FROM', 'CPMR-SID'),
+    // Default SMS Provider
+    'default' => env('SMS_PROVIDER', 'mnotify'),
 
-    'client' => env('SMS_CLIENT'),
+    // mNotify SMS Configuration (Current Provider)
+    'mnotify' => [
+        'sender_id' => env('MNOTIFY_SENDER_ID', 'CPMR-SID'),
+        'api_key' => env('MNOTIFY_API_KEY'),
+        'api_url' => env('MNOTIFY_API_URL', 'https://api.mnotify.com/api/sms/quick'),
+    ],
 
-    'password' => env('SMS_PASSWORD'),
+    // Legacy: Wirepick SMS (SendSMS) - Deprecated
+    'wirepick' => [
+        'from' => env('SMS_FROM', 'CPMR-SID'),
+        'client' => env('SMS_CLIENT'),
+        'password' => env('SMS_PASSWORD'),
+        'api_url' => env('SMS_API_URL', 'https://api.wirepick.com/httpsms/send'),
+    ],
 
-    'api_url' => env('SMS_API_URL', 'https://api.wirepick.com/httpsms/send'),
-
-    // EaziSend Bulk SMS (SendbulkSMS)
-    'bulk' => [
+    // Legacy: EaziSend Bulk SMS (SendbulkSMS) - Deprecated
+    'eazisend' => [
         'sender_name' => env('SMS_BULK_SENDER_NAME', 'CPMR SID'),
         'client_id' => env('SMS_BULK_CLIENT_ID'),
         'api_key' => env('SMS_BULK_API_KEY'),
