@@ -43,7 +43,13 @@ class AnimalModelSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-
+  DB::table('pharm_animal_models')->insert([
+            'name'   =>  'Rabbit',        
+            'description'   =>  'Text of animal model',
+            'added_by_id'   =>  1,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
 
     }
 }
