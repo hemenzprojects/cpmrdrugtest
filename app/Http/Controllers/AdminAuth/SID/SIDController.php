@@ -1944,6 +1944,59 @@ class SIDController extends Controller
 
       }
 
+      public function pharm_completed_yearlyreports(Request $r)
+{
+    $data['year'] = $r->year;
+    $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
+
+    // Weekly reports (last 10 days)
+    $data['weekly_pharmcompletedreports'] = Product::where('pharm_reportdatecompleted', '>=', $data['week_start'])
+        ->with('departments')
+        ->whereHas('departments', function($q) {
+            return $q->where('dept_id', 2); // Adjust status here if needed
+        })
+        ->orderBy('pharm_reportdatecompleted', 'DESC')
+        ->get();
+
+    // Yearly reports
+    $data['pharmcompletedreports'] = Product::whereYear('created_at', $data['year'])
+        ->with('departments')
+        ->whereHas('departments', function($q) {
+            return $q->where('dept_id', 2); // Adjust status here too
+        })
+        ->orderBy('pharm_reportdatecompleted', 'DESC')
+        ->get();
+
+    return view('admin.sid.hodoffice.pharmcompletedreports', $data);
+}
+public function phyto_completed_yearlyreports(Request $r)
+{
+    $data['year'] = $r->year;
+    $data['week_start'] = date('Y-m-d 00:00:00', strtotime('-10 days'));
+
+    // Weekly phytochemistry reports (last 10 days)
+    $data['weekly_phytocompletedreports'] = Product::where('phyto_reportdatecompleted', '>=', $data['week_start'])
+        ->with('departments')
+        ->whereHas('departments', function($q) {
+            return $q->where('dept_id', 3); // Adjust 'status' if necessary
+        })
+        ->orderBy('phyto_reportdatecompleted', 'DESC')
+        ->get();
+
+    // Yearly phytochemistry reports
+    $data['phytocompletedreports'] = Product::whereYear('created_at', $data['year'])
+        ->with('departments')
+        ->whereHas('departments', function($q) {
+            return $q->where('dept_id', 3); // Adjust 'status' if necessary
+        })
+        ->orderBy('phyto_reportdatecompleted', 'DESC')
+        ->get();
+
+    return view('admin.sid.hodoffice.phytocompletedreports', $data);
+}
+
+        
+
       //*************************************************************** All Downloads ********************************************************* */
 
       
