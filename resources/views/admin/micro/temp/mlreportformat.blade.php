@@ -1,4 +1,4 @@
-@if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0) 
+@if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0)
 
 @if (count($show_microbial_efficacyanalyses)> 0)
 <h5>A) Microbial Load Analysis</h5>
@@ -9,7 +9,7 @@
     <table class="table table-striped table-bordered nowrap ">
         <thead>
             <tr  class="table-info">
-                
+
                 <th>Test </th>
                 <th class="77772" style="display: none">Result (CFU/ml)</th>
                 <th class="77771" style="display: none">Result (CFU/g)</th>
@@ -20,57 +20,57 @@
                  @endforeach )
                 </th>
                 <th>Compliance Statement</th>
-              
+
             </tr>
         </thead>
         <tbody class="">
-       
+
           @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
 
           <tr>
             <input type="hidden" name="mltest_id[]" value="{{$show_microbial_loadanalyses[$i]->id}}" class="custom-control-input" checked="">
-    
+
             <td class="font" style="font-style: italic; margin:5px; width:30%">
               @if ($i<2)
              <p>{!! $show_microbial_loadanalyses[$i]->test_conducted !!}
-                  
+
              <button type="button"  id="summernoteshow{{$i}}">
-                 <i class="ik ik-edit-2"></i> 
+                 <i class="ik ik-edit-2"></i>
              </button>
-            </p> 
+            </p>
              @endif
              @if ($i ==0 )
              <span style="display: none" class="summernoteshow1">
-                 <textarea  name="test_conducted[]" id="tinymce1" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+                 <textarea  name="test_conducted[]" id="tinymce1" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea>
              </span>
              @endif
              @if ($i ==1)
              <span style="display: none" class="summernoteshow2">
-                 <textarea name="test_conducted[]" id="tinymce0" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea> 
+                 <textarea name="test_conducted[]" id="tinymce0" cols="30" rows="10">{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</textarea>
              </span>                                                    @endif
              @if ($i>1)
              <input type="text" required class="form-control" name="test_conducted[]" placeholder="Result" value="{!! $show_microbial_loadanalyses[$i]->test_conducted !!}">
-             @endif 
+             @endif
             <td class="font">
-              
-             
+
+
                 @if ($i<2)
                 <p id="manycount_{{$i}}" style="font-size: 12px">
-                  <?php 
+                  <?php
                     if ($i<2) {
                       $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
                       $rs_part1 =$results[0];
                       $rs_part2 = explode('^',$results[2]);
-                 
+
                       print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                       
+
                     }
                   ?>
                 <p>
-                  
+
                 <input type="hidden" id="rstotal{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
                 @endif
-                
+
              <input type="text" required class="form-control {{$i<2?'date-inputmask':''}}" id="inputmask_{{$i}}" name="result[]"  placeholder="{{$i>1?'Result':''}}" value="{{$show_microbial_loadanalyses[$i]->result}}">
               <div id="error-div{{$i}}" style="margin: 5px; color:red;"></div>
 
@@ -80,15 +80,15 @@
             </td>
             <td class="font">
                 @if ($i<2)
-                <p class="" style="font-size: 12px"> 
-                    <?php 
+                <p class="" style="font-size: 12px">
+                    <?php
                     if ($i<2) {
                       $acceptance_criterion= explode(' ',$show_microbial_loadanalyses[$i]->acceptance_criterion);
                       $rs_part1 =$acceptance_criterion[0];
                       $rs_part2 = explode('^',$acceptance_criterion[2]);
-                 
+
                       print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                       
+
                     }
                    ?>
                 </p>
@@ -103,7 +103,7 @@
                     <option value="1">Failed</option>
                     <option value="2">Passed</option>
                 </select>
-              
+
 
               </td>
 
@@ -120,40 +120,42 @@
     <tr style="border:#e8efec2b">
     <td style="border:#e8efec2b; padding:3px">
       @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-   
+
      @if ($i<1)
-    <p style="font-style: italic;margin:5px; font-size:12.5px;"> 
-        {!! $show_microbial_loadanalyses[0]->definition !!} 
+    <p style="font-style: italic;margin:5px; font-size:12.5px;">
+        {!! $show_microbial_loadanalyses[0]->definition !!}
     </p>
   @endif
   @endfor
     </td>
     <td style="border:#e8efec2b; padding:3px">
       @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-   
+
       @if ($i<1)
-     <p style="font-style: italic;margin:5px; font-size:12.5px; margin:3px"> 
-         {!! $show_microbial_loadanalyses[1]->definition !!} 
+     <p style="font-style: italic;margin:5px; font-size:12.5px; margin:3px">
+         {!! $show_microbial_loadanalyses[1]->definition !!}
      </p>
    @endif
    @endfor
     </td>
     <td style="border:#e8efec2b">
-      
+
     @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
       @if ($i < 1)
         @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
-        <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count</p>
-        @endif 
+        <p style="font-style: italic; margin:5px; font-size:12px"><sup>3</sup>  TNTC = Too Numerous To Count </p>
+        @endif
       @endif
     @endfor
-  
+    </td>
+    <td>
+        <p style="font-style: italic; margin:5px; font-size:12px"> <span><sup>3</sup>  ( -/+)   = Absence. <sup>4</sup>BP= British Pharmacopoeia.</span></p>
     </td>
   </tr>
   </table>
-  
- 
-   @include('admin.micro.temp.mlconclusioninput') 
+
+
+   @include('admin.micro.temp.mlconclusioninput')
 
 
 </div>

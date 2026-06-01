@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <div class="text-center"> 
+                <div class="text-center">
                     <img src="{{asset('admin/img/logo.jpg')}}" class="" width="10%">
                     <h4 class="font2" style="font-size:18px">CENTRE FOR PLANT MEDICINE RESEARCH </h4>
                     <p class="card-subtitle">MICROBIOLOGY DEPARTMENT</p>
@@ -21,15 +21,15 @@
             <td class="font2">{{$product->code}}</td>
             <td class="font2">{{$product->productType->name}}</td>
             <td class="font2">
-              {!! $product->micro_date_received !!}                                       
+              {!! $product->micro_date_received !!}
             </td>
             <td class="font2">{!! $product->micro_analysed_date !!}</td>
             </tr>
 
             </table>
-             
+
             <div  style="margin-top:30px">
-               
+
                 @if (($show_microbial_loadanalyses) && count($show_microbial_loadanalyses)>0)
 
                 @if (count($show_microbial_efficacyanalyses) > 0)
@@ -38,7 +38,7 @@
                <h6> Microbial Load Analysis </h6>
                 @endif
                 <table class="table table-striped table-bordered nowrap dataTable"  >
-                 
+
                     <tr>
                         <th class="font">Test </th>
                         @if ($product->productType->state ==2)
@@ -55,38 +55,38 @@
                         </th class="font">
                         <th class="font">Compliance</th>
                     </tr>
-                
+
                     @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
                   <tr>
                     <td style="font-style: italic;" class="font" >
                         <?php
                         //  if ($i<2) {
                         // $test_conducted= explode(' ',$show_microbial_loadanalyses[$i]->test_conducted);
-                
+
                         // echo '<sup>';  print_r($test_conducted[0]);echo '</sup>';  print_r($test_conducted[1]);  print_r($test_conducted[2]); echo '<sup>'; print_r($test_conducted[3]);  echo '</sup>'; print_r($test_conducted[4]); print_r($test_conducted[5]);
                         //  }else {
                         //     $test_conducted =  $show_microbial_loadanalyses[$i]->test_conducted;
-                        //     print_r($test_conducted); 
-                        //  }   
+                        //     print_r($test_conducted);
+                        //  }
                        ?>
                              <p>{!! $show_microbial_loadanalyses[$i]->test_conducted !!}</p>
 
                            <input type="hidden" id="rstotal_{{$i}}" value="{{$show_microbial_loadanalyses[$i]->rs_total}}">
-                
+
                     </td>
-                  
-                
+
+
                     <td class="font">
                         @if ($i<2)
                         <p id="manycount{{$i}}" style="font-size: 12px">
-                            <?php 
+                            <?php
                             if ($i<2) {
                               $results= explode(' ',$show_microbial_loadanalyses[$i]->result);
                               $rs_part1 =$results[0];
                               $rs_part2 = explode('^',$results[2]);
-                         
+
                               print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                               
+
                             }
                           ?>
                         @else
@@ -94,81 +94,84 @@
                         @endif
                     </td>
                     <td class="font">
-                        <?php 
+                        <?php
                         if ($i<2) {
                           $acceptance_criterion= explode(' ',$show_microbial_loadanalyses[$i]->acceptance_criterion);
                           $rs_part1 =$acceptance_criterion[0];
                           $rs_part2 = explode('^',$acceptance_criterion[2]);
-                     
+
                           print_r($rs_part1);  print_r(' x '); print_r($rs_part2[0]);  echo '<sup>';  print_r($rs_part2[1]);
-                           
+
                         }else {
                           $acceptance_criterion =  $show_microbial_loadanalyses[$i]->acceptance_criterion;
-                          print_r($acceptance_criterion); 
+                          print_r($acceptance_criterion);
                         }
                       ?>
                         {{-- {{($item->acceptance_criterion)}} --}}
                     </td>
-                
+
                     <td class="font">
                         {!! $show_microbial_loadanalyses[$i]->micro_compliance_report !!}
-                    </td>                        
+                    </td>
                   </tr>
                   @endfor
                 </table>
-                
+
               </table>
               <table style="border:#e8efec2b">
                <tr style="border:#e8efec2b">
                <td style="border:#e8efec2b; padding:3px">
                  @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-              
+
                 @if ($i<1)
-               <p style="font-style: italic; margin:5px; font-size:12px"> 
-                   {!! $show_microbial_loadanalyses[0]->definition !!} 
+               <p style="font-style: italic; margin:5px; font-size:12px">
+                   {!! $show_microbial_loadanalyses[0]->definition !!}
                </p>
              @endif
              @endfor
                </td>
                <td style="border:#e8efec2b; padding:3px">
                  @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
-              
+
                  @if ($i<1)
-                <p style="font-style: italic; margin:5px; font-size:12px"> 
-                    {!! $show_microbial_loadanalyses[1]->definition !!} 
+                <p style="font-style: italic; margin:5px; font-size:12px">
+                    {!! $show_microbial_loadanalyses[1]->definition !!}
                 </p>
               @endif
               @endfor
                </td>
                <td style="border:#e8efec2b; padding:3px">
-                 
+
                @for ($i = 0; $i < count($show_microbial_loadanalyses); $i++)
                  @if ($i < 1)
                    @if ($show_microbial_loadanalyses[0]->rs_total == 9900000000 || $show_microbial_loadanalyses[1]->rs_total == 9900000000)
                    <p style="font-style: italic; margin:5px; font-size:12px">
                     <sup>3</sup>  TNTC = Too Numerous To Count
                   </p>
-                   @endif 
+                   @endif
                  @endif
                @endfor
                </td>
+               <td>
+                   <span><sup>3</sup>  ( -/+)   = Absence. <sup>4</sup>BP= British Pharmacopoeia.</span>
+               </td>
              </tr>
              </table>
-                
+
                 <div style="margin-top: 20px">
-                    <span style="font-size:15px"> 
+                    <span style="font-size:15px">
                         <strong> General Comment:</strong>
                         {{$product->micro_la_comment}}
                     </span>
                 </div>
-                
+
                 @endif
 
             </div>
-         
+
 
             <div style="margin-top:30px">
-            
+
     @if (($show_microbial_efficacyanalyses) && count($show_microbial_efficacyanalyses)>0)
 
       @if (count($show_microbial_loadanalyses) > 0)
@@ -178,7 +181,7 @@
       @else
       <div class="card-heade" style="margin: 2%">
       <h6> Efficacy Analysis</h6>
-      </div> 
+      </div>
       @endif
     <table class="table table-striped table-bordered nowrap dataTable">
     <tr>
@@ -215,16 +218,16 @@
         <span><strong>General Comment:</strong> </span>
         {{$product->micro_ea_comment}}
       </span>
-    
+
 </div>
   @endif
 
   </div>
 
 
-          <div style="margin-top: 50px">          
+          <div style="margin-top: 50px">
                 @include('admin.micro.temp.signaturetemplate')
-        </div>  
+        </div>
           </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
